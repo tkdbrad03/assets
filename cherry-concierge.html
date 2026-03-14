@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -24,6 +25,93 @@
 –serif: ‘Cormorant Garamond’, Georgia, serif;
 –sans: ‘Jost’, system-ui, sans-serif;
 }
+
+/* Fallback hardcoded colors for environments that don’t support CSS variables */
+body { background-color: #FBF6F0; color: #2C2321; }
+.top-nav { background: rgba(251,246,240,.92); border-bottom: 1px solid rgba(196,150,90,.15); }
+.nav-logo { color: #6B1A2B; }
+.nav-logo span { color: #C4965A; }
+.nav-menu-btn span { background: #6B1A2B; }
+.bottom-tab { background: #FEFCFA; border-top: 1px solid rgba(196,150,90,.2); }
+.tab-btn { color: #9C8475; }
+.tab-btn.active { color: #6B1A2B; }
+.hero-bg { background: linear-gradient(160deg, #4A0F1C 0%, #8B2040 45%, #B85070 100%); }
+.hero-overlay { background: linear-gradient(to top, rgba(74,15,28,.9) 0%, transparent 55%); }
+.hero-tag { color: #D4AA72; border: 1px solid rgba(196,150,90,.4); }
+.hero-headline { color: #FEFCFA; }
+.hero-headline em { color: #E8C2C2; }
+.hero-sub { color: rgba(251,246,240,.65); }
+.btn-primary { background: #C4965A; color: #FBF6F0; }
+.btn-primary:hover { background: #D4AA72; }
+.btn-ghost { color: #FEFCFA; border: 1px solid rgba(251,246,240,.4); }
+.section-eyebrow { color: #C4965A; }
+.section-title { color: #4A0F1C; }
+.section-body { color: #9C8475; }
+.service-name { color: #FEFCFA; }
+.service-desc { color: rgba(251,246,240,.65); }
+.service-arrow { background: rgba(196,150,90,.25); border: 1px solid rgba(196,150,90,.4); }
+.service-arrow svg { stroke: #D4AA72; }
+.card-boards { background: linear-gradient(135deg, #7A2035 0%, #4A0F1C 100%); }
+.card-grazing { background: linear-gradient(135deg, #5C3A4A 0%, #3A1828 100%); }
+.card-bar { background: linear-gradient(135deg, #8B4555 0%, #5C1E30 100%); }
+.card-corporate { background: linear-gradient(135deg, #4A3535 0%, #2C1E1E 100%); }
+.testimonial-card { background: #FEFCFA; border: 1px solid rgba(196,150,90,.12); }
+.testimonial-text { color: #2C2321; }
+.testimonial-author { color: #C4965A; }
+.testimonial-stars { color: #C4965A; }
+.footer-promo { background: linear-gradient(135deg, #4A0F1C 0%, #6B1A2B 100%); }
+.footer-promo-title { color: #FEFCFA; }
+.footer-promo-sub { color: rgba(251,246,240,.6); }
+.quote-card { background: #FEFCFA; border: 1px solid rgba(196,150,90,.12); box-shadow: 0 4px 40px rgba(107,26,43,.08); }
+.field-label { color: #C4965A; }
+.field-select, .field-input { background: #FBF6F0; border: 1px solid rgba(196,150,90,.25); color: #2C2321; }
+.field-select:focus, .field-input:focus { border-color: #C4965A; }
+.guest-count { color: #6B1A2B; }
+.addon-chip { border: 1px solid rgba(196,150,90,.25); background: #FBF6F0; color: #2C2321; }
+.addon-chip.selected { background: #F2D9D9; border-color: #6B1A2B; color: #6B1A2B; }
+.quote-result { background: linear-gradient(135deg, #4A0F1C 0%, #8B2040 100%); }
+.quote-result-label { color: rgba(251,246,240,.5); }
+.quote-result-amount { color: #FEFCFA; }
+.quote-result-deposit { color: #D4AA72; }
+.step-dot { background: #E8C2C2; }
+.step-dot.done { background: #6B1A2B; }
+.step-dot.active { background: #C4965A; }
+.step-heading { color: #4A0F1C; }
+.step-sub { color: #9C8475; }
+.btn-back { color: #9C8475; border: 1px solid rgba(196,150,90,.3); }
+.btn-next { background: #6B1A2B; color: #FEFCFA; }
+.success-title { color: #4A0F1C; }
+.success-body { color: #9C8475; }
+.greeting { color: #4A0F1C; }
+.portal-sub { color: #9C8475; }
+.status-card { background: linear-gradient(135deg, #6B1A2B 0%, #8B2040 100%); color: #FEFCFA; box-shadow: 0 8px 32px rgba(107,26,43,.25); }
+.status-date { color: #D4AA72; }
+.status-pill { border: 1px solid rgba(251,246,240,.3); color: rgba(251,246,240,.75); }
+.status-pill.confirmed { background: rgba(196,150,90,.25); border-color: #D4AA72; color: #D4AA72; }
+.portal-tile { background: #FEFCFA; border: 1px solid rgba(196,150,90,.12); }
+.tile-label { color: #9C8475; }
+.tile-value { color: #4A0F1C; }
+.dash-greeting { color: #4A0F1C; }
+.dash-date { color: #9C8475; }
+.dash-avatar { background: linear-gradient(135deg, #6B1A2B 0%, #8B2040 100%); color: #FEFCFA; }
+.metric-card { background: #FEFCFA; border: 1px solid rgba(196,150,90,.1); }
+.metric-value { color: #6B1A2B; }
+.metric-label { color: #9C8475; }
+.section-label { color: #C4965A; }
+.event-row { background: #FEFCFA; border: 1px solid rgba(196,150,90,.1); }
+.event-date-badge { background: #F2D9D9; }
+.badge-month { color: #6B1A2B; }
+.badge-day { color: #4A0F1C; }
+.event-name { color: #2C2321; }
+.event-meta { color: #9C8475; }
+.chip-confirmed { background: rgba(196,150,90,.15); color: #C4965A; }
+.chip-pending { background: #F2D9D9; color: #6B1A2B; }
+.chip-prep { background: rgba(74,15,28,.08); color: #4A0F1C; }
+.prep-item { background: #FEFCFA; border: 1px solid rgba(196,150,90,.1); }
+.prep-check { border: 1.5px solid rgba(196,150,90,.4); }
+.prep-check.checked { background: #C4965A; border-color: #C4965A; }
+.prep-text { color: #2C2321; }
+.prep-text.done { color: #9C8475; }
 
 html { scroll-behavior: smooth; }
 
@@ -802,7 +890,7 @@ color: var(–warm-white); margin-bottom: 8px; line-height: 1.2;
   <!-- SUCCESS -->
   <div class="booking-step" id="step-success">
     <div class="success-screen">
-      <div class="success-icon">🍓</div>
+      <div class="success-icon">🍒</div>
       <h3 class="success-title">You're all set,<br><em>beautiful!</em></h3>
       <p class="success-body">Cherry will reach out within 24 hours to confirm your booking and send your deposit link. Get ready for something unforgettable.</p>
       <button class="btn-primary" style="margin-top:32px;" onclick="switchView('view-portal')">
