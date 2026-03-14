@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>A Taste of Cherry · Client Concierge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+–cherry: #6B1A2B;
+–cherry-deep: #4A0F1C;
+–blush: #F2D9D9;
+–blush-mid: #E8C2C2;
+–cream: #FBF6F0;
+–champagne: #F5E9D6;
+–gold: #C4965A;
+–gold-light: #D4AA72;
+–taupe: #9C8475;
+–charcoal: #2C2321;
+–warm-white: #FEFCFA;
+–serif: ‘Cormorant Garamond’, Georgia, serif;
+–sans: ‘Jost’, system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+font-family: var(–sans);
+background: var(–cream);
+color: var(–charcoal);
+min-height: 100dvh;
+overflow-x: hidden;
+}
+
+/* ── SHELL ── */
+.app-shell { display: flex; flex-direction: column; min-height: 100dvh; }
+
+/* ── VIEWS ── */
+.view { display: none; flex-direction: column; min-height: 100dvh; animation: fadeIn .4s ease; }
+.view.active { display: flex; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── TOP NAV ── */
+.top-nav {
+position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+display: flex; align-items: center; justify-content: space-between;
+padding: 16px 24px;
+background: rgba(251,246,240,.92);
+backdrop-filter: blur(12px);
+border-bottom: 1px solid rgba(196,150,90,.15);
+}
+.nav-logo {
+font-family: var(–serif);
+font-size: 15px; letter-spacing: .08em;
+color: var(–cherry); font-weight: 500;
+}
+.nav-logo span { color: var(–gold); }
+.nav-menu-btn {
+background: none; border: none; cursor: pointer;
+display: flex; flex-direction: column; gap: 5px; padding: 4px;
+}
+.nav-menu-btn span { display: block; width: 22px; height: 1.5px; background: var(–cherry); transition: .3s; }
+
+/* ── BOTTOM TAB ── */
+.bottom-tab {
+position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+display: flex;
+background: var(–warm-white);
+border-top: 1px solid rgba(196,150,90,.2);
+padding-bottom: env(safe-area-inset-bottom);
+}
+.tab-btn {
+flex: 1; display: flex; flex-direction: column; align-items: center;
+gap: 4px; padding: 10px 4px;
+background: none; border: none; cursor: pointer;
+font-family: var(–sans); font-size: 10px; letter-spacing: .06em;
+color: var(–taupe); transition: color .25s;
+}
+.tab-btn.active { color: var(–cherry); }
+.tab-btn svg { width: 20px; height: 20px; stroke-width: 1.5; }
+
+/* ── HERO / HOME ── */
+.hero {
+position: relative; min-height: 100dvh;
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 32px 28px 120px;
+overflow: hidden;
+}
+.hero-bg {
+position: absolute; inset: 0;
+background: linear-gradient(160deg, var(–cherry-deep) 0%, #8B2040 45%, #B85070 100%);
+}
+.hero-texture {
+position: absolute; inset: 0; opacity: .04;
+background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+background-size: 28px 28px;
+}
+.hero-overlay {
+position: absolute; inset: 0;
+background: linear-gradient(to top, rgba(74,15,28,.9) 0%, transparent 55%);
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-tag {
+display: inline-block; margin-bottom: 16px;
+font-family: var(–sans); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+color: var(–gold-light); border: 1px solid rgba(196,150,90,.4);
+padding: 5px 14px; border-radius: 50px;
+}
+.hero-headline {
+font-family: var(–serif); font-size: clamp(38px, 9vw, 52px);
+font-weight: 300; line-height: 1.1; color: var(–warm-white);
+margin-bottom: 8px;
+}
+.hero-headline em { font-style: italic; color: var(–blush-mid); }
+.hero-sub {
+font-size: 13px; letter-spacing: .04em; line-height: 1.7;
+color: rgba(251,246,240,.65); margin-bottom: 32px; max-width: 320px;
+}
+.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+display: inline-flex; align-items: center; gap: 8px;
+background: var(–gold); color: var(–cream);
+font-family: var(–sans); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+border: none; cursor: pointer; border-radius: 50px;
+padding: 14px 26px; transition: background .25s, transform .2s;
+}
+.btn-primary:active { transform: scale(.97); }
+.btn-primary:hover { background: var(–gold-light); }
+.btn-ghost {
+display: inline-flex; align-items: center; gap: 8px;
+background: transparent; color: var(–warm-white);
+font-family: var(–sans); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+border: 1px solid rgba(251,246,240,.4); cursor: pointer; border-radius: 50px;
+padding: 14px 26px; transition: all .25s;
+}
+.btn-ghost:hover { border-color: var(–gold-light); color: var(–gold-light); }
+
+.hero-scroll-hint {
+position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
+z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 6px;
+font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+color: rgba(251,246,240,.4);
+animation: bounce 2s ease-in-out infinite;
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+.hero-scroll-hint svg { width: 14px; height: 14px; stroke: currentColor; }
+
+/* ── SECTION HEADINGS ── */
+.section { padding: 64px 24px 48px; }
+.section-eyebrow {
+font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+color: var(–gold); margin-bottom: 8px;
+}
+.section-title {
+font-family: var(–serif); font-size: clamp(28px, 6vw, 38px);
+font-weight: 300; line-height: 1.2; color: var(–cherry-deep);
+margin-bottom: 16px;
+}
+.section-title em { font-style: italic; }
+.section-body {
+font-size: 13px; line-height: 1.8; color: var(–taupe); max-width: 380px;
+}
+
+/* ── SERVICE CARDS ── */
+.services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 32px; }
+.service-card {
+border-radius: 18px; overflow: hidden;
+cursor: pointer; transition: transform .25s, box-shadow .25s;
+position: relative; min-height: 180px;
+display: flex; flex-direction: column; justify-content: flex-end;
+padding: 20px 18px;
+}
+.service-card:active { transform: scale(.97); }
+.service-card-bg { position: absolute; inset: 0; }
+.service-card-overlay {
+position: absolute; inset: 0;
+background: linear-gradient(to top, rgba(74,15,28,.85) 0%, rgba(74,15,28,.1) 70%);
+}
+.service-card-content { position: relative; z-index: 2; }
+.service-icon { font-size: 22px; margin-bottom: 6px; }
+.service-name {
+font-family: var(–serif); font-size: 16px; font-weight: 400;
+color: var(–warm-white); line-height: 1.2; margin-bottom: 4px;
+}
+.service-desc { font-size: 10px; color: rgba(251,246,240,.65); letter-spacing: .04em; }
+.service-arrow {
+position: absolute; top: 16px; right: 16px; z-index: 2;
+width: 28px; height: 28px; border-radius: 50%;
+background: rgba(196,150,90,.25); border: 1px solid rgba(196,150,90,.4);
+display: flex; align-items: center; justify-content: center;
+}
+.service-arrow svg { width: 12px; height: 12px; stroke: var(–gold-light); }
+
+.card-boards { background: linear-gradient(135deg, #7A2035 0%, #4A0F1C 100%); }
+.card-grazing { background: linear-gradient(135deg, #5C3A4A 0%, #3A1828 100%); }
+.card-bar { background: linear-gradient(135deg, #8B4555 0%, #5C1E30 100%); }
+.card-corporate { background: linear-gradient(135deg, #4A3535 0%, #2C1E1E 100%); }
+
+/* ── QUOTE CALCULATOR ── */
+.quote-wrap { padding: 80px 24px 120px; }
+.quote-card {
+background: var(–warm-white);
+border-radius: 24px; padding: 32px 24px;
+box-shadow: 0 4px 40px rgba(107,26,43,.08);
+border: 1px solid rgba(196,150,90,.12);
+}
+.field-group { margin-bottom: 22px; }
+.field-label {
+display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+color: var(–gold); margin-bottom: 8px;
+}
+.field-select, .field-input {
+width: 100%; padding: 13px 16px;
+background: var(–cream); border: 1px solid rgba(196,150,90,.25);
+border-radius: 12px; color: var(–charcoal);
+font-family: var(–sans); font-size: 14px;
+appearance: none; -webkit-appearance: none;
+cursor: pointer; transition: border-color .2s;
+outline: none;
+}
+.field-select:focus, .field-input:focus { border-color: var(–gold); }
+.select-wrap { position: relative; }
+.select-wrap::after {
+content: ‘’; position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+width: 0; height: 0;
+border-left: 5px solid transparent; border-right: 5px solid transparent;
+border-top: 5px solid var(–taupe); pointer-events: none;
+}
+
+.guest-slider { width: 100%; appearance: none; -webkit-appearance: none; height: 3px;
+background: linear-gradient(to right, var(–gold) 0%, var(–blush-mid) 100%);
+border-radius: 2px; outline: none; cursor: pointer; margin-top: 6px; }
+.guest-slider::-webkit-slider-thumb {
+appearance: none; width: 22px; height: 22px; border-radius: 50%;
+background: var(–cherry); border: 3px solid var(–warm-white);
+box-shadow: 0 2px 8px rgba(107,26,43,.3); cursor: grab;
+}
+.guest-count {
+text-align: center; font-family: var(–serif); font-size: 36px;
+color: var(–cherry); margin: 6px 0; font-weight: 300;
+}
+
+.addons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.addon-chip {
+display: flex; align-items: center; gap: 8px;
+padding: 10px 12px; border-radius: 10px;
+border: 1px solid rgba(196,150,90,.25); background: var(–cream);
+cursor: pointer; transition: all .2s; font-size: 12px; color: var(–charcoal);
+user-select: none;
+}
+.addon-chip.selected {
+background: var(–blush); border-color: var(–cherry);
+color: var(–cherry);
+}
+.addon-chip input { display: none; }
+
+.quote-result {
+margin-top: 24px; padding: 24px;
+background: linear-gradient(135deg, var(–cherry-deep) 0%, #8B2040 100%);
+border-radius: 18px; text-align: center;
+}
+.quote-result-label {
+font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+color: rgba(251,246,240,.5); margin-bottom: 8px;
+}
+.quote-result-amount {
+font-family: var(–serif); font-size: 52px; font-weight: 300;
+color: var(–warm-white); line-height: 1; margin-bottom: 4px;
+}
+.quote-result-deposit {
+font-size: 12px; color: var(–gold-light); margin-bottom: 20px;
+}
+
+/* ── BOOKING FORM ── */
+.booking-wrap { padding: 80px 24px 120px; }
+.booking-steps { display: flex; gap: 8px; margin-bottom: 32px; }
+.step-dot {
+flex: 1; height: 3px; border-radius: 2px;
+background: var(–blush-mid); transition: background .3s;
+}
+.step-dot.done { background: var(–cherry); }
+.step-dot.active { background: var(–gold); }
+
+.booking-step { display: none; animation: fadeIn .35s ease; }
+.booking-step.active { display: block; }
+
+.step-heading {
+font-family: var(–serif); font-size: 26px; font-weight: 300;
+color: var(–cherry-deep); margin-bottom: 6px;
+}
+.step-sub { font-size: 12px; color: var(–taupe); margin-bottom: 28px; line-height: 1.6; }
+
+.date-field { padding: 13px 16px; }
+
+.step-nav { display: flex; gap: 12px; margin-top: 28px; }
+.btn-back {
+flex: 1; padding: 14px; border-radius: 50px;
+background: transparent; border: 1px solid rgba(196,150,90,.3);
+color: var(–taupe); font-family: var(–sans); font-size: 12px;
+letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+transition: all .2s;
+}
+.btn-next {
+flex: 2; padding: 14px; border-radius: 50px;
+background: var(–cherry); border: none;
+color: var(–warm-white); font-family: var(–sans); font-size: 12px;
+letter-spacing: .1em; text-transform: uppercase; cursor: pointer;
+transition: background .2s, transform .15s;
+}
+.btn-next:active { transform: scale(.97); }
+
+.success-screen {
+text-align: center; padding: 60px 24px;
+display: flex; flex-direction: column; align-items: center;
+}
+.success-icon { font-size: 56px; margin-bottom: 16px; }
+.success-title {
+font-family: var(–serif); font-size: 32px; font-weight: 300;
+color: var(–cherry-deep); margin-bottom: 12px;
+}
+.success-body { font-size: 13px; color: var(–taupe); line-height: 1.8; max-width: 300px; }
+
+/* ── PORTAL ── */
+.portal-wrap { padding: 80px 24px 120px; }
+.greeting {
+font-family: var(–serif); font-size: 28px; font-weight: 300;
+color: var(–cherry-deep); margin-bottom: 4px;
+}
+.greeting em { font-style: italic; }
+.portal-sub { font-size: 12px; color: var(–taupe); margin-bottom: 28px; }
+
+.status-card {
+border-radius: 20px; padding: 24px;
+background: linear-gradient(135deg, var(–cherry) 0%, #8B2040 100%);
+color: var(–warm-white); margin-bottom: 20px;
+box-shadow: 0 8px 32px rgba(107,26,43,.25);
+}
+.status-event-name {
+font-family: var(–serif); font-size: 22px; font-weight: 300; margin-bottom: 4px;
+}
+.status-date { font-size: 11px; color: var(–gold-light); letter-spacing: .08em; margin-bottom: 20px; }
+.status-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.status-pill {
+font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+padding: 5px 12px; border-radius: 50px;
+border: 1px solid rgba(251,246,240,.3); color: rgba(251,246,240,.75);
+}
+.status-pill.confirmed { background: rgba(196,150,90,.25); border-color: var(–gold-light); color: var(–gold-light); }
+
+.portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+.portal-tile {
+background: var(–warm-white); border-radius: 18px; padding: 20px 16px;
+border: 1px solid rgba(196,150,90,.12);
+display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+cursor: pointer; transition: box-shadow .2s;
+}
+.portal-tile:hover { box-shadow: 0 4px 20px rgba(107,26,43,.1); }
+.tile-icon { font-size: 24px; }
+.tile-label {
+font-size: 11px; letter-spacing: .08em; color: var(–taupe);
+text-transform: uppercase;
+}
+.tile-value {
+font-family: var(–serif); font-size: 22px; font-weight: 400;
+color: var(–cherry-deep); line-height: 1;
+}
+
+/* ── DASHBOARD ── */
+.dashboard-wrap { padding: 80px 20px 120px; }
+.dash-header {
+display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;
+}
+.dash-greeting { font-family: var(–serif); font-size: 22px; font-weight: 300; color: var(–cherry-deep); }
+.dash-date { font-size: 11px; color: var(–taupe); }
+.dash-avatar {
+width: 40px; height: 40px; border-radius: 50%;
+background: linear-gradient(135deg, var(–cherry) 0%, #8B2040 100%);
+display: flex; align-items: center; justify-content: center;
+font-family: var(–serif); font-size: 16px; color: var(–warm-white);
+}
+
+.metrics-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+.metric-card {
+background: var(–warm-white); border-radius: 16px; padding: 16px 12px;
+border: 1px solid rgba(196,150,90,.1); text-align: center;
+}
+.metric-value {
+font-family: var(–serif); font-size: 26px; font-weight: 300;
+color: var(–cherry); line-height: 1; margin-bottom: 4px;
+}
+.metric-label { font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(–taupe); }
+
+.section-label {
+font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+color: var(–gold); margin-bottom: 14px; margin-top: 8px;
+}
+
+.event-list { display: flex; flex-direction: column; gap: 10px; }
+.event-row {
+background: var(–warm-white); border-radius: 16px; padding: 18px 16px;
+display: flex; align-items: center; gap: 14px;
+border: 1px solid rgba(196,150,90,.1);
+cursor: pointer; transition: box-shadow .2s;
+}
+.event-row:hover { box-shadow: 0 4px 16px rgba(107,26,43,.08); }
+.event-date-badge {
+flex-shrink: 0; width: 44px; height: 50px; border-radius: 12px;
+background: var(–blush); display: flex; flex-direction: column;
+align-items: center; justify-content: center;
+}
+.badge-month { font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(–cherry); }
+.badge-day { font-family: var(–serif); font-size: 22px; color: var(–cherry-deep); line-height: 1; }
+.event-info { flex: 1; }
+.event-name { font-size: 14px; font-weight: 500; color: var(–charcoal); margin-bottom: 3px; }
+.event-meta { font-size: 11px; color: var(–taupe); }
+.event-status-chip {
+font-size: 9px; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px;
+border-radius: 50px;
+}
+.chip-confirmed { background: rgba(196,150,90,.15); color: var(–gold); }
+.chip-pending { background: var(–blush); color: var(–cherry); }
+.chip-prep { background: rgba(74,15,28,.08); color: var(–cherry-deep); }
+
+.prep-list { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+.prep-item {
+background: var(–warm-white); border-radius: 14px; padding: 14px 16px;
+display: flex; align-items: center; gap: 12px;
+border: 1px solid rgba(196,150,90,.1);
+}
+.prep-check {
+width: 20px; height: 20px; border-radius: 50%;
+border: 1.5px solid rgba(196,150,90,.4);
+cursor: pointer; flex-shrink: 0; position: relative;
+transition: all .2s;
+}
+.prep-check.checked {
+background: var(–gold); border-color: var(–gold);
+}
+.prep-check.checked::after {
+content: ‘✓’; position: absolute; inset: 0;
+display: flex; align-items: center; justify-content: center;
+font-size: 11px; color: white;
+}
+.prep-text { font-size: 13px; color: var(–charcoal); flex: 1; }
+.prep-text.done { text-decoration: line-through; color: var(–taupe); }
+
+/* ── DIVIDER ── */
+.gold-divider {
+display: flex; align-items: center; gap: 12px; margin: 8px 0 24px;
+}
+.gold-divider::before, .gold-divider::after {
+content: ‘’; flex: 1; height: 1px; background: rgba(196,150,90,.2);
+}
+.gold-divider span { font-size: 14px; }
+
+/* ── TESTIMONIAL ── */
+.testimonial-strip { padding: 0 24px 40px; }
+.testimonial-card {
+background: var(–warm-white); border-radius: 20px; padding: 28px 24px;
+border: 1px solid rgba(196,150,90,.12);
+position: relative;
+}
+.testimonial-card::before {
+content: ‘”’; position: absolute; top: 16px; left: 22px;
+font-family: var(–serif); font-size: 80px; line-height: 1;
+color: rgba(196,150,90,.15); font-style: italic;
+}
+.testimonial-text {
+font-family: var(–serif); font-size: 17px; font-style: italic; font-weight: 300;
+color: var(–charcoal); line-height: 1.6; margin-bottom: 16px; margin-top: 16px;
+}
+.testimonial-author { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(–gold); }
+.testimonial-stars { color: var(–gold); font-size: 12px; margin-bottom: 8px; }
+
+/* ── FOOTER PROMO ── */
+.footer-promo {
+margin: 0 24px 120px;
+background: linear-gradient(135deg, var(–cherry-deep) 0%, #6B1A2B 100%);
+border-radius: 24px; padding: 36px 28px;
+text-align: center;
+}
+.footer-promo-title {
+font-family: var(–serif); font-size: 28px; font-weight: 300;
+color: var(–warm-white); margin-bottom: 8px; line-height: 1.2;
+}
+.footer-promo-sub { font-size: 12px; color: rgba(251,246,240,.6); margin-bottom: 24px; line-height: 1.7; }
+
+/* ── SCROLL PADDING ── */
+.scroll-pad { height: 80px; }
+.top-pad { height: 72px; }
+
+/* Responsive */
+@media (min-width: 480px) {
+.services-grid { grid-template-columns: 1fr 1fr; }
+.portal-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- TOP NAV -->
+
+  <nav class="top-nav">
+    <div class="nav-logo">A Taste of <span>Cherry</span></div>
+    <button class="nav-menu-btn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ═══════════════════════════════ VIEW: HOME ═══════════════════════════════ -->
+
+  <div class="view active" id="view-home">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-texture"></div>
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <span class="hero-tag">Upstate South Carolina · Est. 2025</span>
+        <h1 class="hero-headline">
+          Where celebration<br>meets <em>sophistication.</em>
+        </h1>
+        <p class="hero-sub">Beautifully curated boards, grazing tables, and mobile bars crafted with love, style, and Southern charm.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="switchView('view-quote')">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+            Get a Quote
+          </button>
+          <button class="btn-ghost" onclick="switchView('view-book')">
+            Book an Event
+          </button>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Explore
+      </div>
+    </div>
+
+```
+<!-- SERVICES -->
+<div class="section">
+  <p class="section-eyebrow">Our Offerings</p>
+  <h2 class="section-title">Curated for <em>every gathering</em></h2>
+  <p class="section-body">From intimate boards to full grazing tables — every experience is designed to impress and crafted to savor.</p>
+  <div class="services-grid">
+    <div class="service-card card-boards" onclick="switchView('view-quote')">
+      <div class="service-card-overlay"></div>
+      <div class="service-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="service-card-content">
+        <div class="service-icon">🧀</div>
+        <div class="service-name">Boards & Boxes</div>
+        <div class="service-desc">Gifts · Date Nights · Gatherings</div>
+      </div>
+    </div>
+    <div class="service-card card-grazing" onclick="switchView('view-quote')">
+      <div class="service-card-overlay"></div>
+      <div class="service-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="service-card-content">
+        <div class="service-icon">🌿</div>
+        <div class="service-name">Grazing Tables</div>
+        <div class="service-desc">Weddings · Showers · Celebrations</div>
+      </div>
+    </div>
+    <div class="service-card card-bar" onclick="switchView('view-quote')">
+      <div class="service-card-overlay"></div>
+      <div class="service-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="service-card-content">
+        <div class="service-icon">🍾</div>
+        <div class="service-name">Mobile Bar</div>
+        <div class="service-desc">Interactive · Styled · Elevated</div>
+      </div>
+    </div>
+    <div class="service-card card-corporate" onclick="switchView('view-quote')">
+      <div class="service-card-overlay"></div>
+      <div class="service-arrow"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+      <div class="service-card-content">
+        <div class="service-icon">💼</div>
+        <div class="service-name">Corporate</div>
+        <div class="service-desc">Meetings · Networking · Appreciation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIAL -->
+<div class="testimonial-strip">
+  <div class="gold-divider"><span>✦</span></div>
+  <div class="testimonial-card">
+    <div class="testimonial-stars">★★★★★</div>
+    <p class="testimonial-text">Cherry is without a doubt my go-to for any occasion. I've used her for work events, date nights, and bridal showers — every single time she delivers beautifully.</p>
+    <div class="testimonial-author">— Quanya</div>
+  </div>
+</div>
+
+<!-- FOOTER CTA -->
+<div class="footer-promo">
+  <h3 class="footer-promo-title">Have an event<br>in mind?</h3>
+  <p class="footer-promo-sub">Tell us about your vision and we'll create something unforgettable together.</p>
+  <button class="btn-primary" onclick="switchView('view-book')" style="margin: 0 auto;">
+    Book Your Experience
+  </button>
+</div>
+<div class="scroll-pad"></div>
+```
+
+  </div>
+
+  <!-- ═══════════════════════════════ VIEW: QUOTE ═══════════════════════════════ -->
+
+  <div class="view" id="view-quote">
+    <div class="top-pad"></div>
+    <div class="quote-wrap">
+      <p class="section-eyebrow">Instant Estimate</p>
+      <h2 class="section-title" style="margin-bottom:6px;">Your <em>perfect</em> experience</h2>
+      <p class="section-body" style="margin-bottom:32px;">Customize below and we'll give you an estimate in seconds.</p>
+
+```
+  <div class="quote-card">
+    <!-- Service Type -->
+    <div class="field-group">
+      <label class="field-label">Service Type</label>
+      <div class="select-wrap">
+        <select class="field-select" id="q-service" onchange="calcQuote()">
+          <option value="board">Boards & Boxes</option>
+          <option value="grazing">Grazing Table</option>
+          <option value="bar">Mobile Charcuterie Bar</option>
+          <option value="corporate">Corporate Catering</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Guest Count -->
+    <div class="field-group">
+      <label class="field-label">Guest Count</label>
+      <div class="guest-count" id="guest-display">25</div>
+      <input type="range" class="guest-slider" id="q-guests" min="5" max="200" value="25" step="5" oninput="document.getElementById('guest-display').textContent=this.value; calcQuote()">
+    </div>
+
+    <!-- Occasion -->
+    <div class="field-group">
+      <label class="field-label">Occasion</label>
+      <div class="select-wrap">
+        <select class="field-select" id="q-occasion" onchange="calcQuote()">
+          <option value="wedding">Wedding</option>
+          <option value="shower">Bridal / Baby Shower</option>
+          <option value="birthday">Birthday Celebration</option>
+          <option value="corporate">Corporate Event</option>
+          <option value="datenight">Date Night / Gift</option>
+          <option value="other">Other Gathering</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Add-ons -->
+    <div class="field-group">
+      <label class="field-label">Add-ons</label>
+      <div class="addons-grid">
+        <label class="addon-chip" id="chip-theme">
+          <input type="checkbox" onchange="toggleChip('chip-theme'); calcQuote()"> 🎨 Themed Board
+        </label>
+        <label class="addon-chip" id="chip-delivery">
+          <input type="checkbox" onchange="toggleChip('chip-delivery'); calcQuote()"> 🚗 Delivery
+        </label>
+        <label class="addon-chip" id="chip-veg">
+          <input type="checkbox" onchange="toggleChip('chip-veg'); calcQuote()"> 🌱 Veg-Friendly
+        </label>
+        <label class="addon-chip" id="chip-setup">
+          <input type="checkbox" onchange="toggleChip('chip-setup'); calcQuote()"> ✨ Full Setup
+        </label>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div class="quote-result">
+      <div class="quote-result-label">Estimated Total</div>
+      <div class="quote-result-amount" id="quote-total">$275</div>
+      <div class="quote-result-deposit" id="quote-deposit">Deposit due: $138 · Balance at event</div>
+      <button class="btn-primary" style="width:100%; justify-content: center;" onclick="switchView('view-book')">
+        Book This Experience →
+      </button>
+    </div>
+  </div>
+</div>
+<div class="scroll-pad"></div>
+```
+
+  </div>
+
+  <!-- ═══════════════════════════════ VIEW: BOOK ═══════════════════════════════ -->
+
+  <div class="view" id="view-book">
+    <div class="top-pad"></div>
+    <div class="booking-wrap">
+      <p class="section-eyebrow">Booking Concierge</p>
+      <h2 class="section-title">Let's make it <em>official</em></h2>
+
+```
+  <div class="booking-steps">
+    <div class="step-dot active" id="sdot-1"></div>
+    <div class="step-dot" id="sdot-2"></div>
+    <div class="step-dot" id="sdot-3"></div>
+  </div>
+
+  <!-- STEP 1: Who are you? -->
+  <div class="booking-step active" id="step-1">
+    <h3 class="step-heading">Tell us about yourself</h3>
+    <p class="step-sub">We keep everything personal — your details are just for us.</p>
+    <div class="field-group">
+      <label class="field-label">Your Name</label>
+      <input type="text" class="field-input" placeholder="First & Last Name">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Email Address</label>
+      <input type="email" class="field-input" placeholder="hello@youremail.com">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Phone Number</label>
+      <input type="tel" class="field-input" placeholder="(864) 000-0000">
+    </div>
+    <div class="step-nav">
+      <button class="btn-next" onclick="goStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Event Details -->
+  <div class="booking-step" id="step-2">
+    <h3 class="step-heading">About your event</h3>
+    <p class="step-sub">Every detail helps us create something truly perfect for you.</p>
+    <div class="field-group">
+      <label class="field-label">Event Date</label>
+      <input type="date" class="field-input date-field">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Event Address / City</label>
+      <input type="text" class="field-input" placeholder="Greenville, SC or full address">
+    </div>
+    <div class="field-group">
+      <label class="field-label">Service Requested</label>
+      <div class="select-wrap">
+        <select class="field-select">
+          <option>Boards & Boxes</option>
+          <option>Grazing Table</option>
+          <option>Mobile Charcuterie Bar</option>
+          <option>Corporate Catering</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Guest Count</label>
+      <input type="number" class="field-input" placeholder="Approx. number of guests">
+    </div>
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(1)">← Back</button>
+      <button class="btn-next" onclick="goStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Notes + Confirm -->
+  <div class="booking-step" id="step-3">
+    <h3 class="step-heading">Final touches</h3>
+    <p class="step-sub">Any special requests, dietary needs, or vision you want to share?</p>
+    <div class="field-group">
+      <label class="field-label">Special Requests</label>
+      <textarea class="field-input" rows="4" placeholder="Dietary needs, theme colors, vision board notes…" style="resize:vertical; line-height:1.6;"></textarea>
+    </div>
+    <div class="field-group">
+      <label class="field-label" style="margin-bottom:14px;">How did you find us?</label>
+      <div class="select-wrap">
+        <select class="field-select">
+          <option>Instagram</option>
+          <option>Friend Referral</option>
+          <option>Google Search</option>
+          <option>WSPA / Media Feature</option>
+          <option>Previous Client</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Summary box -->
+    <div style="background:var(--blush); border-radius:16px; padding:20px 18px; margin-bottom:8px; border:1px solid rgba(107,26,43,.1);">
+      <p style="font-size:11px; letter-spacing:.15em; text-transform:uppercase; color:var(--cherry); margin-bottom:12px;">Booking Summary</p>
+      <p style="font-size:13px; color:var(--charcoal); line-height:1.8;">
+        Deposit due upon confirmation: <strong style="color:var(--cherry-deep);">50% of estimated total</strong><br>
+        Balance due at event<br>
+        <span style="color:var(--taupe);">Cherry will confirm within 24 hours.</span>
+      </p>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="goStep(2)">← Back</button>
+      <button class="btn-next" onclick="showSuccess()" style="background:var(--gold);">Submit Inquiry ✦</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="booking-step" id="step-success">
+    <div class="success-screen">
+      <div class="success-icon">🍓</div>
+      <h3 class="success-title">You're all set,<br><em>beautiful!</em></h3>
+      <p class="success-body">Cherry will reach out within 24 hours to confirm your booking and send your deposit link. Get ready for something unforgettable.</p>
+      <button class="btn-primary" style="margin-top:32px;" onclick="switchView('view-portal')">
+        View My Portal →
+      </button>
+    </div>
+  </div>
+
+</div>
+<div class="scroll-pad"></div>
+```
+
+  </div>
+
+  <!-- ═══════════════════════════════ VIEW: PORTAL ═══════════════════════════════ -->
+
+  <div class="view" id="view-portal">
+    <div class="top-pad"></div>
+    <div class="portal-wrap">
+      <h2 class="greeting">Hello, <em>Jasmine.</em> ✦</h2>
+      <p class="portal-sub">Your upcoming experience is confirmed.</p>
+
+```
+  <div class="status-card">
+    <div class="status-event-name">Bridal Shower — Grazing Table</div>
+    <div class="status-date">Saturday, April 19, 2026 · Greenville, SC</div>
+    <div class="status-pills">
+      <span class="status-pill confirmed">✓ Confirmed</span>
+      <span class="status-pill">25 Guests</span>
+      <span class="status-pill">Deposit Paid</span>
+    </div>
+  </div>
+
+  <div class="portal-grid">
+    <div class="portal-tile">
+      <div class="tile-icon">💳</div>
+      <div class="tile-label">Balance Due</div>
+      <div class="tile-value">$250</div>
+    </div>
+    <div class="portal-tile">
+      <div class="tile-icon">📅</div>
+      <div class="tile-label">Days Away</div>
+      <div class="tile-value">36</div>
+    </div>
+    <div class="portal-tile">
+      <div class="tile-icon">✉️</div>
+      <div class="tile-label">Messages</div>
+      <div class="tile-value">2</div>
+    </div>
+  </div>
+
+  <div style="margin-top:28px;">
+    <p class="section-eyebrow" style="margin-bottom:16px;">Event Details</p>
+    <div class="event-row" style="flex-direction:column; align-items:flex-start; gap:10px;">
+      <div style="font-size:12px; color:var(--taupe); line-height:1.9;">
+        <strong style="color:var(--charcoal); display:block; margin-bottom:4px;">Cherry's Notes</strong>
+        Planning a blush & gold color palette for your table. Will incorporate seasonal florals and a custom sign. Theming around "She said yes!" ✦
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px; display:flex; gap:12px;">
+    <button class="btn-next" style="flex:1; padding:14px; border-radius:50px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; background:var(--cherry); color:var(--warm-white); border:none; cursor:pointer;">Pay Balance</button>
+    <button class="btn-back" style="flex:1; padding:14px; border-radius:50px; font-size:12px; letter-spacing:.1em; text-transform:uppercase; background:transparent; border:1px solid rgba(196,150,90,.3); color:var(--taupe); cursor:pointer;">Message Cherry</button>
+  </div>
+</div>
+<div class="scroll-pad"></div>
+```
+
+  </div>
+
+  <!-- ═══════════════════════════════ VIEW: DASHBOARD ═══════════════════════════════ -->
+
+  <div class="view" id="view-dashboard">
+    <div class="top-pad"></div>
+    <div class="dashboard-wrap">
+      <div class="dash-header">
+        <div>
+          <div class="dash-greeting">Hey, Cherry ✦</div>
+          <div class="dash-date">March 2026</div>
+        </div>
+        <div class="dash-avatar">C</div>
+      </div>
+
+```
+  <!-- Metrics -->
+  <div class="metrics-row">
+    <div class="metric-card">
+      <div class="metric-value">8</div>
+      <div class="metric-label">Events</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">$3.2k</div>
+      <div class="metric-label">Revenue</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">3</div>
+      <div class="metric-label">Pending</div>
+    </div>
+  </div>
+
+  <!-- Upcoming Events -->
+  <p class="section-label">Upcoming Events</p>
+  <div class="event-list">
+    <div class="event-row">
+      <div class="event-date-badge">
+        <div class="badge-month">APR</div>
+        <div class="badge-day">5</div>
+      </div>
+      <div class="event-info">
+        <div class="event-name">Corporate Networking</div>
+        <div class="event-meta">50 guests · Boards & Boxes</div>
+      </div>
+      <div class="event-status-chip chip-confirmed">Confirmed</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date-badge">
+        <div class="badge-month">APR</div>
+        <div class="badge-day">19</div>
+      </div>
+      <div class="event-info">
+        <div class="event-name">Bridal Shower — Jasmine</div>
+        <div class="event-meta">25 guests · Grazing Table</div>
+      </div>
+      <div class="event-status-chip chip-confirmed">Confirmed</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date-badge">
+        <div class="badge-month">APR</div>
+        <div class="badge-day">26</div>
+      </div>
+      <div class="event-info">
+        <div class="event-name">Birthday Celebration</div>
+        <div class="event-meta">40 guests · Mobile Bar</div>
+      </div>
+      <div class="event-status-chip chip-pending">Deposit Due</div>
+    </div>
+    <div class="event-row">
+      <div class="event-date-badge">
+        <div class="badge-month">MAY</div>
+        <div class="badge-day">10</div>
+      </div>
+      <div class="event-info">
+        <div class="event-name">Mother's Day Brunch</div>
+        <div class="event-meta">30 guests · Grazing Table</div>
+      </div>
+      <div class="event-status-chip chip-prep">Prep Needed</div>
+    </div>
+  </div>
+
+  <!-- Prep Checklist -->
+  <p class="section-label" style="margin-top:28px;">Prep Checklist — Apr 5 Event</p>
+  <div class="prep-list" id="prep-list">
+    <div class="prep-item">
+      <div class="prep-check checked" onclick="togglePrep(this)"></div>
+      <div class="prep-text done">Order specialty cheeses</div>
+    </div>
+    <div class="prep-item">
+      <div class="prep-check checked" onclick="togglePrep(this)"></div>
+      <div class="prep-text done">Confirm guest count with client</div>
+    </div>
+    <div class="prep-item">
+      <div class="prep-check" onclick="togglePrep(this)"></div>
+      <div class="prep-text">Pick up prosciutto & salami</div>
+    </div>
+    <div class="prep-item">
+      <div class="prep-check" onclick="togglePrep(this)"></div>
+      <div class="prep-text">Prep seasonal fruits & accompaniments</div>
+    </div>
+    <div class="prep-item">
+      <div class="prep-check" onclick="togglePrep(this)"></div>
+      <div class="prep-text">Pack serving boards & signage</div>
+    </div>
+    <div class="prep-item">
+      <div class="prep-check" onclick="togglePrep(this)"></div>
+      <div class="prep-text">Confirm venue arrival time</div>
+    </div>
+  </div>
+
+</div>
+<div class="scroll-pad"></div>
+```
+
+  </div>
+
+  <!-- ═══════════════════════════════ BOTTOM TABS ═══════════════════════════════ -->
+
+  <nav class="bottom-tab">
+    <button class="tab-btn active" id="tab-home" onclick="switchView('view-home')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="tab-btn" id="tab-quote" onclick="switchView('view-quote')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Quote
+    </button>
+    <button class="tab-btn" id="tab-book" onclick="switchView('view-book')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book
+    </button>
+    <button class="tab-btn" id="tab-portal" onclick="switchView('view-portal')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      My Event
+    </button>
+    <button class="tab-btn" id="tab-dashboard" onclick="switchView('view-dashboard')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </button>
+  </nav>
+</div>
+
+<script>
+  // ── VIEW ROUTER ──
+  function switchView(viewId) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(viewId).classList.add('active');
+    window.scrollTo(0, 0);
+
+    const tabMap = {
+      'view-home': 'tab-home',
+      'view-quote': 'tab-quote',
+      'view-book': 'tab-book',
+      'view-portal': 'tab-portal',
+      'view-dashboard': 'tab-dashboard'
+    };
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const tab = document.getElementById(tabMap[viewId]);
+    if (tab) tab.classList.add('active');
+  }
+
+  // ── QUOTE CALCULATOR ──
+  const pricing = {
+    board: { base: 8, min: 60 },
+    grazing: { base: 14, min: 200 },
+    bar: { base: 18, min: 350 },
+    corporate: { base: 12, min: 150 }
+  };
+  const addons = { theme: 40, delivery: 35, veg: 0, setup: 75 };
+
+  function calcQuote() {
+    const service = document.getElementById('q-service').value;
+    const guests = parseInt(document.getElementById('q-guests').value);
+    const p = pricing[service];
+    let total = Math.max(guests * p.base, p.min);
+
+    if (document.getElementById('chip-theme').classList.contains('selected')) total += addons.theme;
+    if (document.getElementById('chip-delivery').classList.contains('selected')) total += addons.delivery;
+    if (document.getElementById('chip-setup').classList.contains('selected')) total += addons.setup;
+
+    const deposit = Math.round(total * 0.5);
+    document.getElementById('quote-total').textContent = '$' + total.toLocaleString();
+    document.getElementById('quote-deposit').textContent = `Deposit due: $${deposit} · Balance at event`;
+  }
+
+  function toggleChip(id) {
+    document.getElementById(id).classList.toggle('selected');
+  }
+
+  // ── BOOKING STEPS ──
+  let currentStep = 1;
+  function goStep(n) {
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    currentStep = n;
+    document.getElementById('step-' + n).classList.add('active');
+    updateStepDots(n);
+    window.scrollTo(0, 0);
+  }
+  function showSuccess() {
+    document.getElementById('step-' + currentStep).classList.remove('active');
+    document.getElementById('step-success').classList.add('active');
+    document.querySelectorAll('.step-dot').forEach(d => d.classList.remove('active'));
+    document.querySelectorAll('.step-dot').forEach(d => d.classList.add('done'));
+  }
+  function updateStepDots(n) {
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById('sdot-' + i);
+      dot.classList.remove('active', 'done');
+      if (i < n) dot.classList.add('done');
+      else if (i === n) dot.classList.add('active');
+    }
+  }
+
+  // ── PREP TOGGLE ──
+  function togglePrep(el) {
+    el.classList.toggle('checked');
+    const text = el.nextElementSibling;
+    text.classList.toggle('done');
+  }
+
+  // Init quote
+  calcQuote();
+</script>
+
+</body>
+</html>
