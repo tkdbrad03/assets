@@ -664,9 +664,30 @@ function closeMenu() {
 function openMenuAction(key) {
   const actions={
     availability:()=>{
+      // state: 0=open, 1=blocked, 2=booked
+      window.calState = {};
+      [5,12,19,26].forEach(d=>window.calState[d]=2);
+      [8,9,15].forEach(d=>window.calState[d]=1);
       const days=['S','M','T','W','T','F','S'].map(d=>`<div style="text-align:center;font-size:10px;color:#9C8475;padding:4px 0;">${d}</div>`).join('');
-      const cells=Array.from({length:30},(_,i)=>{const d=i+1,b=[5,12,19,26].includes(d),k=[8,9,15].includes(d);return `<div style="text-align:center;padding:8px 2px;border-radius:8px;background:${b?'#6B1A2B':k?'#F2D9D9':'#FBF6F0'};color:${b?'#FEFCFA':k?'#6B1A2B':'#2C2321'};font-size:12px;border:${b?'none':k?'1px solid #6B1A2B':'1px solid rgba(196,150,90,.15)'};cursor:pointer;">${d}</div>`;}).join('');
-      return `<p style="font-size:13px;color:#9C8475;margin-bottom:16px;line-height:1.7;">Tap a date to block it or mark it booked.</p><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px;">${days}${cells}</div><div style="display:flex;gap:14px;font-size:11px;color:#9C8475;align-items:center;"><span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;border-radius:2px;background:#6B1A2B;display:inline-block;"></span>Booked</span><span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;border-radius:2px;background:#F2D9D9;border:1px solid #6B1A2B;display:inline-block;"></span>Blocked</span><span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;border-radius:2px;background:#FBF6F0;border:1px solid rgba(196,150,90,.3);display:inline-block;"></span>Open</span></div>`;
+      // April 2026 starts on Wednesday (offset 3)
+      const offset=3;
+      const blanks=Array.from({length:offset},()=>`<div></div>`).join('');
+      const cells=Array.from({length:30},(_,i)=>{
+        const d=i+1, st=window.calState[d]||0;
+        const bg=st===2?'#6B1A2B':st===1?'#F2D9D9':'#FBF6F0';
+        const color=st===2?'#FEFCFA':st===1?'#6B1A2B':'#2C2321';
+        const border=st===2?'none':st===1?'1px solid #6B1A2B':'1px solid rgba(196,150,90,.15)';
+        return `<div id="cal-${d}" onclick="tapCal(${d})" style="text-align:center;padding:8px 2px;border-radius:8px;background:${bg};color:${color};font-size:12px;border:${border};cursor:pointer;transition:all .2s;">${d}</div>`;
+      }).join('');
+      return `
+        <p style="font-size:13px;color:#9C8475;margin-bottom:4px;line-height:1.7;">Tap once to <strong style="color:#6B1A2B;">block</strong>, twice to mark <strong style="color:#6B1A2B;">booked</strong>, tap again to clear.</p>
+        <div style="font-size:12px;color:#C4965A;font-weight:500;margin-bottom:12px;">April 2026</div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px;">${days}${blanks}${cells}</div>
+        <div style="display:flex;gap:14px;font-size:11px;color:#9C8475;align-items:center;flex-wrap:wrap;">
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;border-radius:2px;background:#6B1A2B;display:inline-block;"></span>Booked</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;border-radius:2px;background:#F2D9D9;border:1px solid #6B1A2B;display:inline-block;"></span>Blocked</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:11px;height:11px;border-radius:2px;background:#FBF6F0;border:1px solid rgba(196,150,90,.3);display:inline-block;"></span>Open</span>
+        </div>`;
     },
     pricing:()=>[{l:'Boards & Boxes',v:'$8 / guest',m:'$60 min'},{l:'Grazing Table',v:'$14 / guest',m:'$200 min'},{l:'Mobile Bar',v:'$18 / guest',m:'$350 min'},{l:'Corporate',v:'$12 / guest',m:'$150 min'}].map(p=>`<div style="background:#FBF6F0;border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid rgba(196,150,90,.15);"><div style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#C4965A;margin-bottom:8px;">${p.l}</div><div style="display:flex;gap:8px;"><input value="${p.v}" style="flex:1;padding:10px 12px;background:#FEFCFA;border:1px solid rgba(196,150,90,.25);border-radius:10px;color:#2C2321;font-size:13px;outline:none;"><input value="${p.m}" style="flex:1;padding:10px 12px;background:#FEFCFA;border:1px solid rgba(196,150,90,.25);border-radius:10px;color:#2C2321;font-size:13px;outline:none;"></div></div>`).join(''),
     reviews:()=>[{n:'Quanya',t:"Cherry is without a doubt my go-to for any occasion. Every single time she delivers beautifully.",on:true},{n:'Kesha',t:'From start to finish, the process was seamless. Customer service was top tier!!!',on:true},{n:'Laura',t:"Amazing quality! It's rare to find something that checks all the boxes.",on:false}].map(r=>`<div style="background:#FBF6F0;border-radius:14px;padding:16px 18px;margin-bottom:10px;border:1px solid rgba(196,150,90,.15);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><div style="font-size:13px;font-weight:500;color:#2C2321;">— ${r.n}</div><div style="color:#C4965A;font-size:12px;">★★★★★</div></div><label style="display:flex;align-items:center;gap:6px;font-size:11px;color:#9C8475;cursor:pointer;"><input type="checkbox" ${r.on?'checked':''} style="accent-color:#6B1A2B;width:16px;height:16px;"> Visible</label></div><div style="font-size:12px;color:#9C8475;font-style:italic;line-height:1.7;">"${r.t}"</div></div>`).join('')+'<button style="width:100%;padding:12px;border-radius:50px;background:transparent;border:1px solid rgba(196,150,90,.3);color:#C4965A;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-top:4px;">+ Add New Review</button>',
@@ -674,11 +695,29 @@ function openMenuAction(key) {
     profile:()=>`<div style="text-align:center;margin-bottom:24px;"><div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#6B1A2B,#8B2040);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;">🍒</div><div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#4A0F1C;margin-bottom:4px;">Cherry</div><div style="font-size:12px;color:#9C8475;">Owner · A Taste of Cherry Charcuterie</div></div>${[{l:'Business Name',v:'A Taste of Cherry Charcuterie'},{l:'Phone',v:'864-804-8091'},{l:'Email',v:'atasteofcherrycharcuterie@gmail.com'},{l:'Location',v:'Upstate South Carolina'},{l:'Instagram',v:'@__thecherryontop'}].map(f=>`<div style="margin-bottom:12px;"><div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#C4965A;margin-bottom:6px;">${f.l}</div><input value="${f.v}" style="width:100%;padding:12px 14px;background:#FBF6F0;border:1px solid rgba(196,150,90,.2);border-radius:12px;color:#2C2321;font-size:13px;outline:none;"></div>`).join('')}`,
     settings:()=>[{l:'Booking Notifications',s:'Get notified when a new inquiry comes in',on:true},{l:'Deposit Reminders',s:'Auto-remind clients 48hrs before deposit due',on:true},{l:'Balance Reminders',s:'Auto-send balance reminder 1 week before event',on:false},{l:'Review Requests',s:'Auto-message clients 24hrs after their event',on:true},{l:'Instagram Mode',s:'Show booking link on public home screen',on:true}].map(s=>`<div style="background:#FBF6F0;border-radius:14px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(196,150,90,.12);display:flex;align-items:center;gap:12px;"><div style="flex:1;"><div style="font-size:13px;font-weight:500;color:#2C2321;margin-bottom:2px;">${s.l}</div><div style="font-size:11px;color:#9C8475;line-height:1.5;">${s.s}</div></div><label style="position:relative;width:40px;height:22px;flex-shrink:0;cursor:pointer;"><input type="checkbox" ${s.on?'checked':''} onchange="const t=this.nextElementSibling;t.style.background=this.checked?'#6B1A2B':'#E8C2C2';t.querySelector('span').style.left=this.checked?'20px':'2px'" style="opacity:0;width:0;height:0;position:absolute;"><span style="position:absolute;inset:0;border-radius:50px;background:${s.on?'#6B1A2B':'#E8C2C2'};transition:.2s;"><span style="position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:${s.on?'20px':'2px'};transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span></span></label></div>`).join('')+'<div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#C4965A;margin:16px 0 10px;">Payment Methods Accepted</div>'+['Venmo','Cash App','Zelle','PayPal'].map(p=>`<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FBF6F0;border-radius:12px;margin-bottom:8px;border:1px solid rgba(196,150,90,.12);cursor:pointer;font-size:13px;color:#2C2321;"><input type="checkbox" checked style="accent-color:#6B1A2B;width:16px;height:16px;"> ${p}</label>`).join('')
   };
-  const titles={availability:'🗓 Availability Calendar',pricing:'✏️ Edit Pricing',reviews:'⭐ Reviews & Testimonials',share:'🔗 Share My Booking Link',profile:'🍒 My Profile',settings:'⚙️ App Settings'};
+  const titles={availability:'Availability Calendar',pricing:'✏️ Edit Pricing',reviews:'⭐ Reviews & Testimonials',share:'🔗 Share My Booking Link',profile:'🍒 My Profile',settings:'⚙️ App Settings'};
   closeMenu();
   setTimeout(()=>{
     openAction(`<div style="padding:8px 0 0;"><div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:300;color:#4A0F1C;margin-bottom:20px;">${titles[key]}</div>${actions[key]()}<div style="margin-top:20px;display:flex;gap:10px;"><button onclick="actionConfirm('Changes Saved 🍒')" style="flex:2;padding:14px;border-radius:50px;background:#6B1A2B;border:none;color:#FEFCFA;font-family:'Jost',system-ui,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">Save Changes</button><button onclick="closeAction()" style="flex:1;padding:14px;border-radius:50px;background:transparent;border:1px solid rgba(196,150,90,.3);color:#9C8475;font-family:'Jost',system-ui,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">Close</button></div></div>`);
   },380);
+}
+
+// ── CALENDAR TAP ──
+function tapCal(d) {
+  const cur = window.calState[d] || 0;
+  const next = (cur + 1) % 3; // 0=open, 1=blocked, 2=booked
+  window.calState[d] = next;
+  const el = document.getElementById('cal-' + d);
+  if (!el) return;
+  const styles = [
+    {bg:'#FBF6F0', color:'#2C2321', border:'1px solid rgba(196,150,90,.15)'},
+    {bg:'#F2D9D9', color:'#6B1A2B', border:'1px solid #6B1A2B'},
+    {bg:'#6B1A2B', color:'#FEFCFA', border:'none'}
+  ];
+  const s = styles[next];
+  el.style.background = s.bg;
+  el.style.color = s.color;
+  el.style.border = s.border;
 }
 
 // Init
