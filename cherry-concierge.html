@@ -154,6 +154,16 @@ body{font-family:'Jost',system-ui,sans-serif;background:#FBF6F0;color:#2C2321;mi
 </style>
 </head>
 <body>
+<div id="splash" style="position:fixed;inset:0;z-index:999;background:linear-gradient(160deg,#4A0F1C 0%,#7A2035 50%,#B85070 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 32px;text-align:center;">
+  <div id="splash-cherries" style="font-size:48px;letter-spacing:8px;margin-bottom:28px;opacity:0;transform:translateY(-20px);transition:all .8s ease;">🍒🍒🍒</div>
+  <div id="splash-name" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(32px,8vw,48px);font-weight:300;color:#FEFCFA;line-height:1.15;opacity:0;transform:translateY(16px);transition:all .9s ease .4s;margin-bottom:12px;">A Taste of<br><em style="color:#D4AA72;">Cherry</em></div>
+  <div id="splash-sub" style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(251,246,240,.5);opacity:0;transition:all .8s ease .8s;margin-bottom:48px;">Charcuterie · Est. 2025</div>
+  <div id="splash-tagline" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-style:italic;color:rgba(251,246,240,.7);opacity:0;transition:all .8s ease 1s;max-width:260px;line-height:1.7;">Where celebration meets sophistication.</div>
+  <div id="splash-bar" style="position:absolute;bottom:60px;left:50%;transform:translateX(-50%);width:48px;height:3px;background:rgba(196,150,90,.3);border-radius:2px;overflow:hidden;">
+    <div id="splash-progress" style="height:100%;width:0%;background:#C4965A;border-radius:2px;transition:width 2.2s ease .6s;"></div>
+  </div>
+</div>
+
 <div class="app-shell">
 
 <!-- TOP NAV -->
@@ -695,12 +705,27 @@ function openMenuAction(key) {
     profile:()=>`<div style="text-align:center;margin-bottom:24px;"><div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#6B1A2B,#8B2040);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 12px;">🍒</div><div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#4A0F1C;margin-bottom:4px;">Cherry</div><div style="font-size:12px;color:#9C8475;">Owner · A Taste of Cherry Charcuterie</div></div>${[{l:'Business Name',v:'A Taste of Cherry Charcuterie'},{l:'Phone',v:'864-804-8091'},{l:'Email',v:'atasteofcherrycharcuterie@gmail.com'},{l:'Location',v:'Upstate South Carolina'},{l:'Instagram',v:'@__thecherryontop'}].map(f=>`<div style="margin-bottom:12px;"><div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#C4965A;margin-bottom:6px;">${f.l}</div><input value="${f.v}" style="width:100%;padding:12px 14px;background:#FBF6F0;border:1px solid rgba(196,150,90,.2);border-radius:12px;color:#2C2321;font-size:13px;outline:none;"></div>`).join('')}`,
     settings:()=>[{l:'Booking Notifications',s:'Get notified when a new inquiry comes in',on:true},{l:'Deposit Reminders',s:'Auto-remind clients 48hrs before deposit due',on:true},{l:'Balance Reminders',s:'Auto-send balance reminder 1 week before event',on:false},{l:'Review Requests',s:'Auto-message clients 24hrs after their event',on:true},{l:'Instagram Mode',s:'Show booking link on public home screen',on:true}].map(s=>`<div style="background:#FBF6F0;border-radius:14px;padding:14px 16px;margin-bottom:10px;border:1px solid rgba(196,150,90,.12);display:flex;align-items:center;gap:12px;"><div style="flex:1;"><div style="font-size:13px;font-weight:500;color:#2C2321;margin-bottom:2px;">${s.l}</div><div style="font-size:11px;color:#9C8475;line-height:1.5;">${s.s}</div></div><label style="position:relative;width:40px;height:22px;flex-shrink:0;cursor:pointer;"><input type="checkbox" ${s.on?'checked':''} onchange="const t=this.nextElementSibling;t.style.background=this.checked?'#6B1A2B':'#E8C2C2';t.querySelector('span').style.left=this.checked?'20px':'2px'" style="opacity:0;width:0;height:0;position:absolute;"><span style="position:absolute;inset:0;border-radius:50px;background:${s.on?'#6B1A2B':'#E8C2C2'};transition:.2s;"><span style="position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:2px;left:${s.on?'20px':'2px'};transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);"></span></span></label></div>`).join('')+'<div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#C4965A;margin:16px 0 10px;">Payment Methods Accepted</div>'+['Venmo','Cash App','Zelle','PayPal'].map(p=>`<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:#FBF6F0;border-radius:12px;margin-bottom:8px;border:1px solid rgba(196,150,90,.12);cursor:pointer;font-size:13px;color:#2C2321;"><input type="checkbox" checked style="accent-color:#6B1A2B;width:16px;height:16px;"> ${p}</label>`).join('')
   };
-  const titles={availability:'Availability Calendar',pricing:'✏️ Edit Pricing',reviews:'⭐ Reviews & Testimonials',share:'🔗 Share My Booking Link',profile:'🍒 My Profile',settings:'⚙️ App Settings'};
+  const titles={availability:'🗓 Availability Calendar',pricing:'✏️ Edit Pricing',reviews:'⭐ Reviews & Testimonials',share:'🔗 Share My Booking Link',profile:'🍒 My Profile',settings:'⚙️ App Settings'};
   closeMenu();
   setTimeout(()=>{
     openAction(`<div style="padding:8px 0 0;"><div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:24px;font-weight:300;color:#4A0F1C;margin-bottom:20px;">${titles[key]}</div>${actions[key]()}<div style="margin-top:20px;display:flex;gap:10px;"><button onclick="actionConfirm('Changes Saved 🍒')" style="flex:2;padding:14px;border-radius:50px;background:#6B1A2B;border:none;color:#FEFCFA;font-family:'Jost',system-ui,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">Save Changes</button><button onclick="closeAction()" style="flex:1;padding:14px;border-radius:50px;background:transparent;border:1px solid rgba(196,150,90,.3);color:#9C8475;font-family:'Jost',system-ui,sans-serif;font-size:12px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;">Close</button></div></div>`);
   },380);
 }
+
+// ── SPLASH SCREEN ──
+(function() {
+  requestAnimationFrame(() => {
+    setTimeout(() => { const el = document.getElementById('splash-cherries'); if(el){el.style.opacity='1';el.style.transform='translateY(0)';} }, 100);
+    setTimeout(() => { const el = document.getElementById('splash-name'); if(el){el.style.opacity='1';el.style.transform='translateY(0)';} }, 100);
+    setTimeout(() => { const el = document.getElementById('splash-sub'); if(el) el.style.opacity='1'; }, 100);
+    setTimeout(() => { const el = document.getElementById('splash-tagline'); if(el) el.style.opacity='1'; }, 100);
+    setTimeout(() => { const el = document.getElementById('splash-progress'); if(el) el.style.width='100%'; }, 150);
+    setTimeout(() => {
+      const splash = document.getElementById('splash');
+      if(splash){ splash.style.transition='opacity .6s ease'; splash.style.opacity='0'; setTimeout(()=>{ splash.style.display='none'; }, 600); }
+    }, 2800);
+  });
+})();
 
 // ── CALENDAR TAP ──
 function tapCal(d) {
