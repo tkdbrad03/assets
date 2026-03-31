@@ -170,7 +170,7 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
 .chat-empty { text-align: center; color: #9A94A5; font-size: 13px; padding: 20px 0; }
 
 /* CHAT INPUT */
-.chat-input-bar { padding: 16px 24px; border-top: 1px solid #EBEBEF; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; background: #ffffff; }
+.chat-input-bar { padding: 16px 24px; padding-bottom: calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid #EBEBEF; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; background: #ffffff; }
 .chat-input-bar textarea { flex: 1; padding: 11px 14px; border: 1.5px solid #EBEBEF; border-radius: 12px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 14px; color: #3D3548; outline: none; resize: none; min-height: 44px; max-height: 100px; background: #F7F7F8; }
 .chat-input-bar textarea:focus { border-color: #9B59B6; background: #ffffff; }
 .chat-send-btn { background: linear-gradient(135deg, #4B0082 0%, #6A0DAD 100%); color: #ffffff; border: none; border-radius: 12px; width: 44px; height: 44px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -453,15 +453,17 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
           <div><div class="client-name">John Williams</div><div class="ticket-issue">IPTV Premium &middot; $60 due Jun 30</div></div>
           <span class="status-badge in-progress">90 Days Out</span>
         </div>
-      </div>
-    </div>
-
-  </div>
 </div>
 <!-- CLIENTS LIST -->
 <div class="section-title" style="margin-top:28px;">Client Roster</div>
 <button class="btn-add-client" onclick="openClientModal(-1)">+ Onboard New Client</button>
 <div id="clientRoster"></div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- CLIENT MODAL -->
 <div id="clientModal">
