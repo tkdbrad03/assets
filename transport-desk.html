@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
@@ -34,27 +33,33 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html, body { height: 100%; overflow-x: hidden; }
+
 body {
-font-family: ‘DM Sans’, sans-serif;
+font-family: ‘DM Sans’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
 background: var(–cream);
 color: var(–pine-dark);
 min-height: 100vh;
 font-size: 15px;
 line-height: 1.5;
+-webkit-font-smoothing: antialiased;
 }
 
 /* ── TOP NAV ── */
 .topbar {
 background: var(–pine);
 color: var(–cream);
-padding: 14px 20px;
+padding: 0 20px;
 display: flex;
 align-items: center;
 justify-content: space-between;
-position: sticky;
+position: fixed;
 top: 0;
-z-index: 100;
+left: 0;
+right: 0;
+z-index: 500;
 box-shadow: var(–shadow-md);
+height: 60px;
 }
 .topbar-brand {
 display: flex;
@@ -66,10 +71,10 @@ font-size: 10px;
 letter-spacing: 0.15em;
 text-transform: uppercase;
 color: var(–gold);
-font-weight: 500;
+font-weight: 600;
 }
 .topbar-brand .name {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, ‘Times New Roman’, serif;
 font-size: 18px;
 font-weight: 700;
 color: var(–cream);
@@ -89,8 +94,9 @@ left: 0;
 right: 0;
 background: var(–pine-dark);
 display: flex;
-z-index: 100;
-box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+z-index: 500;
+box-shadow: 0 -2px 12px rgba(0,0,0,0.35);
+height: 68px;
 }
 .nav-btn {
 flex: 1;
@@ -98,23 +104,36 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-padding: 10px 4px 14px;
+padding: 8px 2px 10px;
 cursor: pointer;
 border: none;
 background: transparent;
-color: var(–muted);
-font-family: ‘DM Sans’, sans-serif;
-font-size: 10px;
-font-weight: 500;
-letter-spacing: 0.04em;
+color: rgba(255,255,255,0.38);
+font-family: ‘DM Sans’, -apple-system, sans-serif;
+font-size: 9px;
+font-weight: 600;
+letter-spacing: 0.03em;
 gap: 4px;
 transition: color 0.2s;
+-webkit-tap-highlight-color: transparent;
+text-transform: uppercase;
 }
 .nav-btn.active { color: var(–gold); }
-.nav-btn svg { width: 20px; height: 20px; }
+.nav-btn svg {
+width: 22px;
+height: 22px;
+display: block;
+flex-shrink: 0;
+stroke: currentColor;
+fill: none;
+}
 
 /* ── PAGES ── */
-.page { display: none; padding: 18px 16px 100px; }
+.page {
+display: none;
+padding: 76px 16px 88px;
+min-height: 100vh;
+}
 .page.active { display: block; }
 
 /* ── STAT CARDS ── */
@@ -149,7 +168,7 @@ opacity: 0.5;
 .stat-card.success { border-left-color: var(–success); }
 .stat-card.danger { border-left-color: var(–danger); }
 .stat-num {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 30px;
 font-weight: 700;
 color: var(–pine);
@@ -172,7 +191,7 @@ justify-content: space-between;
 margin: 20px 0 12px;
 }
 .section-title {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 18px;
 font-weight: 600;
 color: var(–pine);
@@ -204,7 +223,7 @@ justify-content: space-between;
 margin-bottom: 10px;
 }
 .ride-time {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 20px;
 font-weight: 700;
 color: var(–pine);
@@ -317,7 +336,7 @@ border-top: 1px solid var(–cream-dark);
 font-size: 16px;
 font-weight: 700;
 color: var(–pine);
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 }
 .ride-driver {
 font-size: 11px;
@@ -329,9 +348,8 @@ color: var(–muted);
 display: none;
 position: fixed;
 inset: 0;
-background: rgba(21, 45, 37, 0.55);
-z-index: 200;
-backdrop-filter: blur(3px);
+background: rgba(10, 24, 18, 0.72);
+z-index: 600;
 }
 .overlay.open { display: block; }
 
@@ -342,11 +360,12 @@ left: 0;
 right: 0;
 background: var(–cream);
 border-radius: 20px 20px 0 0;
-z-index: 201;
+z-index: 700;
 transform: translateY(100%);
 transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1);
-max-height: 92vh;
+max-height: 90vh;
 overflow-y: auto;
+-webkit-overflow-scrolling: touch;
 }
 .detail-panel.open { transform: translateY(0); }
 
@@ -364,7 +383,7 @@ align-items: flex-start;
 justify-content: space-between;
 }
 .panel-title {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 22px;
 font-weight: 700;
 color: var(–pine);
@@ -610,7 +629,7 @@ background: var(–pine);
 color: var(–gold-light);
 border: none;
 border-radius: var(–radius);
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 18px;
 font-weight: 700;
 cursor: pointer;
@@ -682,7 +701,7 @@ justify-content: space-between;
 align-items: center;
 }
 .completed-amount {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 18px;
 font-weight: 700;
 color: var(–pine);
@@ -741,7 +760,7 @@ margin-top: 20px;
 color: var(–cream);
 }
 .calc-title {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 16px;
 font-weight: 600;
 color: var(–gold-light);
@@ -763,7 +782,7 @@ font-weight: 700;
 padding-top: 12px;
 margin-top: 8px;
 border-top: 2px solid var(–gold-dim);
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 color: var(–gold-light);
 }
 
@@ -796,7 +815,7 @@ transform: translateX(-50%) translateY(0);
 margin-bottom: 6px;
 }
 .page-header h1 {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 24px;
 font-weight: 700;
 color: var(–pine);
@@ -845,7 +864,7 @@ justify-content: space-between;
 margin-bottom: 10px;
 }
 .facility-name {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 17px;
 font-weight: 700;
 color: var(–pine);
@@ -859,7 +878,7 @@ margin-top: 2px;
 text-align: right;
 }
 .facility-balance-amt {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 20px;
 font-weight: 700;
 color: var(–pine);
@@ -883,7 +902,7 @@ text-align: center;
 .facility-stat-num {
 font-size: 18px;
 font-weight: 700;
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 color: var(–pine-dark);
 line-height: 1;
 }
@@ -906,7 +925,7 @@ padding: 16px 20px 20px;
 margin-bottom: 16px;
 }
 .fac-header-name {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 20px;
 font-weight: 700;
 color: var(–cream);
@@ -930,7 +949,7 @@ text-align: center;
 border: 1px solid var(–border);
 }
 .fac-kpi-num {
-font-family: ‘Playfair Display’, serif;
+font-family: ‘Playfair Display’, Georgia, serif;
 font-size: 22px;
 font-weight: 700;
 color: var(–pine);
