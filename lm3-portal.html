@@ -105,7 +105,7 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
 .ticket-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; flex-wrap: wrap; gap: 6px; }
 .ticket-title { font-weight: 700; font-size: 14px; color: #3D3548; }
 .ticket-meta { font-size: 12px; color: #9A94A5; margin-bottom: 6px; }
-.ticket-desc { font-size: 13px; color: #3D3548; }
+.ticket-desc-text { font-size: 13px; color: #3D3548; }
 .status-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; }
 .status-badge.open { background: #FEF9E7; color: #D4AC0D; }
 .status-badge.in-progress { background: #F3EAF9; color: #4B0082; }
@@ -125,10 +125,61 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
 .admin-stat { background: #ffffff; border-radius: 14px; padding: 20px; box-shadow: 0 2px 8px rgba(75,0,130,0.08); text-align: center; flex: 1; min-width: 80px; }
 .admin-stat h4 { font-size: 11px; color: #9A94A5; margin-bottom: 8px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.8px; }
 .stat-num { font-family: 'Playfair Display', Georgia, serif; font-size: 34px; color: #4B0082; font-weight: 700; }
-.admin-ticket { background: #ffffff; border-radius: 14px; padding: 16px 20px; box-shadow: 0 2px 8px rgba(75,0,130,0.06); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+/* ADMIN TICKET ROW — clickable */
+.admin-ticket { background: #ffffff; border-radius: 14px; padding: 16px 20px; box-shadow: 0 2px 8px rgba(75,0,130,0.06); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; border-left: 4px solid #EBEBEF; }
+.admin-ticket:hover { box-shadow: 0 6px 20px rgba(75,0,130,0.14); transform: translateY(-1px); border-left-color: #9B59B6; }
+.admin-ticket.open-ticket { border-left-color: #C9A227; }
+.admin-ticket.inprogress-ticket { border-left-color: #9B59B6; }
+.admin-ticket.resolved-ticket { border-left-color: #27AE60; }
 .client-name { font-weight: 700; font-size: 14px; color: #4B0082; }
 .ticket-issue { font-size: 13px; color: #9A94A5; margin-top: 2px; }
+.ticket-arrow { color: #9A94A5; font-size: 16px; }
 .update-status { padding: 7px 12px; border: 1.5px solid #EBEBEF; border-radius: 8px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 12px; cursor: pointer; color: #3D3548; background: #ffffff; outline: none; }
+
+/* TICKET DETAIL DRAWER */
+#ticketDrawer { display: none; position: fixed; top: 0; right: 0; width: 100%; max-width: 480px; height: 100vh; background: #ffffff; box-shadow: -8px 0 40px rgba(75,0,130,0.18); z-index: 600; flex-direction: column; }
+#ticketDrawer.open { display: flex; }
+.drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 599; }
+.drawer-overlay.open { display: block; }
+
+.drawer-header { background: linear-gradient(135deg, #4B0082 0%, #6A0DAD 100%); padding: 20px 24px; color: #ffffff; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-shrink: 0; }
+.drawer-header-info h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; margin-bottom: 4px; }
+.drawer-header-info p { font-size: 13px; opacity: 0.8; }
+.drawer-close { background: rgba(255,255,255,0.15); border: none; color: #ffffff; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.drawer-close:hover { background: rgba(255,255,255,0.3); }
+
+.drawer-ticket-info { padding: 16px 24px; background: #F7F7F8; border-bottom: 1px solid #EBEBEF; flex-shrink: 0; }
+.drawer-ticket-info .info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
+.drawer-ticket-info .info-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #9A94A5; }
+.drawer-ticket-info .info-val { font-size: 13px; font-weight: 600; color: #3D3548; }
+.drawer-issue-box { background: #ffffff; border-radius: 10px; padding: 14px 16px; border: 1.5px solid #EBEBEF; margin-top: 8px; }
+.drawer-issue-box p { font-size: 13px; color: #3D3548; line-height: 1.6; }
+.drawer-status-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+.drawer-status-row label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: #9A94A5; }
+.drawer-status-sel { padding: 7px 12px; border: 1.5px solid #EBEBEF; border-radius: 8px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 13px; cursor: pointer; color: #3D3548; background: #ffffff; outline: none; flex: 1; }
+.drawer-status-sel:focus { border-color: #9B59B6; }
+
+/* CHAT AREA */
+.chat-area { flex: 1; overflow-y: auto; padding: 16px 24px; display: flex; flex-direction: column; gap: 12px; }
+.chat-bubble { max-width: 80%; padding: 11px 15px; border-radius: 14px; font-size: 13px; line-height: 1.55; }
+.chat-bubble.from-client { background: #F3EAF9; color: #3D3548; border-bottom-left-radius: 4px; align-self: flex-start; }
+.chat-bubble.from-admin { background: linear-gradient(135deg, #4B0082 0%, #6A0DAD 100%); color: #ffffff; border-bottom-right-radius: 4px; align-self: flex-end; }
+.chat-bubble .bubble-sender { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 4px; opacity: 0.7; }
+.chat-bubble .bubble-time { font-size: 10px; opacity: 0.6; margin-top: 4px; text-align: right; }
+.chat-empty { text-align: center; color: #9A94A5; font-size: 13px; padding: 20px 0; }
+
+/* CHAT INPUT */
+.chat-input-bar { padding: 16px 24px; border-top: 1px solid #EBEBEF; display: flex; gap: 10px; align-items: flex-end; flex-shrink: 0; background: #ffffff; }
+.chat-input-bar textarea { flex: 1; padding: 11px 14px; border: 1.5px solid #EBEBEF; border-radius: 12px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 14px; color: #3D3548; outline: none; resize: none; min-height: 44px; max-height: 100px; background: #F7F7F8; }
+.chat-input-bar textarea:focus { border-color: #9B59B6; background: #ffffff; }
+.chat-send-btn { background: linear-gradient(135deg, #4B0082 0%, #6A0DAD 100%); color: #ffffff; border: none; border-radius: 12px; width: 44px; height: 44px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.chat-send-btn:hover { opacity: 0.9; }
+
+/* CLIENT SUPPORT - also shows admin replies */
+.client-chat-thread { background: #ffffff; border-radius: 14px; padding: 20px; box-shadow: 0 2px 8px rgba(75,0,130,0.06); margin-top: 8px; }
+.client-chat-thread h4 { font-size: 13px; font-weight: 700; color: #4B0082; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.8px; }
+.client-bubble-wrap { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
 
 /* PAY MODAL */
 #payModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; align-items: center; justify-content: center; padding: 20px; }
@@ -140,6 +191,35 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
 /* TOAST */
 #toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: #4B0082; color: #ffffff; padding: 14px 24px; border-radius: 50px; font-size: 14px; font-weight: 500; box-shadow: 0 8px 24px rgba(75,0,130,0.3); transition: transform 0.4s ease; z-index: 9999; white-space: nowrap; }
 #toast.show { transform: translateX(-50%) translateY(0); }
+
+/* CLIENTS */
+.client-row { background: #ffffff; border-radius: 14px; padding: 16px 20px; box-shadow: 0 2px 8px rgba(75,0,130,0.06); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; border-left: 4px solid #9B59B6; }
+.client-row:hover { box-shadow: 0 6px 20px rgba(75,0,130,0.14); transform: translateY(-1px); }
+.client-row-info .cr-name { font-weight: 700; font-size: 14px; color: #4B0082; }
+.client-row-info .cr-meta { font-size: 12px; color: #9A94A5; margin-top: 2px; }
+.client-row-actions { display: flex; gap: 8px; align-items: center; }
+.btn-edit { padding: 6px 14px; background: #F3EAF9; color: #4B0082; border: none; border-radius: 8px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-edit:hover { background: #E0D0F5; }
+.btn-delete { padding: 6px 14px; background: #FEE2E2; color: #DC2626; border: none; border-radius: 8px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; }
+.btn-delete:hover { background: #FECACA; }
+.btn-add-client { background: linear-gradient(135deg, #C9A227 0%, #A07818 100%); color: #ffffff; border: none; border-radius: 10px; padding: 11px 20px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+.btn-add-client:hover { opacity: 0.9; }
+
+/* CLIENT MODAL */
+#clientModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 700; align-items: center; justify-content: center; padding: 20px; }
+#clientModal.show { display: flex; }
+.client-modal-card { background: #ffffff; border-radius: 20px; padding: 32px; max-width: 460px; width: 100%; box-shadow: 0 16px 48px rgba(75,0,130,0.25); position: relative; max-height: 90vh; overflow-y: auto; }
+.client-modal-card h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #4B0082; margin-bottom: 20px; }
+.client-modal-card .modal-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 20px; cursor: pointer; color: #9A94A5; }
+.client-modal-card .form-row { margin-bottom: 14px; }
+.client-modal-card .form-row label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #3D3548; margin-bottom: 6px; }
+.client-modal-card .form-row input, .client-modal-card .form-row select { width: 100%; padding: 11px 14px; border: 1.5px solid #EBEBEF; border-radius: 10px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 14px; color: #3D3548; outline: none; background: #ffffff; }
+.client-modal-card .form-row input:focus, .client-modal-card .form-row select:focus { border-color: #9B59B6; }
+.modal-btn-row { display: flex; gap: 10px; margin-top: 20px; }
+.btn-save-client { flex: 1; padding: 13px; background: linear-gradient(135deg, #4B0082 0%, #6A0DAD 100%); color: #ffffff; border: none; border-radius: 10px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; }
+.btn-save-client:hover { opacity: 0.9; }
+.btn-cancel-client { padding: 13px 20px; background: #F7F7F8; color: #9A94A5; border: none; border-radius: 10px; font-family: 'DM Sans', Helvetica, Arial, sans-serif; font-size: 14px; cursor: pointer; }
+.btn-cancel-client:hover { background: #EBEBEF; }
 </style>
 </head>
 <body>
@@ -175,10 +255,10 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
   </header>
 
   <nav class="nav-tabs">
-    <button class="nav-tab active" onclick="switchTab('dashboard',this)">📊 Dashboard</button>
-    <button class="nav-tab" onclick="switchTab('payments',this)">💳 Payments</button>
-    <button class="nav-tab" onclick="switchTab('support',this)">🎫 Support</button>
-    <button class="nav-tab" onclick="switchTab('admin',this)">🔐 Admin</button>
+    <button class="nav-tab active" onclick="switchTab('dashboard',this)">&#128202; Dashboard</button>
+    <button class="nav-tab" onclick="switchTab('payments',this)">&#128179; Payments</button>
+    <button class="nav-tab" onclick="switchTab('support',this)">&#127915; Support</button>
+    <button class="nav-tab" onclick="switchTab('admin',this)">&#128274; Admin</button>
   </nav>
 
   <div class="main">
@@ -186,11 +266,11 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
     <!-- DASHBOARD -->
     <div id="tab-dashboard" class="tab-panel active">
       <div class="welcome-banner">
-        <h2>Welcome back, <span id="welcomeName">John</span> 👋</h2>
+        <h2>Welcome back, <span id="welcomeName">John</span> &#128075;</h2>
         <p>Here's an overview of your active services</p>
       </div>
       <div class="payment-alert">
-        <div class="alert-icon">⚠️</div>
+        <div class="alert-icon">&#9888;&#65039;</div>
         <div class="alert-body">
           <h4>Payment Due: June 30, 2025</h4>
           <p>IPTV Premium Package — $60.00</p>
@@ -200,7 +280,7 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
       <div class="section-title">Your Active Services</div>
       <div class="service-card">
         <div class="service-header">
-          <div class="service-name">📺 IPTV Premium Package</div>
+          <div class="service-name">&#128250; IPTV Premium Package</div>
           <div class="service-status">Active</div>
         </div>
         <div class="service-detail">Plan: <strong>Premium 4K Streaming</strong></div>
@@ -211,7 +291,7 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
       </div>
       <div class="service-card">
         <div class="service-header">
-          <div class="service-name">🌐 Network Support Plan</div>
+          <div class="service-name">&#127760; Network Support Plan</div>
           <div class="service-status warning">Renews Soon</div>
         </div>
         <div class="service-detail">Plan: <strong>Remote IT Support</strong></div>
@@ -227,9 +307,9 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
         <h3>Make a Payment</h3>
         <div class="amount-display"><span>$</span>60<span>.00</span></div>
         <p class="pay-desc">IPTV Premium Package — Q2 2025 (April–June)</p>
-        <a class="zelle-btn" href="zelle://lm3enterprise@email.com?amount=60&memo=IPTV">💜 Pay $60 via Zelle</a>
+        <a class="zelle-btn" href="zelle://lm3enterprise@email.com?amount=60&memo=IPTV">&#128156; Pay $60 via Zelle</a>
         <div class="divider">or</div>
-        <a class="cashapp-btn" href="https://cash.app/$LM3Enterprise/60">💚 Pay $60 via Cash App</a>
+        <a class="cashapp-btn" href="https://cash.app/$LM3Enterprise/60">&#128154; Pay $60 via Cash App</a>
       </div>
       <div class="section-title">Payment History</div>
       <div class="history-row">
@@ -246,7 +326,7 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
       </div>
     </div>
 
-    <!-- SUPPORT -->
+    <!-- SUPPORT (CLIENT VIEW) -->
     <div id="tab-support" class="tab-panel">
       <div class="ticket-form">
         <h3>Submit a Support Ticket</h3>
@@ -271,23 +351,38 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
         </div>
         <button class="btn-submit" onclick="submitTicket()">Submit Ticket</button>
       </div>
+
       <div class="section-title">Your Tickets</div>
-      <div id="ticketList">
+      <div id="clientTicketList">
         <div class="ticket-item in-progress">
           <div class="ticket-header">
             <div class="ticket-title">Buffering on ESPN</div>
             <span class="status-badge in-progress">In Progress</span>
           </div>
-          <div class="ticket-meta">Submitted March 28, 2025 · Buffering / Streaming Issues</div>
-          <div class="ticket-desc">ESPN and TNT keep buffering after 10 minutes of watching.</div>
+          <div class="ticket-meta">Submitted March 28, 2025 &middot; Buffering / Streaming Issues</div>
+          <div class="ticket-desc-text">ESPN and TNT keep buffering after 10 minutes of watching.</div>
+          <div class="client-chat-thread" id="clientThread_1">
+            <h4>&#128172; Messages</h4>
+            <div class="client-bubble-wrap" id="clientBubbles_1">
+              <div class="chat-bubble from-admin">
+                <div class="bubble-sender">LM3 Support</div>
+                Hey! I saw your ticket. Can you tell me what device you're watching on? That'll help me narrow it down.
+                <div class="bubble-time">Mar 28 &middot; 3:12 PM</div>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:flex-end;">
+              <textarea id="clientReply_1" placeholder="Reply to support..." style="flex:1;padding:10px 13px;border:1.5px solid #EBEBEF;border-radius:10px;font-family:'DM Sans',Helvetica,Arial,sans-serif;font-size:13px;color:#3D3548;outline:none;resize:none;min-height:40px;background:#F7F7F8;"></textarea>
+              <button onclick="clientReply(1)" style="background:linear-gradient(135deg,#4B0082,#6A0DAD);color:#fff;border:none;border-radius:10px;width:40px;height:40px;font-size:16px;cursor:pointer;">&#10148;</button>
+            </div>
+          </div>
         </div>
         <div class="ticket-item resolved">
           <div class="ticket-header">
             <div class="ticket-title">Channels not loading on Firestick</div>
             <span class="status-badge resolved">Resolved</span>
           </div>
-          <div class="ticket-meta">Submitted Feb 10, 2025 · App / Device Problem</div>
-          <div class="ticket-desc">Firestick app wasn't opening after the last update.</div>
+          <div class="ticket-meta">Submitted Feb 10, 2025 &middot; App / Device Problem</div>
+          <div class="ticket-desc-text">Firestick app wasn't opening after the last update.</div>
         </div>
       </div>
     </div>
@@ -295,49 +390,152 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
     <!-- ADMIN -->
     <div id="tab-admin" class="tab-panel">
       <div id="adminGate">
-        <h3>🔐 Admin Access</h3>
+        <h3>&#128274; Admin Access</h3>
         <p>Enter your admin PIN to manage clients and tickets.</p>
         <div class="admin-pin-row">
           <input type="password" class="admin-input" id="adminPin" placeholder="Enter PIN" maxlength="6">
           <button class="btn-sm" onclick="unlockAdmin()">Enter</button>
         </div>
       </div>
+
       <div id="adminDash">
         <div class="section-title">Overview</div>
         <div class="stat-grid">
           <div class="admin-stat"><h4>Active Clients</h4><div class="stat-num">8</div></div>
-          <div class="admin-stat"><h4>Open Tickets</h4><div class="stat-num">3</div></div>
+          <div class="admin-stat"><h4>Open Tickets</h4><div class="stat-num" id="openTicketCount">3</div></div>
           <div class="admin-stat"><h4>Due This Month</h4><div class="stat-num">$315</div></div>
         </div>
-        <div class="section-title">Open Support Tickets</div>
-        <div class="admin-ticket">
-          <div><div class="client-name">John Williams</div><div class="ticket-issue">Buffering on ESPN — Mar 28</div></div>
-          <select class="update-status" onchange="showToast('Status updated!')"><option>In Progress</option><option>Open</option><option>Resolved</option></select>
+
+        <div class="section-title">Open Support Tickets <span style="font-size:10px;color:#9B59B6;font-weight:400;text-transform:none;letter-spacing:0;">— tap to open &amp; respond</span></div>
+        <div id="adminTicketList">
+          <div class="admin-ticket inprogress-ticket" onclick="openTicket(0)">
+            <div>
+              <div class="client-name">John Williams</div>
+              <div class="ticket-issue">Buffering on ESPN — Mar 28</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="status-badge in-progress">In Progress</span>
+              <span class="ticket-arrow">&#8250;</span>
+            </div>
+          </div>
+          <div class="admin-ticket open-ticket" onclick="openTicket(1)">
+            <div>
+              <div class="client-name">Diana Carter</div>
+              <div class="ticket-issue">Channels not loading — Mar 30</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="status-badge open">Open</span>
+              <span class="ticket-arrow">&#8250;</span>
+            </div>
+          </div>
+          <div class="admin-ticket open-ticket" onclick="openTicket(2)">
+            <div>
+              <div class="client-name">Marcus Hall</div>
+              <div class="ticket-issue">Billing question — Mar 31</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span class="status-badge open">Open</span>
+              <span class="ticket-arrow">&#8250;</span>
+            </div>
+          </div>
         </div>
-        <div class="admin-ticket">
-          <div><div class="client-name">Diana Carter</div><div class="ticket-issue">Channels not loading — Mar 30</div></div>
-          <select class="update-status" onchange="showToast('Status updated!')"><option>Open</option><option>In Progress</option><option>Resolved</option></select>
-        </div>
-        <div class="admin-ticket">
-          <div><div class="client-name">Marcus Hall</div><div class="ticket-issue">Billing question — Mar 31</div></div>
-          <select class="update-status" onchange="showToast('Status updated!')"><option>Open</option><option>In Progress</option><option>Resolved</option></select>
-        </div>
+
         <div class="section-title" style="margin-top:28px;">Upcoming Payments</div>
-        <div class="admin-ticket">
-          <div><div class="client-name">Marcus Hall</div><div class="ticket-issue">IPTV Premium · $60 due Apr 5</div></div>
+        <div class="admin-ticket" style="cursor:default;" onclick="">
+          <div><div class="client-name">Marcus Hall</div><div class="ticket-issue">IPTV Premium &middot; $60 due Apr 5</div></div>
           <span class="status-badge open">Due Soon</span>
         </div>
-        <div class="admin-ticket">
-          <div><div class="client-name">Diana Carter</div><div class="ticket-issue">Network Support · $45 due Apr 12</div></div>
+        <div class="admin-ticket" style="cursor:default;" onclick="">
+          <div><div class="client-name">Diana Carter</div><div class="ticket-issue">Network Support &middot; $45 due Apr 12</div></div>
           <span class="status-badge open">Due Soon</span>
         </div>
-        <div class="admin-ticket">
-          <div><div class="client-name">John Williams</div><div class="ticket-issue">IPTV Premium · $60 due Jun 30</div></div>
+        <div class="admin-ticket" style="cursor:default;" onclick="">
+          <div><div class="client-name">John Williams</div><div class="ticket-issue">IPTV Premium &middot; $60 due Jun 30</div></div>
           <span class="status-badge in-progress">90 Days Out</span>
         </div>
       </div>
     </div>
 
+  </div>
+</div>
+<!-- CLIENTS LIST -->
+<div class="section-title" style="margin-top:28px;">Client Roster</div>
+<button class="btn-add-client" onclick="openClientModal(-1)">+ Onboard New Client</button>
+<div id="clientRoster"></div>
+
+<!-- CLIENT MODAL -->
+<div id="clientModal">
+  <div class="client-modal-card">
+    <button class="modal-close" onclick="closeClientModal()">&#x2715;</button>
+    <h3 id="clientModalTitle">Onboard New Client</h3>
+    <div class="form-row"><label>Full Name</label><input type="text" id="cm_name" placeholder="John Williams"></div>
+    <div class="form-row"><label>Email Address</label><input type="text" id="cm_email" placeholder="john@email.com"></div>
+    <div class="form-row"><label>Phone Number</label><input type="text" id="cm_phone" placeholder="(813) 555-0000"></div>
+    <div class="form-row"><label>Service Plan</label>
+      <select id="cm_plan">
+        <option>IPTV Premium Package</option>
+        <option>Network Support Plan</option>
+        <option>IPTV + Network Support</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Billing Amount</label><input type="text" id="cm_amount" placeholder="$60.00"></div>
+    <div class="form-row"><label>Billing Cycle</label>
+      <select id="cm_cycle">
+        <option>Every 3 Months</option>
+        <option>Monthly</option>
+        <option>Annually</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Next Payment Due</label><input type="text" id="cm_nextpay" placeholder="June 30, 2025"></div>
+    <div class="form-row"><label>Status</label>
+      <select id="cm_status">
+        <option>Active</option>
+        <option>Pending</option>
+        <option>Inactive</option>
+      </select>
+    </div>
+    <div class="form-row"><label>Notes</label><input type="text" id="cm_notes" placeholder="Device type, special instructions, etc."></div>
+    <div class="modal-btn-row">
+      <button class="btn-cancel-client" onclick="closeClientModal()">Cancel</button>
+      <button class="btn-save-client" onclick="saveClient()">Save Client</button>
+    </div>
+  </div>
+</div>
+<!-- TICKET DRAWER (ADMIN) -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div id="ticketDrawer">
+  <div class="drawer-header">
+    <div class="drawer-header-info">
+      <h3 id="drawerClientName">John Williams</h3>
+      <p id="drawerIssueType">Buffering / Streaming Issues &middot; Mar 28, 2025</p>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">&#10005;</button>
+  </div>
+
+  <div class="drawer-ticket-info">
+    <div class="info-row">
+      <span class="info-label">Issue Description</span>
+      <span class="info-label" id="drawerPhone" style="color:#4B0082;"></span>
+    </div>
+    <div class="drawer-issue-box">
+      <p id="drawerIssueDesc">Loading...</p>
+    </div>
+    <div class="drawer-status-row">
+      <label>Status:</label>
+      <select class="drawer-status-sel" id="drawerStatusSel" onchange="updateDrawerStatus()">
+        <option value="open">Open</option>
+        <option value="in-progress">In Progress</option>
+        <option value="resolved">Resolved</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="chat-area" id="drawerChat"></div>
+
+  <div class="chat-input-bar">
+    <textarea id="adminReplyInput" placeholder="Type your reply to the client..." rows="1" onkeydown="handleAdminReplyKey(event)"></textarea>
+    <button class="chat-send-btn" onclick="sendAdminReply()">&#10148;</button>
   </div>
 </div>
 
@@ -347,13 +545,12 @@ body { font-family: 'DM Sans', Helvetica, Arial, sans-serif; background: #F7F7F8
     <button class="modal-close" onclick="closePayModal()">&#x2715;</button>
     <h3>Make a Payment</h3>
     <p class="modal-desc">Payment goes directly to the LM3 Enterprise business account.</p>
-    <a class="zelle-btn" href="zelle://lm3enterprise@email.com?amount=60&memo=IPTV">💜 Pay $60 via Zelle</a>
+    <a class="zelle-btn" href="zelle://lm3enterprise@email.com?amount=60&memo=IPTV">&#128156; Pay $60 via Zelle</a>
     <div class="divider">or</div>
-    <a class="cashapp-btn" href="https://cash.app/$LM3Enterprise/60">💚 Pay $60 via Cash App</a>
+    <a class="cashapp-btn" href="https://cash.app/$LM3Enterprise/60">&#128154; Pay $60 via Cash App</a>
   </div>
 </div>
 
-<!-- TOAST -->
 <div id="toast">Done!</div>
 
 <script>
@@ -362,6 +559,50 @@ var USERS = {
   'admin@lm3.com':   { pass: 'lm3admin', name: 'Admin' }
 };
 
+// Ticket data store
+var TICKETS = [
+  {
+    id: 0,
+    client: 'John Williams',
+    phone: '(813) 555-0101',
+    type: 'Buffering / Streaming Issues',
+    date: 'Mar 28, 2025',
+    desc: 'ESPN and TNT keep buffering after 10 minutes of watching. It happens every single night around 8pm. I have Firestick 4K and the internet speed is fine on other apps.',
+    status: 'in-progress',
+    messages: [
+      { from: 'client', sender: 'John Williams', text: 'ESPN and TNT keep buffering after 10 minutes of watching. It happens every single night around 8pm.', time: 'Mar 28 · 2:45 PM' },
+      { from: 'admin',  sender: 'LM3 Support',  text: 'Hey John! I saw your ticket. Can you confirm — are you on WiFi or hardwired? And which app are you using on the Firestick?', time: 'Mar 28 · 3:12 PM' }
+    ]
+  },
+  {
+    id: 1,
+    client: 'Diana Carter',
+    phone: '(813) 555-0202',
+    type: 'Channels Not Loading',
+    date: 'Mar 30, 2025',
+    desc: 'Several channels including CNN, HGTV, and local channels are showing a black screen. I restarted the app and the device twice. Started happening yesterday afternoon.',
+    status: 'open',
+    messages: [
+      { from: 'client', sender: 'Diana Carter', text: 'Several channels are showing a black screen. CNN, HGTV, and some locals. Restarted everything twice.', time: 'Mar 30 · 1:20 PM' }
+    ]
+  },
+  {
+    id: 2,
+    client: 'Marcus Hall',
+    phone: '(813) 555-0303',
+    type: 'Billing Question',
+    date: 'Mar 31, 2025',
+    desc: 'I got charged but I don\'t see it in the payment history in the app. Can you check on that? I paid $60 via Zelle on March 29th to the business email.',
+    status: 'open',
+    messages: [
+      { from: 'client', sender: 'Marcus Hall', text: 'I paid $60 via Zelle on March 29th but it\'s not showing in my payment history. Can you confirm you received it?', time: 'Mar 31 · 10:05 AM' }
+    ]
+  }
+];
+
+var currentTicketId = -1;
+
+// ── AUTH ──
 function doLogin() {
   var email = document.getElementById('loginEmail').value.trim().toLowerCase();
   var pass  = document.getElementById('loginPass').value;
@@ -388,6 +629,7 @@ function doLogout() {
   document.getElementById('adminGate').style.display = 'block';
   document.getElementById('adminDash').style.display = 'none';
   document.getElementById('adminPin').value = '';
+  closeDrawer();
   var tabs = document.querySelectorAll('.nav-tab');
   var panels = document.querySelectorAll('.tab-panel');
   for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
@@ -405,24 +647,7 @@ function switchTab(tabId, btn) {
   btn.classList.add('active');
 }
 
-function submitTicket() {
-  var type = document.getElementById('ticketType').value;
-  var desc = document.getElementById('ticketDesc').value.trim();
-  if (!desc) { alert('Please describe your issue.'); return; }
-  var list  = document.getElementById('ticketList');
-  var today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  var div   = document.createElement('div');
-  div.className = 'ticket-item open';
-  div.innerHTML =
-    '<div class="ticket-header"><div class="ticket-title">' + type + '</div><span class="status-badge open">Open</span></div>' +
-    '<div class="ticket-meta">Submitted ' + today + ' &middot; ' + type + '</div>' +
-    '<div class="ticket-desc">' + desc + '</div>';
-  list.insertBefore(div, list.firstChild);
-  document.getElementById('ticketDesc').value = '';
-  document.getElementById('ticketPhone').value = '';
-  showToast('Ticket submitted! We\'ll be in touch soon.');
-}
-
+// ── ADMIN ──
 function unlockAdmin() {
   if (document.getElementById('adminPin').value === '1999') {
     document.getElementById('adminGate').style.display = 'none';
@@ -432,16 +657,140 @@ function unlockAdmin() {
   }
 }
 
-function showPayModal() {
-  document.getElementById('payModal').style.display = 'flex';
+// ── TICKET DRAWER ──
+function openTicket(id) {
+  currentTicketId = id;
+  var t = TICKETS[id];
+  document.getElementById('drawerClientName').textContent = t.client;
+  document.getElementById('drawerIssueType').textContent = t.type + ' · ' + t.date;
+  document.getElementById('drawerIssueDesc').textContent = t.desc;
+  document.getElementById('drawerPhone').textContent = '📞 ' + t.phone;
+  var sel = document.getElementById('drawerStatusSel');
+  sel.value = t.status;
+  renderChat(t.messages);
+  document.getElementById('ticketDrawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-function closePayModal() {
-  document.getElementById('payModal').style.display = 'none';
-}
-document.getElementById('payModal').addEventListener('click', function(e) {
-  if (e.target === this) closePayModal();
-});
 
+function closeDrawer() {
+  document.getElementById('ticketDrawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentTicketId = -1;
+}
+
+function renderChat(messages) {
+  var chat = document.getElementById('drawerChat');
+  if (messages.length === 0) {
+    chat.innerHTML = '<p class="chat-empty">No messages yet. Send the first reply.</p>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < messages.length; i++) {
+    var m = messages[i];
+    var cls = m.from === 'admin' ? 'from-admin' : 'from-client';
+    html += '<div class="chat-bubble ' + cls + '">' +
+              '<div class="bubble-sender">' + m.sender + '</div>' +
+              m.text +
+              '<div class="bubble-time">' + m.time + '</div>' +
+            '</div>';
+  }
+  chat.innerHTML = html;
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function updateDrawerStatus() {
+  if (currentTicketId < 0) return;
+  var newStatus = document.getElementById('drawerStatusSel').value;
+  TICKETS[currentTicketId].status = newStatus;
+  refreshAdminTicketList();
+  showToast('Status updated to ' + newStatus.replace('-', ' ') + '!');
+}
+
+function sendAdminReply() {
+  if (currentTicketId < 0) return;
+  var input = document.getElementById('adminReplyInput');
+  var text = input.value.trim();
+  if (!text) return;
+  var now = new Date();
+  var time = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' · ' +
+             now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  TICKETS[currentTicketId].messages.push({ from: 'admin', sender: 'LM3 Support', text: text, time: time });
+  renderChat(TICKETS[currentTicketId].messages);
+  input.value = '';
+  showToast('Reply sent!');
+}
+
+function handleAdminReplyKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendAdminReply();
+  }
+}
+
+function refreshAdminTicketList() {
+  var list = document.getElementById('adminTicketList');
+  var openCount = 0;
+  var html = '';
+  var statusMap = { 'open': 'open-ticket', 'in-progress': 'inprogress-ticket', 'resolved': 'resolved-ticket' };
+  var badgeMap  = { 'open': '<span class="status-badge open">Open</span>', 'in-progress': '<span class="status-badge in-progress">In Progress</span>', 'resolved': '<span class="status-badge resolved">Resolved</span>' };
+  for (var i = 0; i < TICKETS.length; i++) {
+    var t = TICKETS[i];
+    if (t.status !== 'resolved') openCount++;
+    html += '<div class="admin-ticket ' + statusMap[t.status] + '" onclick="openTicket(' + i + ')">' +
+              '<div><div class="client-name">' + t.client + '</div><div class="ticket-issue">' + t.type + ' &mdash; ' + t.date + '</div></div>' +
+              '<div style="display:flex;align-items:center;gap:10px;">' + badgeMap[t.status] + '<span class="ticket-arrow">&#8250;</span></div>' +
+            '</div>';
+  }
+  list.innerHTML = html;
+  document.getElementById('openTicketCount').textContent = openCount;
+}
+
+// ── CLIENT SUPPORT REPLY ──
+function clientReply(ticketNum) {
+  var input = document.getElementById('clientReply_' + ticketNum);
+  var bubbles = document.getElementById('clientBubbles_' + ticketNum);
+  var text = input.value.trim();
+  if (!text) return;
+  var now = new Date();
+  var time = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ' · ' +
+             now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  var div = document.createElement('div');
+  div.className = 'chat-bubble from-client';
+  div.innerHTML = '<div class="bubble-sender">You</div>' + text + '<div class="bubble-time">' + time + '</div>';
+  bubbles.appendChild(div);
+  input.value = '';
+  // also add to ticket data so admin sees it
+  TICKETS[0].messages.push({ from: 'client', sender: 'John Williams', text: text, time: time });
+  showToast('Message sent!');
+}
+
+// ── SUPPORT TICKET SUBMIT ──
+function submitTicket() {
+  var type  = document.getElementById('ticketType').value;
+  var desc  = document.getElementById('ticketDesc').value.trim();
+  if (!desc) { alert('Please describe your issue.'); return; }
+  var list  = document.getElementById('clientTicketList');
+  var today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  var div   = document.createElement('div');
+  div.className = 'ticket-item open';
+  div.innerHTML =
+    '<div class="ticket-header"><div class="ticket-title">' + type + '</div><span class="status-badge open">Open</span></div>' +
+    '<div class="ticket-meta">Submitted ' + today + ' &middot; ' + type + '</div>' +
+    '<div class="ticket-desc-text">' + desc + '</div>';
+  list.insertBefore(div, list.firstChild);
+  document.getElementById('ticketDesc').value = '';
+  document.getElementById('ticketPhone').value = '';
+  showToast('Ticket submitted! We\'ll be in touch soon.');
+}
+
+// ── PAY MODAL ──
+function showPayModal() { document.getElementById('payModal').style.display = 'flex'; }
+function closePayModal() { document.getElementById('payModal').style.display = 'none'; }
+document.getElementById('payModal').addEventListener('click', function(e) { if (e.target === this) closePayModal(); });
+
+// ── TOAST ──
 function showToast(msg) {
   var t = document.getElementById('toast');
   t.textContent = msg;
@@ -450,10 +799,109 @@ function showToast(msg) {
 }
 
 document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') {
-    doLogin();
-  }
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') { doLogin(); }
+  if (e.key === 'Escape') { closeDrawer(); closePayModal(); }
 });
+
+// ── CLIENTS ──
+var CLIENTS = [
+  { name: 'John Williams',  email: 'john@email.com',   phone: '(813) 555-0101', plan: 'IPTV Premium Package',      amount: '$60.00', cycle: 'Every 3 Months', nextpay: 'June 30, 2025',  status: 'Active',  notes: 'Firestick 4K' },
+  { name: 'Diana Carter',   email: 'diana@email.com',  phone: '(813) 555-0202', plan: 'Channels Not Loading',      amount: '$45.00', cycle: 'Every 3 Months', nextpay: 'April 12, 2025', status: 'Active',  notes: 'Samsung Smart TV' },
+  { name: 'Marcus Hall',    email: 'marcus@email.com', phone: '(813) 555-0303', plan: 'IPTV Premium Package',      amount: '$60.00', cycle: 'Every 3 Months', nextpay: 'April 5, 2025',  status: 'Active',  notes: 'Roku device' }
+];
+
+var editingClientIndex = -1;
+
+function renderClientRoster() {
+  var roster = document.getElementById('clientRoster');
+  if (!roster) return;
+  if (CLIENTS.length === 0) {
+    roster.innerHTML = '<p style="color:#9A94A5;font-size:13px;text-align:center;padding:20px 0;">No clients yet. Click Onboard New Client to get started.</p>';
+    return;
+  }
+  var statusColors = { 'Active': '#27AE60', 'Pending': '#D4AC0D', 'Inactive': '#DC2626' };
+  var statusBg     = { 'Active': '#E8F8F0', 'Pending': '#FEF9E7', 'Inactive': '#FEE2E2' };
+  var html = '';
+  for (var i = 0; i < CLIENTS.length; i++) {
+    var c = CLIENTS[i];
+    var sc = statusColors[c.status] || '#9A94A5';
+    var sb = statusBg[c.status]    || '#F7F7F8';
+    html +=
+      '<div class="client-row">' +
+        '<div class="client-row-info">' +
+          '<div class="cr-name">' + c.name + '</div>' +
+          '<div class="cr-meta">' + c.plan + ' &middot; ' + c.amount + ' ' + c.cycle + ' &middot; Next: ' + c.nextpay + '</div>' +
+          '<div class="cr-meta">' + c.email + ' &middot; ' + c.phone + (c.notes ? ' &middot; ' + c.notes : '') + '</div>' +
+        '</div>' +
+        '<div class="client-row-actions">' +
+          '<span style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;background:' + sb + ';color:' + sc + ';">' + c.status + '</span>' +
+          '<button class="btn-edit" onclick="event.stopPropagation();openClientModal(' + i + ')">Edit</button>' +
+          '<button class="btn-delete" onclick="event.stopPropagation();deleteClient(' + i + ')">Delete</button>' +
+        '</div>' +
+      '</div>';
+  }
+  roster.innerHTML = html;
+}
+
+function openClientModal(index) {
+  editingClientIndex = index;
+  var isNew = index === -1;
+  document.getElementById('clientModalTitle').textContent = isNew ? 'Onboard New Client' : 'Edit Client';
+  var c = isNew ? { name:'', email:'', phone:'', plan:'IPTV Premium Package', amount:'', cycle:'Every 3 Months', nextpay:'', status:'Active', notes:'' } : CLIENTS[index];
+  document.getElementById('cm_name').value    = c.name;
+  document.getElementById('cm_email').value   = c.email;
+  document.getElementById('cm_phone').value   = c.phone;
+  document.getElementById('cm_plan').value    = c.plan;
+  document.getElementById('cm_amount').value  = c.amount;
+  document.getElementById('cm_cycle').value   = c.cycle;
+  document.getElementById('cm_nextpay').value = c.nextpay;
+  document.getElementById('cm_status').value  = c.status;
+  document.getElementById('cm_notes').value   = c.notes;
+  document.getElementById('clientModal').classList.add('show');
+}
+
+function closeClientModal() {
+  document.getElementById('clientModal').classList.remove('show');
+  editingClientIndex = -1;
+}
+
+function saveClient() {
+  var name = document.getElementById('cm_name').value.trim();
+  if (!name) { alert('Please enter a client name.'); return; }
+  var c = {
+    name:    name,
+    email:   document.getElementById('cm_email').value.trim(),
+    phone:   document.getElementById('cm_phone').value.trim(),
+    plan:    document.getElementById('cm_plan').value,
+    amount:  document.getElementById('cm_amount').value.trim(),
+    cycle:   document.getElementById('cm_cycle').value,
+    nextpay: document.getElementById('cm_nextpay').value.trim(),
+    status:  document.getElementById('cm_status').value,
+    notes:   document.getElementById('cm_notes').value.trim()
+  };
+  if (editingClientIndex === -1) {
+    CLIENTS.push(c);
+  } else {
+    CLIENTS[editingClientIndex] = c;
+  }
+  renderClientRoster();
+  closeClientModal();
+  showToast(editingClientIndex === -1 ? 'Client onboarded!' : 'Client updated!');
+}
+
+function deleteClient(index) {
+  if (!confirm('Delete ' + CLIENTS[index].name + '? This cannot be undone.')) return;
+  CLIENTS.splice(index, 1);
+  renderClientRoster();
+  showToast('Client removed.');
+}
+
+// Call this when admin unlocks so the roster loads
+var _origUnlockAdmin = unlockAdmin;
+unlockAdmin = function() {
+  _origUnlockAdmin();
+  renderClientRoster();
+};
 </script>
 </body>
 </html>
