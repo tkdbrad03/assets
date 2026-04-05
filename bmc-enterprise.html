@@ -84,11 +84,14 @@ html, body {
   height: var(--nav-h);
   background: #0D0D14;
   border-top: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
   align-items: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   padding-bottom: env(safe-area-inset-bottom);
+  scrollbar-width: none;
 }
+.bottom-nav::-webkit-scrollbar { display: none; }
 .nav-btn {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 4px; height: 100%; cursor: pointer;
@@ -101,6 +104,8 @@ html, body {
   border: none; background: none;
   transition: color 0.15s;
   padding: 8px 0 0;
+  flex: 0 0 20vw;
+  min-width: 64px;
 }
 .nav-btn .nav-icon { font-size: 22px; line-height: 1; }
 .nav-btn.active { color: var(--white); }
@@ -497,7 +502,142 @@ html, body {
   margin-bottom: 12px;
 }
 
-/* ── PRINT ── */
+
+/* ── RECEIPTS ── */
+.receipt-upload-zone {
+  background: var(--card-bg);
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  padding: 32px 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.receipt-upload-zone:active {
+  border-color: var(--red);
+  background: rgba(214,40,40,0.05);
+}
+.upload-icon { font-size: 40px; margin-bottom: 10px; }
+.upload-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 18px;
+  color: var(--white); margin-bottom: 4px;
+}
+.upload-sub {
+  font-size: 12px; color: var(--gray); font-weight: 300;
+}
+
+.receipt-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.receipt-card:active { border-color: var(--blue-mid); }
+.receipt-thumb {
+  width: 80px;
+  flex-shrink: 0;
+  background: #0A0A0F;
+  position: relative;
+}
+.receipt-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.receipt-thumb-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; color: var(--gray); opacity: 0.3;
+}
+.receipt-info {
+  flex: 1; padding: 12px 14px;
+}
+.receipt-location {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 17px;
+  margin-bottom: 4px;
+}
+.receipt-meta {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.receipt-date {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; color: var(--gray);
+}
+.receipt-gallons {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px; color: #5B8FD4;
+}
+.receipt-amount-badge {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 20px;
+  color: var(--gold);
+  margin-left: auto;
+  padding: 12px 14px;
+  display: flex; align-items: center;
+}
+
+/* ── RECEIPT SUMMARY STRIP ── */
+.receipt-summary-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+
+/* ── MAINTENANCE ── */
+.maint-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--blue);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.maint-card:active { border-left-color: var(--red); }
+.maint-card-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 6px;
+}
+.maint-type {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 18px; flex: 1;
+}
+.maint-cost {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 20px;
+  color: var(--gold); white-space: nowrap; margin-left: 12px;
+}
+.maint-vehicle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; color: #7AB3FF; margin-bottom: 4px;
+}
+.maint-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.maint-date, .maint-mileage {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gray);
+}
+.maint-shop { font-size: 11px; color: var(--gray); font-weight: 300; }
+.maint-next-due {
+  margin-top: 6px; font-size: 11px; color: var(--gold);
+  font-family: 'Share Tech Mono', monospace;
+}
+.maint-card[data-type="Oil Change"] { border-left-color: #E9B930; }
+.maint-card[data-type="Tires"]      { border-left-color: #5B8FD4; }
+.maint-card[data-type="Brakes"]     { border-left-color: #D62828; }
+.maint-card[data-type="Inspection"] { border-left-color: #2ECC71; }
+.maint-card[data-type="Engine"]     { border-left-color: #FF6B35; }
+.maint-card[data-type="Transmission"] { border-left-color: #9B59B6; }
+
 @media print {
   .app-header, .bottom-nav, .fab, .sheet-backdrop, .toast,
   .btn-full, .btn-outline, .filter-bar, .search-bar, .section-label button { display: none !important; }
@@ -581,6 +721,47 @@ html, body {
     <div id="invoice-out"></div>
   </div>
 
+
+  <!-- RECEIPTS -->
+  <div class="panel" id="panel-receipts">
+    <div class="section-label"><span>Gas Receipts</span>
+      <span id="receipt-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span>
+    </div>
+
+    <!-- Upload zone -->
+    <div class="receipt-upload-zone" id="upload-zone" onclick="document.getElementById('receipt-file-input').click()">
+      <div class="upload-icon">⛽</div>
+      <div class="upload-text">Tap to take a photo or upload</div>
+      <div class="upload-sub">Snap your gas receipt right here</div>
+      <input type="file" id="receipt-file-input" accept="image/*" capture="environment" style="display:none" onchange="handleReceiptUpload(event)">
+    </div>
+
+    <!-- Receipt detail sheet trigger area -->
+    <div id="receipts-gallery"></div>
+  </div>
+
+  <!-- MAINTENANCE -->
+  <div class="panel" id="panel-maintenance">
+    <div class="section-label">
+      <span>Maintenance Log</span>
+      <span id="maint-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span>
+    </div>
+    <div class="stat-strip" id="maint-stat-strip"></div>
+
+    <!-- Quick-add type chips -->
+    <div class="section-label" style="margin-top:4px"><span>Quick Log</span></div>
+    <div class="filter-bar" id="maint-type-chips" style="margin-bottom:16px">
+      <button class="filter-chip" onclick="quickMaint('Oil Change')">🛢 Oil Change</button>
+      <button class="filter-chip" onclick="quickMaint('Tires')">🔄 Tires</button>
+      <button class="filter-chip" onclick="quickMaint('Brakes')">🛑 Brakes</button>
+      <button class="filter-chip" onclick="quickMaint('Inspection')">📋 Inspection</button>
+      <button class="filter-chip" onclick="quickMaint('Other')">➕ Other</button>
+    </div>
+
+    <div class="section-label"><span>History</span></div>
+    <div id="maint-list"></div>
+  </div>
+
 </div>
 <!-- /scroll-area -->
 
@@ -598,8 +779,11 @@ html, body {
   <button class="nav-btn" onclick="switchTab('invoice')" id="nav-invoice">
     <span class="nav-icon">🧾</span>Invoice
   </button>
-  <button class="nav-btn" onclick="switchTab('stats')" id="nav-stats">
-    <span class="nav-icon">📈</span>Stats
+  <button class="nav-btn" onclick="switchTab('receipts')" id="nav-receipts">
+    <span class="nav-icon">📷</span>Receipts
+  </button>
+  <button class="nav-btn" onclick="switchTab('maintenance')" id="nav-maintenance">
+    <span class="nav-icon">🔧</span>Maintenance
   </button>
 </nav>
 
@@ -702,11 +886,12 @@ function switchTab(id) {
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('panel-' + id).classList.add('active');
   document.getElementById('nav-' + id).classList.add('active');
-  document.getElementById('fab').style.display = (id === 'invoice' || id === 'stats') ? 'none' : 'flex';
+  document.getElementById('fab').style.display = (id === 'invoice' || id === 'receipts' || id === 'maintenance') ? 'none' : 'flex';
   document.getElementById('scroll-area').scrollTop = 0;
   if (id === 'dash') renderDash();
   if (id === 'loads') renderLoads();
-  if (id === 'stats') renderStats();
+  if (id === 'receipts') renderReceipts();
+  if (id === 'maintenance') renderMaintenance();
 }
 
 // ── SHEET ──────────────────────────────────────────────────────────────────
@@ -929,57 +1114,433 @@ function generateInvoice() {
   `;
 }
 
-// ── STATS (4th tab) ────────────────────────────────────────────────────────
-function renderStats() {
-  const panel = document.getElementById('panel-stats');
-  if (!panel) return;
+// ── RECEIPTS ────────────────────────────────────────────────────────────────
+let receipts = JSON.parse(localStorage.getItem('bmc_receipts') || '[]');
+let pendingImageData = null;
+let editingReceiptId = null;
 
-  const byMonth = {};
-  loads.forEach(l => {
-    const mo = l.date ? l.date.slice(0,7) : 'unknown';
-    if (!byMonth[mo]) byMonth[mo] = { earned: 0, miles: 0, loads: 0 };
-    byMonth[mo].earned += l.amount;
-    byMonth[mo].miles  += l.miles;
-    byMonth[mo].loads  += 1;
-  });
+function saveReceipts() { localStorage.setItem('bmc_receipts', JSON.stringify(receipts)); }
 
-  const months = Object.keys(byMonth).sort().reverse().slice(0,6);
-  const max = Math.max(...months.map(m => byMonth[m].earned), 1);
+function handleReceiptUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingImageData = ev.target.result;
+    editingReceiptId = null;
+    // Pre-fill date
+    document.getElementById('r-date').value = today();
+    document.getElementById('r-amount').value = '';
+    document.getElementById('r-location').value = '';
+    document.getElementById('r-gallons').value = '';
+    document.getElementById('r-notes').value = '';
+    document.getElementById('receipt-preview-img').src = pendingImageData;
+    document.getElementById('delete-receipt-btn').style.display = 'none';
+    document.getElementById('receipt-sheet-backdrop').classList.add('open');
+  };
+  reader.readAsDataURL(file);
+  e.target.value = ''; // reset so same file can be picked again
+}
 
-  panel.innerHTML = `
-    <div class="section-label"><span>Earnings by Month</span></div>
-    ${months.length ? months.map(mo => {
-      const d = byMonth[mo];
-      const pct = Math.round((d.earned/max)*100);
-      const [y,m] = mo.split('-');
-      const label = new Date(+y, +m-1).toLocaleString('en-US',{month:'short', year:'2-digit'});
-      return `
-        <div style="margin-bottom:14px">
-          <div style="display:flex;justify-content:space-between;margin-bottom:5px">
-            <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px">${label}</span>
-            <span style="font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--gold)">${fmtMoney(d.earned)}</span>
-          </div>
-          <div style="background:var(--border);border-radius:4px;height:8px;overflow:hidden">
-            <div style="background:var(--blue);height:100%;width:${pct}%;border-radius:4px;transition:width 0.6s"></div>
-          </div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray);margin-top:4px">
-            ${d.loads} load${d.loads!==1?'s':''} · ${d.miles.toLocaleString()} mi
-          </div>
-        </div>
-      `;
-    }).join('') : `<div class="empty-state"><div class="empty-icon">📈</div><div class="empty-title">No data yet</div><div class="empty-sub">Start logging loads to see stats</div></div>`}
+function openReceiptForEdit(id) {
+  const r = receipts.find(r => r.id === id);
+  if (!r) return;
+  editingReceiptId = id;
+  pendingImageData = null;
+  document.getElementById('receipt-preview-img').src = r.img || '';
+  document.getElementById('r-date').value = r.date || today();
+  document.getElementById('r-amount').value = r.amount || '';
+  document.getElementById('r-location').value = r.location || '';
+  document.getElementById('r-gallons').value = r.gallons || '';
+  document.getElementById('r-notes').value = r.notes || '';
+  document.getElementById('delete-receipt-btn').style.display = 'block';
+  document.getElementById('receipt-sheet-backdrop').classList.add('open');
+}
+
+function saveReceipt() {
+  const date     = document.getElementById('r-date').value;
+  const amount   = parseFloat(document.getElementById('r-amount').value) || 0;
+  const location = document.getElementById('r-location').value.trim();
+  const gallons  = parseFloat(document.getElementById('r-gallons').value) || 0;
+  const notes    = document.getElementById('r-notes').value.trim();
+
+  if (editingReceiptId) {
+    const idx = receipts.findIndex(r => r.id === editingReceiptId);
+    if (idx !== -1) {
+      receipts[idx] = { ...receipts[idx], date, amount, location, gallons, notes };
+    }
+  } else {
+    if (!pendingImageData) { showToast('No image selected', '#D62828'); return; }
+    receipts.unshift({ id: Date.now(), img: pendingImageData, date, amount, location, gallons, notes });
+  }
+
+  saveReceipts();
+  closeReceiptSheet();
+  renderReceipts();
+  showToast('✔ Receipt saved!');
+}
+
+function deleteReceipt() {
+  if (!editingReceiptId) return;
+  if (!confirm('Delete this receipt?')) return;
+  receipts = receipts.filter(r => r.id !== editingReceiptId);
+  saveReceipts();
+  closeReceiptSheet();
+  renderReceipts();
+  showToast('Receipt deleted', '#6B6B80');
+}
+
+function closeReceiptSheet() {
+  document.getElementById('receipt-sheet-backdrop').classList.remove('open');
+  pendingImageData = null;
+  editingReceiptId = null;
+}
+function closeReceiptSheetIfBackdrop(e) {
+  if (e.target === document.getElementById('receipt-sheet-backdrop')) closeReceiptSheet();
+}
+
+function openFullscreen(src) {
+  document.getElementById('receipt-fullscreen-img').src = src;
+  document.getElementById('receipt-fullscreen').style.display = 'flex';
+}
+function closeFullscreen() {
+  document.getElementById('receipt-fullscreen').style.display = 'none';
+}
+
+function renderReceipts() {
+  const totalSpent = receipts.reduce((s,r) => s + r.amount, 0);
+  const mo = new Date().toISOString().slice(0,7);
+  const monthSpent = receipts.filter(r => r.date && r.date.startsWith(mo)).reduce((s,r) => s + r.amount, 0);
+
+  // Summary label
+  document.getElementById('receipt-total-label').textContent =
+    receipts.length ? `${receipts.length} receipts · ${fmtMoney(totalSpent)} total` : '';
+
+  const gallery = document.getElementById('receipts-gallery');
+  if (!receipts.length) {
+    gallery.innerHTML = `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">No receipts yet</div><div class="empty-sub">Tap the zone above to photograph your first gas receipt</div></div>`;
+    return;
+  }
+
+  // Month summary cards
+  let summaryHtml = `
+    <div class="receipt-summary-strip">
+      <div class="stat-card gold">
+        <div class="stat-label">This Month</div>
+        <div class="stat-value money" style="font-size:22px">${fmtMoney(monthSpent)}</div>
+        <div class="stat-sub">gas expenses</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">All Time</div>
+        <div class="stat-value money" style="font-size:22px">${fmtMoney(totalSpent)}</div>
+        <div class="stat-sub">${receipts.length} receipt${receipts.length!==1?'s':''}</div>
+      </div>
+    </div>
   `;
+
+  const cards = receipts.map(r => `
+    <div class="receipt-card" onclick="openReceiptForEdit(${r.id})">
+      <div class="receipt-thumb">
+        ${r.img
+          ? `<img src="${r.img}" alt="receipt" onclick="event.stopPropagation();openFullscreen('${r.img}')">`
+          : `<div class="receipt-thumb-placeholder">⛽</div>`}
+      </div>
+      <div class="receipt-info">
+        <div class="receipt-location">${r.location || 'Gas Station'}</div>
+        <div class="receipt-meta">
+          <span class="receipt-date">${fmtDate(r.date)}</span>
+          ${r.gallons ? `<span class="receipt-gallons">${r.gallons} gal</span>` : ''}
+          ${r.notes ? `<span style="font-size:11px;color:var(--gray);font-style:italic">${r.notes}</span>` : ''}
+        </div>
+      </div>
+      <div class="receipt-amount-badge">${r.amount ? fmtMoney(r.amount) : '—'}</div>
+    </div>
+  `).join('');
+
+  gallery.innerHTML = summaryHtml + cards;
+}
+
+// ── MAINTENANCE ─────────────────────────────────────────────────────────────
+let maints = JSON.parse(localStorage.getItem('bmc_maints') || '[]');
+let editingMaintId = null;
+let pendingMaintPhoto = null;
+
+function saveMaints() { localStorage.setItem('bmc_maints', JSON.stringify(maints)); }
+
+function quickMaint(type) {
+  openMaintSheet();
+  document.getElementById('m-type').value = type;
+  document.getElementById('maint-sheet-title').textContent = 'Log ' + type;
+}
+
+function openMaintSheet(id) {
+  editingMaintId = id || null;
+  pendingMaintPhoto = null;
+  const isEdit = !!id;
+  document.getElementById('maint-sheet-title').textContent = isEdit ? 'Edit Record' : 'Log Service';
+  document.getElementById('delete-maint-btn').style.display = isEdit ? 'block' : 'none';
+  document.getElementById('m-photo-preview-wrap').innerHTML = `<div class="upload-icon" style="font-size:24px">📸</div><div class="upload-text" style="font-size:14px">Tap to add photo</div>`;
+
+  if (isEdit) {
+    const r = maints.find(m => m.id === id);
+    if (!r) return;
+    document.getElementById('m-vehicle').value  = r.vehicle || '';
+    document.getElementById('m-type').value     = r.type || 'Oil Change';
+    document.getElementById('m-date').value     = r.date || today();
+    document.getElementById('m-cost').value     = r.cost || '';
+    document.getElementById('m-mileage').value  = r.mileage || '';
+    document.getElementById('m-shop').value     = r.shop || '';
+    document.getElementById('m-next').value     = r.next || '';
+    document.getElementById('m-notes').value    = r.notes || '';
+    if (r.photo) {
+      document.getElementById('m-photo-preview-wrap').innerHTML =
+        `<img src="${r.photo}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover">`;
+      pendingMaintPhoto = r.photo;
+    }
+  } else {
+    document.getElementById('m-vehicle').value  = '';
+    document.getElementById('m-type').value     = 'Oil Change';
+    document.getElementById('m-date').value     = today();
+    document.getElementById('m-cost').value     = '';
+    document.getElementById('m-mileage').value  = '';
+    document.getElementById('m-shop').value     = '';
+    document.getElementById('m-next').value     = '';
+    document.getElementById('m-notes').value    = '';
+  }
+  document.getElementById('maint-sheet-backdrop').classList.add('open');
+}
+
+function closeMaintSheet() {
+  document.getElementById('maint-sheet-backdrop').classList.remove('open');
+  editingMaintId = null;
+  pendingMaintPhoto = null;
+}
+function closeMaintSheetIfBackdrop(e) {
+  if (e.target === document.getElementById('maint-sheet-backdrop')) closeMaintSheet();
+}
+
+function handleMaintPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingMaintPhoto = ev.target.result;
+    document.getElementById('m-photo-preview-wrap').innerHTML =
+      `<img src="${pendingMaintPhoto}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover">`;
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function saveMaint() {
+  const rec = {
+    vehicle: document.getElementById('m-vehicle').value.trim(),
+    type:    document.getElementById('m-type').value,
+    date:    document.getElementById('m-date').value,
+    cost:    parseFloat(document.getElementById('m-cost').value) || 0,
+    mileage: document.getElementById('m-mileage').value.trim(),
+    shop:    document.getElementById('m-shop').value.trim(),
+    next:    document.getElementById('m-next').value.trim(),
+    notes:   document.getElementById('m-notes').value.trim(),
+    photo:   pendingMaintPhoto || null,
+  };
+  if (!rec.date || !rec.type) { showToast('Date and service type required', '#D62828'); return; }
+
+  if (editingMaintId) {
+    const idx = maints.findIndex(m => m.id === editingMaintId);
+    if (idx !== -1) maints[idx] = { ...maints[idx], ...rec };
+  } else {
+    rec.id = Date.now();
+    maints.unshift(rec);
+  }
+  saveMaints();
+  closeMaintSheet();
+  renderMaintenance();
+  showToast('✔ Service record saved!');
+}
+
+function deleteMaint() {
+  if (!editingMaintId) return;
+  if (!confirm('Delete this service record?')) return;
+  maints = maints.filter(m => m.id !== editingMaintId);
+  saveMaints();
+  closeMaintSheet();
+  renderMaintenance();
+  showToast('Record deleted', '#6B6B80');
+}
+
+function renderMaintenance() {
+  const totalCost = maints.reduce((s,m) => s + m.cost, 0);
+  const mo = new Date().toISOString().slice(0,7);
+  const monthCost = maints.filter(m => m.date && m.date.startsWith(mo)).reduce((s,m) => s + m.cost, 0);
+
+  document.getElementById('maint-total-label').textContent =
+    maints.length ? `${maints.length} records · ${fmtMoney(totalCost)} total` : '';
+
+  // Stat strip
+  const byType = {};
+  maints.forEach(m => { byType[m.type] = (byType[m.type] || 0) + 1; });
+  const topType = Object.entries(byType).sort((a,b) => b[1]-a[1])[0];
+
+  document.getElementById('maint-stat-strip').innerHTML = `
+    <div class="stat-card gold">
+      <div class="stat-label">This Month</div>
+      <div class="stat-value money" style="font-size:22px">${fmtMoney(monthCost)}</div>
+      <div class="stat-sub">maintenance</div>
+    </div>
+    <div class="stat-card accent">
+      <div class="stat-label">All Time</div>
+      <div class="stat-value money" style="font-size:22px">${fmtMoney(totalCost)}</div>
+      <div class="stat-sub">${maints.length} service${maints.length!==1?'s':''}</div>
+    </div>
+  `;
+
+  const list = document.getElementById('maint-list');
+  if (!maints.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🔧</div><div class="empty-title">No records yet</div><div class="empty-sub">Use Quick Log above or tap a service type to get started</div></div>`;
+    return;
+  }
+
+  list.innerHTML = maints.map(m => `
+    <div class="maint-card" data-type="${m.type}" onclick="openMaintSheet(${m.id})">
+      <div class="maint-vehicle">${m.vehicle || 'Vehicle'}</div>
+      <div class="maint-card-top">
+        <div class="maint-type">${m.type}</div>
+        <div class="maint-cost">${m.cost ? fmtMoney(m.cost) : '—'}</div>
+      </div>
+      <div class="maint-meta">
+        <span class="maint-date">${fmtDate(m.date)}</span>
+        ${m.mileage ? `<span class="maint-mileage">📍 ${Number(m.mileage).toLocaleString()} mi</span>` : ''}
+        ${m.shop ? `<span class="maint-shop">${m.shop}</span>` : ''}
+        ${m.photo ? `<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">📷 photo</span>` : ''}
+      </div>
+      ${m.next ? `<div class="maint-next-due">⏰ Next: ${m.next}</div>` : ''}
+    </div>
+  `).join('');
 }
 </script>
 
-<!-- STATS PANEL (injected by JS but needs to exist) -->
-<script>
-// Inject stats panel into scroll area
-const statsPanel = document.createElement('div');
-statsPanel.className = 'panel';
-statsPanel.id = 'panel-stats';
-document.getElementById('scroll-area').appendChild(statsPanel);
-</script>
+<!-- RECEIPT DETAIL SHEET -->
+<div class="sheet-backdrop" id="receipt-sheet-backdrop" onclick="closeReceiptSheetIfBackdrop(event)">
+  <div class="sheet" id="receipt-detail-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">
+      Receipt Details
+      <button class="sheet-close" onclick="closeReceiptSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <img id="receipt-preview-img" src="" alt="Receipt" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:320px;object-fit:contain;background:#0A0A0F;">
+      <div class="field-row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="r-date">
+        </div>
+        <div class="field">
+          <label>Amount ($)</label>
+          <input type="number" id="r-amount" placeholder="0.00" inputmode="decimal" step="0.01">
+        </div>
+      </div>
+      <div class="field">
+        <label>Gas Station / Location</label>
+        <input type="text" id="r-location" placeholder="e.g. Shell on Hwy 19">
+      </div>
+      <div class="field">
+        <label>Gallons</label>
+        <input type="number" id="r-gallons" placeholder="0.0" inputmode="decimal" step="0.1">
+      </div>
+      <div class="field">
+        <label>Notes</label>
+        <input type="text" id="r-notes" placeholder="e.g. Before Lawrence run">
+      </div>
+      <button class="btn-full btn-red" onclick="saveReceipt()">Save Receipt</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" id="delete-receipt-btn" onclick="deleteReceipt()" style="display:none">Delete Receipt</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECEIPT FULLSCREEN VIEW -->
+<div id="receipt-fullscreen" style="display:none;position:fixed;inset:0;z-index:500;background:#000;align-items:center;justify-content:center;flex-direction:column" onclick="closeFullscreen()">
+  <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
+  <div style="color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:12px">Tap to close</div>
+</div>
+
+<!-- MAINTENANCE LOG SHEET -->
+<div class="sheet-backdrop" id="maint-sheet-backdrop" onclick="closeMaintSheetIfBackdrop(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">
+      <span id="maint-sheet-title">Log Service</span>
+      <button class="sheet-close" onclick="closeMaintSheet()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div class="field">
+        <label>Vehicle / Equipment</label>
+        <input type="text" id="m-vehicle" placeholder="e.g. Truck 1, Trailer, Forklift">
+      </div>
+      <div class="field">
+        <label>Service Type</label>
+        <select id="m-type">
+          <option value="Oil Change">🛢 Oil Change</option>
+          <option value="Tires">🔄 Tires</option>
+          <option value="Brakes">🛑 Brakes</option>
+          <option value="Inspection">📋 Inspection</option>
+          <option value="Transmission">⚙️ Transmission</option>
+          <option value="Engine">🔧 Engine</option>
+          <option value="AC / Heat">❄️ AC / Heat</option>
+          <option value="Electrical">⚡ Electrical</option>
+          <option value="Fuel System">⛽ Fuel System</option>
+          <option value="Lights">💡 Lights</option>
+          <option value="Other">🔩 Other</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="m-date">
+        </div>
+        <div class="field">
+          <label>Cost ($)</label>
+          <input type="number" id="m-cost" placeholder="0.00" inputmode="decimal" step="0.01">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Mileage at Service</label>
+          <input type="number" id="m-mileage" placeholder="e.g. 125000" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label>Shop / Provider</label>
+          <input type="text" id="m-shop" placeholder="e.g. Jiffy Lube">
+        </div>
+      </div>
+      <div class="field">
+        <label>Next Service Due</label>
+        <input type="text" id="m-next" placeholder="e.g. 130,000 miles or 3 months">
+      </div>
+      <div class="field">
+        <label>Notes</label>
+        <textarea id="m-notes" placeholder="Parts replaced, warranty info, etc."></textarea>
+      </div>
+      <!-- Photo upload -->
+      <div class="field">
+        <label>Photo (receipt or repair)</label>
+        <div class="receipt-upload-zone" style="padding:16px;margin-bottom:0" onclick="document.getElementById('m-photo-input').click()">
+          <div id="m-photo-preview-wrap">
+            <div class="upload-icon" style="font-size:24px">📸</div>
+            <div class="upload-text" style="font-size:14px">Tap to add photo</div>
+          </div>
+          <input type="file" id="m-photo-input" accept="image/*" capture="environment" style="display:none" onchange="handleMaintPhoto(event)">
+        </div>
+      </div>
+      <button class="btn-full btn-red" onclick="saveMaint()" style="margin-top:8px">Save Record</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" id="delete-maint-btn" onclick="deleteMaint()" style="display:none">Delete Record</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" onclick="closeMaintSheet()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
