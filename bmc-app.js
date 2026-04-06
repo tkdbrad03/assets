@@ -201,23 +201,50 @@ window.deleteLoad=function(id=editingLoadId){
 };
 
 function renderDash(){
-  const mo=new Date().toISOString().slice(0,7);
-  const thisMonth=loads.filter(l=>l.date&&l.date.startsWith(mo));
-  const totalEarned=loads.reduce((s,l)=>s+(l.amount||0),0);
-  const monthEarned=thisMonth.reduce((s,l)=>s+(l.amount||0),0);
-  const totalMiles=loads.reduce((s,l)=>s+(l.miles||0),0);
-  const unbilled=loads.filter(l=>!l.invoiced).length;
-  const unpaid=invoices.filter(i=>!i.paid).reduce((s,i)=>s+(i.total||0),0);
-  document.getElementById('stat-strip').innerHTML=`
-    <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money">${fmtMoney(monthEarned)}</div><div class="stat-sub">${thisMonth.length} load${thisMonth.length!==1?'s':''}</div></div>
-    <div class="stat-card accent"><div class="stat-label">Total Earned</div><div class="stat-value money">${fmtMoney(totalEarned)}</div><div class="stat-sub">${loads.length} loads total</div></div>
-    <div class="stat-card wide"><div class="stat-label">Total Miles</div><div class="stat-value">${totalMiles.toLocaleString()}<span style="font-size:16px;font-weight:400;color:var(--gray)"> mi</span></div></div>
-    ${unbilled>0?`<div class="stat-card accent"><div class="stat-label">Unbilled Loads</div><div class="stat-value" style="color:var(--red)">${unbilled}</div><div class="stat-sub">not yet invoiced</div></div>`:''}
-    ${unpaid>0?`<div class="stat-card gold"><div class="stat-label">Outstanding</div><div class="stat-value money" style="font-size:24px">${fmtMoney(unpaid)}</div><div class="stat-sub">awaiting payment</div></div>`:''}`;
-  const el=document.getElementById('dash-loads');
-  const recent=loads.slice(0,8);
-  el.innerHTML=recent.length?recent.map(l=>loadCard(l)).join(''):
-    `<div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div>`;
+  const totalMiles = loads.reduce((s,l)=>s+(l.miles||0),0);
+
+  const collected = invoices
+    .filter(i => i.paid)
+    .reduce((s,i) => s + (i.total || 0), 0);
+
+  const outstanding = invoices
+    .filter(i => !i.paid)
+    .reduce((s,i) => s + (i.total || 0), 0);
+
+  const unbilledLoads = loads.filter(l => !l.invoiced);
+  const unbilledCount = unbilledLoads.length;
+  const unbilledAmount = unbilledLoads.reduce((s,l) => s + (l.amount || 0), 0);
+
+  document.getElementById('stat-strip').innerHTML = `
+    <div class="stat-card gold">
+      <div class="stat-label">Collected</div>
+      <div class="stat-value money">${fmtMoney(collected)}</div>
+      <div class="stat-sub">paid invoices</div>
+    </div>
+
+    <div class="stat-card accent">
+      <div class="stat-label">Outstanding</div>
+      <div class="stat-value money">${fmtMoney(outstanding)}</div>
+      <div class="stat-sub">invoiced, unpaid</div>
+    </div>
+
+    <div class="stat-card wide">
+      <div class="stat-label">Unbilled</div>
+      <div class="stat-value money">${fmtMoney(unbilledAmount)}</div>
+      <div class="stat-sub">${unbilledCount} load${unbilledCount!==1?'s':''} not yet invoiced</div>
+    </div>
+
+    <div class="stat-card wide">
+      <div class="stat-label">Total Miles</div>
+      <div class="stat-value">${totalMiles.toLocaleString()}<span style="font-size:16px;font-weight:400;color:var(--gray)"> mi</span></div>
+    </div>
+  `;
+
+  const el = document.getElementById('dash-loads');
+  const recent = loads.slice(0,8);
+  el.innerHTML = recent.length
+    ? recent.map(l => loadCard(l,false)).join('')
+    : `<div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div>`;
 }
 
 window.setFilter=function(val,el){
