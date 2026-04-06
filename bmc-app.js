@@ -26,8 +26,6 @@ let currentUser = null;
 let activeFilter = 'all';
 let editingReceiptId = null, pendingReceiptImage = null;
 let editingMaintId = null, pendingMaintPhoto = null;
-window.currentBolFileUrl = null;
-window.currentRateFileUrl = null;
 let unsubLoads, unsubReceipts, unsubMaints, unsubInvoices;
 
 firebase.auth().getRedirectResult().catch(e => console.error('Redirect error:', e.code));
@@ -141,17 +139,6 @@ window.openSheet=function(id=null){
     document.getElementById('f-miles').value = load.miles || '';
     document.getElementById('f-amount').value = load.amount || '';
     document.getElementById('f-client').value = load.client || '';
-    window.currentBolFileUrl = load.bolFileUrl || null;
-    window.currentRateFileUrl = load.rateFileUrl || null;
-
-    document.getElementById('load-doc-links').style.display =
-      (load.bolFileUrl || load.rateFileUrl) ? 'block' : 'none';
-
-    document.getElementById('view-bol-btn').style.display =
-      load.bolFileUrl ? 'inline-flex' : 'none';
-
-    document.getElementById('view-rate-btn').style.display =
-      load.rateFileUrl ? 'inline-flex' : 'none';
     document.getElementById('f-bol').value = load.bol || '';
     document.getElementById('f-notes').value = load.notes || '';
     document.getElementById('f-bol-file').value = '';
@@ -162,17 +149,11 @@ window.openSheet=function(id=null){
     deleteBtn.style.display = 'none';
 
     document.getElementById('f-date').value = today();
-['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(i => document.getElementById(i).value = '');
-document.getElementById('f-type').value = 'one-way';
-document.getElementById('f-bol-file').value = '';
-document.getElementById('f-rate-file').value = '';
-
-window.currentBolFileUrl = null;
-window.currentRateFileUrl = null;
-document.getElementById('load-doc-links').style.display = 'none';
-document.getElementById('view-bol-btn').style.display = 'none';
-document.getElementById('view-rate-btn').style.display = 'none';
-}
+    ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('f-type').value = 'one-way';
+    document.getElementById('f-bol-file').value = '';
+    document.getElementById('f-rate-file').value = '';
+  }
 
   document.getElementById('sheet-backdrop').classList.add('open');
 };
@@ -180,11 +161,6 @@ document.getElementById('view-rate-btn').style.display = 'none';
 window.closeSheet=()=>{
   document.getElementById('sheet-backdrop').classList.remove('open');
   editingLoadId = null;
-  window.currentBolFileUrl = null;
-  window.currentRateFileUrl = null;
-  document.getElementById('load-doc-links').style.display = 'none';
-  document.getElementById('view-bol-btn').style.display = 'none';
-  document.getElementById('view-rate-btn').style.display = 'none';
 };
 
 window.closeSheetIfBackdrop=e=>{
