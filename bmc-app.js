@@ -23,7 +23,17 @@ let editingMaintId = null, pendingMaintPhoto = null;
 let unsubLoads, unsubReceipts, unsubMaints;
 
 // ── AUTH
-firebase.auth().getRedirectResult().catch(e => console.error('Redirect err:', e));
+firebase.auth().getRedirectResult().then(result => {
+  if (result && result.user) {
+    // Successfully signed in via redirect - onAuthStateChanged will handle UI
+    console.log('Redirect sign-in success:', result.user.email);
+  }
+}).catch(e => {
+  console.error('Redirect error:', e.code, e.message);
+  document.getElementById('loading-overlay').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  showToast('Sign in failed: ' + e.message, '#D62828');
+});
 
 firebase.auth().onAuthStateChanged(user => {
   document.getElementById('loading-overlay').style.display = 'none';
@@ -32,9 +42,17 @@ firebase.auth().onAuthStateChanged(user => {
     showApp(user);
     subscribeToData();
   } else {
-    currentUser = null;
-    showLogin();
-    [unsubLoads, unsubReceipts, unsubMaints].forEach(u => u && u());
+    // Only show login if we're not in the middle of a redirect
+    firebase.auth().getRedirectResult().then(r => {
+      if (!r || !r.user) {
+        currentUser = null;
+        showLogin();
+        [unsubLoads, unsubReceipts, unsubMaints].forEach(u => u && u());
+      }
+    }).catch(() => {
+      currentUser = null;
+      showLogin();
+    });
   }
 });
 
