@@ -11,14 +11,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-const storage = firebase.storage();
-
-async function uploadFile(file, path){
-  if(!file) return null;
-  const ref = storage.ref().child(path);
-  await ref.put(file);
-  return await ref.getDownloadURL();
-}
 
 let loads = [], receipts = [], maints = [], invoices = [];
 let editingLoadId = null;
@@ -141,8 +133,6 @@ window.openSheet=function(id=null){
     document.getElementById('f-client').value = load.client || '';
     document.getElementById('f-bol').value = load.bol || '';
     document.getElementById('f-notes').value = load.notes || '';
-    document.getElementById('f-bol-file').value = '';
-    document.getElementById('f-rate-file').value = '';
   } else {
     titleEl.textContent = 'Log Load';
     saveBtn.textContent = 'Save Load';
@@ -151,8 +141,6 @@ window.openSheet=function(id=null){
     document.getElementById('f-date').value = today();
     ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(i => document.getElementById(i).value = '');
     document.getElementById('f-type').value = 'one-way';
-    document.getElementById('f-bol-file').value = '';
-    document.getElementById('f-rate-file').value = '';
   }
 
   document.getElementById('sheet-backdrop').classList.add('open');
@@ -167,27 +155,7 @@ window.closeSheetIfBackdrop=e=>{
   if(e.target===document.getElementById('sheet-backdrop')) window.closeSheet();
 };
 
-window.addLoad = async function(){
-  const bolFile = document.getElementById('f-bol-file').files[0];
-  const rateFile = document.getElementById('f-rate-file').files[0];
-
-  let bolUrl = null;
-  let rateUrl = null;
-
-  if(bolFile){
-    bolUrl = await uploadFile(
-      bolFile,
-      `loads/${currentUser.uid}/bol_${Date.now()}`
-    );
-  }
-
-  if(rateFile){
-    rateUrl = await uploadFile(
-      rateFile,
-      `loads/${currentUser.uid}/rate_${Date.now()}`
-    );
-  }
-
+window.addLoad=function(){
   const loadData = {
     date: document.getElementById('f-date').value,
     type: document.getElementById('f-type').value,
@@ -197,20 +165,12 @@ window.addLoad = async function(){
     amount: parseFloat(document.getElementById('f-amount').value) || 0,
     client: document.getElementById('f-client').value.trim(),
     bol: document.getElementById('f-bol').value.trim(),
-    notes: document.getElementById('f-notes').value.trim(),
-    bolFileUrl: bolUrl || null,
-    rateFileUrl: rateUrl || null
+    notes: document.getElementById('f-notes').value.trim()
   };
 
   if(!loadData.date || !loadData.from || !loadData.to || !loadData.amount){
     showToast('Fill in Date, From, To & Amount', '#D62828');
     return;
-  }
-
-  if(editingLoadId){
-    const existing = loads.find(l => l.id === editingLoadId);
-    loadData.bolFileUrl = bolUrl || existing?.bolFileUrl || null;
-    loadData.rateFileUrl = rateUrl || existing?.rateFileUrl || null;
   }
 
   const promise = editingLoadId
@@ -321,8 +281,6 @@ function loadCard(l){
       <span class="badge ${l.type==='round-trip' ? 'badge-round' : 'badge-one'}">${l.type}</span>
       ${l.invoiced ? `<span class="badge" style="background:rgba(46,204,113,0.15);color:#2ECC71;border:1px solid rgba(46,204,113,0.3)">billed</span>` : ''}
       ${l.client ? `<span class="load-client">${l.client}</span>` : ''}
-      ${l.bolFileUrl ? `<span class="badge" style="background:rgba(233,185,48,0.12);color:var(--gold);border:1px solid rgba(233,185,48,0.35)">BOL</span>` : ''}
-      ${l.rateFileUrl ? `<span class="badge" style="background:rgba(2,62,138,0.20);color:#7AB3FF;border:1px solid rgba(2,62,138,0.5)">RATE</span>` : ''}
     </div>
   </div>`;
 }
