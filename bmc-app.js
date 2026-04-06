@@ -13,6 +13,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 let loads = [], receipts = [], maints = [], invoices = [];
+let editingLoadId = null;
 let currentUser = null;
 let activeFilter = 'all';
 let editingReceiptId = null, pendingReceiptImage = null;
@@ -108,36 +109,95 @@ window.switchTab=function(id){
   document.getElementById('scroll-area').scrollTop=0;
 };
 
-window.openSheet=function(){
-  document.getElementById('f-date').value=today();
-  ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(i=>document.getElementById(i).value='');
-  document.getElementById('f-type').value='one-way';
+window.openSheet=function(id=null){
+  editingLoadId = id;
+
+  const titleEl = document.getElementById('load-sheet-title');
+  const saveBtn = document.getElementById('load-save-btn');
+  const deleteBtn = document.getElementById('delete-load-btn');
+
+  if(id){
+    const load = loads.find(l => l.id === id);
+    if(!load) return;
+
+    titleEl.textContent = 'Edit Load';
+    saveBtn.textContent = 'Save Changes';
+    deleteBtn.style.display = 'block';
+
+    document.getElementById('f-date').value = load.date || today();
+    document.getElementById('f-type').value = load.type || 'one-way';
+    document.getElementById('f-from').value = load.from || '';
+    document.getElementById('f-to').value = load.to || '';
+    document.getElementById('f-miles').value = load.miles || '';
+    document.getElementById('f-amount').value = load.amount || '';
+    document.getElementById('f-client').value = load.client || '';
+    document.getElementById('f-bol').value = load.bol || '';
+    document.getElementById('f-notes').value = load.notes || '';
+  } else {
+    titleEl.textContent = 'Log Load';
+    saveBtn.textContent = 'Save Load';
+    deleteBtn.style.display = 'none';
+
+    document.getElementById('f-date').value = today();
+    ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('f-type').value = 'one-way';
+  }
+
   document.getElementById('sheet-backdrop').classList.add('open');
 };
-window.closeSheet=()=>document.getElementById('sheet-backdrop').classList.remove('open');
-window.closeSheetIfBackdrop=e=>{if(e.target===document.getElementById('sheet-backdrop'))window.closeSheet();};
 
-window.addLoad=function(){
-  const load={
-    date:document.getElementById('f-date').value,
-    type:document.getElementById('f-type').value,
-    from:document.getElementById('f-from').value.trim(),
-    to:document.getElementById('f-to').value.trim(),
-    miles:parseFloat(document.getElementById('f-miles').value)||0,
-    amount:parseFloat(document.getElementById('f-amount').value)||0,
-    client:document.getElementById('f-client').value.trim(),
-    bol:document.getElementById('f-bol').value.trim(),
-    notes:document.getElementById('f-notes').value.trim(),
-    invoiced:false,
-    createdAt:firebase.firestore.FieldValue.serverTimestamp(),
-  };
-  if(!load.date||!load.from||!load.to||!load.amount){showToast('Fill in Date, From, To & Amount','#D62828');return;}
-  userColl('loads').add(load).then(()=>{window.closeSheet();showToast('✔ Load saved!');}).catch(()=>showToast('Error saving','#D62828'));
+window.closeSheet=()=>{
+  document.getElementById('sheet-backdrop').classList.remove('open');
+  editingLoadId = null;
 };
 
-window.deleteLoad=function(id){
-  if(!confirm('Delete this load?'))return;
-  userColl('loads').doc(id).delete().then(()=>showToast('Load deleted','#6B6B80'));
+window.closeSheetIfBackdrop=e=>{
+  if(e.target===document.getElementById('sheet-backdrop')) window.closeSheet();
+};
+
+window.addLoad=function(){
+  const loadData = {
+    date: document.getElementById('f-date').value,
+    type: document.getElementById('f-type').value,
+    from: document.getElementById('f-from').value.trim(),
+    to: document.getElementById('f-to').value.trim(),
+    miles: parseFloat(document.getElementById('f-miles').value) || 0,
+    amount: parseFloat(document.getElementById('f-amount').value) || 0,
+    client: document.getElementById('f-client').value.trim(),
+    bol: document.getElementById('f-bol').value.trim(),
+    notes: document.getElementById('f-notes').value.trim()
+  };
+
+  if(!loadData.date || !loadData.from || !loadData.to || !loadData.amount){
+    showToast('Fill in Date, From, To & Amount', '#D62828');
+    return;
+  }
+
+  const promise = editingLoadId
+    ? userColl('loads').doc(editingLoadId).update(loadData)
+    : userColl('loads').add({
+        ...loadData,
+        invoiced: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+
+  promise
+    .then(() => {
+      window.closeSheet();
+      showToast(editingLoadId ? '✔ Load updated!' : '✔ Load saved!');
+    })
+    .catch(() => showToast('Error saving', '#D62828'));
+};
+
+window.deleteLoad=function(id=editingLoadId){
+  if(!id) return;
+  if(!confirm('Delete this load?')) return;
+
+  userColl('loads').doc(id).delete()
+    .then(() => {
+      window.closeSheet();
+      showToast('Load deleted', '#6B6B80');
+    });
 };
 
 function renderDash(){
@@ -156,7 +216,7 @@ function renderDash(){
     ${unpaid>0?`<div class="stat-card gold"><div class="stat-label">Outstanding</div><div class="stat-value money" style="font-size:24px">${fmtMoney(unpaid)}</div><div class="stat-sub">awaiting payment</div></div>`:''}`;
   const el=document.getElementById('dash-loads');
   const recent=loads.slice(0,8);
-  el.innerHTML=recent.length?recent.map(l=>loadCard(l,false)).join(''):
+  el.innerHTML=recent.length?recent.map(l=>loadCard(l)).join(''):
     `<div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div>`;
 }
 
@@ -177,25 +237,25 @@ function renderLoads(){
   });
   document.getElementById('loads-count').textContent=`${filtered.length} Load${filtered.length!==1?'s':''}`;
   const el=document.getElementById('all-loads');
-  el.innerHTML=filtered.length?filtered.map(l=>loadCard(l,true)).join(''):
+  el.innerHTML=filtered.length?filtered.map(l=>loadCard(l)).join(''):
     `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">No loads found</div><div class="empty-sub">Try changing your filters</div></div>`;
 }
 window.renderLoads=renderLoads;
 
-function loadCard(l,showDelete){
-  return`<div class="load-card">
+function loadCard(l){
+  return`<div class="load-card" onclick="openSheet('${l.id}')">
     <div class="load-card-top">
       <div class="load-route">${l.from}<span class="arrow">→</span>${l.to}</div>
       <div class="load-amount">${fmtMoney(l.amount)}</div>
     </div>
     <div class="load-meta">
       <span class="load-date">${fmtDate(l.date)}</span>
-      ${l.miles?`<span class="load-miles">${l.miles.toLocaleString()} mi</span>`:''}
-      <span class="badge ${l.type==='round-trip'?'badge-round':'badge-one'}">${l.type}</span>
-      ${l.invoiced?`<span class="badge" style="background:rgba(46,204,113,0.15);color:#2ECC71;border:1px solid rgba(46,204,113,0.3)">billed</span>`:''}
-      ${l.client?`<span class="load-client">${l.client}</span>`:''}
-      ${showDelete?`<button onclick="deleteLoad('${l.id}')" style="margin-left:auto;background:transparent;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 4px">✕</button>`:''}
-    </div></div>`;
+      ${l.miles ? `<span class="load-miles">${l.miles.toLocaleString()} mi</span>` : ''}
+      <span class="badge ${l.type==='round-trip' ? 'badge-round' : 'badge-one'}">${l.type}</span>
+      ${l.invoiced ? `<span class="badge" style="background:rgba(46,204,113,0.15);color:#2ECC71;border:1px solid rgba(46,204,113,0.3)">billed</span>` : ''}
+      ${l.client ? `<span class="load-client">${l.client}</span>` : ''}
+    </div>
+  </div>`;
 }
 
 window.exportCSV=function(){
