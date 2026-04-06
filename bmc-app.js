@@ -200,8 +200,8 @@ window.openSheet = function(id = null) {
     document.getElementById('view-bol-btn').style.display = hasBol ? 'inline-flex' : 'none';
     document.getElementById('view-rate-btn').style.display = hasRate ? 'inline-flex' : 'none';
 
-    document.getElementById('view-bol-btn').onclick = () => window.open(load.bolImageData, '_blank');
-    document.getElementById('view-rate-btn').onclick = () => window.open(load.rateImageData, '_blank');
+    document.getElementById('view-bol-btn').onclick = () => openDocViewer(load.bolImageData);
+document.getElementById('view-rate-btn').onclick = () => openDocViewer(load.rateImageData);
   } else {
     titleEl.textContent = 'Log Load';
     saveBtn.textContent = 'Save Load';
@@ -753,6 +753,18 @@ window.saveReceipt = function() {
 
   if (pendingReceiptImage) data.imageData = pendingReceiptImage;
 
+  const approxSize =
+    JSON.stringify({
+      ...data,
+      imageData: null
+    }).length +
+    (data.imageData ? data.imageData.length : 0);
+
+  if (approxSize > 850000) {
+    showToast('Receipt photo is too large. Use a smaller image.', '#D62828');
+    return;
+  }
+
   const p = editingReceiptId
     ? userColl('receipts').doc(editingReceiptId).update(data)
     : userColl('receipts').add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
@@ -760,7 +772,10 @@ window.saveReceipt = function() {
   p.then(() => {
     closeReceiptSheet();
     showToast('✔ Receipt saved!');
-  }).catch(() => showToast('Error saving', '#D62828'));
+  }).catch((err) => {
+    console.error('Receipt save error:', err);
+    showToast('Error saving receipt', '#D62828');
+  });
 };
 
 window.deleteReceipt = function() {
