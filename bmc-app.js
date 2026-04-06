@@ -633,13 +633,12 @@ window.printInvoice = function() {
 };
 
 // ── RECEIPTS
-window.handleReceiptUpload = function(e) {
+window.handleReceiptUpload = async function(e) {
   const file = e.target.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = ev => {
-    pendingReceiptImage = ev.target.result;
+  try {
+    pendingReceiptImage = await compressImage(file, 900, 0.45);
     editingReceiptId = null;
     document.getElementById('r-date').value = today();
     ['r-amount', 'r-location', 'r-gallons', 'r-notes'].forEach(i => document.getElementById(i).value = '');
@@ -650,8 +649,11 @@ window.handleReceiptUpload = function(e) {
 
     document.getElementById('delete-receipt-btn').style.display = 'none';
     document.getElementById('receipt-sheet-backdrop').classList.add('open');
-  };
-  reader.readAsDataURL(file);
+  } catch (err) {
+    console.error('Receipt image error:', err);
+    showToast('Error reading receipt image', '#D62828');
+  }
+
   e.target.value = '';
 };
 
