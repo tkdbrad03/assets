@@ -453,7 +453,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheetIfBackdrop(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">Log Load<button class="sheet-close" onclick="closeSheet()">✕</button></div>
+    <div class="sheet-title"><span id="load-sheet-title">Log Load</span><button class="sheet-close" onclick="closeSheet()">✕</button></div>
     <div class="sheet-body">
       <div class="field-row">
         <div class="field"><label>Date</label><input type="date" id="f-date"></div>
@@ -470,7 +470,8 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
         <div class="field"><label>BOL #</label><input type="text" id="f-bol" placeholder="Bill of Lading #"></div>
       </div>
       <div class="field"><label>Notes</label><textarea id="f-notes" placeholder="Any extra details…"></textarea></div>
-      <button class="btn-full btn-red" onclick="addLoad()">Save Load</button>
+      <button class="btn-full btn-red" id="load-save-btn" onclick="addLoad()">Save Load</button>
+      <button class="btn-full btn-ghost" id="delete-load-btn" onclick="deleteLoad()" style="margin-top:10px;display:none;color:var(--red);border-color:rgba(214,40,40,0.35)!important">Delete Load</button>
       <div style="height:8px"></div>
       <button class="btn-full btn-ghost" onclick="closeSheet()">Cancel</button>
     </div>
