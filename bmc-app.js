@@ -416,7 +416,7 @@ window.deleteMaint = function() {
 };
 
 window.printInvoice = function() {
-  setTimeout(() => window.print(), 300);
+  setTimeout(() => window.print(), 100);
 };
 
 function closeMaintSheet() { document.getElementById('maint-sheet-backdrop').classList.remove('open'); editingMaintId=null; pendingMaintPhoto=null; }
