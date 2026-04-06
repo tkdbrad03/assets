@@ -403,6 +403,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
       <div class="field"><label>Period End</label><input type="date" id="inv-end"></div>
     </div>
     <button class="btn-full btn-blue" onclick="generateInvoice()" style="margin-bottom:8px">Generate Invoice</button>
+    <button class="btn-full btn-ghost" onclick="openInvoiceHistory()" style="margin-bottom:8px">📋 View Invoice History</button>
     <div id="invoice-out"></div>
   </div>
 
@@ -476,6 +477,20 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
   </div>
 </div>
 
+<!-- INVOICE HISTORY SHEET -->
+<div class="sheet-backdrop" id="invoice-history-backdrop" onclick="closeInvoiceHistoryIfBackdrop(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">
+      Invoice History
+      <button class="sheet-close" onclick="closeInvoiceHistory()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div id="invoice-history-list"></div>
+    </div>
+  </div>
+</div>
+  
 <!-- RECEIPT DETAIL SHEET -->
 <div class="sheet-backdrop" id="receipt-sheet-backdrop" onclick="closeReceiptSheetIfBackdrop(event)">
   <div class="sheet">
