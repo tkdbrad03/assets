@@ -579,5 +579,10 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 <script src="bmc-app.js"></script>
+
+<div id="doc-fullscreen" style="display:none;position:fixed;inset:0;z-index:600;background:#000;align-items:center;justify-content:center;flex-direction:column">
+  <button onclick="closeDocViewer()" style="position:absolute;top:16px;right:16px;width:42px;height:42px;border:none;border-radius:50%;background:rgba(255,255,255,0.14);color:#fff;font-size:22px;cursor:pointer">✕</button>
+  <img id="doc-fullscreen-img" src="" alt="Document" style="max-width:100%;max-height:100%;object-fit:contain">
+</div>
 </body>
 </html>
