@@ -216,6 +216,16 @@ window.addLoad=function(){
     loadData.rateImageData = pendingRateImage || existing?.rateImageData || null;
   }
 
+  const approxSize =
+    JSON.stringify(loadData).length +
+    (loadData.bolImageData ? loadData.bolImageData.length : 0) +
+    (loadData.rateImageData ? loadData.rateImageData.length : 0);
+
+  if(approxSize > 850000){
+    showToast('Photos are too large. Use smaller images.', '#D62828');
+    return;
+  }
+
   const promise = editingLoadId
     ? userColl('loads').doc(editingLoadId).update(loadData)
     : userColl('loads').add({
@@ -231,7 +241,10 @@ window.addLoad=function(){
       window.closeSheet();
       showToast(editingLoadId ? '✔ Load updated!' : '✔ Load saved!');
     })
-    .catch(() => showToast('Error saving', '#D62828'));
+    .catch((err) => {
+      console.error('Load save error:', err);
+      showToast('Error saving load/photos', '#D62828');
+    });
 };
 
 window.deleteLoad=function(id=editingLoadId){
@@ -550,30 +563,66 @@ window.handleReceiptUpload=function(e){
   reader.readAsDataURL(file); e.target.value='';
 };
 
-window.handleBolUpload=function(e){
-  const file=e.target.files[0];
+function compressImage(file, maxWidth = 1200, quality = 0.7){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      const img = new Image();
+
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let { width, height } = img;
+
+        if(width > maxWidth){
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+window.handleBolUpload = async function(e){
+  const file = e.target.files[0];
   if(!file) return;
 
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    pendingBolImage=ev.target.result;
+  try {
+    pendingBolImage = await compressImage(file, 1200, 0.7);
     showToast('BOL image ready');
-  };
-  reader.readAsDataURL(file);
-  e.target.value='';
+  } catch(err){
+    showToast('Error reading BOL image', '#D62828');
+  }
+
+  e.target.value = '';
 };
 
-window.handleRateUpload=function(e){
-  const file=e.target.files[0];
+window.handleRateUpload = async function(e){
+  const file = e.target.files[0];
   if(!file) return;
 
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    pendingRateImage=ev.target.result;
+  try {
+    pendingRateImage = await compressImage(file, 1200, 0.7);
     showToast('Rate confirmation ready');
-  };
-  reader.readAsDataURL(file);
-  e.target.value='';
+  } catch(err){
+    showToast('Error reading rate image', '#D62828');
+  }
+
+  e.target.value = '';
 };
 
 window.openReceiptForEdit=function(id){
