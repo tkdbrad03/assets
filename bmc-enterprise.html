@@ -20,827 +20,448 @@
   --nav-h: 72px;
   --header-h: 60px;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; overflow: hidden; background: var(--dark); color: var(--white); font-family: 'Barlow', sans-serif; -webkit-font-smoothing: antialiased; }
 
-html, body {
-  height: 100%;
-  overflow: hidden;
-  background: var(--dark);
-  color: var(--white);
-  font-family: 'Barlow', sans-serif;
-  -webkit-font-smoothing: antialiased;
+/* ── LOGIN SCREEN ── */
+.login-screen {
+position: fixed; inset: 0; z-index: 1000;
+background: var(–dark);
+display: flex; flex-direction: column; align-items: center; justify-content: center;
+padding: 32px;
+}
+.login-logo {
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 800; font-size: 52px;
+color: var(–white); margin-bottom: 4px; text-align: center;
+}
+.login-logo em { color: var(–red); font-style: normal; }
+.login-sub {
+font-family: ‘Share Tech Mono’, monospace;
+font-size: 11px; letter-spacing: 3px;
+color: var(–gray); text-transform: uppercase;
+margin-bottom: 8px; text-align: center;
+}
+.login-tagline {
+font-size: 13px; color: var(–gray); font-weight: 300;
+margin-bottom: 48px; text-align: center;
+}
+.login-divider {
+width: 60px; height: 3px;
+background: linear-gradient(90deg, var(–red), var(–blue));
+border-radius: 2px; margin: 0 auto 48px;
+}
+.btn-google {
+width: 100%; max-width: 320px;
+padding: 16px 24px;
+background: var(–white);
+border: none; border-radius: 12px;
+display: flex; align-items: center; justify-content: center; gap: 12px;
+font-family: ‘Barlow’, sans-serif;
+font-weight: 600; font-size: 16px;
+color: #333; cursor: pointer;
+transition: opacity 0.15s;
+box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+}
+.btn-google:active { opacity: 0.85; }
+.google-icon { width: 22px; height: 22px; }
+.login-note {
+margin-top: 20px;
+font-size: 12px; color: var(–gray);
+text-align: center; font-weight: 300;
 }
 
 /* ── HEADER ── */
 .app-header {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  height: var(--header-h);
-  background: var(--blue);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px;
-  border-bottom: 3px solid var(--red);
+position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+height: var(–header-h);
+background: var(–blue);
+display: flex; align-items: center; justify-content: space-between;
+padding: 0 16px;
+border-bottom: 3px solid var(–red);
 }
-.app-logo {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800;
-  font-size: 22px;
-  letter-spacing: 1px;
-  color: var(--white);
-  line-height: 1;
+.app-logo { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 1px; color: var(–white); line-height: 1; }
+.app-logo em { color: var(–gold); font-style: normal; }
+.app-logo small { display: block; font-size: 9px; font-weight: 400; letter-spacing: 3px; color: rgba(255,255,255,0.5); font-family: ‘Share Tech Mono’, monospace; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.user-avatar {
+width: 32px; height: 32px; border-radius: 50%;
+border: 2px solid var(–gold);
+object-fit: cover; cursor: pointer;
 }
-.app-logo em { color: var(--gold); font-style: normal; }
-.app-logo small {
-  display: block;
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 3px;
-  color: rgba(255,255,255,0.5);
-  font-family: 'Share Tech Mono', monospace;
-  text-transform: uppercase;
+.user-avatar-placeholder {
+width: 32px; height: 32px; border-radius: 50%;
+background: var(–gold); border: 2px solid var(–gold);
+display: flex; align-items: center; justify-content: center;
+font-family: ‘Barlow Condensed’, sans-serif;
+font-weight: 700; font-size: 14px; color: var(–blue);
+cursor: pointer;
 }
-.header-date {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
-  color: rgba(255,255,255,0.4);
-  text-align: right;
-  line-height: 1.5;
+.sync-indicator {
+font-family: ‘Share Tech Mono’, monospace;
+font-size: 9px; color: var(–green);
+letter-spacing: 1px;
 }
 
-/* ── SCROLL CONTAINER ── */
+/* ── SCROLL AREA ── */
 .scroll-area {
-  position: fixed;
-  top: var(--header-h);
-  bottom: var(--nav-h);
-  left: 0; right: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  padding: 16px 16px 8px;
+position: fixed; top: var(–header-h); bottom: var(–nav-h);
+left: 0; right: 0; overflow-y: auto;
+-webkit-overflow-scrolling: touch; padding: 16px 16px 8px;
 }
 
 /* ── BOTTOM NAV ── */
 .bottom-nav {
-  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-  height: var(--nav-h);
-  background: #0D0D14;
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: env(safe-area-inset-bottom);
-  scrollbar-width: none;
+position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+height: var(–nav-h); background: #0D0D14;
+border-top: 1px solid var(–border);
+display: flex; align-items: center;
+overflow-x: auto; -webkit-overflow-scrolling: touch;
+padding-bottom: env(safe-area-inset-bottom);
+scrollbar-width: none;
 }
 .bottom-nav::-webkit-scrollbar { display: none; }
 .nav-btn {
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 4px; height: 100%; cursor: pointer;
-  color: var(--gray);
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  border: none; background: none;
-  transition: color 0.15s;
-  padding: 8px 0 0;
-  flex: 0 0 20vw;
-  min-width: 64px;
+display: flex; flex-direction: column; align-items: center; justify-content: center;
+gap: 4px; height: 100%; cursor: pointer; color: var(–gray);
+font-family: ‘Barlow Condensed’, sans-serif; font-size: 10px; font-weight: 600;
+letter-spacing: 0.5px; text-transform: uppercase; border: none; background: none;
+transition: color 0.15s; padding: 8px 0 0; flex: 0 0 20vw; min-width: 64px;
 }
 .nav-btn .nav-icon { font-size: 22px; line-height: 1; }
-.nav-btn.active { color: var(--white); }
-.nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px var(--red)); }
-.nav-indicator {
-  position: absolute;
-  top: 0; height: 2px; background: var(--red);
-  transition: left 0.2s cubic-bezier(.4,0,.2,1), width 0.2s;
-}
+.nav-btn.active { color: var(–white); }
+.nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px var(–red)); }
 
 /* ── PANELS ── */
 .panel { display: none; }
 .panel.active { display: block; }
 
 /* ── STAT CARDS ── */
-.stat-strip {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-.stat-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px 16px;
-  position: relative;
-  overflow: hidden;
-}
-.stat-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: var(--blue);
-}
-.stat-card.accent::before { background: var(--red); }
-.stat-card.gold::before { background: var(--gold); }
+.stat-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.stat-card { background: var(–card-bg); border: 1px solid var(–border); border-radius: 10px; padding: 14px 16px; position: relative; overflow: hidden; }
+.stat-card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(–blue); }
+.stat-card.accent::before { background: var(–red); }
+.stat-card.gold::before { background: var(–gold); }
 .stat-card.wide { grid-column: 1 / -1; }
-.stat-label {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 6px;
-}
-.stat-value {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 32px;
-  font-weight: 800;
-  line-height: 1;
-  color: var(--white);
-}
-.stat-value.money { color: var(--gold); }
-.stat-sub {
-  font-size: 11px;
-  color: var(--gray);
-  margin-top: 3px;
-  font-weight: 300;
-}
+.stat-label { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(–gray); margin-bottom: 6px; }
+.stat-value { font-family: ‘Barlow Condensed’, sans-serif; font-size: 32px; font-weight: 800; line-height: 1; color: var(–white); }
+.stat-value.money { color: var(–gold); }
+.stat-sub { font-size: 11px; color: var(–gray); margin-top: 3px; font-weight: 300; }
 
 /* ── SECTION LABEL ── */
-.section-label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 10px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.section-label span { color: var(--white); }
+.section-label { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(–gray); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.section-label span { color: var(–white); }
 
 /* ── LOAD CARDS ── */
-.load-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 10px;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: border-color 0.15s;
-  -webkit-user-select: none;
-}
-.load-card:active { border-color: var(--blue-mid); }
-.load-card-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 10px;
-}
-.load-route {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 1.1;
-  flex: 1;
-}
-.load-route .arrow { color: var(--red); margin: 0 4px; }
-.load-amount {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 24px;
-  font-weight: 800;
-  color: var(--gold);
-  white-space: nowrap;
-  margin-left: 12px;
-}
-.load-meta {
-  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-}
-.load-date {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  color: var(--gray);
-}
-.load-miles {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  color: #5B8FD4;
-}
-.badge {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 1px;
-  padding: 2px 7px;
-  border-radius: 3px;
-  text-transform: uppercase;
-}
+.load-card { background: var(–card-bg); border: 1px solid var(–border); border-radius: 12px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+.load-card:active { border-color: var(–blue-mid); }
+.load-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.load-route { font-family: ‘Barlow Condensed’, sans-serif; font-size: 20px; font-weight: 700; line-height: 1.1; flex: 1; }
+.load-route .arrow { color: var(–red); margin: 0 4px; }
+.load-amount { font-family: ‘Barlow Condensed’, sans-serif; font-size: 24px; font-weight: 800; color: var(–gold); white-space: nowrap; margin-left: 12px; }
+.load-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.load-date { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; color: var(–gray); }
+.load-miles { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; color: #5B8FD4; }
+.badge { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; letter-spacing: 1px; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
 .badge-round { background: rgba(2,62,138,0.3); color: #7AB3FF; border: 1px solid rgba(2,62,138,0.6); }
 .badge-one { background: rgba(214,40,40,0.15); color: #FF8A8A; border: 1px solid rgba(214,40,40,0.3); }
-.load-client {
-  font-size: 12px;
-  color: var(--gray);
-  font-weight: 300;
-  margin-left: auto;
-}
-.load-delete {
-  position: absolute; top: 12px; right: 12px;
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: rgba(214,40,40,0.1);
-  border: 1px solid rgba(214,40,40,0.2);
-  color: var(--red);
-  font-size: 13px;
-  display: none; align-items: center; justify-content: center;
-  cursor: pointer;
-}
-.load-card:active .load-delete { display: flex; }
+.load-client { font-size: 12px; color: var(–gray); font-weight: 300; margin-left: auto; }
 
 /* ── FAB ── */
-.fab {
-  position: fixed;
-  bottom: calc(var(--nav-h) + 16px);
-  right: 16px;
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: var(--red);
-  border: none;
-  color: white;
-  font-size: 26px;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(214,40,40,0.5);
-  cursor: pointer;
-  z-index: 150;
-  transition: transform 0.15s, box-shadow 0.15s;
-}
-.fab:active { transform: scale(0.93); box-shadow: 0 2px 10px rgba(214,40,40,0.4); }
+.fab { position: fixed; bottom: calc(var(–nav-h) + 16px); right: 16px; width: 56px; height: 56px; border-radius: 50%; background: var(–red); border: none; color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(214,40,40,0.5); cursor: pointer; z-index: 150; transition: transform 0.15s; }
+.fab:active { transform: scale(0.93); }
 
 /* ── BOTTOM SHEET ── */
-.sheet-backdrop {
-  position: fixed; inset: 0; z-index: 300;
-  background: rgba(0,0,0,0.7);
-  display: none; align-items: flex-end;
-  backdrop-filter: blur(4px);
-}
+.sheet-backdrop { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; backdrop-filter: blur(4px); }
 .sheet-backdrop.open { display: flex; }
-.sheet {
-  width: 100%;
-  background: #13131A;
-  border-radius: 20px 20px 0 0;
-  border-top: 1px solid var(--border);
-  padding: 0 0 env(safe-area-inset-bottom);
-  max-height: 92vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  animation: slideUp 0.25s cubic-bezier(.4,0,.2,1);
-}
+.sheet { width: 100%; background: #13131A; border-radius: 20px 20px 0 0; border-top: 1px solid var(–border); padding: 0 0 env(safe-area-inset-bottom); max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch; animation: slideUp 0.25s cubic-bezier(.4,0,.2,1); }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.sheet-handle {
-  width: 36px; height: 4px;
-  background: var(--border);
-  border-radius: 2px;
-  margin: 12px auto 0;
-}
-.sheet-title {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  letter-spacing: 0.5px;
-  padding: 16px 20px 8px;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.sheet-close {
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: var(--border);
-  border: none; color: var(--white);
-  font-size: 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-}
+.sheet-handle { width: 36px; height: 4px; background: var(–border); border-radius: 2px; margin: 12px auto 0; }
+.sheet-title { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 20px; padding: 16px 20px 8px; border-bottom: 1px solid var(–border); display: flex; align-items: center; justify-content: space-between; }
+.sheet-close { width: 32px; height: 32px; border-radius: 50%; background: var(–border); border: none; color: var(–white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .sheet-body { padding: 16px 20px 24px; }
 
 /* ── FORM FIELDS ── */
 .field { margin-bottom: 14px; }
-.field label {
-  display: block;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 6px;
-}
-.field input, .field select, .field textarea {
-  width: 100%;
-  background: #0A0A0F;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--white);
-  font-family: 'Barlow', sans-serif;
-  font-size: 16px; /* prevents zoom on iOS */
-  padding: 13px 14px;
-  outline: none;
-  transition: border-color 0.15s;
-  -webkit-appearance: none;
-}
-.field input:focus, .field select:focus, .field textarea:focus {
-  border-color: var(--blue-mid);
-}
+.field label { display: block; font-family: ‘Share Tech Mono’, monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(–gray); margin-bottom: 6px; }
+.field input, .field select, .field textarea { width: 100%; background: #0A0A0F; border: 1px solid var(–border); border-radius: 8px; color: var(–white); font-family: ‘Barlow’, sans-serif; font-size: 16px; padding: 13px 14px; outline: none; transition: border-color 0.15s; -webkit-appearance: none; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(–blue-mid); }
 .field textarea { resize: none; min-height: 80px; font-size: 15px; }
-.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.field select { background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath d=‘M1 1l5 5 5-5’ stroke=’%236B6B80’ stroke-width=‘1.5’ fill=‘none’ stroke-linecap=‘round’/%3E%3C/svg%3E”); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 /* ── BUTTONS ── */
-.btn-full {
-  width: 100%; padding: 16px;
-  border-radius: 10px; border: none;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 17px;
-  letter-spacing: 1px; text-transform: uppercase;
-  cursor: pointer; transition: opacity 0.15s;
-}
+.btn-full { width: 100%; padding: 16px; border-radius: 10px; border: none; font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
 .btn-full:active { opacity: 0.8; }
-.btn-red { background: var(--red); color: white; }
-.btn-blue { background: var(--blue); color: white; }
-.btn-ghost { background: transparent; color: var(--gray); border: 1px solid var(--border) !important; border-radius: 10px; }
-
-.btn-outline {
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--gray);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 1px;
-  cursor: pointer;
-}
-.btn-outline:active { color: var(--white); border-color: #444; }
+.btn-red { background: var(–red); color: white; }
+.btn-blue { background: var(–blue); color: white; }
+.btn-ghost { background: transparent; color: var(–gray); border: 1px solid var(–border) !important; border-radius: 10px; }
+.btn-outline { padding: 10px 16px; border-radius: 8px; border: 1px solid var(–border); background: transparent; color: var(–gray); font-family: ‘Share Tech Mono’, monospace; font-size: 11px; letter-spacing: 1px; cursor: pointer; }
+.btn-outline:active { color: var(–white); border-color: #444; }
 
 /* ── EMPTY STATE ── */
-.empty-state {
-  text-align: center;
-  padding: 48px 20px;
-  color: var(--gray);
-}
+.empty-state { text-align: center; padding: 48px 20px; color: var(–gray); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
-.empty-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #444; }
+.empty-title { font-family: ‘Barlow Condensed’, sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #444; }
 .empty-sub { font-size: 13px; font-weight: 300; }
 
+/* ── FILTER BAR ── */
+.filter-bar { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
+.filter-bar::-webkit-scrollbar { display: none; }
+.filter-chip { flex-shrink: 0; padding: 7px 14px; border-radius: 20px; border: 1px solid var(–border); background: transparent; color: var(–gray); font-family: ‘Share Tech Mono’, monospace; font-size: 11px; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+.filter-chip.active { background: var(–blue); border-color: var(–blue); color: white; }
+
+/* ── SEARCH ── */
+.search-bar { position: relative; margin-bottom: 12px; }
+.search-bar input { width: 100%; background: var(–card-bg); border: 1px solid var(–border); border-radius: 10px; color: var(–white); font-family: ‘Barlow’, sans-serif; font-size: 15px; padding: 12px 14px 12px 40px; outline: none; }
+.search-bar input:focus { border-color: var(–blue-mid); }
+.search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: 0.4; }
+
+/* ── TOAST ── */
+.toast { position: fixed; top: calc(var(–header-h) + 8px); left: 16px; right: 16px; z-index: 400; background: var(–green); color: white; border-radius: 10px; padding: 14px 18px; font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; display: none; }
+
 /* ── INVOICE ── */
-.invoice-preview {
-  background: #F8F5EF;
-  color: #0A0A0F;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-top: 16px;
-}
-.inv-top {
-  background: var(--blue);
-  color: white;
-  padding: 20px;
-}
-.inv-top-logo {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800; font-size: 24px;
-  margin-bottom: 2px;
-}
-.inv-top-sub { font-family: 'Share Tech Mono', monospace; font-size: 10px; opacity: 0.6; letter-spacing: 2px; }
-.inv-stripe { height: 4px; background: linear-gradient(90deg, var(--red) 50%, var(--gold) 50%); }
+.invoice-preview { background: #F8F5EF; color: #0A0A0F; border-radius: 12px; overflow: hidden; margin-top: 16px; }
+.inv-top { background: var(–blue); color: white; padding: 20px; }
+.inv-top-logo { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 24px; margin-bottom: 2px; }
+.inv-stripe { height: 4px; background: linear-gradient(90deg, var(–red) 50%, var(–gold) 50%); }
 .inv-body { padding: 20px; }
-.inv-meta { display: flex; justify-content: space-between; margin-bottom: 16px; }
-.inv-meta-block .lbl { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 3px; }
-.inv-meta-block .val { font-weight: 600; font-size: 14px; }
-.inv-row {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 10px 0;
-  border-bottom: 1px solid #E8E4DC;
-  font-size: 13px;
-  gap: 8px;
-}
+.inv-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #E8E4DC; font-size: 13px; gap: 8px; }
 .inv-row:last-child { border-bottom: none; }
 .inv-row-left { flex: 1; }
 .inv-row-route { font-weight: 600; font-size: 14px; }
-.inv-row-date { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #888; margin-top: 2px; }
-.inv-row-amt { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--blue); white-space: nowrap; }
-.inv-total-row {
-  background: var(--blue);
-  color: white;
-  margin: 0 -20px -20px;
-  padding: 16px 20px;
-  display: flex; justify-content: space-between; align-items: center;
-}
-.inv-total-lbl { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; opacity: 0.7; }
-.inv-total-amt { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; color: var(--gold); }
-
-/* ── FILTER BAR ── */
-.filter-bar {
-  display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto;
-  padding-bottom: 4px; -webkit-overflow-scrolling: touch;
-}
-.filter-bar::-webkit-scrollbar { display: none; }
-.filter-chip {
-  flex-shrink: 0;
-  padding: 7px 14px;
-  border-radius: 20px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--gray);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.15s;
-}
-.filter-chip.active { background: var(--blue); border-color: var(--blue); color: white; }
-
-/* ── SEARCH ── */
-.search-bar {
-  position: relative; margin-bottom: 12px;
-}
-.search-bar input {
-  width: 100%;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--white);
-  font-family: 'Barlow', sans-serif;
-  font-size: 15px;
-  padding: 12px 14px 12px 40px;
-  outline: none;
-}
-.search-bar input:focus { border-color: var(--blue-mid); }
-.search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: 0.4; }
-
-/* ── SUCCESS TOAST ── */
-.toast {
-  position: fixed; top: calc(var(--header-h) + 8px); left: 16px; right: 16px; z-index: 400;
-  background: var(--green);
-  color: white;
-  border-radius: 10px;
-  padding: 14px 18px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 16px;
-  letter-spacing: 0.5px;
-  display: none;
-  animation: fadeInDown 0.2s ease;
-}
-@keyframes fadeInDown { from { opacity:0; transform: translateY(-10px); } to { opacity:1; transform: translateY(0); } }
-
-/* ── MONTH PICKER ── */
-.month-picker {
-  width: 100%;
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  color: var(--white);
-  font-family: 'Barlow', sans-serif;
-  font-size: 15px;
-  padding: 11px 14px;
-  outline: none;
-  -webkit-appearance: none;
-  margin-bottom: 12px;
-}
-
+.inv-row-date { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: #888; margin-top: 2px; }
+.inv-row-amt { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 20px; color: var(–blue); white-space: nowrap; }
+.inv-total-row { background: var(–blue); color: white; margin: 0 -20px -20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+.inv-total-lbl { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; letter-spacing: 1px; opacity: 0.7; }
+.inv-total-amt { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 32px; color: var(–gold); }
 
 /* ── RECEIPTS ── */
-.receipt-upload-zone {
-  background: var(--card-bg);
-  border: 2px dashed var(--border);
-  border-radius: 16px;
-  padding: 32px 20px;
-  text-align: center;
-  cursor: pointer;
-  margin-bottom: 20px;
-  transition: border-color 0.2s, background 0.2s;
-}
-.receipt-upload-zone:active {
-  border-color: var(--red);
-  background: rgba(214,40,40,0.05);
-}
+.receipt-upload-zone { background: var(–card-bg); border: 2px dashed var(–border); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: border-color 0.2s; }
+.receipt-upload-zone:active { border-color: var(–red); }
 .upload-icon { font-size: 40px; margin-bottom: 10px; }
-.upload-text {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 18px;
-  color: var(--white); margin-bottom: 4px;
-}
-.upload-sub {
-  font-size: 12px; color: var(--gray); font-weight: 300;
-}
-
-.receipt-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 10px;
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.receipt-card:active { border-color: var(--blue-mid); }
-.receipt-thumb {
-  width: 80px;
-  flex-shrink: 0;
-  background: #0A0A0F;
-  position: relative;
-}
-.receipt-thumb img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  display: block;
-}
-.receipt-thumb-placeholder {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; color: var(--gray); opacity: 0.3;
-}
-.receipt-info {
-  flex: 1; padding: 12px 14px;
-}
-.receipt-location {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 17px;
-  margin-bottom: 4px;
-}
-.receipt-meta {
-  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
-}
-.receipt-date {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; color: var(--gray);
-}
-.receipt-gallons {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px; color: #5B8FD4;
-}
-.receipt-amount-badge {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800; font-size: 20px;
-  color: var(--gold);
-  margin-left: auto;
-  padding: 12px 14px;
-  display: flex; align-items: center;
-}
-
-/* ── RECEIPT SUMMARY STRIP ── */
-.receipt-summary-strip {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
+.upload-text { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 18px; color: var(–white); margin-bottom: 4px; }
+.upload-sub { font-size: 12px; color: var(–gray); font-weight: 300; }
+.receipt-card { background: var(–card-bg); border: 1px solid var(–border); border-radius: 12px; margin-bottom: 10px; display: flex; align-items: stretch; overflow: hidden; cursor: pointer; }
+.receipt-thumb { width: 80px; flex-shrink: 0; background: #0A0A0F; }
+.receipt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.receipt-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(–gray); opacity: 0.3; min-height: 80px; }
+.receipt-info { flex: 1; padding: 12px 14px; }
+.receipt-location { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.receipt-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.receipt-date { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: var(–gray); }
+.receipt-gallons { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: #5B8FD4; }
+.receipt-amount-badge { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 20px; color: var(–gold); padding: 12px 14px; display: flex; align-items: center; }
+.receipt-summary-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
 
 /* ── MAINTENANCE ── */
-.maint-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-left: 4px solid var(--blue);
-  border-radius: 12px;
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: border-color 0.15s;
-}
-.maint-card:active { border-left-color: var(--red); }
-.maint-card-top {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  margin-bottom: 6px;
-}
-.maint-type {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 18px; flex: 1;
-}
-.maint-cost {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 800; font-size: 20px;
-  color: var(--gold); white-space: nowrap; margin-left: 12px;
-}
-.maint-vehicle {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px; color: #7AB3FF; margin-bottom: 4px;
-}
+.maint-card { background: var(–card-bg); border: 1px solid var(–border); border-left: 4px solid var(–blue); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; }
+.maint-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+.maint-type { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 18px; flex: 1; }
+.maint-cost { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 20px; color: var(–gold); white-space: nowrap; margin-left: 12px; }
+.maint-vehicle { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; color: #7AB3FF; margin-bottom: 4px; }
 .maint-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.maint-date, .maint-mileage {
-  font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gray);
-}
-.maint-shop { font-size: 11px; color: var(--gray); font-weight: 300; }
-.maint-next-due {
-  margin-top: 6px; font-size: 11px; color: var(--gold);
-  font-family: 'Share Tech Mono', monospace;
-}
-.maint-card[data-type="Oil Change"] { border-left-color: #E9B930; }
-.maint-card[data-type="Tires"]      { border-left-color: #5B8FD4; }
-.maint-card[data-type="Brakes"]     { border-left-color: #D62828; }
-.maint-card[data-type="Inspection"] { border-left-color: #2ECC71; }
-.maint-card[data-type="Engine"]     { border-left-color: #FF6B35; }
-.maint-card[data-type="Transmission"] { border-left-color: #9B59B6; }
+.maint-date, .maint-mileage { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: var(–gray); }
+.maint-shop { font-size: 11px; color: var(–gray); font-weight: 300; }
+.maint-next-due { margin-top: 6px; font-size: 11px; color: var(–gold); font-family: ‘Share Tech Mono’, monospace; }
+.maint-card[data-type=“Oil Change”] { border-left-color: #E9B930; }
+.maint-card[data-type=“Tires”] { border-left-color: #5B8FD4; }
+.maint-card[data-type=“Brakes”] { border-left-color: #D62828; }
+.maint-card[data-type=“Inspection”] { border-left-color: #2ECC71; }
+.maint-card[data-type=“Engine”] { border-left-color: #FF6B35; }
+.maint-card[data-type=“Transmission”] { border-left-color: #9B59B6; }
+
+/* ── LOADING OVERLAY ── */
+.loading-overlay { position: fixed; inset: 0; z-index: 500; background: var(–dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.loading-spinner { width: 40px; height: 40px; border: 3px solid var(–border); border-top-color: var(–red); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loading-text { font-family: ‘Share Tech Mono’, monospace; font-size: 12px; color: var(–gray); letter-spacing: 2px; }
+
+/* ── SIGN OUT MENU ── */
+.signout-menu { position: fixed; top: calc(var(–header-h) + 8px); right: 12px; z-index: 300; background: var(–card-bg); border: 1px solid var(–border); border-radius: 12px; padding: 8px; min-width: 180px; display: none; }
+.signout-menu.open { display: block; }
+.signout-user { font-size: 12px; color: var(–gray); padding: 8px 12px; border-bottom: 1px solid var(–border); margin-bottom: 4px; font-family: ‘Share Tech Mono’, monospace; }
+.signout-btn { width: 100%; padding: 10px 12px; background: transparent; border: none; color: var(–red); font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 15px; text-align: left; cursor: pointer; border-radius: 8px; }
+.signout-btn:hover { background: rgba(214,40,40,0.1); }
+
+/* ── MONTH PICKER ── */
+.month-picker { width: 100%; background: var(–card-bg); border: 1px solid var(–border); border-radius: 8px; color: var(–white); font-family: ‘Barlow’, sans-serif; font-size: 15px; padding: 11px 14px; outline: none; -webkit-appearance: none; margin-bottom: 12px; }
+
+/* ── FULLSCREEN IMG ── */
+#receipt-fullscreen { display: none; position: fixed; inset: 0; z-index: 500; background: #000; align-items: center; justify-content: center; flex-direction: column; }
 
 @media print {
-  .app-header, .bottom-nav, .fab, .sheet-backdrop, .toast,
-  .btn-full, .btn-outline, .filter-bar, .search-bar, .section-label button { display: none !important; }
-  body { overflow: visible; background: white; color: black; }
-  .scroll-area { position: static; overflow: visible; }
+.app-header, .bottom-nav, .fab, .sheet-backdrop, .toast, .btn-full, .btn-outline, .filter-bar, .search-bar, .signout-menu, .loading-overlay { display: none !important; }
+body { overflow: visible; background: white; color: black; }
+.scroll-area { position: static; overflow: visible; }
 }
 </style>
+
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="app-header">
-  <div class="app-logo">
-    BM<em>&</em>C Enterprise
-    <small>General Freight · LLC</small>
-  </div>
-  <div class="header-date" id="live-date"></div>
-</header>
+<!-- LOADING OVERLAY -->
+
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">LOADING...</div>
+</div>
+
+<!-- LOGIN SCREEN -->
+
+<div class="login-screen" id="login-screen" style="display:none">
+  <div class="login-logo">BM<em>&</em>C Enterprise</div>
+  <div class="login-sub">General Freight · LLC</div>
+  <div class="login-divider"></div>
+  <div class="login-tagline">Your freight. Your records. Secure in the cloud.</div>
+  <button class="btn-google" onclick="signInWithGoogle()">
+    <svg class="google-icon" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Sign in with Google
+  </button>
+  <div class="login-note">bmcenterprise73@gmail.com</div>
+</div>
+
+<!-- SIGN OUT MENU -->
+
+<div class="signout-menu" id="signout-menu">
+  <div class="signout-user" id="signout-user-email"></div>
+  <button class="signout-btn" onclick="signOut()">Sign Out</button>
+</div>
 
 <!-- TOAST -->
+
 <div class="toast" id="toast"></div>
 
+<!-- HEADER -->
+
+<header class="app-header" id="app-header" style="display:none">
+  <div class="app-logo">BM<em>&</em>C Enterprise<small>General Freight · LLC</small></div>
+  <div class="header-right">
+    <span class="sync-indicator" id="sync-indicator">● LIVE</span>
+    <div class="user-avatar-placeholder" id="user-avatar" onclick="toggleSignoutMenu()">C</div>
+  </div>
+</header>
+
 <!-- SCROLL AREA -->
-<div class="scroll-area" id="scroll-area">
+
+<div class="scroll-area" id="scroll-area" style="display:none">
 
   <!-- DASHBOARD -->
+
   <div class="panel active" id="panel-dash">
-    <div class="stat-strip" id="stat-strip"></div>
+    <div class="stat-strip" id="stat-strip">
+      <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money">$0.00</div><div class="stat-sub">0 loads</div></div>
+      <div class="stat-card accent"><div class="stat-label">Total Earned</div><div class="stat-value money">$0.00</div><div class="stat-sub">0 loads total</div></div>
+      <div class="stat-card wide"><div class="stat-label">Total Miles</div><div class="stat-value">0 <span style="font-size:16px;font-weight:400;color:var(--gray)">mi</span></div></div>
+    </div>
     <div class="section-label"><span>Recent Loads</span></div>
-    <div id="dash-loads"></div>
+    <div id="dash-loads"><div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div></div>
   </div>
 
   <!-- ALL LOADS -->
+
   <div class="panel" id="panel-loads">
-    <div class="search-bar">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="search-input" placeholder="Search city, client, BOL…" oninput="renderLoads()">
-    </div>
-    <div class="filter-bar" id="filter-chips">
+    <div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="search-input" placeholder="Search city, client, BOL…" oninput="renderLoads()"></div>
+    <div class="filter-bar">
       <button class="filter-chip active" onclick="setFilter('all',this)">All</button>
       <button class="filter-chip" onclick="setFilter('one-way',this)">One-Way</button>
       <button class="filter-chip" onclick="setFilter('round-trip',this)">Round Trip</button>
     </div>
     <input type="month" class="month-picker" id="filter-month" onchange="renderLoads()">
-    <div class="section-label">
-      <span id="loads-count">All Loads</span>
-      <button class="btn-outline" onclick="exportCSV()">⬇ CSV</button>
-    </div>
+    <div class="section-label"><span id="loads-count">All Loads</span><button class="btn-outline" onclick="exportCSV()">⬇ CSV</button></div>
     <div id="all-loads"></div>
   </div>
 
   <!-- INVOICE -->
+
   <div class="panel" id="panel-invoice">
     <div class="section-label"><span>Invoice Generator</span></div>
-
-    <div class="field">
-      <label>Bill To (Client)</label>
-      <input type="text" id="inv-client" placeholder="Client or company name">
+    <div class="field"><label>Bill To (Client)</label><input type="text" id="inv-client" placeholder="Client or company name"></div>
+    <div class="field-row">
+      <div class="field"><label>Invoice #</label><input type="text" id="inv-num" placeholder="BM&C-001"></div>
+      <div class="field"><label>Invoice Date</label><input type="date" id="inv-date"></div>
     </div>
     <div class="field-row">
-      <div class="field">
-        <label>Invoice #</label>
-        <input type="text" id="inv-num" placeholder="BM&C-001">
-      </div>
-      <div class="field">
-        <label>Invoice Date</label>
-        <input type="date" id="inv-date">
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>Period Start</label>
-        <input type="date" id="inv-start">
-      </div>
-      <div class="field">
-        <label>Period End</label>
-        <input type="date" id="inv-end">
-      </div>
+      <div class="field"><label>Period Start</label><input type="date" id="inv-start"></div>
+      <div class="field"><label>Period End</label><input type="date" id="inv-end"></div>
     </div>
     <button class="btn-full btn-blue" onclick="generateInvoice()" style="margin-bottom:8px">Generate Invoice</button>
     <div id="invoice-out"></div>
   </div>
 
-
   <!-- RECEIPTS -->
-  <div class="panel" id="panel-receipts">
-    <div class="section-label"><span>Gas Receipts</span>
-      <span id="receipt-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span>
-    </div>
 
-    <!-- Upload zone -->
-    <div class="receipt-upload-zone" id="upload-zone" onclick="document.getElementById('receipt-file-input').click()">
+  <div class="panel" id="panel-receipts">
+    <div class="section-label"><span>Gas Receipts</span><span id="receipt-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span></div>
+    <div class="receipt-upload-zone" onclick="document.getElementById('receipt-file-input').click()">
       <div class="upload-icon">⛽</div>
-      <div class="upload-text">Tap to take a photo or upload</div>
-      <div class="upload-sub">Snap your gas receipt right here</div>
+      <div class="upload-text">Tap to photograph receipt</div>
+      <div class="upload-sub">Saved to your Google Drive</div>
       <input type="file" id="receipt-file-input" accept="image/*" capture="environment" style="display:none" onchange="handleReceiptUpload(event)">
     </div>
-
-    <!-- Receipt detail sheet trigger area -->
     <div id="receipts-gallery"></div>
   </div>
 
   <!-- MAINTENANCE -->
-  <div class="panel" id="panel-maintenance">
-    <div class="section-label">
-      <span>Maintenance Log</span>
-      <span id="maint-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span>
-    </div>
-    <div class="stat-strip" id="maint-stat-strip"></div>
 
-    <!-- Quick-add type chips -->
+  <div class="panel" id="panel-maintenance">
+    <div class="section-label"><span>Maintenance Log</span><span id="maint-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span></div>
+    <div class="stat-strip" id="maint-stat-strip"></div>
     <div class="section-label" style="margin-top:4px"><span>Quick Log</span></div>
-    <div class="filter-bar" id="maint-type-chips" style="margin-bottom:16px">
+    <div class="filter-bar" style="margin-bottom:16px">
       <button class="filter-chip" onclick="quickMaint('Oil Change')">🛢 Oil Change</button>
       <button class="filter-chip" onclick="quickMaint('Tires')">🔄 Tires</button>
       <button class="filter-chip" onclick="quickMaint('Brakes')">🛑 Brakes</button>
       <button class="filter-chip" onclick="quickMaint('Inspection')">📋 Inspection</button>
       <button class="filter-chip" onclick="quickMaint('Other')">➕ Other</button>
     </div>
-
     <div class="section-label"><span>History</span></div>
     <div id="maint-list"></div>
   </div>
 
 </div>
-<!-- /scroll-area -->
 
-<!-- FAB (only on dash + loads) -->
-<button class="fab" id="fab" onclick="openSheet()">＋</button>
+<!-- FAB -->
+
+<button class="fab" id="fab" onclick="openSheet()" style="display:none">＋</button>
 
 <!-- BOTTOM NAV -->
-<nav class="bottom-nav" id="bottom-nav">
-  <button class="nav-btn active" onclick="switchTab('dash')" id="nav-dash">
-    <span class="nav-icon">📊</span>Dashboard
-  </button>
-  <button class="nav-btn" onclick="switchTab('loads')" id="nav-loads">
-    <span class="nav-icon">🚛</span>Loads
-  </button>
-  <button class="nav-btn" onclick="switchTab('invoice')" id="nav-invoice">
-    <span class="nav-icon">🧾</span>Invoice
-  </button>
-  <button class="nav-btn" onclick="switchTab('receipts')" id="nav-receipts">
-    <span class="nav-icon">📷</span>Receipts
-  </button>
-  <button class="nav-btn" onclick="switchTab('maintenance')" id="nav-maintenance">
-    <span class="nav-icon">🔧</span>Maintenance
-  </button>
+
+<nav class="bottom-nav" id="bottom-nav" style="display:none">
+  <button class="nav-btn active" onclick="switchTab('dash')" id="nav-dash"><span class="nav-icon">📊</span>Dashboard</button>
+  <button class="nav-btn" onclick="switchTab('loads')" id="nav-loads"><span class="nav-icon">🚛</span>Loads</button>
+  <button class="nav-btn" onclick="switchTab('invoice')" id="nav-invoice"><span class="nav-icon">🧾</span>Invoice</button>
+  <button class="nav-btn" onclick="switchTab('receipts')" id="nav-receipts"><span class="nav-icon">📷</span>Receipts</button>
+  <button class="nav-btn" onclick="switchTab('maintenance')" id="nav-maintenance"><span class="nav-icon">🔧</span>Maint.</button>
 </nav>
 
 <!-- ADD LOAD SHEET -->
+
 <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheetIfBackdrop(event)">
-  <div class="sheet" id="add-sheet">
+  <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">
-      Log Load
-      <button class="sheet-close" onclick="closeSheet()">✕</button>
-    </div>
+    <div class="sheet-title">Log Load<button class="sheet-close" onclick="closeSheet()">✕</button></div>
     <div class="sheet-body">
       <div class="field-row">
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="f-date">
-        </div>
-        <div class="field">
-          <label>Trip Type</label>
-          <select id="f-type">
-            <option value="one-way">One-Way</option>
-            <option value="round-trip">Round Trip</option>
-          </select>
-        </div>
+        <div class="field"><label>Date</label><input type="date" id="f-date"></div>
+        <div class="field"><label>Trip Type</label><select id="f-type"><option value="one-way">One-Way</option><option value="round-trip">Round Trip</option></select></div>
       </div>
-      <div class="field">
-        <label>Pickup City</label>
-        <input type="text" id="f-from" placeholder="e.g. Lawrence">
-      </div>
-      <div class="field">
-        <label>Delivery City</label>
-        <input type="text" id="f-to" placeholder="e.g. Piedmont">
+      <div class="field"><label>Pickup City</label><input type="text" id="f-from" placeholder="e.g. Lawrence"></div>
+      <div class="field"><label>Delivery City</label><input type="text" id="f-to" placeholder="e.g. Piedmont"></div>
+      <div class="field-row">
+        <div class="field"><label>Miles Driven</label><input type="number" id="f-miles" placeholder="0" inputmode="numeric"></div>
+        <div class="field"><label>Amount Paid ($)</label><input type="number" id="f-amount" placeholder="0.00" inputmode="decimal" step="0.01"></div>
       </div>
       <div class="field-row">
-        <div class="field">
-          <label>Miles Driven</label>
-          <input type="number" id="f-miles" placeholder="0" inputmode="numeric">
-        </div>
-        <div class="field">
-          <label>Amount Paid ($)</label>
-          <input type="number" id="f-amount" placeholder="0.00" inputmode="decimal" step="0.01">
-        </div>
+        <div class="field"><label>Client / Broker</label><input type="text" id="f-client" placeholder="Who hired you?"></div>
+        <div class="field"><label>BOL #</label><input type="text" id="f-bol" placeholder="Bill of Lading #"></div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Client / Broker</label>
-          <input type="text" id="f-client" placeholder="Who hired you?">
-        </div>
-        <div class="field">
-          <label>BOL #</label>
-          <input type="text" id="f-bol" placeholder="Bill of Lading #">
-        </div>
-      </div>
-      <div class="field">
-        <label>Notes</label>
-        <textarea id="f-notes" placeholder="Any extra details…"></textarea>
-      </div>
+      <div class="field"><label>Notes</label><textarea id="f-notes" placeholder="Any extra details…"></textarea></div>
       <button class="btn-full btn-red" onclick="addLoad()">Save Load</button>
       <div style="height:8px"></div>
       <button class="btn-full btn-ghost" onclick="closeSheet()">Cancel</button>
@@ -848,610 +469,21 @@ html, body {
   </div>
 </div>
 
-<script>
-// ── STATE ──────────────────────────────────────────────────────────────────
-let loads = JSON.parse(localStorage.getItem('bmc_loads') || '[]');
-let activeFilter = 'all';
-
-function save() { localStorage.setItem('bmc_loads', JSON.stringify(loads)); }
-
-// ── INIT ───────────────────────────────────────────────────────────────────
-window.onload = () => {
-  const now = new Date();
-  document.getElementById('live-date').innerHTML =
-    now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}) + '<br>' +
-    now.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
-  document.getElementById('f-date').value = toISO(now);
-  document.getElementById('inv-date').value = toISO(now);
-  document.getElementById('inv-num').value = 'BM&C-' + String(loads.length + 1).padStart(3,'0');
-  renderDash();
-  renderLoads();
-};
-
-function toISO(d) { return d.toISOString().split('T')[0]; }
-function today() { return toISO(new Date()); }
-
-function fmtDate(s) {
-  if (!s) return '—';
-  const [y,m,d] = s.split('-');
-  return `${m}/${d}/${y}`;
-}
-function fmtMoney(n) {
-  return '$' + Number(n).toLocaleString('en-US',{minimumFractionDigits:2});
-}
-
-// ── TABS ───────────────────────────────────────────────────────────────────
-function switchTab(id) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.getElementById('nav-' + id).classList.add('active');
-  document.getElementById('fab').style.display = (id === 'invoice' || id === 'receipts' || id === 'maintenance') ? 'none' : 'flex';
-  document.getElementById('scroll-area').scrollTop = 0;
-  if (id === 'dash') renderDash();
-  if (id === 'loads') renderLoads();
-  if (id === 'receipts') renderReceipts();
-  if (id === 'maintenance') renderMaintenance();
-}
-
-// ── SHEET ──────────────────────────────────────────────────────────────────
-function openSheet() {
-  document.getElementById('sheet-backdrop').classList.add('open');
-  document.getElementById('f-date').value = today();
-  setTimeout(() => document.getElementById('f-from').focus(), 300);
-}
-function closeSheet() {
-  document.getElementById('sheet-backdrop').classList.remove('open');
-}
-function closeSheetIfBackdrop(e) {
-  if (e.target === document.getElementById('sheet-backdrop')) closeSheet();
-}
-
-// ── ADD LOAD ───────────────────────────────────────────────────────────────
-function addLoad() {
-  const load = {
-    id: Date.now(),
-    date: document.getElementById('f-date').value,
-    type: document.getElementById('f-type').value,
-    from: document.getElementById('f-from').value.trim(),
-    to: document.getElementById('f-to').value.trim(),
-    miles: parseFloat(document.getElementById('f-miles').value) || 0,
-    amount: parseFloat(document.getElementById('f-amount').value) || 0,
-    client: document.getElementById('f-client').value.trim(),
-    bol: document.getElementById('f-bol').value.trim(),
-    notes: document.getElementById('f-notes').value.trim(),
-  };
-  if (!load.date || !load.from || !load.to || !load.amount) {
-    showToast('⚠ Fill in Date, From, To & Amount', '#D62828');
-    return;
-  }
-  loads.unshift(load);
-  save();
-  closeSheet();
-  clearForm();
-  renderDash();
-  renderLoads();
-  document.getElementById('inv-num').value = 'BM&C-' + String(loads.length + 1).padStart(3,'0');
-  showToast('✔ Load saved!');
-}
-
-function clearForm() {
-  ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('f-type').value = 'one-way';
-}
-
-// ── TOAST ──────────────────────────────────────────────────────────────────
-function showToast(msg, bg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = bg || '#2ECC71';
-  t.style.display = 'block';
-  setTimeout(() => t.style.display = 'none', 2200);
-}
-
-// ── DASHBOARD ──────────────────────────────────────────────────────────────
-function renderDash() {
-  const mo = new Date().toISOString().slice(0,7);
-  const thisMonth = loads.filter(l => l.date && l.date.startsWith(mo));
-  const totalEarned = loads.reduce((s,l) => s+l.amount,0);
-  const monthEarned = thisMonth.reduce((s,l) => s+l.amount,0);
-  const totalMiles  = loads.reduce((s,l) => s+l.miles,0);
-
-  document.getElementById('stat-strip').innerHTML = `
-    <div class="stat-card gold">
-      <div class="stat-label">This Month</div>
-      <div class="stat-value money">${fmtMoney(monthEarned)}</div>
-      <div class="stat-sub">${thisMonth.length} load${thisMonth.length!==1?'s':''}</div>
-    </div>
-    <div class="stat-card accent">
-      <div class="stat-label">Total Earned</div>
-      <div class="stat-value money">${fmtMoney(totalEarned)}</div>
-      <div class="stat-sub">${loads.length} loads total</div>
-    </div>
-    <div class="stat-card wide">
-      <div class="stat-label">Total Miles Driven</div>
-      <div class="stat-value">${totalMiles.toLocaleString()}<span style="font-size:16px;font-weight:400;color:var(--gray)"> mi</span></div>
-    </div>
-  `;
-
-  const el = document.getElementById('dash-loads');
-  const recent = loads.slice(0,8);
-  if (!recent.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div>`;
-    return;
-  }
-  el.innerHTML = recent.map(l => loadCard(l)).join('');
-}
-
-// ── LOADS LIST ─────────────────────────────────────────────────────────────
-function setFilter(val, el) {
-  activeFilter = val;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-  renderLoads();
-}
-
-function renderLoads() {
-  const search = (document.getElementById('search-input').value || '').toLowerCase();
-  const monthF = document.getElementById('filter-month').value;
-
-  let filtered = loads.filter(l => {
-    const matchSearch = !search || [l.from,l.to,l.client,l.bol,l.notes].join(' ').toLowerCase().includes(search);
-    const matchType = activeFilter === 'all' || l.type === activeFilter;
-    const matchMonth = !monthF || (l.date && l.date.startsWith(monthF));
-    return matchSearch && matchType && matchMonth;
-  });
-
-  document.getElementById('loads-count').textContent = `${filtered.length} Load${filtered.length!==1?'s':''}`;
-
-  const el = document.getElementById('all-loads');
-  if (!filtered.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">No loads found</div><div class="empty-sub">Try changing your filters</div></div>`;
-    return;
-  }
-  el.innerHTML = filtered.map(l => loadCard(l, true)).join('');
-}
-
-function loadCard(l, showDelete) {
-  return `
-    <div class="load-card" onclick="${showDelete ? `confirmDelete(${l.id}, event)` : ''}">
-      <div class="load-card-top">
-        <div class="load-route">${l.from}<span class="arrow">→</span>${l.to}</div>
-        <div class="load-amount">${fmtMoney(l.amount)}</div>
-      </div>
-      <div class="load-meta">
-        <span class="load-date">${fmtDate(l.date)}</span>
-        ${l.miles ? `<span class="load-miles">${l.miles.toLocaleString()} mi</span>` : ''}
-        <span class="badge ${l.type==='round-trip'?'badge-round':'badge-one'}">${l.type}</span>
-        ${l.client ? `<span class="load-client">${l.client}</span>` : ''}
-      </div>
-    </div>
-  `;
-}
-
-function confirmDelete(id, e) {
-  e.stopPropagation();
-  if (!confirm('Delete this load?')) return;
-  loads = loads.filter(l => l.id !== id);
-  save();
-  renderDash();
-  renderLoads();
-  showToast('Load deleted', '#6B6B80');
-}
-
-// ── CSV EXPORT ─────────────────────────────────────────────────────────────
-function exportCSV() {
-  const headers = ['Date','From','To','Client','BOL','Miles','Amount','Type','Notes'];
-  const rows = loads.map(l =>
-    [l.date,l.from,l.to,l.client,l.bol,l.miles,l.amount,l.type,l.notes]
-      .map(v => `"${v||''}"`)
-      .join(',')
-  );
-  const csv = [headers.join(','), ...rows].join('\n');
-  const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
-  a.download = 'BMC_Loads_' + today() + '.csv';
-  a.click();
-}
-
-// ── INVOICE ────────────────────────────────────────────────────────────────
-function generateInvoice() {
-  const client  = document.getElementById('inv-client').value.trim() || 'Client';
-  const invNum  = document.getElementById('inv-num').value.trim() || 'BM&C-001';
-  const invDate = document.getElementById('inv-date').value;
-  const start   = document.getElementById('inv-start').value;
-  const end     = document.getElementById('inv-end').value;
-
-  let sel = [...loads];
-  if (start) sel = sel.filter(l => l.date >= start);
-  if (end)   sel = sel.filter(l => l.date <= end);
-  if (client !== 'Client') sel = sel.filter(l => l.client.toLowerCase().includes(client.toLowerCase()));
-
-  const out = document.getElementById('invoice-out');
-  if (!sel.length) {
-    out.innerHTML = `<p style="color:var(--gray);font-family:'Share Tech Mono',monospace;font-size:12px;padding:16px 0">No loads match — check your filters.</p>`;
-    return;
-  }
-
-  const total = sel.reduce((s,l) => s+l.amount, 0);
-  const rows = sel.map(l => `
-    <div class="inv-row">
-      <div class="inv-row-left">
-        <div class="inv-row-route">${l.from} → ${l.to}</div>
-        <div class="inv-row-date">${fmtDate(l.date)}${l.bol ? ' · BOL '+l.bol : ''}</div>
-      </div>
-      <div class="inv-row-amt">${fmtMoney(l.amount)}</div>
-    </div>
-  `).join('');
-
-  out.innerHTML = `
-    <button class="btn-outline" onclick="window.print()" style="margin-bottom:12px;width:100%">🖨 Print / Save PDF</button>
-    <div class="invoice-preview">
-      <div class="inv-top">
-        <div class="inv-top-logo">BM&amp;C Enterprise LLC</div>
-        <div class="inv-top-sub">General Freight Carrier</div>
-        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:flex-end">
-          <div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;opacity:0.5;letter-spacing:1px">INVOICE</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800">${invNum}</div>
-          </div>
-          <div style="text-align:right;font-family:'Share Tech Mono',monospace;font-size:10px;opacity:0.6">
-            ${fmtDate(invDate)}<br>Bill To: ${client}
-          </div>
-        </div>
-      </div>
-      <div class="inv-stripe"></div>
-      <div class="inv-body">
-        ${rows}
-        <div class="inv-total-row">
-          <div class="inv-total-lbl">TOTAL DUE · ${sel.length} LOADS</div>
-          <div class="inv-total-amt">${fmtMoney(total)}</div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-// ── RECEIPTS ────────────────────────────────────────────────────────────────
-let receipts = JSON.parse(localStorage.getItem('bmc_receipts') || '[]');
-let pendingImageData = null;
-let editingReceiptId = null;
-
-function saveReceipts() { localStorage.setItem('bmc_receipts', JSON.stringify(receipts)); }
-
-function handleReceiptUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    pendingImageData = ev.target.result;
-    editingReceiptId = null;
-    // Pre-fill date
-    document.getElementById('r-date').value = today();
-    document.getElementById('r-amount').value = '';
-    document.getElementById('r-location').value = '';
-    document.getElementById('r-gallons').value = '';
-    document.getElementById('r-notes').value = '';
-    document.getElementById('receipt-preview-img').src = pendingImageData;
-    document.getElementById('delete-receipt-btn').style.display = 'none';
-    document.getElementById('receipt-sheet-backdrop').classList.add('open');
-  };
-  reader.readAsDataURL(file);
-  e.target.value = ''; // reset so same file can be picked again
-}
-
-function openReceiptForEdit(id) {
-  const r = receipts.find(r => r.id === id);
-  if (!r) return;
-  editingReceiptId = id;
-  pendingImageData = null;
-  document.getElementById('receipt-preview-img').src = r.img || '';
-  document.getElementById('r-date').value = r.date || today();
-  document.getElementById('r-amount').value = r.amount || '';
-  document.getElementById('r-location').value = r.location || '';
-  document.getElementById('r-gallons').value = r.gallons || '';
-  document.getElementById('r-notes').value = r.notes || '';
-  document.getElementById('delete-receipt-btn').style.display = 'block';
-  document.getElementById('receipt-sheet-backdrop').classList.add('open');
-}
-
-function saveReceipt() {
-  const date     = document.getElementById('r-date').value;
-  const amount   = parseFloat(document.getElementById('r-amount').value) || 0;
-  const location = document.getElementById('r-location').value.trim();
-  const gallons  = parseFloat(document.getElementById('r-gallons').value) || 0;
-  const notes    = document.getElementById('r-notes').value.trim();
-
-  if (editingReceiptId) {
-    const idx = receipts.findIndex(r => r.id === editingReceiptId);
-    if (idx !== -1) {
-      receipts[idx] = { ...receipts[idx], date, amount, location, gallons, notes };
-    }
-  } else {
-    if (!pendingImageData) { showToast('No image selected', '#D62828'); return; }
-    receipts.unshift({ id: Date.now(), img: pendingImageData, date, amount, location, gallons, notes });
-  }
-
-  saveReceipts();
-  closeReceiptSheet();
-  renderReceipts();
-  showToast('✔ Receipt saved!');
-}
-
-function deleteReceipt() {
-  if (!editingReceiptId) return;
-  if (!confirm('Delete this receipt?')) return;
-  receipts = receipts.filter(r => r.id !== editingReceiptId);
-  saveReceipts();
-  closeReceiptSheet();
-  renderReceipts();
-  showToast('Receipt deleted', '#6B6B80');
-}
-
-function closeReceiptSheet() {
-  document.getElementById('receipt-sheet-backdrop').classList.remove('open');
-  pendingImageData = null;
-  editingReceiptId = null;
-}
-function closeReceiptSheetIfBackdrop(e) {
-  if (e.target === document.getElementById('receipt-sheet-backdrop')) closeReceiptSheet();
-}
-
-function openFullscreen(src) {
-  document.getElementById('receipt-fullscreen-img').src = src;
-  document.getElementById('receipt-fullscreen').style.display = 'flex';
-}
-function closeFullscreen() {
-  document.getElementById('receipt-fullscreen').style.display = 'none';
-}
-
-function renderReceipts() {
-  const totalSpent = receipts.reduce((s,r) => s + r.amount, 0);
-  const mo = new Date().toISOString().slice(0,7);
-  const monthSpent = receipts.filter(r => r.date && r.date.startsWith(mo)).reduce((s,r) => s + r.amount, 0);
-
-  // Summary label
-  document.getElementById('receipt-total-label').textContent =
-    receipts.length ? `${receipts.length} receipts · ${fmtMoney(totalSpent)} total` : '';
-
-  const gallery = document.getElementById('receipts-gallery');
-  if (!receipts.length) {
-    gallery.innerHTML = `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">No receipts yet</div><div class="empty-sub">Tap the zone above to photograph your first gas receipt</div></div>`;
-    return;
-  }
-
-  // Month summary cards
-  let summaryHtml = `
-    <div class="receipt-summary-strip">
-      <div class="stat-card gold">
-        <div class="stat-label">This Month</div>
-        <div class="stat-value money" style="font-size:22px">${fmtMoney(monthSpent)}</div>
-        <div class="stat-sub">gas expenses</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">All Time</div>
-        <div class="stat-value money" style="font-size:22px">${fmtMoney(totalSpent)}</div>
-        <div class="stat-sub">${receipts.length} receipt${receipts.length!==1?'s':''}</div>
-      </div>
-    </div>
-  `;
-
-  const cards = receipts.map(r => `
-    <div class="receipt-card" onclick="openReceiptForEdit(${r.id})">
-      <div class="receipt-thumb">
-        ${r.img
-          ? `<img src="${r.img}" alt="receipt" onclick="event.stopPropagation();openFullscreen('${r.img}')">`
-          : `<div class="receipt-thumb-placeholder">⛽</div>`}
-      </div>
-      <div class="receipt-info">
-        <div class="receipt-location">${r.location || 'Gas Station'}</div>
-        <div class="receipt-meta">
-          <span class="receipt-date">${fmtDate(r.date)}</span>
-          ${r.gallons ? `<span class="receipt-gallons">${r.gallons} gal</span>` : ''}
-          ${r.notes ? `<span style="font-size:11px;color:var(--gray);font-style:italic">${r.notes}</span>` : ''}
-        </div>
-      </div>
-      <div class="receipt-amount-badge">${r.amount ? fmtMoney(r.amount) : '—'}</div>
-    </div>
-  `).join('');
-
-  gallery.innerHTML = summaryHtml + cards;
-}
-
-// ── MAINTENANCE ─────────────────────────────────────────────────────────────
-let maints = JSON.parse(localStorage.getItem('bmc_maints') || '[]');
-let editingMaintId = null;
-let pendingMaintPhoto = null;
-
-function saveMaints() { localStorage.setItem('bmc_maints', JSON.stringify(maints)); }
-
-function quickMaint(type) {
-  openMaintSheet();
-  document.getElementById('m-type').value = type;
-  document.getElementById('maint-sheet-title').textContent = 'Log ' + type;
-}
-
-function openMaintSheet(id) {
-  editingMaintId = id || null;
-  pendingMaintPhoto = null;
-  const isEdit = !!id;
-  document.getElementById('maint-sheet-title').textContent = isEdit ? 'Edit Record' : 'Log Service';
-  document.getElementById('delete-maint-btn').style.display = isEdit ? 'block' : 'none';
-  document.getElementById('m-photo-preview-wrap').innerHTML = `<div class="upload-icon" style="font-size:24px">📸</div><div class="upload-text" style="font-size:14px">Tap to add photo</div>`;
-
-  if (isEdit) {
-    const r = maints.find(m => m.id === id);
-    if (!r) return;
-    document.getElementById('m-vehicle').value  = r.vehicle || '';
-    document.getElementById('m-type').value     = r.type || 'Oil Change';
-    document.getElementById('m-date').value     = r.date || today();
-    document.getElementById('m-cost').value     = r.cost || '';
-    document.getElementById('m-mileage').value  = r.mileage || '';
-    document.getElementById('m-shop').value     = r.shop || '';
-    document.getElementById('m-next').value     = r.next || '';
-    document.getElementById('m-notes').value    = r.notes || '';
-    if (r.photo) {
-      document.getElementById('m-photo-preview-wrap').innerHTML =
-        `<img src="${r.photo}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover">`;
-      pendingMaintPhoto = r.photo;
-    }
-  } else {
-    document.getElementById('m-vehicle').value  = '';
-    document.getElementById('m-type').value     = 'Oil Change';
-    document.getElementById('m-date').value     = today();
-    document.getElementById('m-cost').value     = '';
-    document.getElementById('m-mileage').value  = '';
-    document.getElementById('m-shop').value     = '';
-    document.getElementById('m-next').value     = '';
-    document.getElementById('m-notes').value    = '';
-  }
-  document.getElementById('maint-sheet-backdrop').classList.add('open');
-}
-
-function closeMaintSheet() {
-  document.getElementById('maint-sheet-backdrop').classList.remove('open');
-  editingMaintId = null;
-  pendingMaintPhoto = null;
-}
-function closeMaintSheetIfBackdrop(e) {
-  if (e.target === document.getElementById('maint-sheet-backdrop')) closeMaintSheet();
-}
-
-function handleMaintPhoto(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev) => {
-    pendingMaintPhoto = ev.target.result;
-    document.getElementById('m-photo-preview-wrap').innerHTML =
-      `<img src="${pendingMaintPhoto}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover">`;
-  };
-  reader.readAsDataURL(file);
-  e.target.value = '';
-}
-
-function saveMaint() {
-  const rec = {
-    vehicle: document.getElementById('m-vehicle').value.trim(),
-    type:    document.getElementById('m-type').value,
-    date:    document.getElementById('m-date').value,
-    cost:    parseFloat(document.getElementById('m-cost').value) || 0,
-    mileage: document.getElementById('m-mileage').value.trim(),
-    shop:    document.getElementById('m-shop').value.trim(),
-    next:    document.getElementById('m-next').value.trim(),
-    notes:   document.getElementById('m-notes').value.trim(),
-    photo:   pendingMaintPhoto || null,
-  };
-  if (!rec.date || !rec.type) { showToast('Date and service type required', '#D62828'); return; }
-
-  if (editingMaintId) {
-    const idx = maints.findIndex(m => m.id === editingMaintId);
-    if (idx !== -1) maints[idx] = { ...maints[idx], ...rec };
-  } else {
-    rec.id = Date.now();
-    maints.unshift(rec);
-  }
-  saveMaints();
-  closeMaintSheet();
-  renderMaintenance();
-  showToast('✔ Service record saved!');
-}
-
-function deleteMaint() {
-  if (!editingMaintId) return;
-  if (!confirm('Delete this service record?')) return;
-  maints = maints.filter(m => m.id !== editingMaintId);
-  saveMaints();
-  closeMaintSheet();
-  renderMaintenance();
-  showToast('Record deleted', '#6B6B80');
-}
-
-function renderMaintenance() {
-  const totalCost = maints.reduce((s,m) => s + m.cost, 0);
-  const mo = new Date().toISOString().slice(0,7);
-  const monthCost = maints.filter(m => m.date && m.date.startsWith(mo)).reduce((s,m) => s + m.cost, 0);
-
-  document.getElementById('maint-total-label').textContent =
-    maints.length ? `${maints.length} records · ${fmtMoney(totalCost)} total` : '';
-
-  // Stat strip
-  const byType = {};
-  maints.forEach(m => { byType[m.type] = (byType[m.type] || 0) + 1; });
-  const topType = Object.entries(byType).sort((a,b) => b[1]-a[1])[0];
-
-  document.getElementById('maint-stat-strip').innerHTML = `
-    <div class="stat-card gold">
-      <div class="stat-label">This Month</div>
-      <div class="stat-value money" style="font-size:22px">${fmtMoney(monthCost)}</div>
-      <div class="stat-sub">maintenance</div>
-    </div>
-    <div class="stat-card accent">
-      <div class="stat-label">All Time</div>
-      <div class="stat-value money" style="font-size:22px">${fmtMoney(totalCost)}</div>
-      <div class="stat-sub">${maints.length} service${maints.length!==1?'s':''}</div>
-    </div>
-  `;
-
-  const list = document.getElementById('maint-list');
-  if (!maints.length) {
-    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🔧</div><div class="empty-title">No records yet</div><div class="empty-sub">Use Quick Log above or tap a service type to get started</div></div>`;
-    return;
-  }
-
-  list.innerHTML = maints.map(m => `
-    <div class="maint-card" data-type="${m.type}" onclick="openMaintSheet(${m.id})">
-      <div class="maint-vehicle">${m.vehicle || 'Vehicle'}</div>
-      <div class="maint-card-top">
-        <div class="maint-type">${m.type}</div>
-        <div class="maint-cost">${m.cost ? fmtMoney(m.cost) : '—'}</div>
-      </div>
-      <div class="maint-meta">
-        <span class="maint-date">${fmtDate(m.date)}</span>
-        ${m.mileage ? `<span class="maint-mileage">📍 ${Number(m.mileage).toLocaleString()} mi</span>` : ''}
-        ${m.shop ? `<span class="maint-shop">${m.shop}</span>` : ''}
-        ${m.photo ? `<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">📷 photo</span>` : ''}
-      </div>
-      ${m.next ? `<div class="maint-next-due">⏰ Next: ${m.next}</div>` : ''}
-    </div>
-  `).join('');
-}
-</script>
-
 <!-- RECEIPT DETAIL SHEET -->
+
 <div class="sheet-backdrop" id="receipt-sheet-backdrop" onclick="closeReceiptSheetIfBackdrop(event)">
-  <div class="sheet" id="receipt-detail-sheet">
+  <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">
-      Receipt Details
-      <button class="sheet-close" onclick="closeReceiptSheet()">✕</button>
-    </div>
+    <div class="sheet-title">Receipt Details<button class="sheet-close" onclick="closeReceiptSheet()">✕</button></div>
     <div class="sheet-body">
-      <img id="receipt-preview-img" src="" alt="Receipt" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:320px;object-fit:contain;background:#0A0A0F;">
+      <img id="receipt-preview-img" src="" alt="Receipt" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:260px;object-fit:contain;background:#0A0A0F;display:none">
       <div class="field-row">
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="r-date">
-        </div>
-        <div class="field">
-          <label>Amount ($)</label>
-          <input type="number" id="r-amount" placeholder="0.00" inputmode="decimal" step="0.01">
-        </div>
+        <div class="field"><label>Date</label><input type="date" id="r-date"></div>
+        <div class="field"><label>Amount ($)</label><input type="number" id="r-amount" placeholder="0.00" inputmode="decimal" step="0.01"></div>
       </div>
-      <div class="field">
-        <label>Gas Station / Location</label>
-        <input type="text" id="r-location" placeholder="e.g. Shell on Hwy 19">
-      </div>
-      <div class="field">
-        <label>Gallons</label>
-        <input type="number" id="r-gallons" placeholder="0.0" inputmode="decimal" step="0.1">
-      </div>
-      <div class="field">
-        <label>Notes</label>
-        <input type="text" id="r-notes" placeholder="e.g. Before Lawrence run">
-      </div>
+      <div class="field"><label>Gas Station / Location</label><input type="text" id="r-location" placeholder="e.g. Shell on Hwy 19"></div>
+      <div class="field"><label>Gallons</label><input type="number" id="r-gallons" placeholder="0.0" inputmode="decimal" step="0.1"></div>
+      <div class="field"><label>Notes</label><input type="text" id="r-notes" placeholder="e.g. Before Lawrence run"></div>
       <button class="btn-full btn-red" onclick="saveReceipt()">Save Receipt</button>
       <div style="height:8px"></div>
       <button class="btn-full btn-ghost" id="delete-receipt-btn" onclick="deleteReceipt()" style="display:none">Delete Receipt</button>
@@ -1459,77 +491,29 @@ function renderMaintenance() {
   </div>
 </div>
 
-<!-- RECEIPT FULLSCREEN VIEW -->
-<div id="receipt-fullscreen" style="display:none;position:fixed;inset:0;z-index:500;background:#000;align-items:center;justify-content:center;flex-direction:column" onclick="closeFullscreen()">
-  <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
-  <div style="color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:12px">Tap to close</div>
-</div>
+<!-- MAINTENANCE SHEET -->
 
-<!-- MAINTENANCE LOG SHEET -->
 <div class="sheet-backdrop" id="maint-sheet-backdrop" onclick="closeMaintSheetIfBackdrop(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
-    <div class="sheet-title">
-      <span id="maint-sheet-title">Log Service</span>
-      <button class="sheet-close" onclick="closeMaintSheet()">✕</button>
-    </div>
+    <div class="sheet-title"><span id="maint-sheet-title">Log Service</span><button class="sheet-close" onclick="closeMaintSheet()">✕</button></div>
     <div class="sheet-body">
-      <div class="field">
-        <label>Vehicle / Equipment</label>
-        <input type="text" id="m-vehicle" placeholder="e.g. Truck 1, Trailer, Forklift">
-      </div>
-      <div class="field">
-        <label>Service Type</label>
-        <select id="m-type">
-          <option value="Oil Change">🛢 Oil Change</option>
-          <option value="Tires">🔄 Tires</option>
-          <option value="Brakes">🛑 Brakes</option>
-          <option value="Inspection">📋 Inspection</option>
-          <option value="Transmission">⚙️ Transmission</option>
-          <option value="Engine">🔧 Engine</option>
-          <option value="AC / Heat">❄️ AC / Heat</option>
-          <option value="Electrical">⚡ Electrical</option>
-          <option value="Fuel System">⛽ Fuel System</option>
-          <option value="Lights">💡 Lights</option>
-          <option value="Other">🔩 Other</option>
-        </select>
+      <div class="field"><label>Vehicle / Equipment</label><input type="text" id="m-vehicle" placeholder="e.g. Truck 1, Trailer"></div>
+      <div class="field"><label>Service Type</label><select id="m-type"><option>Oil Change</option><option>Tires</option><option>Brakes</option><option>Inspection</option><option>Transmission</option><option>Engine</option><option>AC / Heat</option><option>Electrical</option><option>Fuel System</option><option>Lights</option><option>Other</option></select></div>
+      <div class="field-row">
+        <div class="field"><label>Date</label><input type="date" id="m-date"></div>
+        <div class="field"><label>Cost ($)</label><input type="number" id="m-cost" placeholder="0.00" inputmode="decimal" step="0.01"></div>
       </div>
       <div class="field-row">
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="m-date">
-        </div>
-        <div class="field">
-          <label>Cost ($)</label>
-          <input type="number" id="m-cost" placeholder="0.00" inputmode="decimal" step="0.01">
-        </div>
+        <div class="field"><label>Mileage</label><input type="number" id="m-mileage" placeholder="e.g. 125000" inputmode="numeric"></div>
+        <div class="field"><label>Shop / Provider</label><input type="text" id="m-shop" placeholder="e.g. Jiffy Lube"></div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Mileage at Service</label>
-          <input type="number" id="m-mileage" placeholder="e.g. 125000" inputmode="numeric">
-        </div>
-        <div class="field">
-          <label>Shop / Provider</label>
-          <input type="text" id="m-shop" placeholder="e.g. Jiffy Lube">
-        </div>
-      </div>
+      <div class="field"><label>Next Service Due</label><input type="text" id="m-next" placeholder="e.g. 130,000 mi or 3 months"></div>
+      <div class="field"><label>Notes</label><textarea id="m-notes" placeholder="Parts replaced, warranty info…"></textarea></div>
       <div class="field">
-        <label>Next Service Due</label>
-        <input type="text" id="m-next" placeholder="e.g. 130,000 miles or 3 months">
-      </div>
-      <div class="field">
-        <label>Notes</label>
-        <textarea id="m-notes" placeholder="Parts replaced, warranty info, etc."></textarea>
-      </div>
-      <!-- Photo upload -->
-      <div class="field">
-        <label>Photo (receipt or repair)</label>
+        <label>Photo</label>
         <div class="receipt-upload-zone" style="padding:16px;margin-bottom:0" onclick="document.getElementById('m-photo-input').click()">
-          <div id="m-photo-preview-wrap">
-            <div class="upload-icon" style="font-size:24px">📸</div>
-            <div class="upload-text" style="font-size:14px">Tap to add photo</div>
-          </div>
+          <div id="m-photo-preview-wrap"><div class="upload-icon" style="font-size:24px">📸</div><div class="upload-text" style="font-size:14px">Tap to add photo</div></div>
           <input type="file" id="m-photo-input" accept="image/*" capture="environment" style="display:none" onchange="handleMaintPhoto(event)">
         </div>
       </div>
@@ -1541,6 +525,574 @@ function renderMaintenance() {
     </div>
   </div>
 </div>
+
+<!-- RECEIPT FULLSCREEN -->
+
+<div id="receipt-fullscreen" onclick="closeFullscreen()">
+  <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
+  <div style="color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:12px">Tap to close</div>
+</div>
+
+<!-- FIREBASE SDKs -->
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc,
+  onSnapshot, query, orderBy, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAx9BD75nVE2G4G6249eU5945QUPv3xMms",
+  authDomain: "bmc-enterprise.firebaseapp.com",
+  projectId: "bmc-enterprise",
+  storageBucket: "bmc-enterprise.firebasestorage.app",
+  messagingSenderId: "672071936385",
+  appId: "1:672071936385:web:aac13c716f4d9fb7442080"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let loads = [];
+let receipts = [];
+let maints = [];
+let currentUser = null;
+let activeFilter = 'all';
+let editingReceiptId = null;
+let pendingReceiptImage = null;
+let editingMaintId = null;
+let pendingMaintPhoto = null;
+let unsubLoads, unsubReceipts, unsubMaints;
+
+// Expose to global scope
+window.signInWithGoogle = signInWithGoogle;
+window.signOut = doSignOut;
+
+// ── AUTH ───────────────────────────────────────────────────────────────────
+onAuthStateChanged(auth, user => {
+  document.getElementById('loading-overlay').style.display = 'none';
+  if (user) {
+    currentUser = user;
+    showApp(user);
+    subscribeToData();
+  } else {
+    currentUser = null;
+    showLogin();
+    if (unsubLoads) unsubLoads();
+    if (unsubReceipts) unsubReceipts();
+    if (unsubMaints) unsubMaints();
+  }
+});
+
+async function signInWithGoogle() {
+  try {
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ login_hint: 'bmcenterprise73@gmail.com' });
+    await signInWithPopup(auth, provider);
+  } catch (e) {
+    showToast('Sign in failed. Try again.', '#D62828');
+  }
+}
+
+async function doSignOut() {
+  await fbSignOut(auth);
+  document.getElementById('signout-menu').classList.remove('open');
+}
+
+function showLogin() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app-header').style.display = 'none';
+  document.getElementById('scroll-area').style.display = 'none';
+  document.getElementById('fab').style.display = 'none';
+  document.getElementById('bottom-nav').style.display = 'none';
+}
+
+function showApp(user) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app-header').style.display = 'flex';
+  document.getElementById('scroll-area').style.display = 'block';
+  document.getElementById('fab').style.display = 'flex';
+  document.getElementById('bottom-nav').style.display = 'flex';
+
+  // Avatar
+  const av = document.getElementById('user-avatar');
+  if (user.photoURL) {
+    av.outerHTML = `<img src="${user.photoURL}" class="user-avatar" id="user-avatar" onclick="toggleSignoutMenu()" alt="avatar">`;
+  } else {
+    av.textContent = (user.displayName || user.email || 'C')[0].toUpperCase();
+  }
+  document.getElementById('signout-user-email').textContent = user.email || '';
+
+  // Init form defaults
+  document.getElementById('f-date').value = toISO(new Date());
+  document.getElementById('m-date').value = toISO(new Date());
+  document.getElementById('r-date').value = toISO(new Date());
+  document.getElementById('inv-date').value = toISO(new Date());
+  document.getElementById('inv-num').value = 'BM&C-001';
+}
+
+// ── FIRESTORE SUBSCRIPTIONS ────────────────────────────────────────────────
+function userColl(name) {
+  return collection(db, 'users', currentUser.uid, name);
+}
+
+function subscribeToData() {
+  // Loads
+  unsubLoads = onSnapshot(
+    query(userColl('loads'), orderBy('createdAt', 'desc')),
+    snap => {
+      loads = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderDash();
+      renderLoads();
+      document.getElementById('inv-num').value = 'BM&C-' + String(loads.length + 1).padStart(3, '0');
+    }
+  );
+  // Receipts
+  unsubReceipts = onSnapshot(
+    query(userColl('receipts'), orderBy('createdAt', 'desc')),
+    snap => {
+      receipts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderReceipts();
+    }
+  );
+  // Maintenance
+  unsubMaints = onSnapshot(
+    query(userColl('maints'), orderBy('createdAt', 'desc')),
+    snap => {
+      maints = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderMaintenance();
+    }
+  );
+}
+
+// ── HELPERS ────────────────────────────────────────────────────────────────
+function toISO(d) { return d.toISOString().split('T')[0]; }
+function today() { return toISO(new Date()); }
+function fmtDate(s) { if (!s) return '—'; const [y,m,d] = s.split('-'); return `${m}/${d}/${y}`; }
+function fmtMoney(n) { return '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2 }); }
+
+function showToast(msg, bg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = bg || '#2ECC71';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
+
+window.toggleSignoutMenu = () => document.getElementById('signout-menu').classList.toggle('open');
+document.addEventListener('click', e => {
+  const menu = document.getElementById('signout-menu');
+  if (!e.target.closest('#signout-menu') && !e.target.closest('#user-avatar')) {
+    menu.classList.remove('open');
+  }
+});
+
+// ── TABS ───────────────────────────────────────────────────────────────────
+window.switchTab = function(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  document.getElementById('fab').style.display = (id === 'invoice' || id === 'receipts' || id === 'maintenance') ? 'none' : 'flex';
+  document.getElementById('scroll-area').scrollTop = 0;
+  if (id === 'dash') renderDash();
+  if (id === 'loads') renderLoads();
+  if (id === 'receipts') renderReceipts();
+  if (id === 'maintenance') renderMaintenance();
+};
+
+// ── SHEET ──────────────────────────────────────────────────────────────────
+window.openSheet = function() {
+  document.getElementById('f-date').value = today();
+  ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-type').value = 'one-way';
+  document.getElementById('sheet-backdrop').classList.add('open');
+};
+window.closeSheet = () => document.getElementById('sheet-backdrop').classList.remove('open');
+window.closeSheetIfBackdrop = e => { if (e.target === document.getElementById('sheet-backdrop')) window.closeSheet(); };
+
+// ── ADD LOAD ───────────────────────────────────────────────────────────────
+window.addLoad = async function() {
+  const load = {
+    date: document.getElementById('f-date').value,
+    type: document.getElementById('f-type').value,
+    from: document.getElementById('f-from').value.trim(),
+    to: document.getElementById('f-to').value.trim(),
+    miles: parseFloat(document.getElementById('f-miles').value) || 0,
+    amount: parseFloat(document.getElementById('f-amount').value) || 0,
+    client: document.getElementById('f-client').value.trim(),
+    bol: document.getElementById('f-bol').value.trim(),
+    notes: document.getElementById('f-notes').value.trim(),
+    createdAt: serverTimestamp(),
+  };
+  if (!load.date || !load.from || !load.to || !load.amount) {
+    showToast('Fill in Date, From, To & Amount', '#D62828'); return;
+  }
+  try {
+    await addDoc(userColl('loads'), load);
+    window.closeSheet();
+    showToast('✔ Load saved!');
+  } catch (e) { showToast('Error saving load', '#D62828'); }
+};
+
+window.deleteLoad = async function(id) {
+  if (!confirm('Delete this load?')) return;
+  await deleteDoc(doc(db, 'users', currentUser.uid, 'loads', id));
+  showToast('Load deleted', '#6B6B80');
+};
+
+// ── DASHBOARD ──────────────────────────────────────────────────────────────
+function renderDash() {
+  const mo = new Date().toISOString().slice(0, 7);
+  const thisMonth = loads.filter(l => l.date && l.date.startsWith(mo));
+  const totalEarned = loads.reduce((s, l) => s + (l.amount || 0), 0);
+  const monthEarned = thisMonth.reduce((s, l) => s + (l.amount || 0), 0);
+  const totalMiles  = loads.reduce((s, l) => s + (l.miles || 0), 0);
+
+  document.getElementById('stat-strip').innerHTML = `
+    <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money">${fmtMoney(monthEarned)}</div><div class="stat-sub">${thisMonth.length} load${thisMonth.length !== 1 ? 's' : ''}</div></div>
+    <div class="stat-card accent"><div class="stat-label">Total Earned</div><div class="stat-value money">${fmtMoney(totalEarned)}</div><div class="stat-sub">${loads.length} loads total</div></div>
+    <div class="stat-card wide"><div class="stat-label">Total Miles Driven</div><div class="stat-value">${totalMiles.toLocaleString()}<span style="font-size:16px;font-weight:400;color:var(--gray)"> mi</span></div></div>
+  `;
+
+  const el = document.getElementById('dash-loads');
+  const recent = loads.slice(0, 8);
+  el.innerHTML = recent.length ? recent.map(l => loadCard(l, false)).join('') :
+    `<div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div>`;
+}
+
+// ── LOADS LIST ─────────────────────────────────────────────────────────────
+window.setFilter = function(val, el) {
+  activeFilter = val;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderLoads();
+};
+
+function renderLoads() {
+  const search = (document.getElementById('search-input').value || '').toLowerCase();
+  const monthF = document.getElementById('filter-month').value;
+  let filtered = loads.filter(l => {
+    const matchSearch = !search || [l.from, l.to, l.client, l.bol, l.notes].join(' ').toLowerCase().includes(search);
+    const matchType   = activeFilter === 'all' || l.type === activeFilter;
+    const matchMonth  = !monthF || (l.date && l.date.startsWith(monthF));
+    return matchSearch && matchType && matchMonth;
+  });
+  document.getElementById('loads-count').textContent = `${filtered.length} Load${filtered.length !== 1 ? 's' : ''}`;
+  const el = document.getElementById('all-loads');
+  el.innerHTML = filtered.length ? filtered.map(l => loadCard(l, true)).join('') :
+    `<div class="empty-state"><div class="empty-icon">📋</div><div class="empty-title">No loads found</div><div class="empty-sub">Try changing your filters</div></div>`;
+}
+
+function loadCard(l, showDelete) {
+  return `
+    <div class="load-card">
+      <div class="load-card-top">
+        <div class="load-route">${l.from}<span class="arrow">→</span>${l.to}</div>
+        <div class="load-amount">${fmtMoney(l.amount)}</div>
+      </div>
+      <div class="load-meta">
+        <span class="load-date">${fmtDate(l.date)}</span>
+        ${l.miles ? `<span class="load-miles">${l.miles.toLocaleString()} mi</span>` : ''}
+        <span class="badge ${l.type === 'round-trip' ? 'badge-round' : 'badge-one'}">${l.type}</span>
+        ${l.client ? `<span class="load-client">${l.client}</span>` : ''}
+        ${showDelete ? `<button onclick="deleteLoad('${l.id}')" style="margin-left:auto;background:transparent;border:none;color:var(--red);font-size:18px;cursor:pointer;padding:0 4px">✕</button>` : ''}
+      </div>
+    </div>`;
+}
+
+window.exportCSV = function() {
+  const headers = ['Date','From','To','Client','BOL','Miles','Amount','Type','Notes'];
+  const rows = loads.map(l => [l.date,l.from,l.to,l.client,l.bol,l.miles,l.amount,l.type,l.notes].map(v => `"${v||''}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'BMC_Loads_' + today() + '.csv';
+  a.click();
+};
+
+// ── INVOICE ────────────────────────────────────────────────────────────────
+window.generateInvoice = function() {
+  const client  = document.getElementById('inv-client').value.trim() || 'Client';
+  const invNum  = document.getElementById('inv-num').value.trim() || 'BM&C-001';
+  const invDate = document.getElementById('inv-date').value;
+  const start   = document.getElementById('inv-start').value;
+  const end     = document.getElementById('inv-end').value;
+
+  let sel = [...loads];
+  if (start) sel = sel.filter(l => l.date >= start);
+  if (end)   sel = sel.filter(l => l.date <= end);
+  if (client !== 'Client') sel = sel.filter(l => l.client && l.client.toLowerCase().includes(client.toLowerCase()));
+
+  const out = document.getElementById('invoice-out');
+  if (!sel.length) { out.innerHTML = `<p style="color:var(--gray);font-family:'Share Tech Mono',monospace;font-size:12px;padding:16px 0">No loads match — check filters.</p>`; return; }
+
+  const total = sel.reduce((s, l) => s + l.amount, 0);
+  const rows  = sel.map(l => `<div class="inv-row"><div class="inv-row-left"><div class="inv-row-route">${l.from} → ${l.to}</div><div class="inv-row-date">${fmtDate(l.date)}${l.bol ? ' · BOL ' + l.bol : ''}</div></div><div class="inv-row-amt">${fmtMoney(l.amount)}</div></div>`).join('');
+  const period = start && end ? `${fmtDate(start)} – ${fmtDate(end)}` : 'All Dates';
+
+  out.innerHTML = `
+    <button class="btn-outline" onclick="window.print()" style="margin-bottom:12px;width:100%">🖨 Print / Save PDF</button>
+    <div class="invoice-preview">
+      <div class="inv-top">
+        <div class="inv-top-logo">BM&amp;C Enterprise LLC</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;opacity:0.6;margin-top:4px">GENERAL FREIGHT CARRIER</div>
+        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:flex-end">
+          <div><div style="font-family:'Share Tech Mono',monospace;font-size:9px;opacity:0.5;letter-spacing:1px">INVOICE</div><div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800">${invNum}</div></div>
+          <div style="text-align:right;font-family:'Share Tech Mono',monospace;font-size:10px;opacity:0.6">${fmtDate(invDate)}<br>Bill To: ${client}<br>${period}</div>
+        </div>
+      </div>
+      <div class="inv-stripe"></div>
+      <div class="inv-body">
+        ${rows}
+        <div class="inv-total-row"><div class="inv-total-lbl">TOTAL DUE · ${sel.length} LOADS</div><div class="inv-total-amt">${fmtMoney(total)}</div></div>
+      </div>
+    </div>`;
+};
+
+// ── RECEIPTS ───────────────────────────────────────────────────────────────
+window.handleReceiptUpload = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingReceiptImage = ev.target.result;
+    editingReceiptId = null;
+    document.getElementById('r-date').value = today();
+    document.getElementById('r-amount').value = '';
+    document.getElementById('r-location').value = '';
+    document.getElementById('r-gallons').value = '';
+    document.getElementById('r-notes').value = '';
+    const img = document.getElementById('receipt-preview-img');
+    img.src = pendingReceiptImage;
+    img.style.display = 'block';
+    document.getElementById('delete-receipt-btn').style.display = 'none';
+    document.getElementById('receipt-sheet-backdrop').classList.add('open');
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+};
+
+window.openReceiptForEdit = function(id) {
+  const r = receipts.find(r => r.id === id);
+  if (!r) return;
+  editingReceiptId = id;
+  pendingReceiptImage = null;
+  const img = document.getElementById('receipt-preview-img');
+  if (r.imageData) { img.src = r.imageData; img.style.display = 'block'; } else { img.style.display = 'none'; }
+  document.getElementById('r-date').value = r.date || today();
+  document.getElementById('r-amount').value = r.amount || '';
+  document.getElementById('r-location').value = r.location || '';
+  document.getElementById('r-gallons').value = r.gallons || '';
+  document.getElementById('r-notes').value = r.notes || '';
+  document.getElementById('delete-receipt-btn').style.display = 'block';
+  document.getElementById('receipt-sheet-backdrop').classList.add('open');
+};
+
+window.saveReceipt = async function() {
+  const data = {
+    date: document.getElementById('r-date').value,
+    amount: parseFloat(document.getElementById('r-amount').value) || 0,
+    location: document.getElementById('r-location').value.trim(),
+    gallons: parseFloat(document.getElementById('r-gallons').value) || 0,
+    notes: document.getElementById('r-notes').value.trim(),
+  };
+  if (pendingReceiptImage) data.imageData = pendingReceiptImage;
+
+  try {
+    if (editingReceiptId) {
+      await updateDoc(doc(db, 'users', currentUser.uid, 'receipts', editingReceiptId), data);
+    } else {
+      data.createdAt = serverTimestamp();
+      await addDoc(userColl('receipts'), data);
+    }
+    closeReceiptSheet();
+    showToast('✔ Receipt saved!');
+  } catch (e) { showToast('Error saving receipt', '#D62828'); }
+};
+
+window.deleteReceipt = async function() {
+  if (!editingReceiptId || !confirm('Delete this receipt?')) return;
+  await deleteDoc(doc(db, 'users', currentUser.uid, 'receipts', editingReceiptId));
+  closeReceiptSheet();
+  showToast('Receipt deleted', '#6B6B80');
+};
+
+function closeReceiptSheet() {
+  document.getElementById('receipt-sheet-backdrop').classList.remove('open');
+  editingReceiptId = null;
+  pendingReceiptImage = null;
+}
+window.closeReceiptSheet = closeReceiptSheet;
+window.closeReceiptSheetIfBackdrop = e => { if (e.target === document.getElementById('receipt-sheet-backdrop')) closeReceiptSheet(); };
+
+window.openFullscreen = src => {
+  document.getElementById('receipt-fullscreen-img').src = src;
+  document.getElementById('receipt-fullscreen').style.display = 'flex';
+};
+window.closeFullscreen = () => document.getElementById('receipt-fullscreen').style.display = 'none';
+
+function renderReceipts() {
+  const totalSpent = receipts.reduce((s, r) => s + (r.amount || 0), 0);
+  const mo = new Date().toISOString().slice(0, 7);
+  const monthSpent = receipts.filter(r => r.date && r.date.startsWith(mo)).reduce((s, r) => s + (r.amount || 0), 0);
+
+  document.getElementById('receipt-total-label').textContent = receipts.length ? `${receipts.length} receipts · ${fmtMoney(totalSpent)}` : '';
+
+  const gallery = document.getElementById('receipts-gallery');
+  if (!receipts.length) {
+    gallery.innerHTML = `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">No receipts yet</div><div class="empty-sub">Tap above to photograph your first receipt</div></div>`;
+    return;
+  }
+
+  const summary = `<div class="receipt-summary-strip">
+    <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money" style="font-size:22px">${fmtMoney(monthSpent)}</div><div class="stat-sub">gas expenses</div></div>
+    <div class="stat-card"><div class="stat-label">All Time</div><div class="stat-value money" style="font-size:22px">${fmtMoney(totalSpent)}</div><div class="stat-sub">${receipts.length} receipt${receipts.length !== 1 ? 's' : ''}</div></div>
+  </div>`;
+
+  const cards = receipts.map(r => `
+    <div class="receipt-card" onclick="openReceiptForEdit('${r.id}')">
+      <div class="receipt-thumb">${r.imageData ? `<img src="${r.imageData}" alt="receipt" onclick="event.stopPropagation();openFullscreen('${r.imageData}')">` : '<div class="receipt-thumb-placeholder">⛽</div>'}</div>
+      <div class="receipt-info">
+        <div class="receipt-location">${r.location || 'Gas Station'}</div>
+        <div class="receipt-meta">
+          <span class="receipt-date">${fmtDate(r.date)}</span>
+          ${r.gallons ? `<span class="receipt-gallons">${r.gallons} gal</span>` : ''}
+          ${r.notes ? `<span style="font-size:11px;color:var(--gray);font-style:italic">${r.notes}</span>` : ''}
+        </div>
+      </div>
+      <div class="receipt-amount-badge">${r.amount ? fmtMoney(r.amount) : '—'}</div>
+    </div>`).join('');
+
+  gallery.innerHTML = summary + cards;
+}
+
+// ── MAINTENANCE ────────────────────────────────────────────────────────────
+window.quickMaint = function(type) {
+  openMaintSheet();
+  document.getElementById('m-type').value = type;
+  document.getElementById('maint-sheet-title').textContent = 'Log ' + type;
+};
+
+function openMaintSheet(id) {
+  editingMaintId = id || null;
+  pendingMaintPhoto = null;
+  document.getElementById('maint-sheet-title').textContent = id ? 'Edit Record' : 'Log Service';
+  document.getElementById('delete-maint-btn').style.display = id ? 'block' : 'none';
+  document.getElementById('m-photo-preview-wrap').innerHTML = '<div class="upload-icon" style="font-size:24px">📸</div><div class="upload-text" style="font-size:14px">Tap to add photo</div>';
+
+  if (id) {
+    const r = maints.find(m => m.id === id);
+    if (!r) return;
+    document.getElementById('m-vehicle').value = r.vehicle || '';
+    document.getElementById('m-type').value    = r.type || 'Oil Change';
+    document.getElementById('m-date').value    = r.date || today();
+    document.getElementById('m-cost').value    = r.cost || '';
+    document.getElementById('m-mileage').value = r.mileage || '';
+    document.getElementById('m-shop').value    = r.shop || '';
+    document.getElementById('m-next').value    = r.next || '';
+    document.getElementById('m-notes').value   = r.notes || '';
+    if (r.photo) { document.getElementById('m-photo-preview-wrap').innerHTML = `<img src="${r.photo}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover">`; pendingMaintPhoto = r.photo; }
+  } else {
+    ['m-vehicle','m-cost','m-mileage','m-shop','m-next','m-notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('m-type').value = 'Oil Change';
+    document.getElementById('m-date').value = today();
+  }
+  document.getElementById('maint-sheet-backdrop').classList.add('open');
+}
+window.openMaintSheet = openMaintSheet;
+
+window.handleMaintPhoto = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingMaintPhoto = ev.target.result;
+    document.getElementById('m-photo-preview-wrap').innerHTML = `<img src="${pendingMaintPhoto}" style="width:100%;border-radius:8px;max-height:160px;object-fit:cover">`;
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+};
+
+window.saveMaint = async function() {
+  const rec = {
+    vehicle: document.getElementById('m-vehicle').value.trim(),
+    type:    document.getElementById('m-type').value,
+    date:    document.getElementById('m-date').value,
+    cost:    parseFloat(document.getElementById('m-cost').value) || 0,
+    mileage: document.getElementById('m-mileage').value.trim(),
+    shop:    document.getElementById('m-shop').value.trim(),
+    next:    document.getElementById('m-next').value.trim(),
+    notes:   document.getElementById('m-notes').value.trim(),
+  };
+  if (pendingMaintPhoto) rec.photo = pendingMaintPhoto;
+  if (!rec.date || !rec.type) { showToast('Date and service type required', '#D62828'); return; }
+
+  try {
+    if (editingMaintId) {
+      await updateDoc(doc(db, 'users', currentUser.uid, 'maints', editingMaintId), rec);
+    } else {
+      rec.createdAt = serverTimestamp();
+      await addDoc(userColl('maints'), rec);
+    }
+    closeMaintSheet();
+    showToast('✔ Service record saved!');
+  } catch (e) { showToast('Error saving record', '#D62828'); }
+};
+
+window.deleteMaint = async function() {
+  if (!editingMaintId || !confirm('Delete this record?')) return;
+  await deleteDoc(doc(db, 'users', currentUser.uid, 'maints', editingMaintId));
+  closeMaintSheet();
+  showToast('Record deleted', '#6B6B80');
+};
+
+function closeMaintSheet() {
+  document.getElementById('maint-sheet-backdrop').classList.remove('open');
+  editingMaintId = null;
+  pendingMaintPhoto = null;
+}
+window.closeMaintSheet = closeMaintSheet;
+window.closeMaintSheetIfBackdrop = e => { if (e.target === document.getElementById('maint-sheet-backdrop')) closeMaintSheet(); };
+
+function renderMaintenance() {
+  const totalCost  = maints.reduce((s, m) => s + (m.cost || 0), 0);
+  const mo = new Date().toISOString().slice(0, 7);
+  const monthCost  = maints.filter(m => m.date && m.date.startsWith(mo)).reduce((s, m) => s + (m.cost || 0), 0);
+
+  document.getElementById('maint-total-label').textContent = maints.length ? `${maints.length} records · ${fmtMoney(totalCost)}` : '';
+
+  document.getElementById('maint-stat-strip').innerHTML = `
+    <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money" style="font-size:22px">${fmtMoney(monthCost)}</div><div class="stat-sub">maintenance</div></div>
+    <div class="stat-card accent"><div class="stat-label">All Time</div><div class="stat-value money" style="font-size:22px">${fmtMoney(totalCost)}</div><div class="stat-sub">${maints.length} service${maints.length !== 1 ? 's' : ''}</div></div>
+  `;
+
+  const list = document.getElementById('maint-list');
+  if (!maints.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🔧</div><div class="empty-title">No records yet</div><div class="empty-sub">Use Quick Log above to get started</div></div>`;
+    return;
+  }
+  list.innerHTML = maints.map(m => `
+    <div class="maint-card" data-type="${m.type}" onclick="openMaintSheet('${m.id}')">
+      <div class="maint-vehicle">${m.vehicle || 'Vehicle'}</div>
+      <div class="maint-card-top"><div class="maint-type">${m.type}</div><div class="maint-cost">${m.cost ? fmtMoney(m.cost) : '—'}</div></div>
+      <div class="maint-meta">
+        <span class="maint-date">${fmtDate(m.date)}</span>
+        ${m.mileage ? `<span class="maint-mileage">📍 ${Number(m.mileage).toLocaleString()} mi</span>` : ''}
+        ${m.shop ? `<span class="maint-shop">${m.shop}</span>` : ''}
+        ${m.photo ? `<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">📷 photo</span>` : ''}
+      </div>
+      ${m.next ? `<div class="maint-next-due">⏰ Next: ${m.next}</div>` : ''}
+    </div>`).join('');
+}
+
+window.renderLoads = renderLoads;
+
+</script>
 
 </body>
 </html>
