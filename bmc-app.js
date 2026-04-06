@@ -643,9 +643,11 @@ window.handleReceiptUpload = function(e) {
     editingReceiptId = null;
     document.getElementById('r-date').value = today();
     ['r-amount', 'r-location', 'r-gallons', 'r-notes'].forEach(i => document.getElementById(i).value = '');
+
     const img = document.getElementById('receipt-preview-img');
     img.src = pendingReceiptImage;
     img.style.display = 'block';
+
     document.getElementById('delete-receipt-btn').style.display = 'none';
     document.getElementById('receipt-sheet-backdrop').classList.add('open');
   };
@@ -752,18 +754,6 @@ window.saveReceipt = function() {
   };
 
   if (pendingReceiptImage) data.imageData = pendingReceiptImage;
-
-  const approxSize =
-    JSON.stringify({
-      ...data,
-      imageData: null
-    }).length +
-    (data.imageData ? data.imageData.length : 0);
-
-  if (approxSize > 850000) {
-    showToast('Receipt photo is too large. Use a smaller image.', '#D62828');
-    return;
-  }
 
   const p = editingReceiptId
     ? userColl('receipts').doc(editingReceiptId).update(data)
