@@ -261,7 +261,7 @@ window.generateInvoice = function() {
   const rows = sel.map(l=>`<div class="inv-row"><div class="inv-row-left"><div class="inv-row-route">${l.from} → ${l.to}</div><div class="inv-row-date">${fmtDate(l.date)}${l.bol?' · BOL '+l.bol:''}</div></div><div class="inv-row-amt">${fmtMoney(l.amount)}</div></div>`).join('');
   out.innerHTML = `
     <button class="btn-outline" onclick="printInvoice()" style="margin-bottom:12px;width:100%">🖨 Print / Save PDF</button>
-    <div class="invoice-preview">
+    <div class="invoice-preview" id="invoice-preview-content">
       <div class="inv-top">
         <div class="inv-top-logo">BM&amp;C Enterprise LLC</div>
         <div style="font-family:'Share Tech Mono',monospace;font-size:10px;opacity:0.6;margin-top:4px">GENERAL FREIGHT CARRIER</div>
@@ -416,7 +416,39 @@ window.deleteMaint = function() {
 };
 
 window.printInvoice = function() {
-  setTimeout(() => window.print(), 100);
+  const inv = document.getElementById('invoice-preview-content');
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>BM&C Invoice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Barlow', sans-serif; background: white; padding: 40px; max-width: 800px; margin: 0 auto; }
+    .inv-top { background: #023E8A; color: white; padding: 32px; border-radius: 8px 8px 0 0; }
+    .inv-top-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; margin-bottom: 4px; }
+    .inv-top-sub { font-family: 'Share Tech Mono', monospace; font-size: 11px; opacity: 0.6; letter-spacing: 2px; margin-bottom: 20px; }
+    .inv-top-meta { display: flex; justify-content: space-between; align-items: flex-end; }
+    .inv-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 28px; }
+    .inv-num-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; opacity: 0.5; letter-spacing: 1px; margin-bottom: 4px; }
+    .inv-meta-right { text-align: right; font-family: 'Share Tech Mono', monospace; font-size: 11px; opacity: 0.7; line-height: 1.6; }
+    .inv-stripe { height: 5px; background: linear-gradient(90deg, #D62828 50%, #E9B930 50%); }
+    .inv-body { border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; padding: 0 32px; }
+    .inv-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 18px 0; border-bottom: 1px solid #eee; }
+    .inv-row:last-of-type { border-bottom: none; }
+    .inv-row-route { font-weight: 600; font-size: 16px; color: #000; margin-bottom: 4px; }
+    .inv-row-date { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #666; }
+    .inv-row-amt { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; color: #023E8A; }
+    .inv-total-row { background: #023E8A; color: white; margin: 0 -32px; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; border-radius: 0 0 8px 8px; }
+    .inv-total-lbl { font-family: 'Share Tech Mono', monospace; font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
+    .inv-total-amt { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 40px; color: #E9B930; }
+    .footer { margin-top: 32px; text-align: center; font-size: 12px; color: #aaa; font-family: 'Share Tech Mono', monospace; }
+    @media print { body { padding: 20px; } }
+  </style></head><body>${inv ? inv.innerHTML : document.querySelector('.invoice-preview').outerHTML}
+  <div class="footer">BM&C Enterprise LLC &nbsp;·&nbsp; General Freight Carrier &nbsp;·&nbsp; bmcenterprise73@gmail.com</div>
+  <script>window.onload = function(){ window.print(); }<\/script>
+  </body></html>`;
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
 };
 
 function closeMaintSheet() { document.getElementById('maint-sheet-backdrop').classList.remove('open'); editingMaintId=null; pendingMaintPhoto=null; }
