@@ -23,18 +23,16 @@ let editingMaintId = null, pendingMaintPhoto = null;
 let unsubLoads, unsubReceipts, unsubMaints;
 
 // ── AUTH
+// Handle redirect result on page load
 firebase.auth().getRedirectResult().then(result => {
   if (result && result.user) {
-    // Successfully signed in via redirect - onAuthStateChanged will handle UI
-    console.log('Redirect sign-in success:', result.user.email);
+    console.log('Redirect success:', result.user.email);
   }
 }).catch(e => {
   console.error('Redirect error:', e.code, e.message);
-  document.getElementById('loading-overlay').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  showToast('Sign in failed: ' + e.message, '#D62828');
 });
 
+// Watch for auth state changes
 firebase.auth().onAuthStateChanged(user => {
   document.getElementById('loading-overlay').style.display = 'none';
   if (user) {
@@ -42,26 +40,29 @@ firebase.auth().onAuthStateChanged(user => {
     showApp(user);
     subscribeToData();
   } else {
-    // Only show login if we're not in the middle of a redirect
-    firebase.auth().getRedirectResult().then(r => {
-      if (!r || !r.user) {
-        currentUser = null;
-        showLogin();
-        [unsubLoads, unsubReceipts, unsubMaints].forEach(u => u && u());
-      }
-    }).catch(() => {
-      currentUser = null;
-      showLogin();
-    });
+    currentUser = null;
+    showLogin();
+    [unsubLoads, unsubReceipts, unsubMaints].forEach(u => u && u());
   }
 });
 
 window.signInWithGoogle = function() {
   const btn = document.querySelector('.btn-google');
-  if (btn) { btn.innerHTML = '<span>Redirecting to Google…</span>'; btn.style.opacity = '0.7'; }
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ login_hint: 'bmcenterprise73@gmail.com' });
-  firebase.auth().signInWithRedirect(provider).catch(e => showToast('Sign in failed. Try again.', '#D62828'));
+
+  // Try popup first, fall back to redirect if blocked
+  firebase.auth().signInWithPopup(provider).then(result => {
+    console.log('Popup sign-in success');
+  }).catch(e => {
+    console.log('Popup blocked, trying redirect:', e.code);
+    if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+      if (btn) { btn.innerHTML = '<span>Redirecting to Google…</span>'; btn.style.opacity = '0.7'; }
+      firebase.auth().signInWithRedirect(provider);
+    } else {
+      showToast('Sign in failed: ' + e.code, '#D62828');
+    }
+  });
 };
 
 window.signOut = function() {
