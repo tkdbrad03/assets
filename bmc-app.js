@@ -138,7 +138,17 @@ function showToast(msg, bg) {
   t.style.display = 'block';
   setTimeout(() => t.style.display = 'none', 2500);
 }
+function openDocViewer(src){
+  const viewer = document.getElementById('doc-fullscreen');
+  const img = document.getElementById('doc-fullscreen-img');
+  img.src = src;
+  viewer.style.display = 'flex';
+}
 
+function closeDocViewer(){
+  document.getElementById('doc-fullscreen').style.display = 'none';
+  document.getElementById('doc-fullscreen-img').src = '';
+}
 window.toggleSignoutMenu = () => document.getElementById('signout-menu').classList.toggle('open');
 document.addEventListener('click', e => {
   if (!e.target.closest('#signout-menu') && !e.target.closest('#user-avatar')) {
@@ -427,8 +437,8 @@ window.generateInvoice = function() {
         <div class="inv-row-route">${l.from} → ${l.to}</div>
         <div class="inv-row-date">${fmtDate(l.date)}${l.bol ? ' · BOL ' + l.bol : ''}</div>
         <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
-          ${l.bolImageData ? `<button type="button" onclick="window.open('${l.bolImageData}','_blank')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">BOL</button>` : ''}
-          ${l.rateImageData ? `<button type="button" onclick="window.open('${l.rateImageData}','_blank')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">RATE</button>` : ''}
+          ${l.bolImageData ? `<button type="button" onclick="openDocViewer('${l.bolImageData}')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">BOL</button>` : ''}
+${l.rateImageData ? `<button type="button" onclick="openDocViewer('${l.rateImageData}')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">RATE</button>` : ''}
         </div>
       </div>
       <div class="inv-row-amt">${fmtMoney(l.amount)}</div>
@@ -492,7 +502,7 @@ window.downloadInvoiceDocs = function() {
     return;
   }
 
-  docUrls.forEach(url => window.open(url, '_blank'));
+  openDocViewer(docUrls[0]);
   showToast(`Opened ${docUrls.length} document${docUrls.length !== 1 ? 's' : ''}`);
 };
 
