@@ -25,112 +25,112 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 
 /* ── LOGIN SCREEN ── */
 .login-screen {
-position: fixed; inset: 0; z-index: 1000;
-background: var(–dark);
-display: flex; flex-direction: column; align-items: center; justify-content: center;
-padding: 32px;
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 32px;
 }
 .login-logo {
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 800; font-size: 52px;
-color: var(–white); margin-bottom: 4px; text-align: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 52px;
+  color: var(--white); margin-bottom: 4px; text-align: center;
 }
-.login-logo em { color: var(–red); font-style: normal; }
+.login-logo em { color: var(--red); font-style: normal; }
 .login-sub {
-font-family: ‘Share Tech Mono’, monospace;
-font-size: 11px; letter-spacing: 3px;
-color: var(–gray); text-transform: uppercase;
-margin-bottom: 8px; text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px; letter-spacing: 3px;
+  color: var(--gray); text-transform: uppercase;
+  margin-bottom: 8px; text-align: center;
 }
 .login-tagline {
-font-size: 13px; color: var(–gray); font-weight: 300;
-margin-bottom: 48px; text-align: center;
+  font-size: 13px; color: var(--gray); font-weight: 300;
+  margin-bottom: 48px; text-align: center;
 }
 .login-divider {
-width: 60px; height: 3px;
-background: linear-gradient(90deg, var(–red), var(–blue));
-border-radius: 2px; margin: 0 auto 48px;
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--blue));
+  border-radius: 2px; margin: 0 auto 48px;
 }
 .btn-google {
-width: 100%; max-width: 320px;
-padding: 16px 24px;
-background: var(–white);
-border: none; border-radius: 12px;
-display: flex; align-items: center; justify-content: center; gap: 12px;
-font-family: ‘Barlow’, sans-serif;
-font-weight: 600; font-size: 16px;
-color: #333; cursor: pointer;
-transition: opacity 0.15s;
-box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  width: 100%; max-width: 320px;
+  padding: 16px 24px;
+  background: var(--white);
+  border: none; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600; font-size: 16px;
+  color: #333; cursor: pointer;
+  transition: opacity 0.15s;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
 }
 .btn-google:active { opacity: 0.85; }
 .google-icon { width: 22px; height: 22px; }
 .login-note {
-margin-top: 20px;
-font-size: 12px; color: var(–gray);
-text-align: center; font-weight: 300;
+  margin-top: 20px;
+  font-size: 12px; color: var(--gray);
+  text-align: center; font-weight: 300;
 }
 
 /* ── HEADER ── */
 .app-header {
-position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-height: var(–header-h);
-background: var(–blue);
-display: flex; align-items: center; justify-content: space-between;
-padding: 0 16px;
-border-bottom: 3px solid var(–red);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: var(--header-h);
+  background: var(--blue);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  border-bottom: 3px solid var(--red);
 }
-.app-logo { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 1px; color: var(–white); line-height: 1; }
-.app-logo em { color: var(–gold); font-style: normal; }
-.app-logo small { display: block; font-size: 9px; font-weight: 400; letter-spacing: 3px; color: rgba(255,255,255,0.5); font-family: ‘Share Tech Mono’, monospace; }
+.app-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 1px; color: var(--white); line-height: 1; }
+.app-logo em { color: var(--gold); font-style: normal; }
+.app-logo small { display: block; font-size: 9px; font-weight: 400; letter-spacing: 3px; color: rgba(255,255,255,0.5); font-family: 'Share Tech Mono', monospace; }
 .header-right { display: flex; align-items: center; gap: 10px; }
 .user-avatar {
-width: 32px; height: 32px; border-radius: 50%;
-border: 2px solid var(–gold);
-object-fit: cover; cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 2px solid var(--gold);
+  object-fit: cover; cursor: pointer;
 }
 .user-avatar-placeholder {
-width: 32px; height: 32px; border-radius: 50%;
-background: var(–gold); border: 2px solid var(–gold);
-display: flex; align-items: center; justify-content: center;
-font-family: ‘Barlow Condensed’, sans-serif;
-font-weight: 700; font-size: 14px; color: var(–blue);
-cursor: pointer;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--gold); border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 14px; color: var(--blue);
+  cursor: pointer;
 }
 .sync-indicator {
-font-family: ‘Share Tech Mono’, monospace;
-font-size: 9px; color: var(–green);
-letter-spacing: 1px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px; color: var(--green);
+  letter-spacing: 1px;
 }
 
 /* ── SCROLL AREA ── */
 .scroll-area {
-position: fixed; top: var(–header-h); bottom: var(–nav-h);
-left: 0; right: 0; overflow-y: auto;
--webkit-overflow-scrolling: touch; padding: 16px 16px 8px;
+  position: fixed; top: var(--header-h); bottom: var(--nav-h);
+  left: 0; right: 0; overflow-y: auto;
+  -webkit-overflow-scrolling: touch; padding: 16px 16px 8px;
 }
 
 /* ── BOTTOM NAV ── */
 .bottom-nav {
-position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-height: var(–nav-h); background: #0D0D14;
-border-top: 1px solid var(–border);
-display: flex; align-items: center;
-overflow-x: auto; -webkit-overflow-scrolling: touch;
-padding-bottom: env(safe-area-inset-bottom);
-scrollbar-width: none;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+  height: var(--nav-h); background: #0D0D14;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  padding-bottom: env(safe-area-inset-bottom);
+  scrollbar-width: none;
 }
 .bottom-nav::-webkit-scrollbar { display: none; }
 .nav-btn {
-display: flex; flex-direction: column; align-items: center; justify-content: center;
-gap: 4px; height: 100%; cursor: pointer; color: var(–gray);
-font-family: ‘Barlow Condensed’, sans-serif; font-size: 10px; font-weight: 600;
-letter-spacing: 0.5px; text-transform: uppercase; border: none; background: none;
-transition: color 0.15s; padding: 8px 0 0; flex: 0 0 20vw; min-width: 64px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; height: 100%; cursor: pointer; color: var(--gray);
+  font-family: 'Barlow Condensed', sans-serif; font-size: 10px; font-weight: 600;
+  letter-spacing: 0.5px; text-transform: uppercase; border: none; background: none;
+  transition: color 0.15s; padding: 8px 0 0; flex: 0 0 20vw; min-width: 64px;
 }
 .nav-btn .nav-icon { font-size: 22px; line-height: 1; }
-.nav-btn.active { color: var(–white); }
-.nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px var(–red)); }
+.nav-btn.active { color: var(--white); }
+.nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px var(--red)); }
 
 /* ── PANELS ── */
 .panel { display: none; }
@@ -138,177 +138,174 @@ transition: color 0.15s; padding: 8px 0 0; flex: 0 0 20vw; min-width: 64px;
 
 /* ── STAT CARDS ── */
 .stat-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-.stat-card { background: var(–card-bg); border: 1px solid var(–border); border-radius: 10px; padding: 14px 16px; position: relative; overflow: hidden; }
-.stat-card::before { content: ‘’; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(–blue); }
-.stat-card.accent::before { background: var(–red); }
-.stat-card.gold::before { background: var(–gold); }
+.stat-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; position: relative; overflow: hidden; }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--blue); }
+.stat-card.accent::before { background: var(--red); }
+.stat-card.gold::before { background: var(--gold); }
 .stat-card.wide { grid-column: 1 / -1; }
-.stat-label { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(–gray); margin-bottom: 6px; }
-.stat-value { font-family: ‘Barlow Condensed’, sans-serif; font-size: 32px; font-weight: 800; line-height: 1; color: var(–white); }
-.stat-value.money { color: var(–gold); }
-.stat-sub { font-size: 11px; color: var(–gray); margin-top: 3px; font-weight: 300; }
+.stat-label { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+.stat-value { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; line-height: 1; color: var(--white); }
+.stat-value.money { color: var(--gold); }
+.stat-sub { font-size: 11px; color: var(--gray); margin-top: 3px; font-weight: 300; }
 
 /* ── SECTION LABEL ── */
-.section-label { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(–gray); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-.section-label span { color: var(–white); }
+.section-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.section-label span { color: var(--white); }
 
 /* ── LOAD CARDS ── */
-.load-card { background: var(–card-bg); border: 1px solid var(–border); border-radius: 12px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
-.load-card:active { border-color: var(–blue-mid); }
+.load-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+.load-card:active { border-color: var(--blue-mid); }
 .load-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.load-route { font-family: ‘Barlow Condensed’, sans-serif; font-size: 20px; font-weight: 700; line-height: 1.1; flex: 1; }
-.load-route .arrow { color: var(–red); margin: 0 4px; }
-.load-amount { font-family: ‘Barlow Condensed’, sans-serif; font-size: 24px; font-weight: 800; color: var(–gold); white-space: nowrap; margin-left: 12px; }
+.load-route { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.1; flex: 1; }
+.load-route .arrow { color: var(--red); margin: 0 4px; }
+.load-amount { font-family: 'Barlow Condensed', sans-serif; font-size: 24px; font-weight: 800; color: var(--gold); white-space: nowrap; margin-left: 12px; }
 .load-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.load-date { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; color: var(–gray); }
-.load-miles { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; color: #5B8FD4; }
-.badge { font-family: ‘Share Tech Mono’, monospace; font-size: 9px; letter-spacing: 1px; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
+.load-date { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); }
+.load-miles { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #5B8FD4; }
+.badge { font-family: 'Share Tech Mono', monospace; font-size: 9px; letter-spacing: 1px; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; }
 .badge-round { background: rgba(2,62,138,0.3); color: #7AB3FF; border: 1px solid rgba(2,62,138,0.6); }
 .badge-one { background: rgba(214,40,40,0.15); color: #FF8A8A; border: 1px solid rgba(214,40,40,0.3); }
-.load-client { font-size: 12px; color: var(–gray); font-weight: 300; margin-left: auto; }
+.load-client { font-size: 12px; color: var(--gray); font-weight: 300; margin-left: auto; }
 
 /* ── FAB ── */
-.fab { position: fixed; bottom: calc(var(–nav-h) + 16px); right: 16px; width: 56px; height: 56px; border-radius: 50%; background: var(–red); border: none; color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(214,40,40,0.5); cursor: pointer; z-index: 150; transition: transform 0.15s; }
+.fab { position: fixed; bottom: 88px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: var(--red); border: none; color: white; font-size: 28px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(214,40,40,0.5); cursor: pointer; z-index: 150; transition: transform 0.15s; }
 .fab:active { transform: scale(0.93); }
 
 /* ── BOTTOM SHEET ── */
 .sheet-backdrop { position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.7); display: none; align-items: flex-end; backdrop-filter: blur(4px); }
 .sheet-backdrop.open { display: flex; }
-.sheet { width: 100%; background: #13131A; border-radius: 20px 20px 0 0; border-top: 1px solid var(–border); padding: 0 0 env(safe-area-inset-bottom); max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch; animation: slideUp 0.25s cubic-bezier(.4,0,.2,1); }
+.sheet { width: 100%; background: #13131A; border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); padding: 0 0 env(safe-area-inset-bottom); max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch; animation: slideUp 0.25s cubic-bezier(.4,0,.2,1); }
 @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.sheet-handle { width: 36px; height: 4px; background: var(–border); border-radius: 2px; margin: 12px auto 0; }
-.sheet-title { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 20px; padding: 16px 20px 8px; border-bottom: 1px solid var(–border); display: flex; align-items: center; justify-content: space-between; }
-.sheet-close { width: 32px; height: 32px; border-radius: 50%; background: var(–border); border: none; color: var(–white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.sheet-handle { width: 36px; height: 4px; background: var(--border); border-radius: 2px; margin: 12px auto 0; }
+.sheet-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px; padding: 16px 20px 8px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.sheet-close { width: 32px; height: 32px; border-radius: 50%; background: var(--border); border: none; color: var(--white); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .sheet-body { padding: 16px 20px 24px; }
 
 /* ── FORM FIELDS ── */
 .field { margin-bottom: 14px; }
-.field label { display: block; font-family: ‘Share Tech Mono’, monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(–gray); margin-bottom: 6px; }
-.field input, .field select, .field textarea { width: 100%; background: #0A0A0F; border: 1px solid var(–border); border-radius: 8px; color: var(–white); font-family: ‘Barlow’, sans-serif; font-size: 16px; padding: 13px 14px; outline: none; transition: border-color 0.15s; -webkit-appearance: none; }
-.field input:focus, .field select:focus, .field textarea:focus { border-color: var(–blue-mid); }
+.field label { display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+.field input, .field select, .field textarea { width: 100%; background: #0A0A0F; border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 16px; padding: 13px 14px; outline: none; transition: border-color 0.15s; -webkit-appearance: none; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue-mid); }
 .field textarea { resize: none; min-height: 80px; font-size: 15px; }
-.field select { background-image: url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath d=‘M1 1l5 5 5-5’ stroke=’%236B6B80’ stroke-width=‘1.5’ fill=‘none’ stroke-linecap=‘round’/%3E%3C/svg%3E”); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B6B80' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 /* ── BUTTONS ── */
-.btn-full { width: 100%; padding: 16px; border-radius: 10px; border: none; font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
+.btn-full { width: 100%; padding: 16px; border-radius: 10px; border: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
 .btn-full:active { opacity: 0.8; }
-.btn-red { background: var(–red); color: white; }
-.btn-blue { background: var(–blue); color: white; }
-.btn-ghost { background: transparent; color: var(–gray); border: 1px solid var(–border) !important; border-radius: 10px; }
-.btn-outline { padding: 10px 16px; border-radius: 8px; border: 1px solid var(–border); background: transparent; color: var(–gray); font-family: ‘Share Tech Mono’, monospace; font-size: 11px; letter-spacing: 1px; cursor: pointer; }
-.btn-outline:active { color: var(–white); border-color: #444; }
+.btn-red { background: var(--red); color: white; }
+.btn-blue { background: var(--blue); color: white; }
+.btn-ghost { background: transparent; color: var(--gray); border: 1px solid var(--border) !important; border-radius: 10px; }
+.btn-outline { padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--gray); font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; cursor: pointer; }
+.btn-outline:active { color: var(--white); border-color: #444; }
 
 /* ── EMPTY STATE ── */
-.empty-state { text-align: center; padding: 48px 20px; color: var(–gray); }
+.empty-state { text-align: center; padding: 48px 20px; color: var(--gray); }
 .empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.3; }
-.empty-title { font-family: ‘Barlow Condensed’, sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #444; }
+.empty-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 6px; color: #444; }
 .empty-sub { font-size: 13px; font-weight: 300; }
 
 /* ── FILTER BAR ── */
 .filter-bar { display: flex; gap: 8px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
 .filter-bar::-webkit-scrollbar { display: none; }
-.filter-chip { flex-shrink: 0; padding: 7px 14px; border-radius: 20px; border: 1px solid var(–border); background: transparent; color: var(–gray); font-family: ‘Share Tech Mono’, monospace; font-size: 11px; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
-.filter-chip.active { background: var(–blue); border-color: var(–blue); color: white; }
+.filter-chip { flex-shrink: 0; padding: 7px 14px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: var(--gray); font-family: 'Share Tech Mono', monospace; font-size: 11px; cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+.filter-chip.active { background: var(--blue); border-color: var(--blue); color: white; }
 
 /* ── SEARCH ── */
 .search-bar { position: relative; margin-bottom: 12px; }
-.search-bar input { width: 100%; background: var(–card-bg); border: 1px solid var(–border); border-radius: 10px; color: var(–white); font-family: ‘Barlow’, sans-serif; font-size: 15px; padding: 12px 14px 12px 40px; outline: none; }
-.search-bar input:focus { border-color: var(–blue-mid); }
+.search-bar input { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 15px; padding: 12px 14px 12px 40px; outline: none; }
+.search-bar input:focus { border-color: var(--blue-mid); }
 .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; opacity: 0.4; }
 
 /* ── TOAST ── */
-.toast { position: fixed; top: calc(var(–header-h) + 8px); left: 16px; right: 16px; z-index: 400; background: var(–green); color: white; border-radius: 10px; padding: 14px 18px; font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; display: none; }
+.toast { position: fixed; top: calc(var(--header-h) + 8px); left: 16px; right: 16px; z-index: 400; background: var(--green); color: white; border-radius: 10px; padding: 14px 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.5px; display: none; }
 
 /* ── INVOICE ── */
 .invoice-preview { background: #F8F5EF; color: #0A0A0F; border-radius: 12px; overflow: hidden; margin-top: 16px; }
-.inv-top { background: var(–blue); color: white; padding: 20px; }
-.inv-top-logo { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 24px; margin-bottom: 2px; }
-.inv-stripe { height: 4px; background: linear-gradient(90deg, var(–red) 50%, var(–gold) 50%); }
+.inv-top { background: var(--blue); color: white; padding: 20px; }
+.inv-top-logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 24px; margin-bottom: 2px; }
+.inv-stripe { height: 4px; background: linear-gradient(90deg, var(--red) 50%, var(--gold) 50%); }
 .inv-body { padding: 20px; }
 .inv-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #E8E4DC; font-size: 13px; gap: 8px; }
 .inv-row:last-child { border-bottom: none; }
 .inv-row-left { flex: 1; }
 .inv-row-route { font-weight: 600; font-size: 14px; }
-.inv-row-date { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: #888; margin-top: 2px; }
-.inv-row-amt { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 20px; color: var(–blue); white-space: nowrap; }
-.inv-total-row { background: var(–blue); color: white; margin: 0 -20px -20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
-.inv-total-lbl { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; letter-spacing: 1px; opacity: 0.7; }
-.inv-total-amt { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 32px; color: var(–gold); }
+.inv-row-date { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #888; margin-top: 2px; }
+.inv-row-amt { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--blue); white-space: nowrap; }
+.inv-total-row { background: var(--blue); color: white; margin: 0 -20px -20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; }
+.inv-total-lbl { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 1px; opacity: 0.7; }
+.inv-total-amt { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 32px; color: var(--gold); }
 
 /* ── RECEIPTS ── */
-.receipt-upload-zone { background: var(–card-bg); border: 2px dashed var(–border); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: border-color 0.2s; }
-.receipt-upload-zone:active { border-color: var(–red); }
+.receipt-upload-zone { background: var(--card-bg); border: 2px dashed var(--border); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: border-color 0.2s; }
+.receipt-upload-zone:active { border-color: var(--red); }
 .upload-icon { font-size: 40px; margin-bottom: 10px; }
-.upload-text { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 18px; color: var(–white); margin-bottom: 4px; }
-.upload-sub { font-size: 12px; color: var(–gray); font-weight: 300; }
-.receipt-card { background: var(–card-bg); border: 1px solid var(–border); border-radius: 12px; margin-bottom: 10px; display: flex; align-items: stretch; overflow: hidden; cursor: pointer; }
+.upload-text { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; color: var(--white); margin-bottom: 4px; }
+.upload-sub { font-size: 12px; color: var(--gray); font-weight: 300; }
+.receipt-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; display: flex; align-items: stretch; overflow: hidden; cursor: pointer; }
 .receipt-thumb { width: 80px; flex-shrink: 0; background: #0A0A0F; }
 .receipt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.receipt-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(–gray); opacity: 0.3; min-height: 80px; }
+.receipt-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--gray); opacity: 0.3; min-height: 80px; }
 .receipt-info { flex: 1; padding: 12px 14px; }
-.receipt-location { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.receipt-location { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
 .receipt-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-.receipt-date { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: var(–gray); }
-.receipt-gallons { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: #5B8FD4; }
-.receipt-amount-badge { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 20px; color: var(–gold); padding: 12px 14px; display: flex; align-items: center; }
+.receipt-date { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gray); }
+.receipt-gallons { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #5B8FD4; }
+.receipt-amount-badge { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--gold); padding: 12px 14px; display: flex; align-items: center; }
 .receipt-summary-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
 
 /* ── MAINTENANCE ── */
-.maint-card { background: var(–card-bg); border: 1px solid var(–border); border-left: 4px solid var(–blue); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; }
+.maint-card { background: var(--card-bg); border: 1px solid var(--border); border-left: 4px solid var(--blue); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer; }
 .maint-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-.maint-type { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 18px; flex: 1; }
-.maint-cost { font-family: ‘Barlow Condensed’, sans-serif; font-weight: 800; font-size: 20px; color: var(–gold); white-space: nowrap; margin-left: 12px; }
-.maint-vehicle { font-family: ‘Share Tech Mono’, monospace; font-size: 11px; color: #7AB3FF; margin-bottom: 4px; }
+.maint-type { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; flex: 1; }
+.maint-cost { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--gold); white-space: nowrap; margin-left: 12px; }
+.maint-vehicle { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #7AB3FF; margin-bottom: 4px; }
 .maint-meta { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-.maint-date, .maint-mileage { font-family: ‘Share Tech Mono’, monospace; font-size: 10px; color: var(–gray); }
-.maint-shop { font-size: 11px; color: var(–gray); font-weight: 300; }
-.maint-next-due { margin-top: 6px; font-size: 11px; color: var(–gold); font-family: ‘Share Tech Mono’, monospace; }
-.maint-card[data-type=“Oil Change”] { border-left-color: #E9B930; }
-.maint-card[data-type=“Tires”] { border-left-color: #5B8FD4; }
-.maint-card[data-type=“Brakes”] { border-left-color: #D62828; }
-.maint-card[data-type=“Inspection”] { border-left-color: #2ECC71; }
-.maint-card[data-type=“Engine”] { border-left-color: #FF6B35; }
-.maint-card[data-type=“Transmission”] { border-left-color: #9B59B6; }
+.maint-date, .maint-mileage { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gray); }
+.maint-shop { font-size: 11px; color: var(--gray); font-weight: 300; }
+.maint-next-due { margin-top: 6px; font-size: 11px; color: var(--gold); font-family: 'Share Tech Mono', monospace; }
+.maint-card[data-type="Oil Change"] { border-left-color: #E9B930; }
+.maint-card[data-type="Tires"] { border-left-color: #5B8FD4; }
+.maint-card[data-type="Brakes"] { border-left-color: #D62828; }
+.maint-card[data-type="Inspection"] { border-left-color: #2ECC71; }
+.maint-card[data-type="Engine"] { border-left-color: #FF6B35; }
+.maint-card[data-type="Transmission"] { border-left-color: #9B59B6; }
 
 /* ── LOADING OVERLAY ── */
-.loading-overlay { position: fixed; inset: 0; z-index: 500; background: var(–dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
-.loading-spinner { width: 40px; height: 40px; border: 3px solid var(–border); border-top-color: var(–red); border-radius: 50%; animation: spin 0.8s linear infinite; }
+.loading-overlay { position: fixed; inset: 0; z-index: 500; background: var(--dark); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.loading-spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.loading-text { font-family: ‘Share Tech Mono’, monospace; font-size: 12px; color: var(–gray); letter-spacing: 2px; }
+.loading-text { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--gray); letter-spacing: 2px; }
 
 /* ── SIGN OUT MENU ── */
-.signout-menu { position: fixed; top: calc(var(–header-h) + 8px); right: 12px; z-index: 300; background: var(–card-bg); border: 1px solid var(–border); border-radius: 12px; padding: 8px; min-width: 180px; display: none; }
+.signout-menu { position: fixed; top: calc(var(--header-h) + 8px); right: 12px; z-index: 300; background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 8px; min-width: 180px; display: none; }
 .signout-menu.open { display: block; }
-.signout-user { font-size: 12px; color: var(–gray); padding: 8px 12px; border-bottom: 1px solid var(–border); margin-bottom: 4px; font-family: ‘Share Tech Mono’, monospace; }
-.signout-btn { width: 100%; padding: 10px 12px; background: transparent; border: none; color: var(–red); font-family: ‘Barlow Condensed’, sans-serif; font-weight: 700; font-size: 15px; text-align: left; cursor: pointer; border-radius: 8px; }
+.signout-user { font-size: 12px; color: var(--gray); padding: 8px 12px; border-bottom: 1px solid var(--border); margin-bottom: 4px; font-family: 'Share Tech Mono', monospace; }
+.signout-btn { width: 100%; padding: 10px 12px; background: transparent; border: none; color: var(--red); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 15px; text-align: left; cursor: pointer; border-radius: 8px; }
 .signout-btn:hover { background: rgba(214,40,40,0.1); }
 
 /* ── MONTH PICKER ── */
-.month-picker { width: 100%; background: var(–card-bg); border: 1px solid var(–border); border-radius: 8px; color: var(–white); font-family: ‘Barlow’, sans-serif; font-size: 15px; padding: 11px 14px; outline: none; -webkit-appearance: none; margin-bottom: 12px; }
+.month-picker { width: 100%; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Barlow', sans-serif; font-size: 15px; padding: 11px 14px; outline: none; -webkit-appearance: none; margin-bottom: 12px; }
 
 /* ── FULLSCREEN IMG ── */
 #receipt-fullscreen { display: none; position: fixed; inset: 0; z-index: 500; background: #000; align-items: center; justify-content: center; flex-direction: column; }
 
 @media print {
-.app-header, .bottom-nav, .fab, .sheet-backdrop, .toast, .btn-full, .btn-outline, .filter-bar, .search-bar, .signout-menu, .loading-overlay { display: none !important; }
-body { overflow: visible; background: white; color: black; }
-.scroll-area { position: static; overflow: visible; }
+  .app-header, .bottom-nav, .fab, .sheet-backdrop, .toast, .btn-full, .btn-outline, .filter-bar, .search-bar, .signout-menu, .loading-overlay { display: none !important; }
+  body { overflow: visible; background: white; color: black; }
+  .scroll-area { position: static; overflow: visible; }
 }
 </style>
-
 </head>
 <body>
 
 <!-- LOADING OVERLAY -->
-
 <div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">LOADING...</div>
 </div>
 
 <!-- LOGIN SCREEN -->
-
 <div class="login-screen" id="login-screen" style="display:none">
   <div class="login-logo">BM<em>&</em>C Enterprise</div>
   <div class="login-sub">General Freight · LLC</div>
@@ -327,18 +324,15 @@ body { overflow: visible; background: white; color: black; }
 </div>
 
 <!-- SIGN OUT MENU -->
-
 <div class="signout-menu" id="signout-menu">
   <div class="signout-user" id="signout-user-email"></div>
   <button class="signout-btn" onclick="signOut()">Sign Out</button>
 </div>
 
 <!-- TOAST -->
-
 <div class="toast" id="toast"></div>
 
 <!-- HEADER -->
-
 <header class="app-header" id="app-header" style="display:none">
   <div class="app-logo">BM<em>&</em>C Enterprise<small>General Freight · LLC</small></div>
   <div class="header-right">
@@ -348,11 +342,9 @@ body { overflow: visible; background: white; color: black; }
 </header>
 
 <!-- SCROLL AREA -->
-
 <div class="scroll-area" id="scroll-area" style="display:none">
 
   <!-- DASHBOARD -->
-
   <div class="panel active" id="panel-dash">
     <div class="stat-strip" id="stat-strip">
       <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money">$0.00</div><div class="stat-sub">0 loads</div></div>
@@ -364,7 +356,6 @@ body { overflow: visible; background: white; color: black; }
   </div>
 
   <!-- ALL LOADS -->
-
   <div class="panel" id="panel-loads">
     <div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="search-input" placeholder="Search city, client, BOL…" oninput="renderLoads()"></div>
     <div class="filter-bar">
@@ -378,7 +369,6 @@ body { overflow: visible; background: white; color: black; }
   </div>
 
   <!-- INVOICE -->
-
   <div class="panel" id="panel-invoice">
     <div class="section-label"><span>Invoice Generator</span></div>
     <div class="field"><label>Bill To (Client)</label><input type="text" id="inv-client" placeholder="Client or company name"></div>
@@ -395,7 +385,6 @@ body { overflow: visible; background: white; color: black; }
   </div>
 
   <!-- RECEIPTS -->
-
   <div class="panel" id="panel-receipts">
     <div class="section-label"><span>Gas Receipts</span><span id="receipt-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span></div>
     <div class="receipt-upload-zone" onclick="document.getElementById('receipt-file-input').click()">
@@ -408,7 +397,6 @@ body { overflow: visible; background: white; color: black; }
   </div>
 
   <!-- MAINTENANCE -->
-
   <div class="panel" id="panel-maintenance">
     <div class="section-label"><span>Maintenance Log</span><span id="maint-total-label" style="color:var(--gold);font-family:'Share Tech Mono',monospace;font-size:11px"></span></div>
     <div class="stat-strip" id="maint-stat-strip"></div>
@@ -427,11 +415,9 @@ body { overflow: visible; background: white; color: black; }
 </div>
 
 <!-- FAB -->
-
 <button class="fab" id="fab" onclick="openSheet()" style="display:none">＋</button>
 
 <!-- BOTTOM NAV -->
-
 <nav class="bottom-nav" id="bottom-nav" style="display:none">
   <button class="nav-btn active" onclick="switchTab('dash')" id="nav-dash"><span class="nav-icon">📊</span>Dashboard</button>
   <button class="nav-btn" onclick="switchTab('loads')" id="nav-loads"><span class="nav-icon">🚛</span>Loads</button>
@@ -441,7 +427,6 @@ body { overflow: visible; background: white; color: black; }
 </nav>
 
 <!-- ADD LOAD SHEET -->
-
 <div class="sheet-backdrop" id="sheet-backdrop" onclick="closeSheetIfBackdrop(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -470,7 +455,6 @@ body { overflow: visible; background: white; color: black; }
 </div>
 
 <!-- RECEIPT DETAIL SHEET -->
-
 <div class="sheet-backdrop" id="receipt-sheet-backdrop" onclick="closeReceiptSheetIfBackdrop(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -492,7 +476,6 @@ body { overflow: visible; background: white; color: black; }
 </div>
 
 <!-- MAINTENANCE SHEET -->
-
 <div class="sheet-backdrop" id="maint-sheet-backdrop" onclick="closeMaintSheetIfBackdrop(event)">
   <div class="sheet">
     <div class="sheet-handle"></div>
@@ -527,21 +510,16 @@ body { overflow: visible; background: white; color: black; }
 </div>
 
 <!-- RECEIPT FULLSCREEN -->
-
 <div id="receipt-fullscreen" onclick="closeFullscreen()">
   <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
   <div style="color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:12px">Tap to close</div>
 </div>
 
+
 <!-- FIREBASE COMPAT SDKs (no module imports needed) -->
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-
 <script src="bmc-app.js"></script>
-
 </body>
 </html>
