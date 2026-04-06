@@ -17,6 +17,7 @@ let editingLoadId = null;
 let currentUser = null;
 let activeFilter = 'all';
 let editingReceiptId = null, pendingReceiptImage = null;
+let pendingBolImage = null, pendingRateImage = null;
 let editingMaintId = null, pendingMaintPhoto = null;
 let unsubLoads, unsubReceipts, unsubMaints, unsubInvoices;
 
@@ -133,6 +134,19 @@ window.openSheet=function(id=null){
     document.getElementById('f-client').value = load.client || '';
     document.getElementById('f-bol').value = load.bol || '';
     document.getElementById('f-notes').value = load.notes || '';
+
+    pendingBolImage = null;
+    pendingRateImage = null;
+
+    const hasBol = !!load.bolImageData;
+    const hasRate = !!load.rateImageData;
+
+    document.getElementById('doc-view-row').style.display = (hasBol || hasRate) ? 'block' : 'none';
+    document.getElementById('view-bol-btn').style.display = hasBol ? 'inline-flex' : 'none';
+    document.getElementById('view-rate-btn').style.display = hasRate ? 'inline-flex' : 'none';
+
+    document.getElementById('view-bol-btn').onclick = () => window.open(load.bolImageData, '_blank');
+    document.getElementById('view-rate-btn').onclick = () => window.open(load.rateImageData, '_blank');
   } else {
     titleEl.textContent = 'Log Load';
     saveBtn.textContent = 'Save Load';
@@ -141,9 +155,30 @@ window.openSheet=function(id=null){
     document.getElementById('f-date').value = today();
     ['f-from','f-to','f-miles','f-amount','f-client','f-bol','f-notes'].forEach(i => document.getElementById(i).value = '');
     document.getElementById('f-type').value = 'one-way';
+
+    pendingBolImage = null;
+    pendingRateImage = null;
+
+    document.getElementById('doc-view-row').style.display = 'none';
+    document.getElementById('view-bol-btn').style.display = 'none';
+    document.getElementById('view-rate-btn').style.display = 'none';
   }
 
   document.getElementById('sheet-backdrop').classList.add('open');
+};
+
+window.closeSheet=()=>{
+  document.getElementById('sheet-backdrop').classList.remove('open');
+  editingLoadId = null;
+  pendingBolImage = null;
+  pendingRateImage = null;
+  document.getElementById('doc-view-row').style.display = 'none';
+  document.getElementById('view-bol-btn').style.display = 'none';
+  document.getElementById('view-rate-btn').style.display = 'none';
+};
+
+window.closeSheetIfBackdrop=e=>{
+  if(e.target===document.getElementById('sheet-backdrop')) window.closeSheet();
 };
 
 window.closeSheet=()=>{
@@ -165,12 +200,20 @@ window.addLoad=function(){
     amount: parseFloat(document.getElementById('f-amount').value) || 0,
     client: document.getElementById('f-client').value.trim(),
     bol: document.getElementById('f-bol').value.trim(),
-    notes: document.getElementById('f-notes').value.trim()
+    notes: document.getElementById('f-notes').value.trim(),
+    bolImageData: pendingBolImage || null,
+    rateImageData: pendingRateImage || null
   };
 
   if(!loadData.date || !loadData.from || !loadData.to || !loadData.amount){
     showToast('Fill in Date, From, To & Amount', '#D62828');
     return;
+  }
+
+  if(editingLoadId){
+    const existing = loads.find(l => l.id === editingLoadId);
+    loadData.bolImageData = pendingBolImage || existing?.bolImageData || null;
+    loadData.rateImageData = pendingRateImage || existing?.rateImageData || null;
   }
 
   const promise = editingLoadId
@@ -183,6 +226,8 @@ window.addLoad=function(){
 
   promise
     .then(() => {
+      pendingBolImage = null;
+      pendingRateImage = null;
       window.closeSheet();
       showToast(editingLoadId ? '✔ Load updated!' : '✔ Load saved!');
     })
@@ -243,7 +288,7 @@ function renderDash(){
   const el = document.getElementById('dash-loads');
   const recent = loads.slice(0,8);
   el.innerHTML = recent.length
-    ? recent.map(l => loadCard(l,false)).join('')
+    ? recent.map(l => loadCard(l)).join('')
     : `<div class="empty-state"><div class="empty-icon">🚛</div><div class="empty-title">No loads yet</div><div class="empty-sub">Tap + to log your first run</div></div>`;
 }
 
@@ -281,6 +326,8 @@ function loadCard(l){
       <span class="badge ${l.type==='round-trip' ? 'badge-round' : 'badge-one'}">${l.type}</span>
       ${l.invoiced ? `<span class="badge" style="background:rgba(46,204,113,0.15);color:#2ECC71;border:1px solid rgba(46,204,113,0.3)">billed</span>` : ''}
       ${l.client ? `<span class="load-client">${l.client}</span>` : ''}
+      ${l.bolImageData ? `<span class="badge" style="background:rgba(233,185,48,0.12);color:var(--gold);border:1px solid rgba(233,185,48,0.35)">BOL</span>` : ''}
+      ${l.rateImageData ? `<span class="badge" style="background:rgba(2,62,138,0.20);color:#7AB3FF;border:1px solid rgba(2,62,138,0.5)">RATE</span>` : ''}
     </div>
   </div>`;
 }
@@ -309,22 +356,28 @@ window.generateInvoice=function(){
   if(!sel.length){out.innerHTML=`<p style="color:var(--gray);font-family:'Share Tech Mono',monospace;font-size:12px;padding:16px 0">No loads match — check filters.</p>`;return;}
   const total=sel.reduce((s,l)=>s+l.amount,0);
   const rows=sel.map(l=>`
-    <div class="inv-row">
-      <div class="inv-row-left">
-        <div class="inv-row-route">${l.from} → ${l.to}</div>
-        <div class="inv-row-date">${fmtDate(l.date)}${l.bol?' · BOL '+l.bol:''}</div>
+  <div class="inv-row">
+    <div class="inv-row-left">
+      <div class="inv-row-route">${l.from} → ${l.to}</div>
+      <div class="inv-row-date">${fmtDate(l.date)}${l.bol?' · BOL '+l.bol:''}</div>
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+        ${l.bolImageData ? `<button type="button" onclick="window.open('${l.bolImageData}','_blank')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">BOL</button>` : ''}
+        ${l.rateImageData ? `<button type="button" onclick="window.open('${l.rateImageData}','_blank')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">RATE</button>` : ''}
       </div>
-      <div class="inv-row-amt">${fmtMoney(l.amount)}</div>
-    </div>`).join('');
+    </div>
+    <div class="inv-row-amt">${fmtMoney(l.amount)}</div>
+  </div>`).join('');
   const period=start&&end?`${fmtDate(start)} – ${fmtDate(end)}`:'All Dates';
   const loadIds=sel.map(l=>l.id);
   // Store for saveInvoiceToHistory
   window._pendingInvoice={invNum,client,invDate,total,period,loadIds};
   out.innerHTML=`
-    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
-      <button class="btn-outline" onclick="printInvoice()" style="flex:1">🖨 Print / Save PDF</button>
-      <button class="btn-outline" onclick="saveInvoiceToHistory()" style="flex:1;color:var(--green);border-color:var(--green)">💾 Save Invoice</button>
-    </div>
+  <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="btn-outline" onclick="printInvoice()" style="flex:1">🖨 Print / Save PDF</button>
+    <button class="btn-outline" onclick="downloadInvoiceDocs()" style="flex:1">📎 Download Docs</button>
+    <button class="btn-outline" onclick="openFullInvoicePacket()" style="flex:1">📦 Full Packet</button>
+    <button class="btn-outline" onclick="saveInvoiceToHistory()" style="flex:1;color:var(--green);border-color:var(--green)">💾 Save Invoice</button>
+  </div>
     <div class="invoice-preview" id="invoice-preview-content">
       <div class="inv-top">
         <div class="inv-top-logo">BM&amp;C Enterprise LLC</div>
@@ -348,6 +401,43 @@ window.generateInvoice=function(){
         </div>
       </div>
     </div>`;
+};
+
+window.downloadInvoiceDocs=function(){
+  const p = window._pendingInvoice;
+  if(!p || !p.loadIds || !p.loadIds.length){
+    showToast('Generate an invoice first', '#D62828');
+    return;
+  }
+
+  const selectedLoads = loads.filter(l => p.loadIds.includes(l.id));
+  const docUrls = [];
+
+  selectedLoads.forEach(l => {
+    if(l.bolImageData) docUrls.push(l.bolImageData);
+    if(l.rateImageData) docUrls.push(l.rateImageData);
+  });
+
+  if(!docUrls.length){
+    showToast('No BOL or Rate docs on these loads', '#D62828');
+    return;
+  }
+
+  docUrls.forEach(url => window.open(url, '_blank'));
+  showToast(`Opened ${docUrls.length} document${docUrls.length !== 1 ? 's' : ''}`);
+};
+
+window.openFullInvoicePacket=function(){
+  const p = window._pendingInvoice;
+  if(!p || !p.loadIds || !p.loadIds.length){
+    showToast('Generate an invoice first', '#D62828');
+    return;
+  }
+
+  printInvoice();
+  setTimeout(() => {
+    downloadInvoiceDocs();
+  }, 500);
 };
 
 window.saveInvoiceToHistory=function(){
@@ -458,6 +548,32 @@ window.handleReceiptUpload=function(e){
     document.getElementById('receipt-sheet-backdrop').classList.add('open');
   };
   reader.readAsDataURL(file); e.target.value='';
+};
+
+window.handleBolUpload=function(e){
+  const file=e.target.files[0];
+  if(!file) return;
+
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    pendingBolImage=ev.target.result;
+    showToast('BOL image ready');
+  };
+  reader.readAsDataURL(file);
+  e.target.value='';
+};
+
+window.handleRateUpload=function(e){
+  const file=e.target.files[0];
+  if(!file) return;
+
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    pendingRateImage=ev.target.result;
+    showToast('Rate confirmation ready');
+  };
+  reader.readAsDataURL(file);
+  e.target.value='';
 };
 
 window.openReceiptForEdit=function(id){
