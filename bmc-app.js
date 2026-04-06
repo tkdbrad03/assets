@@ -260,7 +260,7 @@ window.generateInvoice = function() {
   const total = sel.reduce((s,l) => s+l.amount, 0);
   const rows = sel.map(l=>`<div class="inv-row"><div class="inv-row-left"><div class="inv-row-route">${l.from} → ${l.to}</div><div class="inv-row-date">${fmtDate(l.date)}${l.bol?' · BOL '+l.bol:''}</div></div><div class="inv-row-amt">${fmtMoney(l.amount)}</div></div>`).join('');
   out.innerHTML = `
-    <button class="btn-outline" onclick="window.print()" style="margin-bottom:12px;width:100%">🖨 Print / Save PDF</button>
+    <button class="btn-outline" onclick="printInvoice()" style="margin-bottom:12px;width:100%">🖨 Print / Save PDF</button>
     <div class="invoice-preview">
       <div class="inv-top">
         <div class="inv-top-logo">BM&amp;C Enterprise LLC</div>
@@ -413,6 +413,10 @@ window.saveMaint = function() {
 window.deleteMaint = function() {
   if (!editingMaintId||!confirm('Delete this record?')) return;
   userColl('maints').doc(editingMaintId).delete().then(() => { closeMaintSheet(); showToast('Record deleted','#6B6B80'); });
+};
+
+window.printInvoice = function() {
+  setTimeout(() => window.print(), 300);
 };
 
 function closeMaintSheet() { document.getElementById('maint-sheet-backdrop').classList.remove('open'); editingMaintId=null; pendingMaintPhoto=null; }
