@@ -291,9 +291,11 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 #receipt-fullscreen { display: none; position: fixed; inset: 0; z-index: 500; background: #000; align-items: center; justify-content: center; flex-direction: column; }
 
 @media print {
-  .app-header, .bottom-nav, .fab, .sheet-backdrop, .toast, .btn-full, .btn-outline, .filter-bar, .search-bar, .signout-menu, .loading-overlay { display: none !important; }
-  body { overflow: visible; background: white; color: black; }
-  .scroll-area { position: static; overflow: visible; }
+  body * { visibility: hidden; }
+  .invoice-preview, .invoice-preview * { visibility: visible; }
+  .invoice-preview { position: fixed; top: 0; left: 0; width: 100%; }
+  .inv-top, .inv-total-row { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .inv-row-route, .inv-row-date, .inv-row-amt, .inv-body { color: #000 !important; }
 }
 </style>
 </head>
