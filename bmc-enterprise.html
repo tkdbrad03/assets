@@ -291,11 +291,24 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 #receipt-fullscreen { display: none; position: fixed; inset: 0; z-index: 500; background: #000; align-items: center; justify-content: center; flex-direction: column; }
 
 @media print {
-  body * { visibility: hidden; }
+  body * { visibility: hidden; background: white !important; }
   .invoice-preview, .invoice-preview * { visibility: visible; }
-  .invoice-preview { position: fixed; top: 0; left: 0; width: 100%; }
-  .inv-top, .inv-total-row { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .inv-row-route, .inv-row-date, .inv-row-amt, .inv-body { color: #000 !important; }
+  .invoice-preview {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+    background: white !important;
+  }
+  body { background: white !important; margin: 0; }
+  .inv-top { background: #023E8A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .inv-total-row { background: #023E8A !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .inv-stripe { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .inv-body { background: white !important; }
+  .inv-row-route { color: #000 !important; font-weight: 600; }
+  .inv-row-date { color: #555 !important; }
+  .inv-row-amt { color: #023E8A !important; }
 }
 </style>
 </head>
