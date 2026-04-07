@@ -549,13 +549,121 @@ window.closeInvoiceHistoryIfBackdrop = function(e) {
 };
 
 window.togglePaid = function(id, currentPaid) {
-  userColl('invoices').doc(id).update({ paid: !currentPaid })
-    .then(() => showToast(currentPaid ? 'Marked unpaid' : '✔ Marked as paid!'));
+  const wasPaid = currentPaid === true || currentPaid === 'true';
+  userColl('invoices').doc(id).update({ paid: !wasPaid })
+    .then(() => showToast(wasPaid ? 'Marked unpaid' : '✔ Marked as paid!'));
 };
 
 window.deleteInvoice = function(id) {
   if (!confirm('Delete this invoice record?')) return;
   userColl('invoices').doc(id).delete().then(() => showToast('Invoice deleted', '#6B6B80'));
+};
+
+// ── VIEW SAVED INVOICE (reconstruct from stored loadIds)
+window.viewInvoiceFromHistory = function(id) {
+  const inv = invoices.find(i => i.id === id);
+  if (!inv) return;
+
+  const invLoads = loads.filter(l => (inv.loadIds || []).includes(l.id));
+
+  const rows = invLoads.map(l => `
+    <div class="inv-row">
+      <div class="inv-row-left">
+        <div class="inv-row-route">${l.from} → ${l.to}</div>
+        <div class="inv-row-date">${fmtDate(l.date)}${l.bol ? ' · BOL ' + l.bol : ''}</div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          ${l.bolImageData ? `<button type="button" onclick="openDocViewer('${l.bolImageData}')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">BOL</button>` : ''}
+          ${l.rateImageData ? `<button type="button" onclick="openDocViewer('${l.rateImageData}')" style="padding:4px 8px;font-size:10px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer">RATE</button>` : ''}
+        </div>
+      </div>
+      <div class="inv-row-amt">${fmtMoney(l.amount)}</div>
+    </div>
+  `).join('');
+
+  const previewHTML = `
+    <div class="invoice-preview" id="hist-invoice-preview-content">
+      <div class="inv-top">
+        <div class="inv-top-logo">BM&amp;C Enterprise LLC</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;opacity:0.6;margin-top:4px">GENERAL FREIGHT CARRIER</div>
+        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:9px;opacity:0.5;letter-spacing:1px">INVOICE</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:800">${inv.invNum}</div>
+          </div>
+          <div style="text-align:right;font-family:'Share Tech Mono',monospace;font-size:10px;opacity:0.6">
+            ${fmtDate(inv.invDate)}<br>Bill To: ${inv.client}<br>${inv.period || ''}
+          </div>
+        </div>
+      </div>
+      <div class="inv-stripe"></div>
+      <div class="inv-body">
+        ${rows || `<div style="padding:20px 0;text-align:center;font-family:'Share Tech Mono',monospace;font-size:11px;color:#888">Load details not available</div>`}
+        <div class="inv-total-row">
+          <div class="inv-total-lbl">TOTAL DUE · ${invLoads.length || '?'} LOADS</div>
+          <div class="inv-total-amt">${fmtMoney(inv.total)}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('hist-inv-preview-body').innerHTML = `
+    <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+      <button class="btn-full btn-blue" onclick="printInvoiceFromHistory()" style="flex:1">🖨 Print / Save PDF</button>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:16px;align-items:center">
+      <button onclick="togglePaid('${inv.id}', ${inv.paid}); closeHistInvSheet();"
+        style="flex:1;padding:13px;border-radius:10px;border:1px solid ${inv.paid ? 'var(--border)' : 'var(--green)'};background:${inv.paid ? 'transparent' : 'rgba(46,204,113,0.1)'};color:${inv.paid ? 'var(--gray)' : 'var(--green)'};font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;cursor:pointer;letter-spacing:0.5px">
+        ${inv.paid ? 'Mark as Unpaid' : '✔ Mark as Paid'}
+      </button>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;text-align:right;color:${inv.paid ? 'var(--green)' : 'var(--red)'};white-space:nowrap">
+        ${inv.paid ? '✔ PAID' : 'UNPAID'}
+      </div>
+    </div>
+    ${previewHTML}
+  `;
+
+  document.getElementById('hist-inv-sheet-backdrop').classList.add('open');
+};
+
+window.printInvoiceFromHistory = function() {
+  const inv = document.getElementById('hist-invoice-preview-content');
+  if (!inv) return;
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>BM&C Invoice</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Barlow',sans-serif;background:white;padding:40px;max-width:760px;margin:0 auto}
+    .inv-top{background:#023E8A;color:white;padding:32px;border-radius:8px 8px 0 0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .inv-top-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:32px;margin-bottom:4px}
+    .inv-stripe{height:5px;background:linear-gradient(90deg,#D62828 50%,#E9B930 50%);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .inv-body{border:1px solid #ddd;border-top:none;border-radius:0 0 8px 8px;padding:0 32px}
+    .inv-row{display:flex;justify-content:space-between;align-items:flex-start;padding:18px 0;border-bottom:1px solid #eee}
+    .inv-row-route{font-weight:600;font-size:16px;color:#000;margin-bottom:4px}
+    .inv-row-date{font-family:'Share Tech Mono',monospace;font-size:11px;color:#666}
+    .inv-row-amt{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;color:#023E8A}
+    .inv-total-row{background:#023E8A;color:white;margin:0 -32px;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;border-radius:0 0 8px 8px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .inv-total-lbl{font-family:'Share Tech Mono',monospace;font-size:12px;opacity:0.7;letter-spacing:1px}
+    .inv-total-amt{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:40px;color:#E9B930}
+    .footer{margin-top:32px;text-align:center;font-size:12px;color:#aaa;font-family:'Share Tech Mono',monospace}
+    button{display:none}
+    @page{margin:0.5in;size:letter}
+  </style></head><body>
+  ${inv.outerHTML}
+  <div class="footer">BM&C Enterprise LLC · General Freight Carrier · bmcenterprise73@gmail.com</div>
+  <script>window.onload=function(){window.print();}<\/script>
+  </body></html>`;
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+};
+
+window.closeHistInvSheet = function() {
+  document.getElementById('hist-inv-sheet-backdrop').classList.remove('open');
+};
+window.closeHistInvSheetIfBackdrop = function(e) {
+  if (e.target === document.getElementById('hist-inv-sheet-backdrop')) window.closeHistInvSheet();
 };
 
 function renderInvoiceHistory() {
@@ -577,7 +685,7 @@ function renderInvoiceHistory() {
 
   el.innerHTML = summary + invoices.map(inv => `
     <div class="load-card" style="border-left:4px solid ${inv.paid ? 'var(--green)' : 'var(--gold)'}">
-      <div class="load-card-top">
+      <div class="load-card-top" onclick="viewInvoiceFromHistory('${inv.id}')" style="cursor:pointer">
         <div>
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:20px">${inv.invNum}</div>
           <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">${inv.client} · ${fmtDate(inv.invDate)}</div>
@@ -586,9 +694,11 @@ function renderInvoiceHistory() {
         <div style="text-align:right">
           <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;color:var(--gold)">${fmtMoney(inv.total)}</div>
           <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:${inv.paid ? 'var(--green)' : 'var(--red)'}">${inv.paid ? '✔ PAID' : 'UNPAID'}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--blue-mid);margin-top:4px;letter-spacing:0.5px">TAP TO VIEW ›</div>
         </div>
       </div>
       <div style="display:flex;gap:8px;margin-top:10px">
+        <button onclick="viewInvoiceFromHistory('${inv.id}')" style="flex:1;padding:11px;border-radius:8px;border:1px solid var(--blue-mid);background:transparent;color:#7AB3FF;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;cursor:pointer">🖨 View & Print</button>
         <button onclick="togglePaid('${inv.id}',${inv.paid})" style="flex:1;padding:11px;border-radius:8px;border:1px solid ${inv.paid ? 'var(--border)' : 'var(--green)'};background:transparent;color:${inv.paid ? 'var(--gray)' : 'var(--green)'};font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;cursor:pointer">
           ${inv.paid ? 'Mark Unpaid' : '✔ Mark Paid'}
         </button>
