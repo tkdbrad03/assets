@@ -567,6 +567,18 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
   </div>
 </div>
 
+<!-- SAVED INVOICE VIEWER SHEET -->
+<div class="sheet-backdrop" id="hist-inv-sheet-backdrop" onclick="closeHistInvSheetIfBackdrop(event)">
+  <div class="sheet" style="max-height:95vh">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">
+      <span>Invoice Preview</span>
+      <button class="sheet-close" onclick="closeHistInvSheet()">✕</button>
+    </div>
+    <div class="sheet-body" id="hist-inv-preview-body"></div>
+  </div>
+</div>
+
 <!-- RECEIPT FULLSCREEN -->
 <div id="receipt-fullscreen" onclick="closeFullscreen()">
   <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
