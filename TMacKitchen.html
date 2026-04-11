@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#ffffff"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="TMac Kitchen"/>
+<meta name="description" content="TMac's Keto Kitchen — your personal ketogenic cookbook."/>
+<title>TMac Kitchen</title>
+<link rel="manifest" id="pwa-manifest"/>
+<link rel="apple-touch-icon" href="https://raw.githubusercontent.com/tkdbrad03/assets/main/tmac-keto-kitchen.png"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --white:#ffffff;--cream:#f5f3ee;
+  --gold:#c9a84c;--gold-light:#f0e4c0;--gold-dark:#8a6d2f;
+  --pine:#2d5a3d;--pine-light:#e4ede7;--pine-mid:#4a7c5f;
+  --ink:#1a1a18;--muted:#6b6b63;--border:rgba(26,26,24,.1);
+  --shadow:0 2px 20px rgba(26,26,24,.07);
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--white);color:var(--ink);line-height:1.6;overflow-x:hidden;}
+
+#splash{position:fixed;inset:0;z-index:9999;background:var(--white);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem;transition:opacity .5s ease;}
+#splash.hidden{opacity:0;pointer-events:none;}
+.splash-logo{width:160px;height:160px;border-radius:50%;overflow:hidden;margin:0 auto 1.5rem;box-shadow:0 6px 32px rgba(26,26,24,.12);}
+.splash-logo img{width:100%;height:100%;object-fit:cover;}
+.splash-title{font-family:var(--serif);font-size:clamp(26px,6vw,46px);font-weight:400;letter-spacing:-.5px;line-height:1.1;margin-bottom:.4rem;color:var(--pine);}
+.splash-title em{font-style:italic;color:var(--gold);}
+.splash-sub{font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;}
+.splash-rule{width:56px;height:1px;background:var(--gold);margin:1.2rem auto;}
+.splash-enter{display:inline-flex;align-items:center;gap:8px;background:var(--pine);color:var(--white);font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;padding:14px 32px;border-radius:2px;border:none;cursor:pointer;transition:background .2s;}
+.splash-enter:hover{background:var(--gold-dark);}
+.splash-tagline{margin-top:1.2rem;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--muted);}
+.install-hint{margin-top:.6rem;font-size:11px;color:var(--muted);letter-spacing:.03em;}
+
+#app{display:none;flex-direction:column;min-height:100dvh;}
+#app.visible{display:flex;}
+
+nav{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 1rem;height:56px;}
+.nav-brand{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.nav-logo{width:34px;height:34px;border-radius:50%;overflow:hidden;box-shadow:0 1px 6px rgba(26,26,24,.1);}
+.nav-logo img{width:100%;height:100%;object-fit:cover;}
+.nav-brand-text{font-family:var(--serif);font-size:16px;letter-spacing:-.2px;color:var(--pine);}
+.nav-brand-text span{color:var(--gold);font-style:italic;}
+.nav-tabs{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab-btn{background:none;border:none;font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);padding:8px 10px;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.tab-btn.active{color:var(--pine);border-bottom-color:var(--gold);}
+.tab-btn:hover{color:var(--pine);}
+
+.view{display:none;padding:1.25rem;max-width:900px;margin:0 auto;width:100%;}
+.view.active{display:block;}
+
+.page-header{margin-bottom:1.5rem;}
+.page-header h1{font-family:var(--serif);font-size:clamp(22px,4vw,34px);font-weight:400;letter-spacing:-.3px;line-height:1.15;color:var(--pine);}
+.page-header h1 em{font-style:italic;color:var(--gold);}
+.page-header p{color:var(--muted);font-size:13px;margin-top:.3rem;}
+.gold-rule{width:40px;height:2px;background:var(--gold);margin:.6rem 0;}
+
+#offline-banner{display:none;background:var(--gold-light);border-bottom:1px solid var(--gold);padding:8px 1rem;text-align:center;font-size:12px;color:var(--gold-dark);letter-spacing:.04em;}
+#offline-banner.show{display:block;}
+#install-banner{display:none;background:var(--pine-light);border-bottom:1px solid rgba(45,90,61,.25);padding:10px 1rem;align-items:center;justify-content:space-between;gap:8px;}
+#install-banner.show{display:flex;}
+#install-banner p{font-size:12px;color:var(--pine);font-weight:500;}
+.install-btn-small{background:var(--pine);color:var(--white);border:none;padding:6px 14px;border-radius:2px;font-size:12px;font-weight:500;cursor:pointer;}
+.dismiss-install{background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1;padding:0;}
+
+.filter-bar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.25rem;}
+.filter-chip{padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--white);font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.04em;color:var(--muted);cursor:pointer;transition:all .15s;}
+.filter-chip:hover{border-color:var(--pine);color:var(--pine);}
+.filter-chip.active{background:var(--pine);color:var(--white);border-color:var(--pine);}
+.filter-chip.quick.active{background:var(--gold-dark);border-color:var(--gold-dark);}
+
+.recipe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.875rem;}
+.recipe-card{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .15s;}
+.recipe-card:hover{box-shadow:var(--shadow);transform:translateY(-2px);}
+.recipe-card-badge{padding:.875rem .875rem .4rem;display:flex;gap:5px;flex-wrap:wrap;}
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:2px;}
+.badge.raw{background:var(--pine-light);color:var(--pine);}
+.badge.quick{background:var(--gold-light);color:var(--gold-dark);}
+.badge.carbs{background:#f0f0ec;color:var(--muted);}
+.badge.sheet{background:#e8f0fb;color:#2563a8;}
+.recipe-card-body{padding:.4rem .875rem .875rem;}
+.recipe-card-title{font-family:var(--serif);font-size:16px;font-weight:400;line-height:1.25;margin-bottom:.25rem;color:var(--pine);}
+.recipe-card-meta{font-size:11px;color:var(--muted);}
+.recipe-card-footer{border-top:1px solid var(--border);padding:.625rem .875rem;display:flex;align-items:center;justify-content:space-between;}
+.carb-pill{font-size:12px;font-weight:500;color:var(--pine);}
+.view-btn{font-size:11px;font-weight:500;color:var(--gold-dark);letter-spacing:.04em;text-transform:uppercase;background:none;border:none;cursor:pointer;padding:0;}
+
+#modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(26,26,24,.45);backdrop-filter:blur(3px);display:none;align-items:flex-start;justify-content:center;padding:1rem;overflow-y:auto;}
+#modal-overlay.open{display:flex;}
+#modal{background:var(--white);border-radius:4px;width:100%;max-width:680px;margin:auto;overflow:hidden;}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;padding:1.25rem 1.25rem 0;}
+.modal-title{font-family:var(--serif);font-size:clamp(18px,3vw,26px);font-weight:400;line-height:1.2;flex:1;color:var(--pine);}
+.modal-close{background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);padding:0 0 0 12px;}
+.modal-badges{padding:.625rem 1.25rem;display:flex;gap:5px;flex-wrap:wrap;}
+.modal-cols{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;padding:0 1.25rem .875rem;}
+@media(max-width:520px){.modal-cols{grid-template-columns:1fr;}}
+.modal-section-title{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.625rem;padding-bottom:.35rem;border-bottom:1px solid var(--border);}
+.ingredient-list{list-style:none;}
+.ingredient-list li{display:flex;align-items:flex-start;gap:7px;padding:6px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.ingredient-list li:last-child{border-bottom:none;}
+.ingredient-list input[type=checkbox]{margin-top:2px;accent-color:var(--pine);width:14px;height:14px;flex-shrink:0;cursor:pointer;}
+.ingredient-list label{cursor:pointer;line-height:1.4;}
+.steps-list{list-style:none;counter-reset:steps;}
+.steps-list li{counter-increment:steps;display:flex;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;line-height:1.5;}
+.steps-list li:last-child{border-bottom:none;}
+.steps-list li::before{content:counter(steps);min-width:20px;height:20px;border-radius:50%;background:var(--gold);color:var(--white);font-size:10px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.modal-notes{margin:0 1.25rem .875rem;padding:.625rem .875rem;background:var(--cream);border-left:3px solid var(--gold);border-radius:2px;font-size:12px;color:var(--muted);}
+.modal-footer{padding:.875rem 1.25rem;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;border-radius:2px;border:1px solid var(--border);cursor:pointer;transition:all .15s;background:var(--white);color:var(--ink);}
+.btn:hover{background:var(--cream);}
+.btn.primary{background:var(--pine);color:var(--white);border-color:var(--pine);}
+.btn.primary:hover{background:var(--pine-mid);}
+.btn.gold{background:var(--gold);color:var(--white);border-color:var(--gold);}
+
+.shop-controls{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;}
+.shop-empty{text-align:center;padding:3rem 1rem;color:var(--muted);}
+.shop-empty p{font-family:var(--serif);font-style:italic;font-size:17px;margin-bottom:.4rem;color:var(--pine);}
+.shop-section{margin-bottom:1.25rem;}
+.shop-section-title{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.4rem;padding:.4rem 0;border-bottom:1px solid var(--gold-light);}
+.shop-item{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.shop-item:last-child{border-bottom:none;}
+.shop-item input{accent-color:var(--pine);width:15px;height:15px;cursor:pointer;flex-shrink:0;}
+.shop-item label{cursor:pointer;flex:1;}
+.shop-item label.checked{text-decoration:line-through;color:var(--muted);}
+.shop-item .remove-shop{background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:0;}
+
+.tracker-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.875rem;margin-bottom:1.5rem;}
+.stat-card{background:var(--cream);border:1px solid var(--border);border-radius:4px;padding:1rem;}
+.stat-card .label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.35rem;}
+.stat-card .value{font-family:var(--serif);font-size:30px;font-weight:400;color:var(--ink);line-height:1;}
+.stat-card .sub{font-size:11px;color:var(--muted);margin-top:.2rem;}
+.stat-card.highlight .value{color:var(--pine);}
+.carb-bar-wrap{margin:.4rem 0 1.25rem;}
+.carb-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:.35rem;}
+.carb-bar{height:7px;background:var(--cream);border-radius:4px;overflow:hidden;}
+.carb-bar-fill{height:100%;background:var(--pine);border-radius:4px;transition:width .4s ease;}
+.carb-bar-fill.warn{background:var(--gold);}
+.carb-bar-fill.over{background:#c0392b;}
+.tracker-item{display:flex;align-items:center;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid var(--border);font-size:13px;}
+.tracker-item:last-child{border-bottom:none;}
+.tracker-item-name{font-weight:500;color:var(--pine);}
+.tracker-carb{font-family:var(--serif);font-size:17px;color:var(--pine);}
+.remove-track{background:none;border:none;cursor:pointer;color:var(--muted);font-size:15px;padding:0;}
+
+.day-strip{display:flex;gap:5px;overflow-x:auto;padding-bottom:.4rem;margin-bottom:1.25rem;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.day-strip::-webkit-scrollbar{display:none;}
+.day-btn{flex-shrink:0;width:52px;display:flex;flex-direction:column;align-items:center;padding:7px 4px;border-radius:4px;border:1px solid var(--border);background:var(--white);cursor:pointer;transition:all .15s;}
+.day-btn.active{background:var(--pine);color:var(--white);border-color:var(--pine);}
+.day-btn .day-name{font-size:9px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;}
+.day-btn .day-num{font-family:var(--serif);font-size:18px;font-weight:400;line-height:1.1;}
+.day-btn .day-carbs{font-size:9px;color:var(--pine);}
+.day-btn.active .day-carbs{color:#a3d4b5;}
+.meal-slots{display:grid;gap:.625rem;}
+.meal-slot{border:1px solid var(--border);border-radius:4px;padding:.875rem;background:var(--white);}
+.meal-slot-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem;}
+.meal-slot-label{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);}
+.meal-slot-add{font-size:11px;font-weight:500;color:var(--gold-dark);background:none;border:none;cursor:pointer;}
+.meal-recipe{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:.35rem 0;}
+.meal-recipe-name{font-family:var(--serif);color:var(--pine);}
+.meal-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:0;}
+.meal-empty{font-size:12px;color:var(--muted);font-style:italic;}
+
+#picker-overlay{position:fixed;inset:0;z-index:600;background:rgba(26,26,24,.45);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;padding:1rem;}
+#picker-overlay.open{display:flex;}
+#picker{background:var(--white);border-radius:4px;width:100%;max-width:380px;padding:1.1rem;max-height:80vh;overflow-y:auto;}
+.picker-title{font-family:var(--serif);font-size:17px;margin-bottom:.875rem;color:var(--pine);}
+.picker-item{display:flex;align-items:center;justify-content:space-between;padding:.55rem 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:13px;}
+.picker-item:hover .picker-item-name{color:var(--pine);}
+.picker-item-name{font-weight:500;transition:color .15s;}
+.picker-item-carbs{font-size:11px;color:var(--muted);}
+
+@media(max-width:600px){nav{padding:0 .875rem;}.tab-btn{font-size:10px;padding:8px 7px;}.view{padding:1rem;}}
+</style>
+</head>
+<body>
+
+<div id="offline-banner">You're offline — all recipes, shopping & tracking still work</div>
+<div id="install-banner">
+  <p>Install TMac Kitchen to your home screen</p>
+  <button class="install-btn-small" id="install-btn">Install App</button>
+  <button class="dismiss-install" id="dismiss-install">×</button>
+</div>
+
+<div id="splash">
+  <div class="splash-logo">
+    <img id="splash-img" src="https://raw.githubusercontent.com/tkdbrad03/assets/main/tmac-keto-kitchen.png" alt="TMac's Keto Kitchen"/>
+  </div>
+  <h1 class="splash-title">TMac's <em>Keto</em> Kitchen</h1>
+  <p class="splash-sub">Ketogenic Living, Elevated</p>
+  <div class="splash-rule"></div>
+  <button class="splash-enter" onclick="enterApp()">Open My Kitchen</button>
+  <p class="splash-tagline">"You can have it all."</p>
+  <p class="install-hint">Works offline · Installs to home screen</p>
+</div>
+
+<div id="app">
+  <nav>
+    <div class="nav-brand">
+      <div class="nav-logo">
+        <img src="https://raw.githubusercontent.com/tkdbrad03/assets/main/tmac-keto-kitchen.png" alt="TMac Kitchen"/>
+      </div>
+      <div class="nav-brand-text">TMac's <span>Kitchen</span></div>
+    </div>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="showView('recipes',this)">Recipes</button>
+      <button class="tab-btn" onclick="showView('planner',this)">Meal Plan</button>
+      <button class="tab-btn" onclick="showView('shop',this)">Shopping</button>
+      <button class="tab-btn" onclick="showView('tracker',this)">Carb Tracker</button>
+    </div>
+  </nav>
+
+  <div class="view active" id="view-recipes">
+    <div class="page-header">
+      <h1>The <em>Keto</em> Collection</h1>
+      <div class="gold-rule"></div>
+      <p>Fat-fueled, clean meals designed for your lifestyle</p>
+    </div>
+    <div class="filter-bar" id="filter-bar">
+      <button class="filter-chip active" data-filter="all" onclick="filterRecipes(this)">All</button>
+      <button class="filter-chip" data-filter="raw" onclick="filterRecipes(this)">Raw / No-Cook</button>
+      <button class="filter-chip quick" data-filter="quick" onclick="filterRecipes(this)">Under 30 Min</button>
+      <button class="filter-chip" data-filter="Breakfast" onclick="filterRecipes(this)">Breakfast</button>
+      <button class="filter-chip" data-filter="Main" onclick="filterRecipes(this)">Mains</button>
+      <button class="filter-chip" data-filter="Snack" onclick="filterRecipes(this)">Snacks</button>
+      <button class="filter-chip" data-filter="Salad" onclick="filterRecipes(this)">Salads</button>
+      <button class="filter-chip" data-filter="sheet" onclick="filterRecipes(this)">My Recipes</button>
+    </div>
+    <div id="recipe-grid"></div>
+  </div>
+
+  <div class="view" id="view-planner">
+    <div class="page-header">
+      <h1><em>Weekly</em> Meal Plan</h1>
+      <div class="gold-rule"></div>
+      <p>Tap a day, then add recipes to each meal slot</p>
+    </div>
+    <div class="day-strip" id="day-strip"></div>
+    <div class="meal-slots" id="meal-slots"></div>
+  </div>
+
+  <div class="view" id="view-shop">
+    <div class="page-header">
+      <h1>Shopping <em>List</em></h1>
+      <div class="gold-rule"></div>
+      <p>Ingredients auto-populate from your recipes</p>
+    </div>
+    <div class="shop-controls">
+      <button class="btn primary" onclick="addAllPlannerToShop()">+ Import This Week</button>
+      <button class="btn" onclick="clearChecked()">Clear Checked</button>
+      <button class="btn" onclick="clearShop()">Clear All</button>
+    </div>
+    <div id="shop-body"></div>
+  </div>
+
+  <div class="view" id="view-tracker">
+    <div class="page-header">
+      <h1>Net Carb <em>Tracker</em></h1>
+      <div class="gold-rule"></div>
+      <p>Keto goal: stay under 20g net carbs daily</p>
+    </div>
+    <div class="tracker-grid" id="tracker-stats"></div>
+    <div class="carb-bar-wrap">
+      <div class="carb-bar-label"><span>0g</span><span id="bar-label">20g daily goal</span></div>
+      <div class="carb-bar"><div class="carb-bar-fill" id="carb-fill" style="width:0%"></div></div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:.75rem;">Tap to log what you've eaten today:</p>
+    <div class="filter-bar" id="track-picker"></div>
+    <div class="tracker-list" id="tracker-list"></div>
+  </div>
+</div>
+
+<div id="modal-overlay" onclick="closeModal(event)">
+  <div id="modal">
+    <div class="modal-header">
+      <h2 class="modal-title" id="m-title"></h2>
+      <button class="modal-close" onclick="closeModalDirect()">×</button>
+    </div>
+    <div class="modal-badges" id="m-badges"></div>
+    <div class="modal-cols">
+      <div>
+        <div class="modal-section-title">Ingredients</div>
+        <ul class="ingredient-list" id="m-ingredients"></ul>
+      </div>
+      <div>
+        <div class="modal-section-title">Directions</div>
+        <ol class="steps-list" id="m-steps"></ol>
+      </div>
+    </div>
+    <div class="modal-notes" id="m-notes" style="display:none;"></div>
+    <div class="modal-footer">
+      <button class="btn primary" onclick="addToShopFromModal()">+ Shopping List</button>
+      <button class="btn gold" onclick="addToTrackerFromModal()">Track Carbs</button>
+      <button class="btn" onclick="addToPlanFromModal()">+ Meal Plan</button>
+      <button class="btn" onclick="printModal()">Print</button>
+    </div>
+  </div>
+</div>
+
+<div id="picker-overlay" onclick="closePicker(event)">
+  <div id="picker">
+    <p class="picker-title">Choose a Recipe</p>
+    <div id="picker-list"></div>
+    <button class="btn" style="margin-top:.875rem;width:100%;" onclick="closePicker()">Cancel</button>
+  </div>
+</div>
+
+<script>
+const LOGO_URL="https://raw.githubusercontent.com/tkdbrad03/assets/main/tmac-keto-kitchen.png";
+const SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vSfZkZn3OuZSWMbxsASOLj0adOB7Navcv5lQ0L_XH-Wl5l0YpWLwboQsXBalf0tqBkDN_ZQp0dnrAva/pub?gid=1906692768&single=true&output=csv";
+
+const BUILTIN=[
+  {id:1,title:"Avocado Tuna Boats",category:"Main",tags:["raw","quick"],time:"10 min",netCarbs:2,source:"builtin",
+   ingredients:["2 ripe avocados, halved & pitted","2 (5 oz) cans tuna in olive oil, drained","2 tbsp avocado mayo","1 tbsp lemon juice","1 celery stalk, finely diced","Salt, pepper & red pepper flakes","Fresh chives"],
+   directions:["Scoop a little extra avocado from each half to widen the well.","Mix tuna, mayo, lemon juice, celery, salt & pepper.","Spoon filling into each avocado half.","Top with red pepper flakes and chives. Serve immediately."],
+   notes:"Use smoked salmon instead of tuna for a fancy variation."},
+  {id:2,title:"Cucumber Salmon Bites",category:"Snack",tags:["raw","quick"],time:"10 min",netCarbs:2,source:"builtin",
+   ingredients:["1 English cucumber, sliced into rounds","4 oz smoked salmon","4 oz cream cheese, softened","1 tbsp capers","Fresh dill","Lemon zest"],
+   directions:["Slice cucumber into ¼-inch rounds and pat dry.","Spread cream cheese on each round.","Top with smoked salmon and capers.","Finish with fresh dill and lemon zest."],
+   notes:"Soften cream cheese 30 min ahead for easy spreading."},
+  {id:3,title:"Keto Green Goddess Bowl",category:"Salad",tags:["raw","quick"],time:"15 min",netCarbs:5,source:"builtin",
+   ingredients:["3 cups mixed greens","1 avocado, cubed","¼ cup pumpkin seeds","2 tbsp hemp seeds","¼ cup cucumber, diced","1 hard-boiled egg, halved","3 tbsp olive oil","1 tbsp apple cider vinegar","1 tsp Dijon mustard","Salt & pepper"],
+   directions:["Whisk olive oil, vinegar and Dijon with salt & pepper.","Layer greens in a bowl.","Arrange avocado, cucumber, seeds and egg on top.","Drizzle dressing. Serve immediately."],
+   notes:"Add grilled chicken or salmon for a complete meal."},
+  {id:4,title:"Butter Coffee",category:"Breakfast",tags:["quick","raw"],time:"5 min",netCarbs:0,source:"builtin",
+   ingredients:["2 cups strong brewed coffee","1 tbsp grass-fed unsalted butter","1 tbsp MCT oil","Pinch of cinnamon (optional)","1 tsp collagen powder (optional)"],
+   directions:["Brew coffee using your preferred method.","Add coffee, butter and MCT oil to a blender.","Blend on high 30 seconds until frothy.","Pour and enjoy immediately."],
+   notes:"Start with ½ tbsp MCT oil if new to it — increase gradually."},
+  {id:5,title:"Bacon & Egg Cups",category:"Breakfast",tags:["quick"],time:"20 min",netCarbs:1,source:"builtin",
+   ingredients:["6 strips thick-cut bacon","6 large eggs","Salt, pepper & paprika","2 tbsp shredded cheddar","Fresh chives"],
+   directions:["Preheat oven to 375°F.","Line 6 muffin cups with one bacon strip each.","Crack one egg into each cup. Season and top with cheese.","Bake 15–18 min. Garnish with chives."],
+   notes:"Run a knife around the edge before removing from the tin."},
+  {id:6,title:"Zucchini Pesto Noodles",category:"Main",tags:["quick"],time:"15 min",netCarbs:5,source:"builtin",
+   ingredients:["2 large zucchini, spiralized","3 tbsp basil pesto","¼ cup cherry tomatoes, halved","2 tbsp pine nuts","2 tbsp parmesan, shaved","1 tbsp olive oil","Salt & pepper"],
+   directions:["Salt zucchini noodles, rest 10 min, then pat very dry.","Heat olive oil over medium-high. Toss noodles 2–3 min to warm.","Off heat, toss with pesto.","Top with tomatoes, pine nuts and parmesan."],
+   notes:"Don't overcook — zucchini releases water fast."},
+  {id:7,title:"Caprese Avocado Stack",category:"Salad",tags:["raw","quick"],time:"10 min",netCarbs:4,source:"builtin",
+   ingredients:["1 avocado, sliced","4 oz fresh mozzarella, sliced","1 heirloom tomato, sliced","Fresh basil leaves","2 tbsp extra virgin olive oil","Flaky sea salt & cracked pepper"],
+   directions:["Layer avocado, mozzarella and tomato alternately.","Tuck basil between layers.","Drizzle olive oil. Finish with salt and pepper."],
+   notes:"Serve within 15 min — avocado browns quickly once sliced."},
+  {id:8,title:"Lemon Herb Baked Salmon",category:"Main",tags:[],time:"25 min",netCarbs:1,source:"builtin",
+   ingredients:["2 (6 oz) salmon fillets","2 tbsp butter, melted","2 garlic cloves, minced","1 lemon, zested and sliced","2 tbsp fresh dill","Salt, pepper & paprika","1 tbsp capers (optional)"],
+   directions:["Preheat oven to 400°F. Line baking sheet with foil.","Season salmon with salt, pepper and paprika.","Mix butter with garlic, lemon zest and dill. Spoon over salmon.","Lay lemon slices on top. Bake 12–15 min until it flakes."],
+   notes:"Done when it just begins to flake at the thickest point."},
+  {id:9,title:"Egg Salad Lettuce Cups",category:"Main",tags:["quick","raw"],time:"15 min",netCarbs:1,source:"builtin",
+   ingredients:["6 hard-boiled eggs, chopped","3 tbsp mayo","1 tsp Dijon mustard","1 tbsp celery, minced","1 tsp apple cider vinegar","Salt, pepper & paprika","8 butter lettuce leaves"],
+   directions:["Combine eggs, mayo, mustard, celery and vinegar.","Mix gently — keep some texture, don't over-mash.","Season with salt, pepper and paprika.","Spoon into lettuce cups. Dust with paprika."],
+   notes:"Make egg salad up to 2 days ahead — fill lettuce right before serving."},
+  {id:10,title:"Keto Almond Smoothie",category:"Breakfast",tags:["raw","quick"],time:"5 min",netCarbs:5,source:"builtin",
+   ingredients:["1 cup unsweetened almond milk","½ cup full-fat coconut milk (canned)","1 tbsp almond butter","1 tbsp MCT oil","½ tsp cinnamon","¼ tsp vanilla extract","4–5 ice cubes","Stevia or monk fruit to taste"],
+   directions:["Add all ingredients to a blender.","Blend 45–60 seconds until thick and creamy.","Taste and adjust sweetener.","Pour and serve immediately."],
+   notes:"Add 1 tbsp collagen powder for extra protein."},
+  {id:11,title:"Stuffed Bell Peppers",category:"Main",tags:[],time:"30 min",netCarbs:7,source:"builtin",
+   ingredients:["2 bell peppers, halved & seeded","½ lb ground beef or turkey","½ cup cauliflower rice","1 tbsp olive oil","½ onion, diced","2 garlic cloves, minced","½ cup crushed tomatoes","Salt & Italian seasoning","½ cup shredded mozzarella"],
+   directions:["Preheat oven to 375°F.","Sauté onion and garlic in olive oil 4 min.","Add meat and cook through. Stir in cauliflower rice and tomatoes.","Fill peppers. Top with mozzarella. Bake 18–20 min."],
+   notes:"Red or yellow peppers have fewer carbs than green."},
+  {id:12,title:"Antipasto Snack Plate",category:"Snack",tags:["raw","quick"],time:"5 min",netCarbs:3,source:"builtin",
+   ingredients:["2 oz salami or prosciutto","2 oz aged cheddar or manchego, cubed","¼ cup olives","¼ cup marinated artichoke hearts","2 tbsp roasted almonds"],
+   directions:["Arrange everything on a board or plate.","No cooking required — just assemble and enjoy."],
+   notes:"Prep 5 portions Sunday night for easy grab-and-go all week."},
+];
+
+const DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const MEALS=["Breakfast","Lunch","Dinner","Snack"];
+const GOAL=20;
+let allRecipes=[...BUILTIN];
+let activeFilter="all",currentRecipe=null,pickerContext=null,activeDay=0;
+let shopIdCounter=0,trackIdCounter=0,plan={},shopList=[],trackerItems=[];
+
+function loadState(){
+  try{
+    const s=JSON.parse(localStorage.getItem("tmac_v2")||"{}");
+    plan=s.plan||{};shopList=s.shopList||[];trackerItems=s.trackerItems||[];
+    shopIdCounter=s.shopIdCounter||0;trackIdCounter=s.trackIdCounter||0;
+    DAYS.forEach((_,i)=>{if(!plan[i])plan[i]={};MEALS.forEach(m=>{if(!plan[i][m])plan[i][m]=[];});});
+  }catch(e){plan={};DAYS.forEach((_,i)=>{plan[i]={};MEALS.forEach(m=>{plan[i][m]=[];});});}
+}
+function saveState(){try{localStorage.setItem("tmac_v2",JSON.stringify({plan,shopList,trackerItems,shopIdCounter,trackIdCounter}));}catch(e){}}
+loadState();
+
+// ── PWA: SERVICE WORKER WITH LOGO CACHED ─────────────────────────────────────
+(function(){
+  const manifest={name:"TMac's Keto Kitchen",short_name:"TMac Kitchen",description:"Your personal ketogenic cookbook",start_url:"./",display:"standalone",background_color:"#ffffff",theme_color:"#ffffff",orientation:"portrait-primary",icons:[{src:LOGO_URL,sizes:"512x512",type:"image/png"}]};
+  document.getElementById("pwa-manifest").href=URL.createObjectURL(new Blob([JSON.stringify(manifest)],{type:"application/json"}));
+
+  if("serviceWorker" in navigator){
+    // Explicitly pre-cache the logo alongside the app shell
+    const sw=`
+const CACHE = "tmac-keto-v4";
+const PRECACHE = [
+  self.registration.scope,
+  "https://raw.githubusercontent.com/tkdbrad03/assets/main/tmac-keto-kitchen.png",
+  "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+];
+
+self.addEventListener("install", e => {
+  e.waitUntil(
+    caches.open(CACHE).then(cache => {
+      // Cache each asset individually so one failure doesn't break all
+      return Promise.allSettled(PRECACHE.map(url => cache.add(url)));
+    }).then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", e => {
+  e.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("fetch", e => {
+  const url = e.request.url;
+
+  // Google Sheets CSV: always try network, fall back to empty
+  if (url.includes("spreadsheets") && url.includes("output=csv")) {
+    e.respondWith(fetch(e.request).catch(() => new Response("")));
+    return;
+  }
+
+  // Everything else: cache-first, then network, cache result
+  e.respondWith(
+    caches.match(e.request).then(cached => {
+      if (cached) return cached;
+      return fetch(e.request).then(res => {
+        if (res.ok) {
+          const clone = res.clone();
+          caches.open(CACHE).then(cache => cache.put(e.request, clone));
+        }
+        return res;
+      }).catch(() => caches.match(self.registration.scope));
+    })
+  );
+});`;
+    navigator.serviceWorker.register(
+      URL.createObjectURL(new Blob([sw], {type:"text/javascript"}))
+    ).catch(()=>{});
+  }
+})();
+
+// Install prompt
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();deferredPrompt=e;
+  if(!localStorage.getItem("tmac_nodismiss"))document.getElementById("install-banner").classList.add("show");
+});
+document.getElementById("install-btn").onclick=()=>{
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;document.getElementById("install-banner").classList.remove("show");});}
+};
+document.getElementById("dismiss-install").onclick=()=>{
+  document.getElementById("install-banner").classList.remove("show");
+  localStorage.setItem("tmac_nodismiss","1");
+};
+
+// Offline banner
+window.addEventListener("online",()=>document.getElementById("offline-banner").classList.remove("show"));
+window.addEventListener("offline",()=>document.getElementById("offline-banner").classList.add("show"));
+if(!navigator.onLine)document.getElementById("offline-banner").classList.add("show");
+
+// Enter app
+function enterApp(){
+  try{sessionStorage.setItem("tmac_in","1");}catch(e){}
+  document.getElementById("splash").classList.add("hidden");
+  document.getElementById("app").classList.add("visible");
+  renderRecipes();renderPlanner();renderShop();renderTracker();
+  loadSheetRecipes();
+  setTimeout(()=>{const s=document.getElementById("splash");if(s)s.remove();},600);
+}
+try{if(sessionStorage.getItem("tmac_in"))enterApp();}catch(e){}
+
+// Sheet loader
+function parseCSVLine(line){
+  const r=[];let c="",q=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch==='"'&&!q&&(i===0||line[i-1]===',')){q=true;}
+    else if(ch==='"'&&q&&line[i+1]==='"'){c+='"';i++;}
+    else if(ch==='"'&&q){q=false;}
+    else if(ch===','&&!q){r.push(c.trim());c="";}
+    else c+=ch;
+  }
+  r.push(c.trim());return r;
+}
+function loadSheetRecipes(){
+  const tryCache=()=>{const c=localStorage.getItem("tmac_sheet");if(c)try{mergeSheet(JSON.parse(c));}catch(e){}};
+  if(!navigator.onLine){tryCache();return;}
+  fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
+    const lines=csv.split("\n").filter(l=>l.trim());
+    if(lines.length<2)return;
+    const rows=[];
+    for(let i=1;i<lines.length;i++){
+      const cols=parseCSVLine(lines[i]);
+      if(!cols[1])continue;
+      rows.push({title:cols[1],category:cols[2]||"Other",tags:(cols[3]||"").split("|").map(t=>t.trim().toLowerCase()).filter(Boolean),time:cols[4]||"",ingredients:(cols[5]||"").split("|").map(s=>s.trim()).filter(Boolean),directions:(cols[6]||"").split("|").map(s=>s.trim()).filter(Boolean),notes:cols[7]||""});
+    }
+    localStorage.setItem("tmac_sheet",JSON.stringify(rows));
+    mergeSheet(rows);
+  }).catch(tryCache);
+}
+function mergeSheet(rows){
+  allRecipes=[...BUILTIN,...rows.map((r,i)=>({id:"s"+(i+1),title:r.title,category:r.category,tags:r.tags,time:r.time,netCarbs:((r.notes||"").match(/(\d+)g?\s*net\s*carb/i)||[,0])[1]|0,source:"sheet",ingredients:r.ingredients,directions:r.directions,notes:r.notes}))];
+  renderRecipes();renderTracker();
+}
+
+function showView(n,btn){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));document.getElementById("view-"+n).classList.add("active");btn.classList.add("active");}
+
+function filterRecipes(btn){activeFilter=btn.dataset.filter;document.querySelectorAll(".filter-chip").forEach(c=>c.classList.remove("active"));btn.classList.add("active");renderRecipes();}
+function renderRecipes(){
+  const grid=document.getElementById("recipe-grid");
+  let list=allRecipes;
+  if(activeFilter==="raw")list=allRecipes.filter(r=>r.tags.includes("raw"));
+  else if(activeFilter==="quick")list=allRecipes.filter(r=>r.tags.includes("quick"));
+  else if(activeFilter==="sheet")list=allRecipes.filter(r=>r.source==="sheet");
+  else if(activeFilter!=="all")list=allRecipes.filter(r=>r.category===activeFilter);
+  if(!list.length){grid.innerHTML='<p style="color:var(--muted);font-style:italic;font-size:14px;padding:1rem 0;">No recipes here yet.</p>';return;}
+  grid.innerHTML=list.map(r=>`<div class="recipe-card" onclick="openModal('${r.id}')"><div class="recipe-card-badge">${r.source==="sheet"?'<span class="badge sheet">My Recipe</span>':''}${r.tags.includes("raw")?'<span class="badge raw">Raw</span>':''}${r.tags.includes("quick")?'<span class="badge quick">Quick</span>':''}
+  </div><div class="recipe-card-body"><div class="recipe-card-title">${r.title}</div><div class="recipe-card-meta">${r.category}${r.time?" · "+r.time:""}</div></div><div class="recipe-card-footer"><span class="carb-pill">${r.netCarbs}g net carbs</span><button class="view-btn">View →</button></div></div>`).join("");
+}
+
+function openModal(id){
+  currentRecipe=allRecipes.find(r=>String(r.id)===String(id));if(!currentRecipe)return;const r=currentRecipe;
+  document.getElementById("m-title").textContent=r.title;
+  document.getElementById("m-badges").innerHTML=`<span class="badge carbs">${r.netCarbs}g net carbs</span><span class="badge carbs">${r.category}</span>${r.source==="sheet"?'<span class="badge sheet">My Recipe</span>':''} ${r.tags.includes("raw")?'<span class="badge raw">Raw</span>':''} ${r.tags.includes("quick")?'<span class="badge quick">Quick</span>':''} ${r.time?`<span class="badge carbs">${r.time}</span>`:""}`;
+  document.getElementById("m-ingredients").innerHTML=(r.ingredients||[]).map((x,i)=>`<li><input type="checkbox" id="i${i}"><label for="i${i}">${x}</label></li>`).join("");
+  document.getElementById("m-steps").innerHTML=(r.directions||[]).map(s=>`<li>${s}</li>`).join("");
+  const n=document.getElementById("m-notes");if(r.notes){n.style.display="block";n.textContent="Tip: "+r.notes;}else n.style.display="none";
+  document.getElementById("modal-overlay").classList.add("open");document.body.style.overflow="hidden";
+}
+function closeModal(e){if(e.target===document.getElementById("modal-overlay"))closeModalDirect();}
+function closeModalDirect(){document.getElementById("modal-overlay").classList.remove("open");document.body.style.overflow="";currentRecipe=null;}
+function addToShopFromModal(){if(!currentRecipe)return;addRecipeToShop(currentRecipe);closeModalDirect();showViewByName("shop");}
+function addToTrackerFromModal(){if(!currentRecipe)return;addToTracker(currentRecipe.id);closeModalDirect();showViewByName("tracker");}
+function addToPlanFromModal(){if(!currentRecipe)return;closeModalDirect();openPicker(activeDay,null,currentRecipe.id);}
+function showViewByName(n){const b=[...document.querySelectorAll(".tab-btn")].find(b=>b.getAttribute("onclick").includes("'"+n+"'"));if(b)showView(n,b);}
+
+function printModal(){
+  if(!currentRecipe)return;const r=currentRecipe;
+  const w=window.open("","_blank","width=700,height=650");
+  w.document.write(`<html><head><title>${r.title}</title><style>body{font-family:Georgia,serif;padding:2rem;max-width:600px;color:#2d5a3d;}h1{font-size:26px;font-weight:400;margin-bottom:.4rem;}.meta{color:#888;font-size:12px;margin-bottom:1rem;}h3{font-size:11px;letter-spacing:.07em;text-transform:uppercase;margin:1.25rem 0 .4rem;border-bottom:1px solid #eee;padding-bottom:.25rem;color:#6b6b63;}li{margin:.4rem 0;font-size:13px;}.notes{background:#f5f3ee;padding:.6rem;font-size:12px;margin-top:.875rem;border-left:3px solid #c9a84c;}</style></head><body><h1>${r.title}</h1><div class="meta">${r.category}${r.time?" · "+r.time:""} · ${r.netCarbs}g net carbs</div><h3>Ingredients</h3><ul>${(r.ingredients||[]).map(x=>`<li>${x}</li>`).join("")}</ul><h3>Directions</h3><ol>${(r.directions||[]).map(d=>`<li>${d}</li>`).join("")}</ol>${r.notes?`<div class="notes">Tip: ${r.notes}</div>`:""}</body></html>`);
+  w.document.close();w.onload=()=>w.print();
+}
+
+function addRecipeToShop(r){(r.ingredients||[]).forEach(ing=>{if(!shopList.find(i=>i.name===ing&&i.recipe===r.title))shopList.push({id:shopIdCounter++,name:ing,recipe:r.title,checked:false});});saveState();renderShop();}
+function renderShop(){
+  const body=document.getElementById("shop-body");
+  if(!shopList.length){body.innerHTML='<div class="shop-empty"><p>Your list is empty.</p><small>Open a recipe → "Shopping List", or import your meal plan above.</small></div>';return;}
+  const g={};shopList.forEach(i=>{if(!g[i.recipe])g[i.recipe]=[];g[i.recipe].push(i);});
+  body.innerHTML=Object.entries(g).map(([rec,items])=>`<div class="shop-section"><div class="shop-section-title">${rec}</div>${items.map(i=>`<div class="shop-item"><input type="checkbox" id="sh${i.id}" ${i.checked?"checked":""} onchange="toggleShop(${i.id})"><label class="${i.checked?"checked":""}" for="sh${i.id}">${i.name}</label><button class="remove-shop" onclick="removeShopItem(${i.id})">×</button></div>`).join("")}</div>`).join("");
+}
+function toggleShop(id){const i=shopList.find(x=>x.id===id);if(i){i.checked=!i.checked;saveState();renderShop();}}
+function removeShopItem(id){shopList=shopList.filter(i=>i.id!==id);saveState();renderShop();}
+function clearChecked(){shopList=shopList.filter(i=>!i.checked);saveState();renderShop();}
+function clearShop(){shopList=[];saveState();renderShop();}
+function addAllPlannerToShop(){DAYS.forEach((_,di)=>MEALS.forEach(m=>(plan[di][m]||[]).forEach(rid=>{const r=allRecipes.find(x=>String(x.id)===String(rid));if(r)addRecipeToShop(r);})));showViewByName("shop");}
+
+function addToTracker(id){const r=allRecipes.find(x=>String(x.id)===String(id));if(r){trackerItems.push({recipeId:id,title:r.title,netCarbs:r.netCarbs,id:trackIdCounter++});saveState();}renderTracker();}
+function removeFromTracker(id){trackerItems=trackerItems.filter(i=>i.id!==id);saveState();renderTracker();}
+function renderTracker(){
+  const total=trackerItems.reduce((s,i)=>s+i.netCarbs,0),rem=Math.max(0,GOAL-total),pct=Math.min(100,(total/GOAL)*100);
+  document.getElementById("tracker-stats").innerHTML=`<div class="stat-card highlight"><div class="label">Net Carbs Today</div><div class="value">${total}g</div><div class="sub">of ${GOAL}g goal</div></div><div class="stat-card"><div class="label">Remaining</div><div class="value">${rem}g</div><div class="sub">${total>GOAL?"Over by "+(total-GOAL)+"g":"Still available"}</div></div><div class="stat-card"><div class="label">Logged</div><div class="value">${trackerItems.length}</div><div class="sub">meals today</div></div>`;
+  const f=document.getElementById("carb-fill");f.style.width=pct+"%";f.className="carb-bar-fill"+(total>GOAL?" over":total>GOAL*.75?" warn":"");
+  document.getElementById("track-picker").innerHTML=allRecipes.map(r=>`<button class="filter-chip" onclick="addToTracker('${r.id}')">${r.title.split(" ").slice(0,3).join(" ")} (${r.netCarbs}g)</button>`).join("");
+  document.getElementById("tracker-list").innerHTML=!trackerItems.length?'<p style="color:var(--muted);font-style:italic;font-size:13px;padding:.5rem 0;">Nothing tracked yet.</p>':trackerItems.map(i=>`<div class="tracker-item"><div class="tracker-item-name">${i.title}</div><div style="display:flex;align-items:center;gap:10px;"><span class="tracker-carb">${i.netCarbs}g</span><button class="remove-track" onclick="removeFromTracker(${i.id})">×</button></div></div>`).join("");
+}
+
+function renderPlanner(){
+  document.getElementById("day-strip").innerHTML=DAYS.map((d,i)=>{
+    const tc=MEALS.reduce((s,m)=>s+(plan[i][m]||[]).reduce((a,rid)=>{const r=allRecipes.find(x=>String(x.id)===String(rid));return a+(r?r.netCarbs:0);},0),0);
+    return `<button class="day-btn ${i===activeDay?"active":""}" onclick="selectDay(${i})"><span class="day-name">${d}</span><span class="day-num">${i+1}</span>${tc>0?`<span class="day-carbs">${tc}g</span>`:""}</button>`;
+  }).join("");
+  renderMealSlots();
+}
+function selectDay(i){activeDay=i;renderPlanner();}
+function renderMealSlots(){
+  document.getElementById("meal-slots").innerHTML=MEALS.map(m=>{
+    const rs=(plan[activeDay][m]||[]).map(rid=>allRecipes.find(r=>String(r.id)===String(rid))).filter(Boolean);
+    return `<div class="meal-slot"><div class="meal-slot-header"><span class="meal-slot-label">${m}</span><button class="meal-slot-add" onclick="openPicker(${activeDay},'${m}',null)">+ Add</button></div>${rs.length?rs.map(r=>`<div class="meal-recipe"><span class="meal-recipe-name">${r.title}</span><div style="display:flex;align-items:center;gap:7px;"><span style="font-size:11px;color:var(--pine)">${r.netCarbs}g</span><button class="meal-remove" onclick="removeFromPlan(${activeDay},'${m}','${r.id}')">×</button></div></div>`).join(""):'<p class="meal-empty">Nothing planned</p>'}</div>`;
+  }).join("");
+}
+function removeFromPlan(day,meal,id){plan[day][meal]=plan[day][meal].filter(r=>String(r)!==String(id));saveState();renderPlanner();}
+
+function openPicker(day,meal,preselect){
+  pickerContext=(day!==null&&meal!==null)?{day,meal}:null;
+  if(preselect&&pickerContext){pickRecipe(preselect);return;}
+  document.getElementById("picker-list").innerHTML=allRecipes.map(r=>`<div class="picker-item" onclick="pickRecipe('${r.id}')"><span class="picker-item-name">${r.title}</span><span class="picker-item-carbs">${r.netCarbs}g · ${r.time||"—"}</span></div>`).join("");
+  document.getElementById("picker-overlay").classList.add("open");
+}
+function pickRecipe(id){if(pickerContext){const{day,meal}=pickerContext;if(!(plan[day][meal]||[]).some(r=>String(r)===String(id)))plan[day][meal].push(id);saveState();closePicker();renderPlanner();}else closePicker();}
+function closePicker(e){if(!e||e.target===document.getElementById("picker-overlay")){document.getElementById("picker-overlay").classList.remove("open");pickerContext=null;}}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModalDirect();closePicker();}});
+</script>
+</body>
+</html>
