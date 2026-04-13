@@ -382,7 +382,14 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
   <div class="panel" id="panel-loads">
 
     <!-- MILEAGE LOG -->
-    <div class="section-label"><span>Daily Mileage Log</span><button class="btn-outline" onclick="openMileageSheet()">+ Log Miles</button></div>
+    <div class="section-label"><span>Daily Mileage Log</span>
+  <div style="display:flex;gap:8px">
+    <button class="btn-outline" onclick="openMileageHistory()">View All</button>
+    <button class="btn-outline" onclick="exportMileageCSV()">⬇ CSV</button>
+    <button class="btn-outline" onclick="openMileageSheet()">+ Log</button>
+  </div>
+</div>
+>
     <div id="mileage-list"></div>
     <div style="height:12px"></div>
 
@@ -504,6 +511,25 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
       </div> 
   </div> 
 </div>
+
+<!-- MILEAGE HISTORY SHEET -->
+<div class="sheet-backdrop" id="mileage-history-backdrop" onclick="closeMileageHistoryIfBackdrop(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">
+      Full Mileage Log
+      <button class="sheet-close" onclick="closeMileageHistory()">✕</button>
+    </div>
+    <div class="sheet-body">
+      <div id="mileage-history-summary" style="margin-bottom:16px"></div>
+      <button class="btn-outline" onclick="printMileageLog()" style="width:100%;margin-bottom:16px">🖨 Print / Save PDF</button>
+      <div id="mileage-history-list"></div>
+    </div>
+  </div>
+</div>
+
+
+
 
 <!-- MILEAGE SHEET -->
 <div class="sheet-backdrop" id="mileage-sheet-backdrop" onclick="closeMileageSheetIfBackdrop(event)">
