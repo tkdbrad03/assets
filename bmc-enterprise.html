@@ -380,6 +380,12 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 
   <!-- ALL LOADS -->
   <div class="panel" id="panel-loads">
+
+    <!-- MILEAGE LOG -->
+    <div class="section-label"><span>Daily Mileage Log</span><button class="btn-outline" onclick="openMileageSheet()">+ Log Miles</button></div>
+    <div id="mileage-list"></div>
+    <div style="height:12px"></div>
+
     <div class="search-bar"><span class="search-icon">🔍</span><input type="text" id="search-input" placeholder="Search city, client, BOL…" oninput="renderLoads()"></div>
     <div class="filter-bar">
       <button class="filter-chip active" onclick="setFilter('all',this)">All</button>
@@ -390,6 +396,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
     <div class="section-label"><span id="loads-count">All Loads</span><button class="btn-outline" onclick="exportCSV()">⬇ CSV</button></div>
     <div id="all-loads"></div>
   </div>
+
 
   <!-- INVOICE -->
   <div class="panel" id="panel-invoice">
@@ -498,6 +505,44 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
   </div> 
 </div>
 
+<!-- MILEAGE SHEET -->
+<div class="sheet-backdrop" id="mileage-sheet-backdrop" onclick="closeMileageSheetIfBackdrop(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title"><span id="mileage-sheet-title">Log Daily Mileage</span><button class="sheet-close" onclick="closeMileageSheet()">✕</button></div>
+    <div class="sheet-body">
+      <div class="field">
+        <label>Date</label>
+        <input type="date" id="mi-date">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Odometer Start</label>
+          <input type="number" id="mi-start" placeholder="e.g. 124500" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label>Odometer End</label>
+          <input type="number" id="mi-end" placeholder="e.g. 124850" inputmode="numeric">
+        </div>
+      </div>
+      <div class="field">
+        <label>Total Miles (auto)</label>
+        <input type="number" id="mi-total" placeholder="0" readonly style="opacity:0.6">
+      </div>
+      <div class="field">
+        <label>Notes (optional)</label>
+        <input type="text" id="mi-notes" placeholder="e.g. Lawrence + Piedmont runs">
+      </div>
+      <button class="btn-full btn-red" onclick="saveMileage()">Save Mileage</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" id="delete-mileage-btn" onclick="deleteMileage()" style="display:none">Delete Record</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" onclick="closeMileageSheet()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
 <!-- INVOICE HISTORY SHEET -->
 <div class="sheet-backdrop" id="invoice-history-backdrop" onclick="closeInvoiceHistoryIfBackdrop(event)">
   <div class="sheet">
@@ -590,6 +635,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: var
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
 <script src="bmc-app.js"></script>
 
 <div id="doc-fullscreen" style="display:none;position:fixed;inset:0;z-index:600;background:#000;align-items:center;justify-content:center;flex-direction:column">
