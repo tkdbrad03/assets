@@ -12,7 +12,8 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-let loads = [], receipts = [], maints = [], invoices = [];
+let loads = [], receipts = [], maints = [], invoices = [], mileages = []; 
+let editingMileageId = null; 
 let editingLoadId = null;
 let currentUser = null;
 let activeFilter = 'all';
@@ -113,12 +114,15 @@ function subscribeToData() {
     renderMaintenance();
   });
 
-  unsubInvoices = userColl('invoices').orderBy('createdAt', 'desc').onSnapshot(snap => {
-    invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-    renderInvoiceHistory();
-    renderDash();
+    unsubInvoices = userColl('invoices').orderBy('createdAt','desc').onSnapshot(snap => {
+    invoices = snap.docs.map(d=>({id:d.id,...d.data()})); renderInvoiceHistory(); renderDash();
+  });
+  userColl('mileage').orderBy('date','desc').onSnapshot(snap => {
+    mileages = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderMileageLog();
   });
 }
+
 
 function toISO(d) { return d.toISOString().split('T')[0]; }
 function today() { return toISO(new Date()); }
@@ -400,6 +404,97 @@ function loadCard(l) {
     </div>
   </div>`;
 }
+
+// ── MILEAGE LOG
+window.openMileageSheet = function(id) {
+  editingMileageId = id || null;
+  document.getElementById('mileage-sheet-title').textContent = id ? 'Edit Mileage' : 'Log Daily Mileage';
+  document.getElementById('delete-mileage-btn').style.display = id ? 'block' : 'none';
+  if (id) {
+    const r = mileages.find(m => m.id === id); if (!r) return;
+    document.getElementById('mi-date').value = r.date || today();
+    document.getElementById('mi-start').value = r.start || '';
+    document.getElementById('mi-end').value = r.end || '';
+    document.getElementById('mi-total').value = r.total || '';
+    document.getElementById('mi-notes').value = r.notes || '';
+  } else {
+    document.getElementById('mi-date').value = today();
+    ['mi-start','mi-end','mi-total','mi-notes'].forEach(i => document.getElementById(i).value = '');
+  }
+  document.getElementById('mileage-sheet-backdrop').classList.add('open');
+};
+
+window.closeMileageSheet = function() {
+  document.getElementById('mileage-sheet-backdrop').classList.remove('open');
+  editingMileageId = null;
+};
+window.closeMileageSheetIfBackdrop = e => {
+  if (e.target === document.getElementById('mileage-sheet-backdrop')) window.closeMileageSheet();
+};
+
+// Auto-calculate total when start or end changes
+document.addEventListener('input', e => {
+  if (e.target.id === 'mi-start' || e.target.id === 'mi-end') {
+    const start = parseFloat(document.getElementById('mi-start').value) || 0;
+    const end   = parseFloat(document.getElementById('mi-end').value) || 0;
+    const total = end > start ? end - start : 0;
+    document.getElementById('mi-total').value = total || '';
+  }
+});
+
+window.saveMileage = function() {
+  const start = parseFloat(document.getElementById('mi-start').value) || 0;
+  const end   = parseFloat(document.getElementById('mi-end').value) || 0;
+  const total = end > start ? end - start : 0;
+  const rec = {
+    date:  document.getElementById('mi-date').value,
+    start,
+    end,
+    total,
+    notes: document.getElementById('mi-notes').value.trim(),
+  };
+  if (!rec.date || !rec.start || !rec.end) { showToast('Date, Start & End required','#D62828'); return; }
+  if (end <= start) { showToast('Odometer End must be greater than Start','#D62828'); return; }
+  const p = editingMileageId
+    ? userColl('mileage').doc(editingMileageId).update(rec)
+    : userColl('mileage').add({...rec, createdAt: firebase.firestore.FieldValue.serverTimestamp()});
+  p.then(() => { window.closeMileageSheet(); showToast('✔ Mileage saved!'); })
+   .catch(() => showToast('Error saving','#D62828'));
+};
+
+window.deleteMileage = function() {
+  if (!editingMileageId || !confirm('Delete this mileage record?')) return;
+  userColl('mileage').doc(editingMileageId).delete().then(() => {
+    window.closeMileageSheet(); showToast('Mileage deleted','#6B6B80');
+  });
+};
+
+function renderMileageLog() {
+  const el = document.getElementById('mileage-list'); if (!el) return;
+  if (!mileages.length) {
+    el.innerHTML = `<div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gray);padding:8px 0 4px">No mileage logged yet. Tap + Log Miles above.</div>`;
+    return;
+  }
+  // Show only last 5 entries, most recent first
+  const recent = mileages.slice(0, 5);
+  el.innerHTML = recent.map(m => `
+    <div class="load-card" onclick="openMileageSheet('${m.id}')" style="padding:12px 16px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gray)">${fmtDate(m.date)}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gray);margin-top:2px">
+            ${m.start.toLocaleString()} → ${m.end.toLocaleString()}
+          </div>
+          ${m.notes ? `<div style="font-size:11px;color:var(--gray);font-weight:300;margin-top:2px">${m.notes}</div>` : ''}
+        </div>
+        <div style="text-align:right">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:22px;color:var(--gold)">${m.total.toLocaleString()}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gray)">MILES</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
 
 window.exportCSV = function() {
   const headers = ['Date', 'From', 'To', 'Client', 'BOL', 'Miles', 'Amount', 'Type', 'Invoiced', 'Notes'];
