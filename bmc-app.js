@@ -22,7 +22,7 @@ let pendingBolImage = null, pendingRateImage = null;
 let editingMaintId = null, pendingMaintPhoto = null;
 let unsubLoads, unsubReceipts, unsubMaints, unsubInvoices;
 
-firebase.auth().getRedirectResult().catch(e => console.error('Redirect error:', e.code));
+
 
 firebase.auth().onAuthStateChanged(user => {
   document.getElementById('loading-overlay').style.display = 'none';
@@ -40,19 +40,14 @@ firebase.auth().onAuthStateChanged(user => {
 window.signInWithGoogle = function() {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({ login_hint: 'bmcenterprise73@gmail.com' });
-  firebase.auth().signInWithPopup(provider).catch(e => {
-    if (['auth/popup-blocked', 'auth/popup-closed-by-user', 'auth/cancelled-popup-request'].includes(e.code)) {
-      const btn = document.querySelector('.btn-google');
-      if (btn) {
-        btn.innerHTML = '<span>Redirecting to Google…</span>';
-        btn.style.opacity = '0.7';
-      }
-      firebase.auth().signInWithRedirect(provider);
-    } else {
-      showToast('Sign in failed: ' + e.code, '#D62828');
-    }
-  });
+  firebase.auth().signInWithPopup(provider)
+    .then(() => console.log('Signed in'))
+    .catch(e => {
+      console.error('Auth error:', e.code);
+      showToast('Tap Sign In again if the popup was blocked.', '#D62828');
+    });
 };
+
 
 window.signOut = function() {
   firebase.auth().signOut();
