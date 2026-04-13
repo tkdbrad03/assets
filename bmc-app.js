@@ -489,6 +489,135 @@ function renderMileageLog() {
       </div>
     </div>`).join('');
 }
+// ── MILEAGE EXPORT + HISTORY
+window.exportMileageCSV = function() {
+  if (!mileages.length) { showToast('No mileage records yet', '#D62828'); return; }
+  const headers = ['Date','Odometer Start','Odometer End','Total Miles','Notes'];
+  const rows = mileages
+    .slice()
+    .sort((a,b) => a.date > b.date ? 1 : -1)
+    .map(m => [m.date, m.start, m.end, m.total, m.notes||''].map(v => `"${v}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a');
+  a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+  a.download = 'BMC_Mileage_Log_' + today() + '.csv';
+  a.click();
+};
+
+window.openMileageHistory = function() {
+  renderMileageHistory();
+  document.getElementById('mileage-history-backdrop').classList.add('open');
+};
+window.closeMileageHistory = function() {
+  document.getElementById('mileage-history-backdrop').classList.remove('open');
+};
+window.closeMileageHistoryIfBackdrop = function(e) {
+  if (e.target === document.getElementById('mileage-history-backdrop')) window.closeMileageHistory();
+};
+
+function renderMileageHistory() {
+  const sorted = mileages.slice().sort((a,b) => a.date > b.date ? 1 : -1);
+  const totalMiles = sorted.reduce((s,m) => s + (m.total||0), 0);
+  const totalDays  = sorted.length;
+
+  document.getElementById('mileage-history-summary').innerHTML = `
+    <div class="receipt-summary-strip">
+      <div class="stat-card gold">
+        <div class="stat-label">Total Miles</div>
+        <div class="stat-value money" style="font-size:22px;color:var(--gold)">${totalMiles.toLocaleString()}</div>
+        <div class="stat-sub">all time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Days Logged</div>
+        <div class="stat-value" style="font-size:22px">${totalDays}</div>
+        <div class="stat-sub">driving days</div>
+      </div>
+    </div>`;
+
+  const list = document.getElementById('mileage-history-list');
+  if (!sorted.length) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">🛣</div><div class="empty-title">No mileage yet</div><div class="empty-sub">Tap + Log on the Loads tab to start</div></div>`;
+    return;
+  }
+
+  list.innerHTML = sorted.reverse().map(m => `
+    <div class="load-card" onclick="closeMileageHistory();openMileageSheet('${m.id}')" style="padding:12px 16px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px">${fmtDate(m.date)}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gray);margin-top:2px">
+            Start: ${m.start.toLocaleString()} &nbsp;→&nbsp; End: ${m.end.toLocaleString()}
+          </div>
+          ${m.notes ? `<div style="font-size:11px;color:var(--gray);font-weight:300;margin-top:2px">${m.notes}</div>` : ''}
+        </div>
+        <div style="text-align:right;margin-left:12px">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:24px;color:var(--gold)">${(m.total||0).toLocaleString()}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--gray)">MILES</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+window.printMileageLog = function() {
+  const sorted = mileages.slice().sort((a,b) => a.date > b.date ? 1 : -1);
+  const totalMiles = sorted.reduce((s,m) => s + (m.total||0), 0);
+  const rows = sorted.map(m => `
+    <tr>
+      <td>${fmtDate(m.date)}</td>
+      <td style="text-align:right">${m.start.toLocaleString()}</td>
+      <td style="text-align:right">${m.end.toLocaleString()}</td>
+      <td style="text-align:right;font-weight:700;color:#023E8A">${(m.total||0).toLocaleString()}</td>
+      <td style="color:#888">${m.notes||''}</td>
+    </tr>`).join('');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>BM&C Mileage Log</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,sans-serif;padding:40px;max-width:800px;margin:0 auto;color:#000}
+    h1{font-size:28px;color:#023E8A;margin-bottom:4px}
+    .sub{font-size:12px;color:#888;margin-bottom:24px}
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th{background:#023E8A;color:white;padding:10px 12px;text-align:left;font-size:11px;letter-spacing:1px;text-transform:uppercase}
+    th:not(:first-child){text-align:right}
+    td{padding:10px 12px;border-bottom:1px solid #eee}
+    tr:last-child td{border-bottom:none}
+    .total-row td{background:#023E8A;color:white;font-weight:700;padding:12px}
+    .total-row td:not(:first-child){text-align:right}
+    .footer{margin-top:32px;text-align:center;font-size:11px;color:#aaa}
+    @page{margin:0.5in;size:letter}
+  </style>
+  </head><body>
+  <h1>BM&C Enterprise LLC</h1>
+  <div class="sub">MILEAGE LOG &nbsp;·&nbsp; General Freight Carrier &nbsp;·&nbsp; bmcenterprise73@gmail.com &nbsp;·&nbsp; Printed: ${fmtDate(today())}</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Odo Start</th>
+        <th>Odo End</th>
+        <th>Miles</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rows}
+      <tr class="total-row">
+        <td>TOTAL — ${sorted.length} days</td>
+        <td></td><td></td>
+        <td>${totalMiles.toLocaleString()}</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="footer">BM&C Enterprise LLC &nbsp;·&nbsp; IRS Mileage Log &nbsp;·&nbsp; Tax Year ${new Date().getFullYear()}</div>
+  <script>window.onload=function(){window.print();}<\/script>
+  </body></html>`;
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+};
 
 
 window.exportCSV = function() {
