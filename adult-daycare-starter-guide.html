@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Vision to Licensed Adult Day Care Startup Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D49A;
+    --navy: #0E1E35;
+    --cream: #FAF7F2;
+    --warm-gray: #6B6560;
+    --accent: #B85C38;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.7;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; left: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .cover-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 2px;
+    margin-bottom: 36px;
+  }
+
+  .cover h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 58px);
+    color: #fff;
+    line-height: 1.15;
+    max-width: 700px;
+    margin-bottom: 8px;
+  }
+
+  .cover h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .cover-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    font-weight: 300;
+    max-width: 480px;
+    margin: 20px auto 48px;
+    letter-spacing: 0.3px;
+  }
+
+  .cover-divider {
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 28px;
+  }
+
+  .cover-author {
+    font-size: 13px;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 70px 32px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(24px, 4vw, 38px);
+    color: var(--navy);
+    line-height: 1.25;
+    margin-bottom: 20px;
+  }
+
+  .section p {
+    font-size: 16px;
+    color: var(--warm-gray);
+    font-weight: 300;
+    max-width: 640px;
+  }
+
+  /* INTRO CALLOUT */
+  .callout {
+    background: var(--navy);
+    color: #fff;
+    padding: 48px 40px;
+    margin: 0;
+  }
+
+  .callout-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .callout p {
+    font-size: 17px;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.8);
+    font-weight: 300;
+  }
+
+  .callout strong {
+    color: var(--gold);
+    font-weight: 500;
+  }
+
+  /* STEPS */
+  .steps-wrapper {
+    background: #fff;
+  }
+
+  .steps-inner {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 70px 32px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    margin-bottom: 52px;
+    padding-bottom: 52px;
+    border-bottom: 1px solid #EDEAE4;
+    align-items: start;
+  }
+
+  .step:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .step-num {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .step-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+
+  .step-content .step-why {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .step-content p {
+    font-size: 15px;
+    color: var(--warm-gray);
+    font-weight: 300;
+    line-height: 1.75;
+  }
+
+  .step-content .teaser {
+    margin-top: 14px;
+    padding: 14px 18px;
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    font-size: 13.5px;
+    color: var(--navy);
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: linear-gradient(135deg, var(--navy) 0%, #1a3055 100%);
+    padding: 80px 32px;
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .cta-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(26px, 4vw, 38px);
+    color: #fff;
+    line-height: 1.25;
+    margin-bottom: 16px;
+  }
+
+  .cta-section h2 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 40px;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  .cta-divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(201,168,76,0.4);
+    margin: 40px auto 0;
+  }
+
+  .cta-authors {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-top: 16px;
+  }
+
+  @media (max-width: 500px) {
+    .step { grid-template-columns: 1fr; }
+    .step-num { margin-bottom: -10px; }
+    .callout { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-badge">Your Roadmap to Launch</div>
+  <h1>From Vision<br>to <em>Licensed</em></h1>
+  <div class="cover-sub">The 9 steps every adult day care startup must take and why each one matters before the next.</div>
+  <div class="cover-divider"></div>
+  <div class="cover-author">Dr. Catrina Smith &amp; Dr. Tasha McCray</div>
+</div>
+
+<!-- INTRO -->
+<div class="callout">
+  <div class="callout-inner">
+    <p>Most people who want to open an adult day care <strong>already have what it takes</strong> the compassion, the community, and often, the clients. What they're missing is the structure. This guide walks you through the nine pillars of a successful adult day care startup: <strong>what each step is and why it cannot be skipped.</strong> The how the strategy, the shortcuts, the mistakes to avoid that's what working with us is for.</p>
+  </div>
+</div>
+
+<!-- STEPS -->
+<div class="steps-wrapper">
+  <div class="steps-inner">
+
+    <div class="section-label" style="margin-bottom:40px;">The 9 Steps</div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-why">Step One</div>
+        <h3>Define Your Mission &amp; Business Model</h3>
+        <p>Before you file a single form, you need clarity on who you serve and why. Your mission is not just a statement it determines which license you need, what Medicaid programs apply to you, and how you price your services.</p>
+        <div class="teaser">Choosing the wrong model at this stage is the #1 reason startups get stuck in compliance loops before they ever open.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-why">Step Two</div>
+        <h3>Choose Your Legal Structure &amp; Form Your Business</h3>
+        <p>LLC, corporation, sole proprietorship each has different implications for liability, taxes, and your ability to contract with Medicaid. This step also includes obtaining your EIN, registering your business name, and securing your local business license.</p>
+        <div class="teaser">Forming under the wrong entity can create legal and financial complications that are costly to undo once you begin billing.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-why">Step Three</div>
+        <h3>Meet State Licensing Requirements</h3>
+        <p>Every state has its own licensing body, application process, and timeline. In most states this includes a facility inspection, proof of staffing, a submitted layout, and compliance with health and safety standards all before you see your first client officially.</p>
+        <div class="teaser">Knowing your state's exact sequence and timeline is critical. Missing one step can push your approval back by months.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-why">Step Four</div>
+        <h3>Secure &amp; Set Up Your Facility</h3>
+        <p>Your space must meet minimum square footage requirements, ADA accessibility standards, fire safety codes, and zoning compliance. This step also includes renovation planning, equipment, and sanitation protocols all of which are inspected before licensure is granted.</p>
+        <div class="teaser">The building is not the barrier most people think it is if you know how to find and structure the right space for your market and budget.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="step-why">Step Five</div>
+        <h3>Get the Right Insurance Coverage</h3>
+        <p>General liability, professional liability, and workers' compensation are required in most states. Without proper coverage, a single incident can close your business. Insurance also plays a role in your Medicaid provider application.</p>
+        <div class="teaser">The type and amount of coverage you need depends on the services you offer and the population you serve not a one-size-fits-all policy.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <div class="step-why">Step Six</div>
+        <h3>Build &amp; Certify Your Team</h3>
+        <p>State regulations specify staff-to-client ratios, required certifications (CPR, First Aid, CNA), and mandatory background checks. Your staffing plan is submitted as part of your license application and reviewed during inspection.</p>
+        <div class="teaser">Having the right clinical credentials in house like a licensed nurse significantly accelerates approval and strengthens your Medicaid application.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">7</div>
+      <div class="step-content">
+        <div class="step-why">Step Seven</div>
+        <h3>Apply for Medicaid Provider Status</h3>
+        <p>If your clients rely on Medicaid this step is everything. Becoming a certified Medicaid provider requires a separate application process, strict documentation standards, and a billing infrastructure. Approval timelines vary by state but typically run 60 to 180 days.</p>
+        <div class="teaser">Knowing how to submit a clean, complete application and what bridges your cash flow in the meantime is where strategy makes the difference.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">8</div>
+      <div class="step-content">
+        <div class="step-why">Step Eight</div>
+        <h3>Build Your Financial Foundation</h3>
+        <p>A realistic startup budget, a billing system, and a cash flow plan are not optional they are operational requirements. This includes understanding your cost per client, your reimbursement rates, and how to project profitability before you ever open.</p>
+        <div class="teaser">Most adult day care businesses that fail in year one do so because of cash flow gaps, not lack of clients.</div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">9</div>
+      <div class="step-content">
+        <div class="step-why">Step Nine</div>
+        <h3>Launch, Operate &amp; Scale</h3>
+        <p>Opening day is the beginning, not the finish line. Sustainable operations require systems for client intake, care planning, staff management, compliance audits, and quality assurance all of which directly affect your ability to retain your license and grow.</p>
+        <div class="teaser">The operators who scale fastest are the ones who build the right systems from day one rather than retrofitting them after problems arise.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner">
+    <h2>You Know the Steps.<br>Now Get the <em>Strategy.</em></h2>
+    <p>The roadmap is here. What's next is working through each step with people who have done it so you do it right, once, and get to billing faster.</p>
+    <div class="cta-button">We Look Forward to Working With You</div>
+    <div class="cta-divider"></div>
+    <div class="cta-authors">Dr. Catrina Smith &amp; Dr. Tasha McCray</div>
+  </div>
+</div>
+
+</body>
+</html>
