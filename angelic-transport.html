@@ -129,7 +129,8 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   padding: 8px 0 0; flex: 0 0 20vw; min-width: 64px;
 }
 .nav-btn .nav-icon { font-size: 22px; line-height: 1; }
-.nav-btn.active { color: var(--yellow); }
+.nav-btn.active { color: var(--blue); }
+.nav-btn { color: #999999; }
 .nav-btn.active .nav-icon { filter: drop-shadow(0 0 6px var(--yellow)); }
 
 /* ── PANELS ── */
@@ -159,7 +160,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   border-left: 4px solid var(--yellow); border-radius: 10px;
   padding: 14px 16px;
 }
-.vehicle-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 10px; }
+.vehicle-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 10px; color: #111111; }
 .vehicle-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .vehicle-stat-val { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 22px; color: var(--yellow); }
 
@@ -170,7 +171,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   color: var(--gray); margin-bottom: 10px;
   display: flex; align-items: center; justify-content: space-between;
 }
-.section-label span { color: var(--white); }
+.section-label span { color: #111111; }
 
 /* ── FUEL CARDS ── */
 .fuel-card {
@@ -180,7 +181,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
 }
 .fuel-card:active { border-color: var(--yellow); }
 .fuel-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
-.fuel-vehicle-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.fuel-vehicle-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; color: #111111; }
 .fuel-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .fuel-date { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); }
 .fuel-driver { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #7AB3FF; }
@@ -208,6 +209,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 20px;
   padding: 16px 20px 8px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
+  color: #111111;
 }
 .sheet-close {
   width: 32px; height: 32px; border-radius: 50%;
@@ -219,7 +221,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
 
 /* ── FORM FIELDS ── */
 .field { margin-bottom: 14px; }
-.field label { display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); margin-bottom: 6px; }
+.field label { display: block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: #444444; margin-bottom: 6px; }
 .field input, .field select, .field textarea {
   width: 100%; background: #F8F9FC; border: 1px solid var(--border);
   border-radius: 8px; color: #111111;
@@ -264,7 +266,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
 .maint-card[data-type="Engine"] { border-left-color: #E67E22; }
 .maint-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
 .maint-vehicle-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: #7AB3FF; margin-bottom: 4px; }
-.maint-type-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; flex: 1; }
+.maint-type-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; flex: 1; color: #111111; }
 .maint-cost-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--yellow); white-space: nowrap; margin-left: 12px; }
 .maint-meta { display: flex; gap: 10px; flex-wrap: wrap; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gray); }
 .maint-next { margin-top: 6px; font-size: 11px; color: var(--yellow); font-family: 'Share Tech Mono', monospace; }
@@ -283,7 +285,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   flex-shrink: 0;
 }
 .not-compliant .driver-avatar { background: rgba(192,57,43,0.3); color: #e74c3c; }
-.driver-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 3px; }
+.driver-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 3px; color: #111111; }
 .driver-status { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; }
 .driver-status.compliant { color: var(--green); }
 .driver-status.not-compliant { color: #e74c3c; }
