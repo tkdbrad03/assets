@@ -27,10 +27,11 @@ const DRIVERS = [
 ];
 
 // ── STATE
-let fuels = [], mileages = [], maints = [];
+let fuels = [], mileages = [], maints = [], receipts = [];
 let currentUser = null;
-let editingFuelId = null, editingMileageId = null, editingMaintId = null;
-let unsubFuels, unsubMileages, unsubMaints;
+let editingFuelId = null, editingMileageId = null, editingMaintId = null, editingReceiptId = null;
+let pendingReceiptImage = null;
+let unsubFuels, unsubMileages, unsubMaints, unsubReceipts;
 
 // ── AUTH
 firebase.auth().getRedirectResult().catch(e => console.error('Redirect error:', e.code));
@@ -109,6 +110,10 @@ function subscribeToData() {
   unsubMaints = userColl('maints').orderBy('createdAt','desc').onSnapshot(snap => {
     maints = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderMaintenance();
+  });
+  unsubReceipts = userColl('receipts').orderBy('createdAt','desc').onSnapshot(snap => {
+    receipts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderReceipts();
   });
 }
 
@@ -501,6 +506,162 @@ function renderMaintenance() {
     </div>`).join('');
 }
 
+// ── RECEIPTS
+window.handleReceiptUpload = function(e) {
+  const file = e.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    pendingReceiptImage = ev.target.result;
+    editingReceiptId = null;
+    document.getElementById('r-date').value = today();
+    ['r-amount','r-location','r-notes'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('r-vehicle').value = '';
+    const img = document.getElementById('receipt-preview-img');
+    img.src = pendingReceiptImage; img.style.display = 'block';
+    document.getElementById('delete-receipt-btn').style.display = 'none';
+    openSheet('receipt-sheet-backdrop');
+  };
+  reader.readAsDataURL(file); e.target.value = '';
+};
+
+window.openReceiptForEdit = function(id) {
+  const r = receipts.find(r => r.id === id); if (!r) return;
+  editingReceiptId = id; pendingReceiptImage = null;
+  const img = document.getElementById('receipt-preview-img');
+  if (r.imageData) { img.src = r.imageData; img.style.display = 'block'; } else { img.style.display = 'none'; }
+  document.getElementById('r-date').value = r.date || today();
+  document.getElementById('r-amount').value = r.amount || '';
+  document.getElementById('r-vehicle').value = r.vehicle || '';
+  document.getElementById('r-location').value = r.location || '';
+  document.getElementById('r-notes').value = r.notes || '';
+  document.getElementById('delete-receipt-btn').style.display = 'block';
+  openSheet('receipt-sheet-backdrop');
+};
+
+window.saveReceipt = function() {
+  const data = {
+    date: document.getElementById('r-date').value,
+    amount: parseFloat(document.getElementById('r-amount').value) || 0,
+    vehicle: document.getElementById('r-vehicle').value,
+    location: document.getElementById('r-location').value.trim(),
+    notes: document.getElementById('r-notes').value.trim(),
+  };
+  if (pendingReceiptImage) data.imageData = pendingReceiptImage;
+  const p = editingReceiptId
+    ? userColl('receipts').doc(editingReceiptId).update(data)
+    : userColl('receipts').add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+  p.then(() => { closeSheet('receipt-sheet-backdrop'); showToast('✔ Receipt saved!'); pendingReceiptImage = null; })
+   .catch(() => showToast('Error saving', '#C0392B'));
+};
+
+window.deleteReceipt = function() {
+  if (!editingReceiptId || !confirm('Delete this receipt?')) return;
+  userColl('receipts').doc(editingReceiptId).delete()
+    .then(() => { closeSheet('receipt-sheet-backdrop'); showToast('Receipt deleted', '#888'); });
+};
+
+window.openFullscreen = src => {
+  document.getElementById('receipt-fullscreen-img').src = src;
+  document.getElementById('receipt-fullscreen').style.display = 'flex';
+};
+window.closeFullscreen = () => document.getElementById('receipt-fullscreen').style.display = 'none';
+
+function renderReceipts() {
+  const total = receipts.reduce((s,r) => s + (r.amount||0), 0);
+  const mo = new Date().toISOString().slice(0,7);
+  const monthTotal = receipts.filter(r => r.date && r.date.startsWith(mo)).reduce((s,r) => s + (r.amount||0), 0);
+  document.getElementById('receipt-total-label').textContent = receipts.length ? `${receipts.length} receipts · ${fmtMoney(total)}` : '';
+  const gallery = document.getElementById('receipts-gallery');
+  if (!receipts.length) {
+    gallery.innerHTML = `<div class="empty-state"><div class="empty-icon">🧾</div><div class="empty-title">No receipts yet</div><div class="empty-sub">Tap above to photograph your first receipt</div></div>`;
+    return;
+  }
+  gallery.innerHTML = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+    <div class="stat-card gold"><div class="stat-label">This Month</div><div class="stat-value money" style="font-size:22px">${fmtMoney(monthTotal)}</div></div>
+    <div class="stat-card blue"><div class="stat-label">All Time</div><div class="stat-value money" style="font-size:22px">${fmtMoney(total)}</div></div>
+  </div>` + receipts.map(r => `
+    <div class="receipt-card" onclick="openReceiptForEdit('${r.id}')">
+      <div class="receipt-thumb">${r.imageData
+        ? `<img src="${r.imageData}" alt="receipt" onclick="event.stopPropagation();openFullscreen('${r.imageData}')">`
+        : '<div class="receipt-thumb-placeholder">🧾</div>'}</div>
+      <div class="receipt-info">
+        <div class="receipt-location">${r.location || 'Expense'}</div>
+        <div class="receipt-meta">
+          <span class="receipt-date">${fmtDate(r.date)}</span>
+          ${r.vehicle ? `<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue)">${r.vehicle.split(' ').slice(0,2).join(' ')}</span>` : ''}
+          ${r.notes ? `<span style="font-size:11px;color:var(--gray)">${r.notes}</span>` : ''}
+        </div>
+      </div>
+      <div class="receipt-amount-badge">${r.amount ? fmtMoney(r.amount) : '—'}</div>
+    </div>`).join('');
+}
+
+// ── MAINTENANCE PRINT
+window.printMaintenanceLog = function() {
+  if (!maints.length) { showToast('No maintenance records yet', '#C0392B'); return; }
+  const sorted = maints.slice().sort((a,b) => a.date > b.date ? 1 : -1);
+  const totalCost = sorted.reduce((s,m) => s + (m.cost||0), 0);
+
+  // Group by vehicle
+  const byVehicle = {};
+  VEHICLES.forEach(v => byVehicle[v] = []);
+  sorted.forEach(m => { if (byVehicle[m.vehicle]) byVehicle[m.vehicle].push(m); });
+
+  const vehicleSections = VEHICLES.map(v => {
+    const records = byVehicle[v];
+    if (!records.length) return '';
+    const vTotal = records.reduce((s,m) => s+(m.cost||0), 0);
+    const rows = records.map(m => `<tr>
+      <td>${fmtDate(m.date)}</td>
+      <td>${m.type}</td>
+      <td>${m.shop||'—'}</td>
+      <td>${m.mileage ? Number(m.mileage).toLocaleString()+' mi' : '—'}</td>
+      <td style="text-align:right;font-weight:700;color:#1565C0">${m.cost ? fmtMoney(m.cost) : '—'}</td>
+      <td style="color:#888">${m.next||''}</td>
+    </tr>`).join('');
+    return `
+      <div style="margin-bottom:32px">
+        <div style="background:#1565C0;color:white;padding:10px 16px;border-radius:6px 6px 0 0;font-weight:700;font-size:16px;display:flex;justify-content:space-between">
+          <span>${v}</span><span>${fmtMoney(vTotal)}</span>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead><tr style="background:#E3F0FF">
+            <th style="padding:8px 10px;text-align:left">Date</th>
+            <th style="padding:8px 10px;text-align:left">Service</th>
+            <th style="padding:8px 10px;text-align:left">Shop</th>
+            <th style="padding:8px 10px;text-align:left">Mileage</th>
+            <th style="padding:8px 10px;text-align:right">Cost</th>
+            <th style="padding:8px 10px;text-align:left">Next Due</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  }).join('');
+
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Angelic Transportation — Maintenance Log</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial,sans-serif;padding:40px;max-width:900px;margin:0 auto}
+    h1{font-size:26px;color:#1565C0;margin-bottom:4px}
+    .sub{font-size:12px;color:#888;margin-bottom:28px}
+    table td{padding:8px 10px;border-bottom:1px solid #eee}
+    .total-row{background:#1565C0;color:white;padding:12px 16px;display:flex;justify-content:space-between;font-weight:700;border-radius:0 0 6px 6px;margin-top:-1px}
+    .footer{margin-top:32px;text-align:center;font-size:11px;color:#aaa}
+    @page{margin:0.5in;size:letter}
+  </style></head><body>
+  <h1>Angelic Transportation</h1>
+  <div class="sub">MAINTENANCE LOG · Printed ${fmtDate(today())} · Total All Vehicles: ${fmtMoney(totalCost)}</div>
+  ${vehicleSections}
+  <div class="total-row"><span>TOTAL — ALL VEHICLES · ${sorted.length} service records</span><span>${fmtMoney(totalCost)}</span></div>
+  <div class="footer">Angelic Transportation · NEMT Provider · angelictransportation13@gmail.com</div>
+  <script>window.onload=function(){window.print();}<\/script>
+  </body></html>`;
+
+  const w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+};
 // ── DRIVERS
 function renderDrivers() {
   const el = document.getElementById('drivers-list'); if (!el) return;
