@@ -49,7 +49,7 @@ firebase.auth().onAuthStateChanged(user => {
 
 window.signInWithGoogle = function() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({ login_hint: 'catrinasp@gmail.com' });
+  provider.setCustomParameters({ login_hint: 'angelictransportation13@gmail.com' });
   firebase.auth().signInWithPopup(provider)
     .catch(e => {
       if (['auth/popup-blocked','auth/popup-closed-by-user','auth/cancelled-popup-request'].includes(e.code)) {
