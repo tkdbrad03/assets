@@ -532,6 +532,7 @@ window.openReceiptForEdit = function(id) {
   document.getElementById('r-date').value = r.date || today();
   document.getElementById('r-amount').value = r.amount || '';
   document.getElementById('r-vehicle').value = r.vehicle || '';
+  document.getElementById('r-category').value = r.category || '';
   document.getElementById('r-location').value = r.location || '';
   document.getElementById('r-notes').value = r.notes || '';
   document.getElementById('delete-receipt-btn').style.display = 'block';
@@ -543,6 +544,7 @@ window.saveReceipt = function() {
     date: document.getElementById('r-date').value,
     amount: parseFloat(document.getElementById('r-amount').value) || 0,
     vehicle: document.getElementById('r-vehicle').value,
+    category: document.getElementById('r-category').value,
     location: document.getElementById('r-location').value.trim(),
     notes: document.getElementById('r-notes').value.trim(),
   };
@@ -586,6 +588,7 @@ function renderReceipts() {
         : '<div class="receipt-thumb-placeholder">🧾</div>'}</div>
       <div class="receipt-info">
         <div class="receipt-location">${r.location || 'Expense'}</div>
+        ${r.category ? `<div style="display:inline-block;font-family:'Share Tech Mono',monospace;font-size:9px;padding:2px 7px;border-radius:3px;background:rgba(21,101,192,0.1);color:var(--blue);border:1px solid rgba(21,101,192,0.2);margin-bottom:4px">${r.category}</div>` : ''}
         <div class="receipt-meta">
           <span class="receipt-date">${fmtDate(r.date)}</span>
           ${r.vehicle ? `<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue)">${r.vehicle.split(' ').slice(0,2).join(' ')}</span>` : ''}
