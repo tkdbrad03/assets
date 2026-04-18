@@ -308,6 +308,22 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
 /* ── FAB ── */
 .fab { position: fixed; bottom: 88px; right: 20px; width: 58px; height: 58px; border-radius: 50%; background: var(--yellow); border: none; color: #000; font-size: 28px; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(245,197,24,0.45); cursor: pointer; z-index: 150; transition: transform 0.15s; }
 .fab:active { transform: scale(0.93); }
+
+/* ── RECEIPTS ── */
+.receipt-upload-zone { background: #f8f9fc; border: 2px dashed var(--border); border-radius: 16px; padding: 32px 20px; text-align: center; cursor: pointer; margin-bottom: 20px; transition: border-color 0.2s; }
+.receipt-upload-zone:active { border-color: var(--yellow); }
+.upload-icon { font-size: 40px; margin-bottom: 10px; }
+.upload-text { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; color: #111; margin-bottom: 4px; }
+.upload-sub { font-size: 12px; color: var(--gray); font-weight: 300; }
+.receipt-card { background: #fff; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; display: flex; align-items: stretch; overflow: hidden; cursor: pointer; }
+.receipt-thumb { width: 80px; flex-shrink: 0; background: #f0f0f0; }
+.receipt-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.receipt-thumb-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 28px; opacity: 0.3; min-height: 80px; }
+.receipt-info { flex: 1; padding: 12px 14px; }
+.receipt-location { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 17px; margin-bottom: 4px; color: #111; }
+.receipt-meta { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.receipt-date { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--gray); }
+.receipt-amount-badge { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 20px; color: var(--yellow-dark); padding: 12px 14px; display: flex; align-items: center; }
 </style>
 </head>
 <body>
@@ -421,10 +437,27 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
       <button class="filter-chip" onclick="quickMaint('Inspection')">📋 Inspection</button>
       <button class="filter-chip" onclick="quickMaint('Other')">➕ Other</button>
     </div>
-    <div class="section-label"><span>History</span></div>
+    <div class="section-label">
+      <span>History</span>
+      <button class="btn-outline" onclick="printMaintenanceLog()">🖨 Print</button>
+    </div>
     <div id="maint-list"></div>
   </div>
 
+  <!-- RECEIPTS -->
+  <div class="panel" id="panel-receipts">
+    <div class="section-label">
+      <span>Fuel Receipts</span>
+      <span id="receipt-total-label" style="color:var(--yellow);font-family:'Share Tech Mono',monospace;font-size:11px"></span>
+    </div>
+    <div class="receipt-upload-zone" onclick="document.getElementById('receipt-file-input').click()">
+      <div class="upload-icon">🧾</div>
+      <div class="upload-text">Tap to photograph receipt</div>
+      <div class="upload-sub">Gas, maintenance, or any expense</div>
+      <input type="file" id="receipt-file-input" accept="image/*" capture="environment" style="display:none" onchange="handleReceiptUpload(event)">
+    </div>
+    <div id="receipts-gallery"></div>
+  </div>
   <!-- DRIVERS -->
   <div class="panel" id="panel-drivers">
     <div class="section-label"><span>Drivers — 7 Active</span></div>
@@ -446,6 +479,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   <button class="nav-btn" onclick="switchTab('fuel');setFab('fuel')" id="nav-fuel"><span class="nav-icon">⛽</span>Fuel</button>
   <button class="nav-btn" onclick="switchTab('mileage');setFab('mileage')" id="nav-mileage"><span class="nav-icon">🛣</span>Mileage</button>
   <button class="nav-btn" onclick="switchTab('maint');setFab('maint')" id="nav-maint"><span class="nav-icon">🔧</span>Maint.</button>
+  <button class="nav-btn" onclick="switchTab('receipts');setFab('receipts')" id="nav-receipts"><span class="nav-icon">📷</span>Receipts</button>
   <button class="nav-btn" onclick="switchTab('drivers');setFab('drivers')" id="nav-drivers"><span class="nav-icon">👥</span>Drivers</button>
 </nav>
 
@@ -585,6 +619,39 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   </div>
 </div>
 
+<!-- RECEIPT DETAIL SHEET -->
+<div class="sheet-backdrop" id="receipt-sheet-backdrop" onclick="sheetBackdrop(event,'receipt-sheet-backdrop')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Receipt Details<button class="sheet-close" onclick="closeSheet('receipt-sheet-backdrop')">✕</button></div>
+    <div class="sheet-body">
+      <img id="receipt-preview-img" src="" alt="Receipt" style="width:100%;border-radius:10px;margin-bottom:16px;max-height:260px;object-fit:contain;background:#f5f5f5;display:none">
+      <div class="field-row">
+        <div class="field"><label>Date</label><input type="date" id="r-date"></div>
+        <div class="field"><label>Amount ($)</label><input type="number" id="r-amount" placeholder="0.00" inputmode="decimal" step="0.01"></div>
+      </div>
+      <div class="field"><label>Vehicle</label>
+        <select id="r-vehicle">
+          <option value="">Select vehicle…</option>
+          <option>Honda Mini-Van</option>
+          <option>Ford Transit Bus</option>
+          <option>Ford Transit Wheelchair Van (Cutaway)</option>
+        </select>
+      </div>
+      <div class="field"><label>Merchant / Location</label><input type="text" id="r-location" placeholder="e.g. Quick Trip, Jiffy Lube"></div>
+      <div class="field"><label>Notes</label><input type="text" id="r-notes" placeholder="Optional notes"></div>
+      <button class="btn-full btn-yellow" onclick="saveReceipt()">Save Receipt</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" id="delete-receipt-btn" onclick="deleteReceipt()" style="display:none;color:var(--red)">Delete Receipt</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECEIPT FULLSCREEN -->
+<div id="receipt-fullscreen" onclick="closeFullscreen()" style="display:none;position:fixed;inset:0;z-index:500;background:#000;align-items:center;justify-content:center;flex-direction:column">
+  <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
+  <div style="color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:12px">Tap to close</div>
+</div>
 <!-- FIREBASE SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -602,6 +669,7 @@ function handleFab() {
   if (currentTab === 'fuel') openFuelSheet();
   else if (currentTab === 'mileage') openMileageSheet();
   else if (currentTab === 'maint') openMaintSheet();
+  else if (currentTab === 'receipts') document.getElementById('receipt-file-input').click();
   else if (currentTab === 'dash') openFuelSheet();
 }
 </script>
