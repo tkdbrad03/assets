@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adult Day Care Startup Intensive — Client Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0E1E35;
+    --gold: #C9A84C;
+    --gold-light: #E8D49A;
+    --cream: #FAF7F2;
+    --warm: #F2EDE6;
+    --gray: #6B6560;
+    --border: #E0D9CF;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    min-height: 100vh;
+  }
+
+  /* PASSWORD SCREEN */
+  #password-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 32px;
+  }
+
+  #password-screen .lock-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    margin-bottom: 24px;
+  }
+
+  #password-screen h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  #password-screen h2 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  #password-screen p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 36px;
+    text-align: center;
+  }
+
+  .pw-input-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .pw-input-wrap input {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-align: center;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .pw-input-wrap input::placeholder {
+    letter-spacing: 1px;
+    color: rgba(255,255,255,0.2);
+  }
+
+  .pw-input-wrap input:focus {
+    border-color: var(--gold);
+  }
+
+  .pw-input-wrap button {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .pw-input-wrap button:hover { opacity: 0.88; }
+
+  .pw-error {
+    font-size: 12px;
+    color: #e07070;
+    margin-top: 4px;
+    display: none;
+  }
+
+  .pw-footer {
+    margin-top: 48px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 1px;
+    text-align: center;
+  }
+
+  /* PORTAL CONTENT */
+  #portal {
+    display: none;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 48px 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    pointer-events: none;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    left: -40px; bottom: -80px;
+    width: 220px; height: 220px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.07);
+    pointer-events: none;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 18px;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 42px);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+
+  .header h1 em { color: var(--gold); font-style: italic; }
+
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .meta-item {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .meta-item strong {
+    display: block;
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 1px;
+  }
+
+  /* WELCOME BANNER */
+  .welcome {
+    background: var(--warm);
+    border-bottom: 1px solid var(--border);
+    border-left: 4px solid var(--gold);
+    padding: 24px 48px;
+  }
+
+  .welcome-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .welcome p {
+    font-size: 14px;
+    color: var(--navy);
+    line-height: 1.75;
+    max-width: 720px;
+    font-weight: 300;
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 32px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* WEEKS */
+  .weeks-col h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .week-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .week-card:hover {
+    box-shadow: 0 4px 20px rgba(14,30,53,0.08);
+  }
+
+  .week-card-header {
+    display: grid;
+    grid-template-columns: 72px 1fr auto;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .week-num {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 8px;
+    line-height: 1;
+    align-self: stretch;
+  }
+
+  .week-num span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 8px;
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.5);
+    margin-top: 3px;
+  }
+
+  .week-title-block {
+    padding: 14px 18px;
+  }
+
+  .week-tag {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 3px;
+  }
+
+  .week-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.25;
+  }
+
+  .week-toggle {
+    padding: 0 18px;
+    color: var(--gold);
+    font-size: 18px;
+    transition: transform 0.25s;
+  }
+
+  .week-card.open .week-toggle {
+    transform: rotate(180deg);
+  }
+
+  .week-body {
+    display: none;
+    padding: 16px 20px 20px 92px;
+    border-top: 1px solid var(--border);
+  }
+
+  .week-card.open .week-body {
+    display: block;
+  }
+
+  .week-section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+
+  .week-section-label:first-child { margin-top: 0; }
+
+  .topic-list, .action-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 4px;
+  }
+
+  .topic-list li {
+    font-size: 13px;
+    color: var(--gray);
+    padding-left: 14px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .topic-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 8px;
+    width: 5px; height: 1px;
+    background: var(--gold);
+  }
+
+  .action-list li {
+    font-size: 13px;
+    color: var(--navy);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .action-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0; top: 0;
+    color: var(--gold);
+    font-size: 11px;
+  }
+
+  .week-note {
+    margin-top: 12px;
+    padding: 10px 14px;
+    background: var(--warm);
+    border-left: 3px solid var(--gold);
+    font-size: 12px;
+    color: var(--navy);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .week-note strong {
+    font-style: normal;
+    font-weight: 500;
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 20px; }
+
+  .sidebar-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .sidebar-card-header {
+    background: var(--navy);
+    padding: 12px 16px;
+  }
+
+  .sidebar-card-header h3 {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .sidebar-card-body {
+    padding: 16px;
+  }
+
+  .doc-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .doc-link:last-child { border-bottom: none; }
+  .doc-link:hover { opacity: 0.7; }
+
+  .doc-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--warm);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .doc-info {}
+
+  .doc-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--navy);
+    line-height: 1.3;
+  }
+
+  .doc-type {
+    font-size: 10px;
+    color: var(--gray);
+    margin-top: 1px;
+  }
+
+  .coming-soon {
+    font-size: 11px;
+    color: var(--gray);
+    font-style: italic;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .coming-soon:last-child { border-bottom: none; }
+
+  .contact-item {
+    font-size: 12px;
+    color: var(--gray);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    line-height: 1.5;
+  }
+
+  .contact-item:last-child { border-bottom: none; }
+
+  .contact-item strong {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--navy);
+    letter-spacing: 0.5px;
+    margin-bottom: 1px;
+  }
+
+  .progress-bar-wrap {
+    margin-bottom: 12px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--warm);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    width: 0%;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--navy);
+    padding: 24px 48px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 720px) {
+    .main { grid-template-columns: 1fr; padding: 24px 16px; }
+    .header { padding: 36px 24px 30px; }
+    .welcome { padding: 20px 24px; }
+    .week-body { padding: 14px 16px 18px 16px; }
+    .footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="lock-badge">Client Portal</div>
+  <h2>Adult Day Care<br><em>Startup Intensive</em></h2>
+  <p>Enter your access code to continue</p>
+  <div class="pw-input-wrap">
+    <input type="password" id="pw-input" placeholder="Enter access code" maxlength="20" />
+    <button onclick="checkPassword()">Access My Portal</button>
+    <div class="pw-error" id="pw-error">Incorrect access code. Please try again.</div>
+  </div>
+  <div class="pw-footer">CatrinaL Consulting &nbsp;|&nbsp; CompliTrst, Inc.</div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">Client Portal</div>
+    <h1>Adult Day Care<br><em>Startup Intensive</em></h1>
+    <div class="header-meta">
+      <div class="meta-item"><strong>Client</strong>LaTonya Mark</div>
+      <div class="meta-item"><strong>Consultants</strong>Dr. Catrina Smith &amp; Dr. Tasha McCray</div>
+      <div class="meta-item"><strong>Engagement</strong>6-Week Private Intensive</div>
+      <div class="meta-item"><strong>Companies</strong>CatrinaL Consulting | CompliTrst, Inc.</div>
+    </div>
+  </div>
+
+  <!-- WELCOME -->
+  <div class="welcome">
+    <div class="welcome-label">Welcome Message</div>
+    <p>LaTonya, welcome to your portal. Everything you need for your six-week journey is right here. Your session agendas, resources, and documents will be updated weekly so you always know exactly where you stand. We are honored to walk this with you and confident in what you are building.</p>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- WEEKS -->
+    <div class="weeks-col">
+      <h2>Your 6-Week Session Plan</h2>
+
+      <!-- WEEK 1 -->
+      <div class="week-card" id="w1">
+        <div class="week-card-header" onclick="toggleWeek('w1')">
+          <div class="week-num">1<span>Week</span></div>
+          <div class="week-title-block">
+            <div class="week-tag">Foundation</div>
+            <div class="week-title">Business Vision, Model &amp; Legal Formation</div>
+          </div>
+          <div class="week-toggle">&#8964;</div>
+        </div>
+        <div class="week-body">
+          <div class="week-section-label">Session Topics</div>
+          <ul class="topic-list">
+            <li>Clarify your business mission and who you are serving</li>
+            <li>Choose the right adult day care model: social, medical, or dementia-specific</li>
+            <li>Select and form your legal entity (LLC recommended)</li>
+            <li>Obtain your Federal EIN through the IRS</li>
+            <li>Register your business name with the Mississippi Secretary of State</li>
+          </ul>
+          <div class="week-section-label">Your Action Items</div>
+          <ul class="action-list">
+            <li>Draft your mission statement using the provided template</li>
+            <li>File LLC formation documents with Mississippi Secretary of State</li>
+            <li>Apply for your EIN at IRS.gov</li>
+            <li>Confirm local business license requirements for Tylertown</li>
+          </ul>
+          <div class="week-note">
+            <strong>Specific to You</strong>
+            Your nursing background and prior staffing business give you a strong foundation here. We will use your existing professional history to strengthen your business narrative from the start.
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 2 -->
+      <div class="week-card" id="w2">
+        <div class="week-card-header" onclick="toggleWeek('w2')">
+          <div class="week-num">2<span>Week</span></div>
+          <div class="week-title-block">
+            <div class="week-tag">Licensing</div>
+            <div class="week-title">Mississippi Licensing Requirements &amp; Compliance Roadmap</div>
+          </div>
+          <div class="week-toggle">&#8964;</div>
+        </div>
+        <div class="week-body">
+          <div class="week-section-label">Session Topics</div>
+          <ul class="topic-list">
+            <li>Mississippi Department of Health licensing process for adult day care</li>
+            <li>Required application documents, facility layout, and staffing plan</li>
+            <li>Health and safety inspection requirements and how to prepare</li>
+            <li>Staff-to-client ratios required by Mississippi</li>
+            <li>ADA compliance requirements for your facility</li>
+            <li>Zoning and land use permits for Tylertown area</li>
+          </ul>
+          <div class="week-section-label">Your Action Items</div>
+          <ul class="action-list">
+            <li>Download and review the Mississippi adult day care license application</li>
+            <li>Begin drafting your proposed staffing plan</li>
+            <li>Confirm zoning eligibility for prospective facility locations</li>
+            <li>Obtain insurance quotes: general liability, professional liability, workers compensation</li>
+          </ul>
+          <div class="week-note">
+            <strong>Specific to You</strong>
+            We will walk through the Mississippi application line by line so nothing is missed. A single incomplete submission can delay approval by months.
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 3 -->
+      <div class="week-card" id="w3">
+        <div class="week-card-header" onclick="toggleWeek('w3')">
+          <div class="week-num">3<span>Week</span></div>
+          <div class="week-title-block">
+            <div class="week-tag">Medicaid Strategy</div>
+            <div class="week-title">Medicaid Provider Application, Positioning &amp; Bridge Funding</div>
+          </div>
+          <div class="week-toggle">&#8964;</div>
+        </div>
+        <div class="week-body">
+          <div class="week-section-label">Session Topics</div>
+          <ul class="topic-list">
+            <li>How Mississippi Medicaid waiver programs work for adult day care</li>
+            <li>Step-by-step walkthrough of the Medicaid provider application process</li>
+            <li>Documentation and record-keeping standards required for Medicaid billing</li>
+            <li>Realistic approval timelines and what to do in the interim</li>
+            <li>Bridge funding: grants, local aging services, and ACL programs in Mississippi</li>
+            <li>How to position your existing client relationships to strengthen your application</li>
+          </ul>
+          <div class="week-section-label">Your Action Items</div>
+          <ul class="action-list">
+            <li>Begin Medicaid provider enrollment with Mississippi Division of Medicaid</li>
+            <li>Compile documentation for each of your existing clients</li>
+            <li>Apply for at least two bridge grant opportunities identified in session</li>
+            <li>Set up a basic record-keeping system for client documentation</li>
+          </ul>
+          <div class="week-note">
+            <strong>Specific to You</strong>
+            Your existing clients are already Medicaid recipients. The goal of this session is to get you positioned to begin billing for the care you are already providing as quickly as possible.
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 4 -->
+      <div class="week-card" id="w4">
+        <div class="week-card-header" onclick="toggleWeek('w4')">
+          <div class="week-num">4<span>Week</span></div>
+          <div class="week-title-block">
+            <div class="week-tag">Facility Strategy</div>
+            <div class="week-title">Finding, Financing &amp; Setting Up Your Space</div>
+          </div>
+          <div class="week-toggle">&#8964;</div>
+        </div>
+        <div class="week-body">
+          <div class="week-section-label">Session Topics</div>
+          <ul class="topic-list">
+            <li>Mississippi facility space requirements: square footage, layout, and safety</li>
+            <li>How to evaluate prospective locations in a rural market like Tylertown</li>
+            <li>Creative financing strategies for securing a space without large upfront capital</li>
+            <li>Lease negotiation tactics and what to look for in a commercial lease</li>
+            <li>Renovation priorities to meet licensing requirements efficiently</li>
+            <li>Essential equipment and supplies and how to source them cost-effectively</li>
+          </ul>
+          <div class="week-section-label">Your Action Items</div>
+          <ul class="action-list">
+            <li>Identify two to three candidate locations in or near Tylertown</li>
+            <li>Review each location against the Mississippi facility compliance checklist</li>
+            <li>Get at least one lease reviewed before signing anything</li>
+            <li>Create a prioritized renovation and equipment list with estimated costs</li>
+          </ul>
+          <div class="week-note">
+            <strong>Specific to You</strong>
+            As a real estate investor since 2018 specializing in negotiations and creative financing, Dr. McCray will bring direct expertise to this session. The building does not have to be a barrier.
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 5 -->
+      <div class="week-card" id="w5">
+        <div class="week-card-header" onclick="toggleWeek('w5')">
+          <div class="week-num">5<span>Week</span></div>
+          <div class="week-title-block">
+            <div class="week-tag">Operations</div>
+            <div class="week-title">Client Formalization, Staffing &amp; Daily Operations Setup</div>
+          </div>
+          <div class="week-toggle">&#8964;</div>
+        </div>
+        <div class="week-body">
+          <div class="week-section-label">Session Topics</div>
+          <ul class="topic-list">
+            <li>How to convert your existing clients into formal service agreements</li>
+            <li>Building individualized care plans for each client</li>
+            <li>Staffing requirements: roles, certifications, background checks, and ratios</li>
+            <li>Using your son's nursing background as a clinical asset within your operations</li>
+            <li>Day-to-day operations framework: scheduling, care delivery, meal planning</li>
+            <li>Billing infrastructure setup for Medicaid reimbursement</li>
+          </ul>
+          <div class="week-section-label">Your Action Items</div>
+          <ul class="action-list">
+            <li>Execute signed service agreements with all current clients</li>
+            <li>Complete a care plan template for each client</li>
+            <li>Post job descriptions and begin hiring process if additional staff are needed</li>
+            <li>Set up your billing and scheduling software (tools recommended in session)</li>
+          </ul>
+          <div class="week-note">
+            <strong>Specific to You</strong>
+            You are already spending most of your day with these clients. This session turns what you are doing informally into a documented, compliant, and billable operation.
+          </div>
+        </div>
+      </div>
+
+      <!-- WEEK 6 -->
+      <div class="week-card" id="w6">
+        <div class="week-card-header" onclick="toggleWeek('w6')">
+          <div class="week-num">6<span>Week</span></div>
+          <div class="week-title-block">
+            <div class="week-tag">Launch Readiness</div>
+            <div class="week-title">Marketing, Referral Network &amp; Sustainable Growth Plan</div>
+          </div>
+          <div class="week-toggle">&#8964;</div>
+        </div>
+        <div class="week-body">
+          <div class="week-section-label">Session Topics</div>
+          <ul class="topic-list">
+            <li>Activating your existing mental health facility referral connections</li>
+            <li>Marketing your adult day care in a rural market with a limited budget</li>
+            <li>Google Business Profile setup and local SEO basics</li>
+            <li>Building trust with families: communication strategies and testimonials</li>
+            <li>Creating a waitlist from your existing referral network</li>
+            <li>Cash flow management and monthly financial tracking</li>
+            <li>90-day post-launch action plan and milestones</li>
+          </ul>
+          <div class="week-section-label">Your Action Items</div>
+          <ul class="action-list">
+            <li>Set up your Google Business Profile for your adult day care</li>
+            <li>Contact your existing mental health referral partners to announce your launch</li>
+            <li>Create a simple one-page intake flyer for community distribution</li>
+            <li>Complete your 90-day milestone plan with the template provided</li>
+          </ul>
+          <div class="week-note">
+            <strong>Specific to You</strong>
+            Your referral relationships are years in the making. Most new operators spend months building what you already have. This session turns those relationships into a steady pipeline.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- PROGRESS -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-header"><h3>Your Progress</h3></div>
+        <div class="sidebar-card-body">
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Week 1</span><span>Not Started</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Week 2</span><span>Not Started</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Week 3</span><span>Not Started</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Week 4</span><span>Not Started</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Week 5</span><span>Not Started</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-label"><span>Week 6</span><span>Not Started</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DOCUMENTS -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-header"><h3>Your Documents</h3></div>
+        <div class="sidebar-card-body">
+          <a class="doc-link" href="https://complitrst-assets.vercel.app/adult-daycare-starter-guide.html" target="_blank">
+            <div class="doc-icon">📘</div>
+            <div class="doc-info">
+              <div class="doc-name">From Vision to Licensed Guide</div>
+              <div class="doc-type">Interactive Guide</div>
+            </div>
+          </a>
+          <a class="doc-link" href="#" target="_blank">
+            <div class="doc-icon">📄</div>
+            <div class="doc-info">
+              <div class="doc-name">Consulting Agreement</div>
+              <div class="doc-type">Signed Contract</div>
+            </div>
+          </a>
+          <div class="coming-soon">Mississippi Medicaid Checklist — Coming Week 3</div>
+          <div class="coming-soon">Client Formalization Kit — Coming Week 5</div>
+          <div class="coming-soon">Session Summaries — Added Weekly</div>
+        </div>
+      </div>
+
+      <!-- CONTACT -->
+      <div class="sidebar-card">
+        <div class="sidebar-card-header"><h3>Your Consultants</h3></div>
+        <div class="sidebar-card-body">
+          <div class="contact-item">
+            <strong>Dr. Catrina Smith</strong>
+            CatrinaL Consulting
+          </div>
+          <div class="contact-item">
+            <strong>Dr. Tasha McCray</strong>
+            CompliTrst, Inc.
+          </div>
+          <div class="contact-item">
+            <strong>Email Response Time</strong>
+            Within 2 business days
+          </div>
+          <div class="contact-item">
+            <strong>Session Format</strong>
+            Zoom or phone, weekly
+          </div>
+          <div class="contact-item">
+            <strong>Final Payment Due</strong>
+            May 11, 2026
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Confidential — Prepared exclusively for LaTonya Mark</p>
+  </div>
+
+</div>
+
+<script>
+  function checkPassword() {
+    const input = document.getElementById('pw-input').value;
+    const error = document.getElementById('pw-error');
+    if (input === 'ADC2026') {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('portal').style.display = 'block';
+    } else {
+      error.style.display = 'block';
+      document.getElementById('pw-input').value = '';
+    }
+  }
+
+  document.getElementById('pw-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  function toggleWeek(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
