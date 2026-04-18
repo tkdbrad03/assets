@@ -1,12 +1,13 @@
 // Angelic Transportation - Firebase App Logic
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAx9BD75nVE2G4G6249eU5945QUPv3xMms",
-  authDomain: "bmc-enterprise.firebaseapp.com",
-  projectId: "bmc-enterprise",
-  storageBucket: "bmc-enterprise.firebasestorage.app",
-  messagingSenderId: "672071936385",
-  appId: "1:672071936385:web:aac13c716f4d9fb7442080"
+  apiKey: "AIzaSyBO_Etup_AMotRENFpqcDof1BqWR2hegDM",
+  authDomain: "angelic-transportation.firebaseapp.com",
+  databaseURL: "https://angelic-transportation-default-rtdb.firebaseio.com",
+  projectId: "angelic-transportation",
+  storageBucket: "angelic-transportation.firebasestorage.app",
+  messagingSenderId: "113102403922",
+  appId: "1:113102403922:web:d89e3baa41c0cc7492628b"
 };
 
 firebase.initializeApp(firebaseConfig);
