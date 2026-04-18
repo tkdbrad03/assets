@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90-Day Milestone Plan — Adult Day Care Startup Intensive</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0E1E35;
+    --gold: #C9A84C;
+    --gold-light: #E8D49A;
+    --cream: #FAF7F2;
+    --warm: #F2EDE6;
+    --gray: #6B6560;
+    --border: #E0D9CF;
+    --white: #ffffff;
+    --green: #3a7d5a;
+    --green-light: #edf7f2;
+    --amber: #d4843a;
+    --amber-light: #fdf3e7;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 48px 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    pointer-events: none;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    left: -40px; bottom: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.07);
+    pointer-events: none;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 18px;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 42px);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .header h1 em { color: var(--gold); font-style: italic; }
+
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    max-width: 580px;
+    line-height: 1.7;
+    margin-top: 10px;
+  }
+
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .meta-item {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .meta-item strong {
+    display: block;
+    color: var(--gold-light);
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 1px;
+  }
+
+  /* PROGRESS STRIP */
+  .progress-strip {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--warm);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--green));
+    border-radius: 3px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-count {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--navy);
+    white-space: nowrap;
+    min-width: 80px;
+    text-align: right;
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
+
+  /* VISION BLOCK */
+  .vision-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    padding: 28px 32px;
+    margin-bottom: 32px;
+  }
+
+  .vision-block .block-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .vision-block h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 16px;
+  }
+
+  .vision-block textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--navy);
+    line-height: 1.7;
+    resize: vertical;
+    min-height: 70px;
+    outline: none;
+    transition: border-color 0.2s;
+    font-style: italic;
+  }
+
+  .vision-block textarea:focus { border-color: var(--gold); background: #fffdf8; }
+
+  /* PHASE HEADERS */
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    margin-top: 36px;
+  }
+
+  .phase-badge {
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    white-space: nowrap;
+  }
+
+  .phase-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+
+  .phase-dates {
+    font-size: 11px;
+    color: var(--gray);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* MILESTONE CARDS */
+  .milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .milestone-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 52px 1fr auto;
+    align-items: stretch;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    user-select: none;
+  }
+
+  .milestone-card:hover { border-color: var(--gold); }
+
+  .milestone-card.done {
+    background: var(--green-light);
+    border-color: #b8ddc9;
+  }
+
+  .milestone-card.in-progress {
+    background: var(--amber-light);
+    border-color: #f0c98a;
+  }
+
+  .milestone-num {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 8px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--border);
+    border-right: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+
+  .milestone-card.done .milestone-num { color: var(--green); }
+  .milestone-card.in-progress .milestone-num { color: var(--amber); }
+
+  .milestone-body {
+    padding: 14px 16px;
+  }
+
+  .milestone-title {
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+
+  .milestone-card.done .milestone-title {
+    color: var(--green);
+    text-decoration: line-through;
+    text-decoration-color: #a8d5be;
+  }
+
+  .milestone-desc {
+    font-size: 12px;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .milestone-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 16px;
+    gap: 6px;
+  }
+
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+
+  .milestone-card.done .status-dot { background: var(--green); }
+  .milestone-card.in-progress .status-dot { background: var(--amber); }
+
+  .status-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+
+  .milestone-card.done .status-label { color: var(--green); }
+  .milestone-card.in-progress .status-label { color: var(--amber); }
+
+  /* CUSTOM MILESTONE INPUT */
+  .add-milestone-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .add-milestone-row input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1px dashed var(--border);
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--navy);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .add-milestone-row input:focus { border-color: var(--gold); border-style: solid; }
+
+  .add-milestone-row button {
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .add-milestone-row button:hover { opacity: 0.85; }
+
+  /* STATUS TOGGLE HINT */
+  .toggle-hint {
+    font-size: 11px;
+    color: var(--gray);
+    font-style: italic;
+    margin-bottom: 8px;
+  }
+
+  /* NOTE BOX */
+  .note-box {
+    background: var(--warm);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin: 24px 0;
+    font-size: 12.5px;
+    color: var(--navy);
+    line-height: 1.65;
+  }
+
+  .note-box strong {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* REFLECTION */
+  .reflection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .reflection-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 18px 20px;
+  }
+
+  .reflection-card label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  .reflection-card textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.65;
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .reflection-card textarea:focus { border-color: var(--gold); }
+
+  /* ACTION BAR */
+  .action-bar {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-secondary {
+    background: none;
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--navy); }
+
+  /* FOOTER */
+  .footer {
+    background: var(--navy);
+    padding: 24px 48px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media print {
+    .progress-strip, .action-bar, .add-milestone-row, .toggle-hint, .footer { display: none !important; }
+    body { background: white; }
+    .main { padding: 0; max-width: 100%; }
+  }
+
+  @media (max-width: 640px) {
+    .header { padding: 36px 24px 30px; }
+    .main { padding: 28px 16px 48px; }
+    .progress-strip { padding: 12px 20px; }
+    .milestone-card { grid-template-columns: 40px 1fr auto; }
+    .reflection-grid { grid-template-columns: 1fr; }
+    .phase-dates { display: none; }
+    .footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Week 6 Resource</div>
+  <h1>Your <em>90-Day Milestone Plan</em></h1>
+  <p class="header-sub">LaTonya, this is your roadmap for the 90 days after your consulting engagement ends. Tap each milestone to track your progress. Green means done. You have everything you need to build this.</p>
+  <div class="header-meta">
+    <div class="meta-item"><strong>Client</strong>LaTonya Mark</div>
+    <div class="meta-item"><strong>Engagement Complete</strong>Week 6</div>
+    <div class="meta-item"><strong>Plan Covers</strong>Days 1 through 90 Post-Engagement</div>
+    <div class="meta-item"><strong>Prepared By</strong>Dr. Catrina Smith and Dr. Tasha McCray</div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-strip">
+  <span class="progress-label">Overall Progress</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <span class="progress-count" id="progress-count">0 of 0 complete</span>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- VISION -->
+  <div class="vision-block">
+    <div class="block-label">Your North Star</div>
+    <h2>What does success look like at Day 90?</h2>
+    <textarea placeholder="Write your answer here. Be specific. What will you have accomplished? How many clients will you be serving? What will be in place? This is the vision you are working toward every single day."></textarea>
+  </div>
+
+  <div class="note-box">
+    <strong>How to Use This Plan</strong>
+    Tap any milestone once to mark it In Progress. Tap again to mark it Done. Tap a third time to reset. Add your own milestones at the bottom of each phase. Print this plan and put it somewhere you will see it every day.
+  </div>
+
+  <!-- PHASE 1: DAYS 1-30 -->
+  <div class="phase-header">
+    <div class="phase-badge">Phase 1</div>
+    <div class="phase-title">Foundation and Filing</div>
+    <div class="phase-dates">Days 1 through 30</div>
+  </div>
+
+  <p class="toggle-hint">Tap a milestone to update its status. Tap once for In Progress, twice for Done.</p>
+
+  <div class="milestones" id="phase1">
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">1</div>
+      <div class="milestone-body">
+        <div class="milestone-title">LLC formation documents filed with Mississippi Secretary of State</div>
+        <div class="milestone-desc">Entity is legally formed and certificate of organization received</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">2</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Federal EIN obtained from IRS.gov</div>
+        <div class="milestone-desc">EIN confirmation letter saved and business bank account opened</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">3</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Local business license obtained from Walthall County</div>
+        <div class="milestone-desc">License is active and posted at your place of business</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">4</div>
+      <div class="milestone-body">
+        <div class="milestone-title">All three insurance policies in place</div>
+        <div class="milestone-desc">General liability, professional liability, and workers compensation active and certificates in file</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">5</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Mississippi DOM Virtual Provider Orientation completed and quiz submitted</div>
+        <div class="milestone-desc">Orientation certificate saved. Quiz available April 1, 2026.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">6</div>
+      <div class="milestone-body">
+        <div class="milestone-title">ADC Proposal package assembled and submitted to Mississippi DOM</div>
+        <div class="milestone-desc">All required documents submitted including org chart, expense report, staffing plan, facility docs, and policies</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">7</div>
+      <div class="milestone-body">
+        <div class="milestone-title">$750 Medicaid provider enrollment fee paid to Mississippi DOM</div>
+        <div class="milestone-desc">Check mailed to Gainwell Technologies with Application Tracking Number noted</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">8</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Fingerprint background checks initiated for all staff</div>
+        <div class="milestone-desc">LiveScan forms submitted for yourself and any additional staff members</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">9</div>
+      <div class="milestone-body">
+        <div class="milestone-title">At least two bridge grant applications submitted</div>
+        <div class="milestone-desc">ACL, HRSA, Mississippi CDBG, or SBA applications in progress or submitted</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+  </div>
+
+  <div class="add-milestone-row">
+    <input type="text" placeholder="Add your own milestone for Phase 1" id="add1">
+    <button onclick="addMilestone('phase1', 'add1')">Add</button>
+  </div>
+
+  <!-- PHASE 2: DAYS 31-60 -->
+  <div class="phase-header">
+    <div class="phase-badge">Phase 2</div>
+    <div class="phase-title">Facility, Clients, and Operations</div>
+    <div class="phase-dates">Days 31 through 60</div>
+  </div>
+
+  <div class="milestones" id="phase2">
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">1</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Facility location identified and lease signed or in negotiation</div>
+        <div class="milestone-desc">Space meets Mississippi minimum square footage and zoning requirements for adult day care</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">2</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Facility renovation and setup completed or in progress</div>
+        <div class="milestone-desc">ADA compliance, fire safety, and Mississippi facility standards met. Ready for inspection.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">3</div>
+      <div class="milestone-body">
+        <div class="milestone-title">All 14 to 17 existing clients have signed service agreements</div>
+        <div class="milestone-desc">Formal service agreements executed, copies in each client file</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">4</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Individualized Care Plans completed for all existing clients</div>
+        <div class="milestone-desc">One care plan per client, signed, and placed in client files</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">5</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Client files complete for all existing clients</div>
+        <div class="milestone-desc">All items on the Client File Checklist completed for each of your 14 to 17 clients</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">6</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Billing and scheduling software set up and operational</div>
+        <div class="milestone-desc">System in place to track attendance, document daily progress notes, and manage Medicaid billing</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">7</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Staffing plan finalized and all required staff hired or confirmed</div>
+        <div class="milestone-desc">Staff meet Mississippi DOM certification and background check requirements. Schedules set.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">8</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Mississippi state adult day care license application submitted</div>
+        <div class="milestone-desc">Application filed with Mississippi Department of Health, facility inspection scheduled</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+  </div>
+
+  <div class="add-milestone-row">
+    <input type="text" placeholder="Add your own milestone for Phase 2" id="add2">
+    <button onclick="addMilestone('phase2', 'add2')">Add</button>
+  </div>
+
+  <!-- PHASE 3: DAYS 61-90 -->
+  <div class="phase-header">
+    <div class="phase-badge">Phase 3</div>
+    <div class="phase-title">Launch, Billing, and Growth</div>
+    <div class="phase-dates">Days 61 through 90</div>
+  </div>
+
+  <div class="milestones" id="phase3">
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">1</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Mississippi state adult day care license received</div>
+        <div class="milestone-desc">License posted at facility. You are now legally operating as a licensed adult day care.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">2</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Medicaid provider approval received or actively in process</div>
+        <div class="milestone-desc">MESA portal application under review. Follow up with DOM Office of Long Term Care if needed.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">3</div>
+      <div class="milestone-body">
+        <div class="milestone-title">First Medicaid billing submission made</div>
+        <div class="milestone-desc">First claims submitted for existing clients through your billing system</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">4</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Google Business Profile live and verified</div>
+        <div class="milestone-desc">Profile includes business name, address, hours, services, and at least one photo</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">5</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Existing mental health referral partners notified of your launch</div>
+        <div class="milestone-desc">At least three referral partner contacts made. Referral process established.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">6</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Community intake flyer distributed in Tylertown area</div>
+        <div class="milestone-desc">Flyers distributed to churches, community centers, physician offices, and mental health facilities</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">7</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Waitlist started with at least three prospective new clients</div>
+        <div class="milestone-desc">Intake inquiries received and waitlist process in place for when capacity expands</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">8</div>
+      <div class="milestone-body">
+        <div class="milestone-title">Monthly financial tracking system in place</div>
+        <div class="milestone-desc">Income, expenses, and cash flow tracked. Bridge grant funds being utilized if approved.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+    <div class="milestone-card" onclick="cycleStatus(this)">
+      <div class="milestone-num">9</div>
+      <div class="milestone-body">
+        <div class="milestone-title">First 90-day review completed</div>
+        <div class="milestone-desc">Review your progress against this plan. Celebrate what you have built. Adjust what needs adjusting. You are in business.</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    </div>
+  </div>
+
+  <div class="add-milestone-row">
+    <input type="text" placeholder="Add your own milestone for Phase 3" id="add3">
+    <button onclick="addMilestone('phase3', 'add3')">Add</button>
+  </div>
+
+  <!-- REFLECTION -->
+  <div class="phase-header" style="margin-top:40px;">
+    <div class="phase-badge">Reflection</div>
+    <div class="phase-title">Day 90 Check-In</div>
+  </div>
+
+  <p style="font-size:13px; color:var(--gray); font-weight:300; margin-bottom:16px; line-height:1.7;">Complete this section on Day 90. Look back at where you started and acknowledge how far you have come.</p>
+
+  <div class="reflection-grid">
+    <div class="reflection-card">
+      <label>What did you accomplish that you are most proud of?</label>
+      <textarea placeholder="Write your answer here"></textarea>
+    </div>
+    <div class="reflection-card">
+      <label>What was harder than you expected?</label>
+      <textarea placeholder="Write your answer here"></textarea>
+    </div>
+    <div class="reflection-card">
+      <label>What is still in progress and what is your next step?</label>
+      <textarea placeholder="Write your answer here"></textarea>
+    </div>
+    <div class="reflection-card">
+      <label>What does the next 90 days look like?</label>
+      <textarea placeholder="Write your answer here"></textarea>
+    </div>
+  </div>
+
+  <div class="action-bar">
+    <button class="btn-primary" onclick="window.print()">Print My Plan</button>
+    <button class="btn-secondary" onclick="resetAll()">Reset All</button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Prepared for LaTonya Mark &nbsp;|&nbsp; Week 6 Resource &nbsp;|&nbsp; Adult Day Care Startup Intensive</p>
+</div>
+
+<script>
+  const TOTAL_MILESTONES = document.querySelectorAll('.milestone-card').length;
+
+  function cycleStatus(card) {
+    const dot = card.querySelector('.status-dot');
+    const label = card.querySelector('.status-label');
+
+    if (!card.classList.contains('in-progress') && !card.classList.contains('done')) {
+      card.classList.add('in-progress');
+      label.textContent = 'In Progress';
+    } else if (card.classList.contains('in-progress')) {
+      card.classList.remove('in-progress');
+      card.classList.add('done');
+      label.textContent = 'Done';
+    } else {
+      card.classList.remove('done');
+      label.textContent = 'Not Started';
+    }
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const done = document.querySelectorAll('.milestone-card.done').length;
+    const total = document.querySelectorAll('.milestone-card').length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-count').textContent = `${done} of ${total} complete`;
+  }
+
+  function addMilestone(phaseId, inputId) {
+    const input = document.getElementById(inputId);
+    const text = input.value.trim();
+    if (!text) return;
+
+    const list = document.getElementById(phaseId);
+    const num = list.children.length + 1;
+    const card = document.createElement('div');
+    card.className = 'milestone-card';
+    card.onclick = function() { cycleStatus(this); };
+    card.innerHTML = `
+      <div class="milestone-num">${num}</div>
+      <div class="milestone-body">
+        <div class="milestone-title">${text}</div>
+        <div class="milestone-desc">Custom milestone</div>
+      </div>
+      <div class="milestone-status"><div class="status-dot"></div><div class="status-label">Not Started</div></div>
+    `;
+    list.appendChild(card);
+    input.value = '';
+    updateProgress();
+  }
+
+  function resetAll() {
+    document.querySelectorAll('.milestone-card').forEach(card => {
+      card.classList.remove('done', 'in-progress');
+      card.querySelector('.status-label').textContent = 'Not Started';
+    });
+    updateProgress();
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>
