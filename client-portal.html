@@ -331,6 +331,53 @@
   .week-card.open .week-toggle {
     transform: rotate(180deg);
   }
+  /* LOCKED STATE */
+  .week-card.locked {
+    opacity: 0.45;
+    pointer-events: none;
+  }
+
+  .week-card.locked .week-num {
+    background: var(--gray);
+    color: rgba(255,255,255,0.3);
+  }
+
+  .week-card.locked .week-title,
+  .week-card.locked .week-tag {
+    color: var(--gray);
+  }
+
+  .lock-icon {
+    padding: 0 18px;
+    font-size: 16px;
+    color: var(--gray);
+  }
+
+  .unlock-notice {
+    background: var(--warm);
+    border: 1px dashed var(--border);
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-size: 12.5px;
+    color: var(--gray);
+    text-align: center;
+    line-height: 1.65;
+    border-radius: 1px;
+  }
+
+  .unlock-notice strong {
+    display: block;
+    color: var(--navy);
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 3px;
+  }
+
+  .doc-link.locked-doc {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
 
   .week-body {
     display: none;
@@ -706,15 +753,17 @@
         </div>
       </div>
 
+      <div class="unlock-notice" id="unlock-notice"><strong>Weeks 4, 5 &amp; 6 unlock on May 12, 2026</strong>These sessions and resources become available automatically once your final payment has been received. Thank you for your commitment.</div>
+
       <!-- WEEK 4 -->
-      <div class="week-card" id="w4">
+      <div class="week-card locked" id="w4">
         <div class="week-card-header" onclick="toggleWeek('w4')">
           <div class="week-num">4<span>Week</span></div>
           <div class="week-title-block">
             <div class="week-tag">Facility Strategy</div>
             <div class="week-title">Finding, Financing &amp; Setting Up Your Space</div>
           </div>
-          <div class="week-toggle">&#8964;</div>
+          <div class="lock-icon">&#128274;</div>
         </div>
         <div class="week-body">
           <div class="week-section-label">Session Topics</div>
@@ -741,14 +790,14 @@
       </div>
 
       <!-- WEEK 5 -->
-      <div class="week-card" id="w5">
+      <div class="week-card locked" id="w5">
         <div class="week-card-header" onclick="toggleWeek('w5')">
           <div class="week-num">5<span>Week</span></div>
           <div class="week-title-block">
             <div class="week-tag">Operations</div>
             <div class="week-title">Client Formalization, Staffing &amp; Daily Operations Setup</div>
           </div>
-          <div class="week-toggle">&#8964;</div>
+          <div class="lock-icon">&#128274;</div>
         </div>
         <div class="week-body">
           <div class="week-section-label">Session Topics</div>
@@ -775,14 +824,14 @@
       </div>
 
       <!-- WEEK 6 -->
-      <div class="week-card" id="w6">
+      <div class="week-card locked" id="w6">
         <div class="week-card-header" onclick="toggleWeek('w6')">
           <div class="week-num">6<span>Week</span></div>
           <div class="week-title-block">
             <div class="week-tag">Launch Readiness</div>
             <div class="week-title">Marketing, Referral Network &amp; Sustainable Growth Plan</div>
           </div>
-          <div class="week-toggle">&#8964;</div>
+          <div class="lock-icon">&#128274;</div>
         </div>
         <div class="week-body">
           <div class="week-section-label">Session Topics</div>
@@ -863,15 +912,21 @@
               <div class="doc-type">Signed Contract</div>
             </div>
           </a>
-          <a class="doc-link" href="https://complitrst-assets.vercel.app/mississippi-medicaid-checklist.html" target="_blank">
-  <div class="doc-icon">✅</div>
-  <div class="doc-info">
-    <div class="doc-name">Mississippi Medicaid Checklist</div>
-    <div class="doc-type">Interactive Checklist — Week 3</div>
-  </div>
-</a>
-          <div class="coming-soon">Client Formalization Kit — Coming Week 5</div>
-          <div class="coming-soon">Session Summaries — Added Weekly</div>
+          <a class="doc-link" href="https://complitrst-assets.vercel.app/mississippi-medicaid-checklist.html" target="_blank" id="medicaid-link">
+            <div class="doc-icon">&#9989;</div>
+            <div class="doc-info">
+              <div class="doc-name">Mississippi Medicaid Checklist</div>
+              <div class="doc-type">Interactive Checklist — Week 3</div>
+            </div>
+          </a>
+          <a class="doc-link locked-doc" href="#" id="formalization-link" target="_blank">
+            <div class="doc-icon">&#128274;</div>
+            <div class="doc-info">
+              <div class="doc-name">Client Formalization Kit</div>
+              <div class="doc-type">Unlocks May 12, 2026 — Week 5</div>
+            </div>
+          </a>
+          <div class="coming-soon" id="summaries-note">Session Summaries — Added Weekly</div>
         </div>
       </div>
 
@@ -913,12 +968,81 @@
 </div>
 
 <script>
+  // TIME RELEASE — May 12, 2026
+  const UNLOCK_DATE = new Date('2026-05-12T00:00:00');
+
+  function applyTimeRelease() {
+    const now = new Date();
+    const unlocked = now >= UNLOCK_DATE;
+
+    const lockedWeeks = ['w4', 'w5', 'w6'];
+    lockedWeeks.forEach(id => {
+      const card = document.getElementById(id);
+      if (unlocked) {
+        card.classList.remove('locked');
+        // Swap lock icon back to toggle chevron
+        const lockIcon = card.querySelector('.lock-icon');
+        if (lockIcon) {
+          lockIcon.className = 'week-toggle';
+          lockIcon.innerHTML = '&#8964;';
+          card.querySelector('.week-card-header').onclick = function() { toggleWeek(id); };
+        }
+      }
+    });
+
+    // Unlock notice
+    const notice = document.getElementById('unlock-notice');
+    if (notice) {
+      if (unlocked) {
+        notice.style.display = 'none';
+      }
+    }
+
+    // Unlock client formalization doc link
+    const formLink = document.getElementById('formalization-link');
+    if (formLink && unlocked) {
+      formLink.classList.remove('locked-doc');
+      formLink.href = 'https://complitrst-assets.vercel.app/client-formalization-kit.html';
+      formLink.querySelector('.doc-icon').innerHTML = '&#128196;';
+      formLink.querySelector('.doc-type').textContent = 'Interactive Kit — Week 5';
+    }
+  }
+
+  // ADMIN OVERRIDE — full access regardless of date
+  function adminOverride() {
+    const lockedWeeks = ['w4', 'w5', 'w6'];
+    lockedWeeks.forEach(id => {
+      const card = document.getElementById(id);
+      card.classList.remove('locked');
+      const lockIcon = card.querySelector('.lock-icon');
+      if (lockIcon) {
+        lockIcon.className = 'week-toggle';
+        lockIcon.innerHTML = '&#8964;';
+        card.querySelector('.week-card-header').onclick = function() { toggleWeek(id); };
+      }
+    });
+    const notice = document.getElementById('unlock-notice');
+    if (notice) notice.style.display = 'none';
+    const formLink = document.getElementById('formalization-link');
+    if (formLink) {
+      formLink.classList.remove('locked-doc');
+      formLink.href = 'https://complitrst-assets.vercel.app/client-formalization-kit.html';
+      formLink.querySelector('.doc-icon').innerHTML = '&#128196;';
+      formLink.querySelector('.doc-type').textContent = 'Interactive Kit — Week 5';
+    }
+  }
+
   function checkPassword() {
     const input = document.getElementById('pw-input').value;
     const error = document.getElementById('pw-error');
     if (input === 'ADC2026') {
       document.getElementById('password-screen').style.display = 'none';
       document.getElementById('portal').style.display = 'block';
+      applyTimeRelease();
+    } else if (input === 'ADMIN2026') {
+      document.getElementById('password-screen').style.display = 'none';
+      document.getElementById('portal').style.display = 'block';
+      adminOverride();
     } else {
       error.style.display = 'block';
       document.getElementById('pw-input').value = '';
