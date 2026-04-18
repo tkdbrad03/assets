@@ -638,6 +638,21 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
           <option>Ford Transit Wheelchair Van (Cutaway)</option>
         </select>
       </div>
+
+      <div class="field"><label>Category</label>
+  <select id="r-category">
+    <option value="">Select category…</option>
+    <option value="Fuel">⛽ Fuel / Gas</option>
+    <option value="Oil Change">🛢 Oil Change</option>
+    <option value="Tires">🔄 Tires</option>
+    <option value="Brakes">🛑 Brakes</option>
+    <option value="Inspection">📋 Inspection</option>
+    <option value="Repair">🔧 Repair</option>
+    <option value="Wash">🚿 Vehicle Wash</option>
+    <option value="Parking">🅿️ Parking / Tolls</option>
+    <option value="Other">📎 Other</option>
+  </select>
+</div>
       <div class="field"><label>Merchant / Location</label><input type="text" id="r-location" placeholder="e.g. Quick Trip, Jiffy Lube"></div>
       <div class="field"><label>Notes</label><input type="text" id="r-notes" placeholder="Optional notes"></div>
       <button class="btn-full btn-yellow" onclick="saveReceipt()">Save Receipt</button>
