@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Formalization Kit — Adult Day Care Startup Intensive</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0E1E35;
+    --gold: #C9A84C;
+    --gold-light: #E8D49A;
+    --cream: #FAF7F2;
+    --warm: #F2EDE6;
+    --gray: #6B6560;
+    --border: #E0D9CF;
+    --white: #ffffff;
+    --green: #3a7d5a;
+    --green-light: #edf7f2;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 48px 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    pointer-events: none;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 18px;
+  }
+
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+
+  .header h1 em { color: var(--gold); font-style: italic; }
+
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    max-width: 620px;
+    line-height: 1.7;
+    margin-top: 10px;
+  }
+
+  /* TABS */
+  .tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 48px;
+  }
+
+  .tab {
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+
+  .tab:hover { color: var(--navy); }
+
+  .tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+  }
+
+  /* MAIN */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .section-desc {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 28px;
+  }
+
+  hr.gold {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  /* FORM ELEMENTS */
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="tel"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--navy);
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 1px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B6560'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 32px;
+  }
+
+  /* NOTE BOX */
+  .note-box {
+    background: var(--warm);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 12.5px;
+    color: var(--navy);
+    line-height: 1.65;
+  }
+
+  .note-box strong {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* AGREEMENT TEXT */
+  .agreement-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  .agreement-block h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 20px 0 8px;
+  }
+
+  .agreement-block h4:first-child { margin-top: 0; }
+
+  .agreement-block p { margin-bottom: 12px; }
+
+  .agreement-block .field-inline {
+    display: inline-block;
+    border-bottom: 1px solid var(--navy);
+    min-width: 160px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* SIGNATURE AREA */
+  .sig-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .sig-block {
+    border: 1px solid var(--border);
+    padding: 20px;
+    background: var(--white);
+  }
+
+  .sig-block label {
+    margin-bottom: 4px;
+  }
+
+  .sig-line {
+    border-bottom: 1px solid var(--navy);
+    height: 36px;
+    margin: 10px 0 6px;
+  }
+
+  .sig-sub {
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* CHECKLIST */
+  .check-group {
+    margin-bottom: 28px;
+  }
+
+  .check-group-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+
+  .check-item:hover { border-color: var(--gold); }
+
+  .check-item.checked {
+    background: var(--green-light);
+    border-color: #a8d5be;
+  }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--white);
+    transition: all 0.2s;
+  }
+
+  .check-item.checked .check-box {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+    font-size: 11px;
+  }
+
+  .check-text {
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .check-item.checked .check-text {
+    color: var(--green);
+    text-decoration: line-through;
+    text-decoration-color: #a8d5be;
+  }
+
+  .check-sub {
+    font-size: 11.5px;
+    color: var(--gray);
+    font-weight: 300;
+    margin-top: 2px;
+  }
+
+  /* PRINT BUTTON */
+  .action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-secondary {
+    background: none;
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--navy); }
+
+  /* PROGRESS */
+  .progress-strip {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 48px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--warm);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  .progress-count {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--navy);
+    padding: 24px 48px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media print {
+    .tabs, .action-row, .progress-strip, .header-badge, .footer { display: none !important; }
+    .tab-content { display: block !important; }
+    .main { padding: 0; }
+    body { background: white; }
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 36px 24px 30px; }
+    .tabs { padding: 0 16px; }
+    .main { padding: 28px 16px 48px; }
+    .form-row, .form-row-3, .sig-grid { grid-template-columns: 1fr; }
+    .progress-strip { padding: 12px 24px; }
+    .footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Week 5 Resource</div>
+  <h1>Client <em>Formalization Kit</em></h1>
+  <p class="header-sub">Four documents to convert your existing clients into formal, documented, and billable relationships. Complete one set per client. Print or save each completed form to your client files.</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-strip">
+  <span class="progress-label">File Checklist</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill"></div>
+  </div>
+  <span class="progress-count" id="progress-count">0 of 0</span>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('intake')">1. Client Intake Form</div>
+  <div class="tab" onclick="showTab('agreement')">2. Service Agreement</div>
+  <div class="tab" onclick="showTab('careplan')">3. Care Plan</div>
+  <div class="tab" onclick="showTab('filechecklist')">4. Client File Checklist</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ═══ TAB 1: INTAKE FORM ═══ -->
+  <div class="tab-content active" id="tab-intake">
+    <div class="section-label">Document 1 of 4</div>
+    <div class="section-title">Client Intake Form</div>
+    <p class="section-desc">Complete this form for each client at the start of their formal enrollment. This document establishes the client record and is required for your Medicaid provider application.</p>
+
+    <div class="note-box">
+      <strong>Instructions</strong>
+      Fill in your business name at the top once you have it. Complete one intake form per client. Print and place in the client's physical file folder. Keep all client files in a secure, locked location.
+    </div>
+
+    <hr class="gold">
+
+    <div class="form-group">
+      <label>Provider / Business Name</label>
+      <input type="text" placeholder="Your Adult Day Care Business Name">
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Date of Intake</label>
+        <input type="date">
+      </div>
+      <div>
+        <label>Client ID Number (assign one per client)</label>
+        <input type="text" placeholder="e.g. ADC-001">
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Client Information</div>
+
+    <div class="form-row">
+      <div>
+        <label>Client First Name</label>
+        <input type="text" placeholder="First Name">
+      </div>
+      <div>
+        <label>Client Last Name</label>
+        <input type="text" placeholder="Last Name">
+      </div>
+    </div>
+
+    <div class="form-row-3">
+      <div>
+        <label>Date of Birth</label>
+        <input type="date">
+      </div>
+      <div>
+        <label>Gender</label>
+        <select>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+      <div>
+        <label>Medicaid ID Number</label>
+        <input type="text" placeholder="Medicaid ID">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Home Address</label>
+      <input type="text" placeholder="Street Address">
+    </div>
+
+    <div class="form-row-3">
+      <div>
+        <label>City</label>
+        <input type="text" placeholder="City">
+      </div>
+      <div>
+        <label>State</label>
+        <input type="text" placeholder="MS">
+      </div>
+      <div>
+        <label>Zip Code</label>
+        <input type="text" placeholder="Zip">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Phone Number</label>
+        <input type="tel" placeholder="(601) 000-0000">
+      </div>
+      <div>
+        <label>Living Situation</label>
+        <select>
+          <option value="">Select</option>
+          <option>Independent Living (Provider Property)</option>
+          <option>Lives Alone</option>
+          <option>Lives with Family</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Emergency Contact</div>
+
+    <div class="form-row">
+      <div>
+        <label>Emergency Contact Name</label>
+        <input type="text" placeholder="Full Name">
+      </div>
+      <div>
+        <label>Relationship to Client</label>
+        <input type="text" placeholder="e.g. Daughter, Son">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Emergency Contact Phone</label>
+        <input type="tel" placeholder="(601) 000-0000">
+      </div>
+      <div>
+        <label>Emergency Contact Email</label>
+        <input type="email" placeholder="email@example.com">
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Medical Information</div>
+
+    <div class="form-group">
+      <label>Primary Diagnosis / Medical Conditions</label>
+      <textarea placeholder="List primary diagnoses and chronic conditions (e.g. hypertension, diabetes, dementia)"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Primary Care Physician</label>
+        <input type="text" placeholder="Physician Name">
+      </div>
+      <div>
+        <label>Physician Phone</label>
+        <input type="tel" placeholder="(601) 000-0000">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Current Medications</label>
+      <textarea placeholder="List all current medications, dosages, and schedule"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Known Allergies</label>
+      <input type="text" placeholder="List any known allergies or write None">
+    </div>
+
+    <div class="form-group">
+      <label>Mobility Status</label>
+      <select>
+        <option value="">Select</option>
+        <option>Fully mobile and independent</option>
+        <option>Mobile with assistive device (cane, walker)</option>
+        <option>Wheelchair user</option>
+        <option>Requires transfer assistance</option>
+        <option>Bedridden</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Dietary Restrictions or Special Needs</label>
+      <textarea placeholder="List any dietary restrictions, food allergies, or special meal requirements"></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Referral Information</div>
+
+    <div class="form-row">
+      <div>
+        <label>Referred By</label>
+        <input type="text" placeholder="Name of referring agency or individual">
+      </div>
+      <div>
+        <label>Referral Date</label>
+        <input type="date">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Additional Notes</label>
+      <textarea placeholder="Any additional information relevant to this client's care"></textarea>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Print This Form</button>
+      <button class="btn-secondary" onclick="clearTab('tab-intake')">Clear Form</button>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 2: SERVICE AGREEMENT ═══ -->
+  <div class="tab-content" id="tab-agreement">
+    <div class="section-label">Document 2 of 4</div>
+    <div class="section-title">Client Service Agreement</div>
+    <p class="section-desc">This agreement formalizes the relationship between your adult day care and each client. Both parties must sign. Keep a signed copy in the client file and provide a copy to the client or their representative.</p>
+
+    <div class="note-box">
+      <strong>Instructions</strong>
+      Fill in the fields below. The agreement text will update as you type. Print the completed agreement for signatures. This document is required for Medicaid billing and provider enrollment.
+    </div>
+
+    <hr class="gold">
+
+    <div class="form-row">
+      <div>
+        <label>Provider / Business Name</label>
+        <input type="text" id="sa-provider" placeholder="Your Business Name" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Agreement Date</label>
+        <input type="date" id="sa-date" oninput="updateAgreement()">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Client Full Name</label>
+        <input type="text" id="sa-client" placeholder="Client Full Name" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Client Representative (if applicable)</label>
+        <input type="text" id="sa-rep" placeholder="Name of legal representative or guardian" oninput="updateAgreement()">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Service Start Date</label>
+        <input type="date" id="sa-start" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Days of Service Per Week</label>
+        <select id="sa-days" oninput="updateAgreement()">
+          <option value="as outlined in the care plan">As outlined in care plan</option>
+          <option value="1 day per week">1 day per week</option>
+          <option value="2 days per week">2 days per week</option>
+          <option value="3 days per week">3 days per week</option>
+          <option value="4 days per week">4 days per week</option>
+          <option value="5 days per week">5 days per week</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Service Hours</label>
+        <input type="text" id="sa-hours" placeholder="e.g. 8:00 AM to 4:00 PM" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Primary Funding Source</label>
+        <select id="sa-funding" oninput="updateAgreement()">
+          <option value="Mississippi Medicaid Elderly and Disabled (E&D) Waiver">Mississippi Medicaid E&D Waiver</option>
+          <option value="Private Pay">Private Pay</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="gold">
+
+    <!-- LIVE AGREEMENT -->
+    <div class="agreement-block" id="agreement-text">
+      <h4>Adult Day Care Client Service Agreement</h4>
+      <p>This Service Agreement (the "Agreement") is entered into as of <span class="field-inline" id="disp-date">______________</span> between <span class="field-inline" id="disp-provider">Your Business Name</span> ("Provider") and <span class="field-inline" id="disp-client">Client Name</span> (or their authorized representative, <span class="field-inline" id="disp-rep">______________</span>) ("Client").</p>
+
+      <h4>1. Services to Be Provided</h4>
+      <p>The Provider agrees to furnish Adult Day Care services to the Client <span class="field-inline" id="disp-days">as outlined in the care plan</span>, during the hours of <span class="field-inline" id="disp-hours">______________</span>, beginning <span class="field-inline" id="disp-start">______________</span>. Services include supervised daytime care, social and recreational activities, meals and snacks, personal care assistance as needed, and health monitoring as outlined in the Client's individualized care plan.</p>
+
+      <h4>2. Funding and Billing</h4>
+      <p>Services under this Agreement will be billed through <span class="field-inline" id="disp-funding">Mississippi Medicaid Elderly and Disabled (E&D) Waiver</span>. The Client or their representative is responsible for maintaining active eligibility and notifying the Provider of any changes to coverage or benefits status.</p>
+
+      <h4>3. Client Rights</h4>
+      <p>The Client has the right to be treated with dignity and respect at all times, to receive services free from abuse, neglect, or exploitation, to participate in the development of their care plan, to privacy and confidentiality of personal and medical information, and to file a grievance without fear of retaliation.</p>
+
+      <h4>4. Provider Responsibilities</h4>
+      <p>The Provider agrees to deliver services in a safe, clean, and supportive environment, maintain accurate and current records for the Client, comply with all applicable Mississippi state licensing and Medicaid requirements, and notify the Client or their representative of any significant changes in care or operations.</p>
+
+      <h4>5. Client Responsibilities</h4>
+      <p>The Client or their representative agrees to provide accurate and complete health and contact information, notify the Provider of any changes in medical condition or medications, communicate absences in advance when possible, and treat Provider staff with respect.</p>
+
+      <h4>6. Termination</h4>
+      <p>Either party may terminate this Agreement with fourteen (14) days written notice. The Provider may terminate immediately in the event of a safety concern or conduct that poses a risk to staff or other clients.</p>
+
+      <h4>7. Confidentiality</h4>
+      <p>All personal, medical, and financial information pertaining to the Client will be kept strictly confidential and used solely for the purpose of providing and billing for services, in compliance with applicable state and federal privacy laws.</p>
+
+      <h4>8. Agreement</h4>
+      <p>By signing below, both parties confirm they have read and agree to the terms of this Service Agreement.</p>
+    </div>
+
+    <div class="sig-grid">
+      <div class="sig-block">
+        <label>Provider Signature</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub" id="disp-provider-sig">Your Business Name</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+      <div class="sig-block">
+        <label>Client or Authorized Representative</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub" id="disp-client-sig">Client Name</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Print Agreement</button>
+      <button class="btn-secondary" onclick="clearAgreement()">Clear Fields</button>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 3: CARE PLAN ═══ -->
+  <div class="tab-content" id="tab-careplan">
+    <div class="section-label">Document 3 of 4</div>
+    <div class="section-title">Individualized Care Plan</div>
+    <p class="section-desc">Complete one care plan per client. Mississippi Medicaid requires that care plans be reviewed and updated at least annually. This document drives your Medicaid billing and must be kept current in each client file.</p>
+
+    <div class="note-box">
+      <strong>Mississippi DOM Requirement</strong>
+      Adult Day Care providers under the E&D Waiver must complete an Individualized Service Plan (ISP) for each participant annually. This template aligns with Mississippi DOM requirements. Use this alongside the official DOM ISP form linked in your Medicaid checklist.
+    </div>
+
+    <hr class="gold">
+
+    <div class="form-row">
+      <div>
+        <label>Provider / Business Name</label>
+        <input type="text" placeholder="Your Business Name">
+      </div>
+      <div>
+        <label>Care Plan Date</label>
+        <input type="date">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Client Full Name</label>
+        <input type="text" placeholder="Client Full Name">
+      </div>
+      <div>
+        <label>Client ID Number</label>
+        <input type="text" placeholder="e.g. ADC-001">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Care Plan Review Date</label>
+        <input type="date">
+      </div>
+      <div>
+        <label>Plan Prepared By</label>
+        <input type="text" placeholder="Staff Name and Title">
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Functional Assessment</div>
+
+    <div class="form-group">
+      <label>Activities of Daily Living (ADL) Needs</label>
+      <textarea placeholder="Describe the client's level of independence with bathing, dressing, grooming, toileting, and eating. Note what assistance is required."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Cognitive Status</label>
+      <select>
+        <option value="">Select</option>
+        <option>Fully alert and oriented</option>
+        <option>Mild cognitive impairment</option>
+        <option>Moderate cognitive impairment / early dementia</option>
+        <option>Severe cognitive impairment / advanced dementia</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Behavioral Considerations</label>
+      <textarea placeholder="Note any behavioral patterns, triggers, or de-escalation strategies that staff should be aware of"></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Goals and Services</div>
+
+    <div class="form-group">
+      <label>Primary Goal for This Client</label>
+      <textarea placeholder="e.g. Maintain current level of independence, improve social engagement, manage chronic conditions with daily monitoring"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Services to Be Provided</label>
+      <textarea placeholder="List all services: personal care assistance, meals, medication monitoring, recreational activities, health monitoring, transportation, etc."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Frequency and Schedule of Services</label>
+      <textarea placeholder="e.g. Monday through Friday 8AM to 4PM. Medication check at 9AM and 1PM daily. Weekly health vitals on Mondays."></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Health Monitoring Plan</div>
+
+    <div class="form-row">
+      <div>
+        <label>Vital Signs Monitoring Frequency</label>
+        <select>
+          <option value="">Select</option>
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+          <option>As needed</option>
+          <option>Not required</option>
+        </select>
+      </div>
+      <div>
+        <label>Medication Administration</label>
+        <select>
+          <option value="">Select</option>
+          <option>Provider administers medications</option>
+          <option>Client self-administers with supervision</option>
+          <option>Client self-administers independently</option>
+          <option>No medications required</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Chronic Condition Management Notes</label>
+      <textarea placeholder="Describe any specific protocols for managing the client's chronic conditions during the day (e.g. diabetic meal schedule, blood pressure checks)"></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Emergency and Safety Plan</div>
+
+    <div class="form-group">
+      <label>Known Safety Risks</label>
+      <textarea placeholder="List any fall risks, elopement risks, choking risks, or other safety concerns specific to this client"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Emergency Action Plan</label>
+      <textarea placeholder="Describe the steps staff should take in the event of a medical emergency specific to this client's conditions"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Do Not Resuscitate (DNR) Order on File</label>
+        <select>
+          <option value="">Select</option>
+          <option>Yes — copy in client file</option>
+          <option>No</option>
+          <option>Unknown — to be confirmed</option>
+        </select>
+      </div>
+      <div>
+        <label>Healthcare Power of Attorney on File</label>
+        <select>
+          <option value="">Select</option>
+          <option>Yes — copy in client file</option>
+          <option>No</option>
+          <option>Unknown — to be confirmed</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="gold">
+
+    <div class="sig-grid">
+      <div class="sig-block">
+        <label>Provider / Care Coordinator Signature</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub">Name and Title</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+      <div class="sig-block">
+        <label>Client or Authorized Representative</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub">Acknowledges review of care plan</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Print Care Plan</button>
+      <button class="btn-secondary" onclick="clearTab('tab-careplan')">Clear Form</button>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 4: CLIENT FILE CHECKLIST ═══ -->
+  <div class="tab-content" id="tab-filechecklist">
+    <div class="section-label">Document 4 of 4</div>
+    <div class="section-title">Client File Checklist</div>
+    <p class="section-desc">Every client must have a complete physical file. Mississippi DOM will review these files during facility inspections. Check off each item as it is collected and placed in the client's folder. Maintain files in a secure, locked location.</p>
+
+    <div class="note-box">
+      <strong>Mississippi DOM Requirement</strong>
+      Use this checklist alongside the official ADC Participant File Checklist from Mississippi Division of Medicaid. All items below are required to be in each client file prior to the start of services and kept current throughout the engagement.
+    </div>
+
+    <div class="form-row" style="margin-top:24px;">
+      <div>
+        <label>Client Name</label>
+        <input type="text" placeholder="Client Full Name">
+      </div>
+      <div>
+        <label>File Opened Date</label>
+        <input type="date">
+      </div>
+    </div>
+
+    <hr class="gold">
+
+    <!-- ENROLLMENT DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Enrollment Documents</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Completed Client Intake Form</div>
+          <div class="check-sub">Signed and dated by provider and client or representative</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Signed Client Service Agreement</div>
+          <div class="check-sub">Original signed copy in file, copy provided to client</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Proof of Medicaid Eligibility</div>
+          <div class="check-sub">Copy of Medicaid card or eligibility verification document</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Medicaid Case Manager Authorization</div>
+          <div class="check-sub">Written authorization from Medicaid case manager approving ADC services</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Photo ID or Birth Certificate</div>
+          <div class="check-sub">Copy of government-issued photo ID or birth certificate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MEDICAL DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Medical and Health Documents</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Completed Individualized Care Plan (ICP)</div>
+          <div class="check-sub">Signed by provider and client, reviewed annually</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Mississippi DOM Individualized Service Plan (ISP)</div>
+          <div class="check-sub">Official DOM form — required for Medicaid billing</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Physician's Statement or Medical Summary</div>
+          <div class="check-sub">Signed by primary care physician confirming diagnoses and functional limitations</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Current Medication List</div>
+          <div class="check-sub">All medications, dosages, and schedules — updated whenever changes occur</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Known Allergies Documentation</div>
+          <div class="check-sub">Written record of all known allergies including food and medication</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Baseline Vital Signs Record</div>
+          <div class="check-sub">Initial blood pressure, pulse, weight, and temperature recorded at intake</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">DNR Order (if applicable)</div>
+          <div class="check-sub">Copy of Do Not Resuscitate order if one exists</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Healthcare Power of Attorney (if applicable)</div>
+          <div class="check-sub">Copy of HCPOA document designating authorized decision maker</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONSENT DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Consent and Authorization Documents</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">HIPAA Privacy Notice — Signed Acknowledgment</div>
+          <div class="check-sub">Client acknowledgment that they received the provider's HIPAA privacy notice</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Consent for Emergency Medical Treatment</div>
+          <div class="check-sub">Signed authorization allowing provider to call 911 and seek emergency care</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Consent for Photography and Participation in Activities</div>
+          <div class="check-sub">Written permission for photos used in facility records or promotional materials</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Transportation Consent (if applicable)</div>
+          <div class="check-sub">Signed consent for provider-arranged transportation to and from the facility</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Release of Information Authorization</div>
+          <div class="check-sub">Permission to share client information with Medicaid, physicians, and case managers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ONGOING DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Ongoing Documentation (Maintained in File)</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Daily Progress Notes</div>
+          <div class="check-sub">Completed for every day of service using the Mississippi DOM Standardized Progress Note form</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Monthly Attendance Log</div>
+          <div class="check-sub">Record of all days attended, absences, and reasons for absence</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Incident Reports (if any)</div>
+          <div class="check-sub">Any accidents, injuries, behavioral incidents, or unusual events documented on the DOM Reportable Incidents Form</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Annual Care Plan Review</div>
+          <div class="check-sub">Updated care plan signed annually or whenever there is a significant change in the client's condition</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Annual ISP Review</div>
+          <div class="check-sub">Updated Mississippi DOM Individualized Service Plan reviewed and signed annually</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-secondary" onclick="resetChecklist()" style="margin-top:8px;">Reset Checklist</button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Prepared for LaTonya Mark &nbsp;|&nbsp; Week 5 Resource &nbsp;|&nbsp; April 2026</p>
+</div>
+
+<script>
+  // TABS
+  function showTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+    updateProgress();
+  }
+
+  // AGREEMENT LIVE UPDATE
+  function updateAgreement() {
+    const provider = document.getElementById('sa-provider').value || 'Your Business Name';
+    const date = document.getElementById('sa-date').value ? formatDate(document.getElementById('sa-date').value) : '______________';
+    const client = document.getElementById('sa-client').value || 'Client Name';
+    const rep = document.getElementById('sa-rep').value || '______________';
+    const start = document.getElementById('sa-start').value ? formatDate(document.getElementById('sa-start').value) : '______________';
+    const days = document.getElementById('sa-days').value;
+    const hours = document.getElementById('sa-hours').value || '______________';
+    const funding = document.getElementById('sa-funding').value;
+
+    document.getElementById('disp-date').textContent = date;
+    document.getElementById('disp-provider').textContent = provider;
+    document.getElementById('disp-client').textContent = client;
+    document.getElementById('disp-rep').textContent = rep;
+    document.getElementById('disp-start').textContent = start;
+    document.getElementById('disp-days').textContent = days;
+    document.getElementById('disp-hours').textContent = hours;
+    document.getElementById('disp-funding').textContent = funding;
+    document.getElementById('disp-provider-sig').textContent = provider;
+    document.getElementById('disp-client-sig').textContent = client;
+  }
+
+  function formatDate(val) {
+    if (!val) return '______________';
+    const d = new Date(val + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  // CHECKLIST TOGGLE
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    if (el.querySelector('.check-box')) {
+      el.querySelector('.check-box').textContent = el.classList.contains('checked') ? '✓' : '';
+    }
+    updateProgress();
+  }
+
+  // PROGRESS
+  function updateProgress() {
+    const items = document.querySelectorAll('#tab-filechecklist .check-item');
+    const checked = document.querySelectorAll('#tab-filechecklist .check-item.checked').length;
+    const total = items.length;
+    document.getElementById('progress-fill').style.width = total ? (checked / total * 100) + '%' : '0%';
+    document.getElementById('progress-count').textContent = `${checked} of ${total}`;
+  }
+
+  // CLEAR FORMS
+  function clearTab(tabId) {
+    document.querySelectorAll('#' + tabId + ' input, #' + tabId + ' textarea, #' + tabId + ' select').forEach(el => {
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+    if (tabId === 'tab-agreement') updateAgreement();
+  }
+
+  function clearAgreement() {
+    clearTab('tab-agreement');
+    updateAgreement();
+  }
+
+  function resetChecklist() {
+    document.querySelectorAll('#tab-filechecklist .check-item').forEach(el => {
+      el.classList.remove('checked');
+      if (el.querySelector('.check-box')) el.querySelector('.check-box').textContent = '';
+    });
+    updateProgress();
+  }
+
+  // INIT
+  updateProgress();
+</script>
+
+</body>
+</html>
