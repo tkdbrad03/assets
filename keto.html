@@ -572,7 +572,7 @@ function renderTracker(){
   const total=trackerItems.reduce((s,i)=>s+i.netCarbs,0),rem=Math.max(0,GOAL-total),pct=Math.min(100,(total/GOAL)*100);
   document.getElementById("tracker-stats").innerHTML=`<div class="stat-card highlight"><div class="label">Net Carbs Today</div><div class="value">${total}g</div><div class="sub">of ${GOAL}g goal</div></div><div class="stat-card"><div class="label">Remaining</div><div class="value">${rem}g</div><div class="sub">${total>GOAL?"Over by "+(total-GOAL)+"g":"Still available"}</div></div><div class="stat-card"><div class="label">Logged</div><div class="value">${trackerItems.length}</div><div class="sub">meals today</div></div>`;
   const f=document.getElementById("carb-fill");f.style.width=pct+"%";f.className="carb-bar-fill"+(total>GOAL?" over":total>GOAL*.75?" warn":"");
-  document.getElementById("track-picker").innerHTML=allRecipes.map(r=>`<button class="filter-chip" onclick="addToTracker('${r.id}')">${r.title.split(" ").slice(0,3).join(" ")} (${r.netCarbs}g)</button>`).join("");
+  document.getElementById("track-picker").innerHTML='<button class="filter-chip" style="background:var(--pine);color:white;border-color:var(--pine);" onclick="startScan()">📷 Scan Barcode</button> '+allRecipes.map(r=>`<button class="filter-chip" onclick="addToTracker('${r.id}')">${r.title.split(" ").slice(0,3).join(" ")} (${r.netCarbs}g)</button>`).join("");
   document.getElementById("tracker-list").innerHTML=!trackerItems.length?'<p style="color:var(--muted);font-style:italic;font-size:13px;padding:.5rem 0;">Nothing tracked yet.</p>':trackerItems.map(i=>`<div class="tracker-item"><div class="tracker-item-name">${i.title}</div><div style="display:flex;align-items:center;gap:10px;"><span class="tracker-carb">${i.netCarbs}g</span><button class="remove-track" onclick="removeFromTracker(${i.id})">×</button></div></div>`).join("");
 }
 
@@ -601,6 +601,50 @@ function openPicker(day,meal,preselect){
 function pickRecipe(id){if(pickerContext){const{day,meal}=pickerContext;if(!(plan[day][meal]||[]).some(r=>String(r)===String(id)))plan[day][meal].push(id);saveState();closePicker();renderPlanner();}else closePicker();}
 function closePicker(e){if(!e||e.target===document.getElementById("picker-overlay")){document.getElementById("picker-overlay").classList.remove("open");pickerContext=null;}}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModalDirect();closePicker();}});
+<div id="scan-overlay" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(26,26,24,.9);flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;">
+  <p style="color:white;font-family:var(--serif);font-style:italic;font-size:18px;margin-bottom:1rem;">Point at a barcode</p>
+  <video id="scan-video" style="width:100%;max-width:400px;border-radius:8px;" autoplay playsinline></video>
+  <p id="scan-status" style="color:var(--gold);font-size:13px;margin-top:1rem;">Looking for barcode...</p>
+  <button onclick="stopScan()" style="margin-top:1.5rem;background:none;border:1px solid white;color:white;padding:10px 24px;border-radius:4px;font-family:var(--sans);font-size:13px;cursor:pointer;">Cancel</button>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.19.1/umd/index.min.js"></script>
+<script>
+var scanner=null;
+function startScan(){
+  var ov=document.getElementById("scan-overlay");
+  ov.style.display="flex";
+  var hints=new Map();
+  var formats=[ZXing.BarcodeFormat.EAN_13,ZXing.BarcodeFormat.EAN_8,ZXing.BarcodeFormat.UPC_A,ZXing.BarcodeFormat.UPC_E];
+  hints.set(ZXing.DecodeHintType.POSSIBLE_FORMATS,formats);
+  scanner=new ZXing.BrowserMultiFormatReader(hints);
+  scanner.decodeFromVideoDevice(null,"scan-video",function(result,err){
+    if(result){
+      stopScan();
+      lookupBarcode(result.getText());
+    }
+  });
+}
+function stopScan(){
+  if(scanner){scanner.reset();scanner=null;}
+  document.getElementById("scan-overlay").style.display="none";
+}
+function lookupBarcode(code){
+  document.getElementById("scan-status").textContent="Looking up product...";
+  fetch("https://world.openfoodfacts.org/api/v0/product/"+code+".json")
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data.status===0){alert("Product not found. Try searching manually.");return;}
+      var p=data.product;
+      var name=p.product_name||p.brands||"Unknown Product";
+      var carbs=parseFloat((p.nutriments||{})["carbohydrates_serving"]||(p.nutriments||{})["carbohydrates_100g"]||0);
+      var fiber=parseFloat((p.nutriments||{})["fiber_serving"]||(p.nutriments||{})["fiber_100g"]||0);
+      var net=Math.max(0,Math.round(carbs-fiber));
+      trackerItems.push({recipeId:"scan_"+Date.now(),title:name,netCarbs:net,id:trackIdCounter++});
+      saveState();renderTracker();
+      alert(name+" added! "+net+"g net carbs.");
+    })
+    .catch(function(){alert("Could not look up product. Check your connection.");});
+}
 </script>
 </body>
 </html>
