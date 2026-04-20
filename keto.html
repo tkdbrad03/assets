@@ -602,6 +602,7 @@ function openPicker(day,meal,preselect){
 function pickRecipe(id){if(pickerContext){const{day,meal}=pickerContext;if(!(plan[day][meal]||[]).some(r=>String(r)===String(id)))plan[day][meal].push(id);saveState();closePicker();renderPlanner();}else closePicker();}
 function closePicker(e){if(!e||e.target===document.getElementById("picker-overlay")){document.getElementById("picker-overlay").classList.remove("open");pickerContext=null;}}
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeModalDirect();closePicker();}});
+</script>
 <div id="scan-overlay" style="display:none;position:fixed;inset:0;z-index:800;background:rgba(26,26,24,.9);flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;">
   <p style="color:white;font-family:var(--serif);font-style:italic;font-size:18px;margin-bottom:1rem;">Point at a barcode</p>
   <video id="scan-video" style="width:100%;max-width:400px;border-radius:8px;" autoplay playsinline></video>
