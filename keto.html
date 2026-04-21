@@ -383,12 +383,13 @@ let shopIdCounter=0,trackIdCounter=0,plan={},shopList=[],trackerItems=[];
 function loadState(){
   try{
     const s=JSON.parse(localStorage.getItem("tmac_v2")||"{}");
-    plan=s.plan||{};shopList=s.shopList||[];trackerItems=s.trackerItems||[];
+    plan=s.plan||{};shopList=s.shopList||[];const today=new Date().toDateString();
+trackerItems=(s.lastTrackerDate===today)?s.trackerItems||[]:[];
     shopIdCounter=s.shopIdCounter||0;trackIdCounter=s.trackIdCounter||0;
     DAYS.forEach((_,i)=>{if(!plan[i])plan[i]={};MEALS.forEach(m=>{if(!plan[i][m])plan[i][m]=[];});});
   }catch(e){plan={};DAYS.forEach((_,i)=>{plan[i]={};MEALS.forEach(m=>{plan[i][m]=[];});});}
 }
-function saveState(){try{localStorage.setItem("tmac_v2",JSON.stringify({plan,shopList,trackerItems,shopIdCounter,trackIdCounter}));}catch(e){}}
+function saveState(){try{localStorage.setItem("tmac_v2",JSON.stringify({plan,shopList,trackerItems,shopIdCounter,trackIdCounter,lastTrackerDate:new Date().toDateString()}));}catch(e){}}
 loadState();
 
 // ── PWA: SERVICE WORKER WITH LOGO CACHED ─────────────────────────────────────
