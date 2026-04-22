@@ -1378,17 +1378,62 @@ function closePropertyResearch() {
       completed: completed
     })
   });
+
+  // 🔥 UPDATE UI IMMEDIATELY
+  updateSidebarProgress();
 }
  async function loadProgress() {
   const res = await fetch(`${SCRIPT_URL}?action=getProgress&client=LaTonya Mark`);
   const data = await res.json();
 
+  // ✅ Restore checkboxes
   Object.keys(data).forEach(week => {
     Object.keys(data[week]).forEach(taskId => {
       const cb = document.querySelector(`[data-task="${taskId}"]`);
       if (cb) cb.checked = data[week][taskId];
     });
   });
+
+  // ✅ Update sidebar progress
+  updateSidebarProgress();
+}
+ function updateSidebarProgress() {
+
+  for (let i = 1; i <= 6; i++) {
+    const weekId = `w${i}`;
+    const weekEl = document.getElementById(weekId);
+
+    if (!weekEl) continue;
+
+    const checkboxes = weekEl.querySelectorAll('input[type="checkbox"]');
+    const total = checkboxes.length;
+
+    let completed = 0;
+    checkboxes.forEach(cb => {
+      if (cb.checked) completed++;
+    });
+
+    const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
+
+    // 🔥 UPDATE BAR
+    const bars = document.querySelectorAll('.progress-fill');
+    if (bars[i - 1]) {
+      bars[i - 1].style.width = percent + '%';
+    }
+
+    // 🔥 UPDATE LABEL TEXT
+    const labels = document.querySelectorAll('.progress-label span:last-child');
+
+    if (labels[i - 1]) {
+      if (percent === 0) {
+        labels[i - 1].textContent = 'Not Started';
+      } else if (percent < 100) {
+        labels[i - 1].textContent = percent + '% Complete';
+      } else {
+        labels[i - 1].textContent = 'Complete';
+      }
+    }
+  }
 }
 </script>
 <!-- COMMUNICATION BOARD MODAL -->
