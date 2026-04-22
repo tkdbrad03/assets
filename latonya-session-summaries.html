@@ -233,18 +233,18 @@ const SESSIONS = [
 const STORAGE_KEY = 'latonya-action-checks';
 
 // ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
-async function loadChecks() {
+function loadChecks() {
   try {
-    const result = await window.storage.get(STORAGE_KEY, true);
-    return result ? JSON.parse(result.value) : {};
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
   } catch(e) {
     return {};
   }
 }
 
-async function saveChecks(checks) {
+function saveChecks(checks) {
   try {
-    await window.storage.set(STORAGE_KEY, JSON.stringify(checks), true);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checks));
   } catch(e) {}
 }
 
@@ -381,7 +381,7 @@ function buildCheckItem(key, action, checks) {
 // ─── TOGGLE CHECK ─────────────────────────────────────────────────────────────
 let _checks = {};
 
-async function toggleCheck(el) {
+function toggleCheck(el) {
   const key = el.dataset.key;
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
@@ -408,8 +408,8 @@ function updateOverallProgress() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-async function init() {
-  _checks = await loadChecks();
+function init() {
+  _checks = loadChecks();
   buildTabs();
   buildSessions(_checks);
   updateOverallProgress();
