@@ -1400,28 +1400,26 @@ function closePropertyResearch() {
  function updateSidebarProgress() {
 
   for (let i = 1; i <= 6; i++) {
-    const weekId = `w${i}`;
-    const weekEl = document.getElementById(weekId);
 
-    if (!weekEl) continue;
+    // 🔥 grab ALL checkboxes for this week
+    const checkboxes = document.querySelectorAll(`[data-task^="w${i}_"]`);
 
-    const checkboxes = weekEl.querySelectorAll('input[type="checkbox"]');
     const total = checkboxes.length;
-
     let completed = 0;
+
     checkboxes.forEach(cb => {
       if (cb.checked) completed++;
     });
 
     const percent = total === 0 ? 0 : Math.round((completed / total) * 100);
 
-    // 🔥 UPDATE BAR
+    // 🔥 update progress bars
     const bars = document.querySelectorAll('.progress-fill');
     if (bars[i - 1]) {
       bars[i - 1].style.width = percent + '%';
     }
 
-    // 🔥 UPDATE LABEL TEXT
+    // 🔥 update labels
     const labels = document.querySelectorAll('.progress-label span:last-child');
 
     if (labels[i - 1]) {
