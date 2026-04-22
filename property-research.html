@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property Research — LaTonya Mark</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0E1E35; --gold: #C9A84C; --gold-light: #E8D49A;
+    --cream: #FAF7F2; --warm: #F2EDE6; --gray: #6B6560;
+    --border: #E0D9CF; --white: #ffffff;
+    --green: #3a7d5a; --green-light: #edf7f2;
+    --amber: #d4843a; --amber-light: #fdf3e7;
+    --red: #c0392b; --red-light: #fdf0ee;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
+
+  /* HEADER */
+  .header { background: var(--navy); padding: 48px 48px 40px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -60px; top: -60px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.12); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 18px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 4vw, 36px); color: #fff; line-height: 1.15; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; margin-top: 8px; max-width: 580px; line-height: 1.7; }
+  .header-meta { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 18px; }
+  .meta-item { font-size: 12px; color: rgba(255,255,255,0.45); }
+  .meta-item strong { display: block; color: var(--gold-light); font-size: 12px; font-weight: 500; margin-bottom: 1px; }
+
+  /* REQUIREMENTS STRIP */
+  .req-strip { background: var(--gold); padding: 14px 48px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; }
+  .req-item { font-size: 11px; font-weight: 600; color: var(--navy); letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+  .req-item::before { content: '✦'; font-size: 9px; opacity: 0.6; }
+
+  /* MAIN */
+  .main { max-width: 960px; margin: 0 auto; padding: 40px 32px 60px; }
+
+  /* FILTER TABS */
+  .filter-row { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+  .filter-btn { padding: 7px 16px; border: 1px solid var(--border); background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; color: var(--gray); cursor: pointer; transition: all 0.2s; border-radius: 2px; }
+  .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .filter-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
+
+  /* PROPERTY CARDS */
+  .properties-grid { display: flex; flex-direction: column; gap: 16px; margin-bottom: 40px; }
+
+  .property-card { background: var(--white); border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.2s; }
+  .property-card:hover { box-shadow: 0 4px 20px rgba(14,30,53,0.08); }
+  .property-card.status-recommended { border-left: 4px solid var(--green); }
+  .property-card.status-possible { border-left: 4px solid var(--gold); }
+  .property-card.status-review { border-left: 4px solid var(--amber); }
+  .property-card.status-ruled-out { border-left: 4px solid var(--red); opacity: 0.6; }
+
+  .property-card-header { padding: 18px 22px 14px; display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; border-bottom: 1px solid var(--border); }
+  .property-address { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--navy); line-height: 1.2; margin-bottom: 4px; }
+  .property-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .property-tag { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; }
+  .tag-size { background: rgba(14,30,53,0.07); color: var(--navy); }
+  .tag-price { background: rgba(201,168,76,0.12); color: #8a6d1e; }
+  .status-badge { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; white-space: nowrap; }
+  .badge-recommended { background: var(--green-light); color: var(--green); border: 1px solid #b8ddc9; }
+  .badge-possible { background: rgba(201,168,76,0.12); color: #8a6d1e; border: 1px solid rgba(201,168,76,0.3); }
+  .badge-review { background: var(--amber-light); color: var(--amber); border: 1px solid #f0c98a; }
+  .badge-ruled-out { background: var(--red-light); color: var(--red); border: 1px solid #f5b8b2; }
+
+  .property-card-body { padding: 16px 22px 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .prop-section-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+  .prop-text { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.6; }
+  .prop-text strong { color: var(--navy); font-weight: 500; }
+
+  .property-card-footer { padding: 12px 22px; background: var(--warm); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .prop-notes { font-size: 12px; color: var(--gray); font-weight: 300; font-style: italic; line-height: 1.5; }
+  .prop-contact { font-size: 11px; font-weight: 500; color: var(--navy); white-space: nowrap; }
+  .prop-contact a { color: var(--gold); text-decoration: none; }
+
+  /* ACTION PLAN */
+  .action-section { margin-bottom: 32px; }
+  .section-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 600; color: var(--navy); margin-bottom: 16px; line-height: 1.2; }
+
+  .action-steps { display: flex; flex-direction: column; gap: 12px; }
+  .action-step { background: var(--white); border: 1px solid var(--border); padding: 18px 20px; display: grid; grid-template-columns: 40px 1fr; gap: 16px; align-items: start; }
+  .step-num { width: 36px; height: 36px; background: var(--navy); color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-content h4 { font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 4px; }
+  .step-content p { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.65; }
+  .step-content .step-detail { margin-top: 8px; padding: 10px 14px; background: var(--cream); border-left: 2px solid var(--gold); font-size: 12px; color: var(--navy); line-height: 1.6; }
+
+  /* ZONING TEMPLATE */
+  .template-card { background: var(--navy); padding: 28px 32px; margin-top: 32px; }
+  .template-label { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .template-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+  .template-body { background: rgba(255,255,255,0.05); border: 1px solid rgba(201,168,76,0.2); padding: 20px 24px; font-size: 13px; color: rgba(255,255,255,0.75); line-height: 1.8; font-family: 'DM Sans', sans-serif; white-space: pre-wrap; }
+  .template-body strong { color: var(--gold); font-weight: 500; }
+  .btn-copy-template { margin-top: 14px; background: var(--gold); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 10px 22px; border: none; cursor: pointer; transition: opacity 0.2s; }
+  .btn-copy-template:hover { opacity: 0.85; }
+
+  /* FOOTER */
+  .footer { background: var(--navy); padding: 24px 48px; text-align: center; margin-top: 40px; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.3); }
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 640px) {
+    .header { padding: 36px 24px 30px; }
+    .req-strip { padding: 12px 24px; gap: 16px; }
+    .main { padding: 28px 16px 48px; }
+    .property-card-body { grid-template-columns: 1fr; gap: 12px; }
+    .property-card-header { grid-template-columns: 1fr; }
+    .action-step { grid-template-columns: 1fr; }
+    .footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Week 2 Resource</div>
+  <h1>Property Research<br><em>Tylertown, Mississippi</em></h1>
+  <p class="header-sub">Candidate properties for your adult day care facility. Properties are evaluated against Mississippi DOM requirements for space, accessibility, and zoning eligibility. Updated as new options are identified.</p>
+  <div class="header-meta">
+    <div class="meta-item"><strong>Client</strong>LaTonya Mark</div>
+    <div class="meta-item"><strong>Target Capacity</strong>Up to 20 clients</div>
+    <div class="meta-item"><strong>Minimum Space Required</strong>1,200 sq ft activity space</div>
+    <div class="meta-item"><strong>Prepared By</strong>Dr. Tasha McCray — CompliTrst, Inc.</div>
+  </div>
+</div>
+
+<!-- REQUIREMENTS STRIP -->
+<div class="req-strip">
+  <div class="req-item">Min 60 sq ft per client</div>
+  <div class="req-item">ADA accessible entrance and restrooms</div>
+  <div class="req-item">Commercial or commercially zoned</div>
+  <div class="req-item">Separate activity, dining, and rest areas</div>
+  <div class="req-item">Fire safety compliant</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- FILTER -->
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="filterProps('all', this)">All Properties</button>
+    <button class="filter-btn" onclick="filterProps('recommended', this)">Recommended</button>
+    <button class="filter-btn" onclick="filterProps('possible', this)">Possible</button>
+    <button class="filter-btn" onclick="filterProps('review', this)">Needs Review</button>
+    <button class="filter-btn" onclick="filterProps('ruled-out', this)">Ruled Out</button>
+  </div>
+
+  <!-- PROPERTY CARDS -->
+  <div class="properties-grid" id="properties-grid"></div>
+
+  <!-- ACTION PLAN -->
+  <div class="action-section">
+    <div class="section-eyebrow">Next Steps</div>
+    <div class="section-title">Action Plan and Zoning Strategy</div>
+    <div class="action-steps">
+      <div class="action-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Contact Doug Rushing Realty</h4>
+          <p>They manage several of these listings and have direct experience navigating Tylertown's local zoning boards and property variances. Mention you are opening an adult day care and need to understand zoning options before committing.</p>
+          <div class="step-detail">Phone: (601) 876-3409</div>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Obtain a Zoning Verification Letter Before Any Purchase</h4>
+          <p>This document provides legal certainty that the property can be used for adult day care. Required for your Mississippi DOM license application and for any future lenders or grant applications.</p>
+          <div class="step-detail">File at: Tylertown City Hall, 212 Beulah Avenue &nbsp;|&nbsp; Phone: (601) 876-4011</div>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Contact Walthall County Economic Development Authority</h4>
+          <p>Ask about available commercial buildings not yet listed, healthcare business incentives, and any county interest in supporting adult day care development in the area.</p>
+          <div class="step-detail">Phone: (601) 876-3021</div>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Do Not Sign Any Lease or Purchase Agreement Until</h4>
+          <p>You have received a Zoning Verification Letter confirming adult day care is permitted or can be permitted at that specific address. Mississippi DOM requires this before approving your facility.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONING TEMPLATE -->
+  <div class="template-card">
+    <div class="template-label">Ready to Use</div>
+    <div class="template-title">Zoning Verification Request Template</div>
+    <div class="template-body" id="template-text">Subject: Request for Zoning Verification – [Insert Property Address]
+
+To the Zoning Administrator,
+
+I am requesting a Zoning Verification Letter for the property at [Insert Address]. I intend to operate a 20-client Adult Day Care Center at this location under the Mississippi Medicaid Elderly and Disabled Waiver program.
+
+I wish to verify the following:
+
+1. The current Zoning Classification of this property (e.g., C-1, Office, or Residential).
+2. Whether Adult Day Care is a Permitted Use or requires a Special Exception or Conditional Use Permit.
+3. Any specific parking, signage, or accessibility requirements applicable to this use.
+4. Whether there are any active Conditional Use Permits or restrictions on record for this property.
+
+Please advise on the applicable fee and estimated processing time for this verification.
+
+Thank you for your assistance.
+
+[Your Name]
+[Your Business Name]
+[Your Phone Number]
+[Your Email Address]</div>
+    <button class="btn-copy-template" onclick="copyTemplate()">Copy Template to Clipboard</button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Property Research — LaTonya Mark &nbsp;|&nbsp; Confidential &nbsp;|&nbsp; Updated as new properties are identified</p>
+</div>
+
+<script>
+// ─── PROPERTY DATA ────────────────────────────────────────────────────────────
+// TO ADD A NEW PROPERTY: copy one block below, fill in the details, and paste
+// it before the closing bracket. Save and redeploy to Vercel.
+//
+// STATUS OPTIONS: "recommended" | "possible" | "review" | "ruled-out"
+// ─────────────────────────────────────────────────────────────────────────────
+const PROPERTIES = [
+  {
+    address: "417 Franklinton St, Tylertown MS",
+    size: "1,915 sq ft",
+    price: "Contact agent",
+    status: "recommended",
+    advantage: "High visibility on a major road. Follows Mississippi DOM preference for arterial road access for adult day care facilities. Strong candidate for C-1 or Office zoning classification.",
+    zoning: "Best candidate for C-1 or Office classification. Confirm with City Hall before proceeding.",
+    notes: "Top pick. Priority property to investigate first.",
+    contact: "Doug Rushing Realty: (601) 876-3409"
+  },
+  {
+    address: "1002 Pecan Lane, Tylertown MS",
+    size: "1,848 sq ft",
+    price: "$220,000",
+    status: "recommended",
+    advantage: "Dual primary suites with large bathrooms significantly simplify ADA retrofitting. Pool and outdoor space could serve as a supervised outdoor activity area.",
+    zoning: "Residential area — requires Special Exception from City Hall. Higher process but manageable with proper filing.",
+    notes: "Strong layout for ADC use. ADA bathrooms are a major cost saver.",
+    contact: "Keller Williams: (601) 455-0100"
+  },
+  {
+    address: "711 College St, Tylertown MS",
+    size: "2,128 sq ft",
+    price: "$220,000",
+    status: "possible",
+    advantage: "14 ft ceilings and centralized layout helps meet the 40-foot restroom distance rule. Fully updated with new wiring and roof. Heart pine floors create the home-like aesthetic Dr. Catrina recommends.",
+    zoning: "Located near a church — may face less traffic scrutiny from neighbors. Zoning class to be confirmed.",
+    notes: "Beautiful property. Verify zoning classification before pursuing.",
+    contact: "United Country Southern States Realty: (601) 643-9557"
+  },
+  {
+    address: "904 Pine Drive, Tylertown MS",
+    size: "1,950 sq ft",
+    price: "Contact agent",
+    status: "review",
+    advantage: "Classic residential feel with plenty of room for isolation areas and staff spaces. Good square footage for the client count.",
+    zoning: "Deep residential area — higher risk of neighbor pushback during Special Exception hearing. Proceed with caution.",
+    notes: "Good size but zoning path may be difficult. Investigate neighborhood before pursuing.",
+    contact: "Contact Walthall County listing agents"
+  },
+  {
+    address: "104 Robert St, Tylertown MS",
+    size: "3,700 sq ft",
+    price: "Contact agent",
+    status: "possible",
+    advantage: "Massive footprint allows for premium features — dedicated library, activity rooms, therapy space, and comfortable staff areas. Room to grow beyond 20 clients if desired.",
+    zoning: "Zoning class to be confirmed. Size gives flexibility for any future expansion.",
+    notes: "Premium option if budget allows. Higher purchase price and utility costs. Best long-term play if finances support it.",
+    contact: "Contact Walthall County listing agents"
+  }
+  // ADD NEW PROPERTIES HERE — copy the block above, fill in details, paste here
+];
+
+// ─── RENDER ───────────────────────────────────────────────────────────────────
+function statusBadge(status) {
+  const map = {
+    'recommended': '<span class="status-badge badge-recommended">Recommended</span>',
+    'possible': '<span class="status-badge badge-possible">Possible</span>',
+    'review': '<span class="status-badge badge-review">Needs Review</span>',
+    'ruled-out': '<span class="status-badge badge-ruled-out">Ruled Out</span>'
+  };
+  return map[status] || '';
+}
+
+function renderProperties(filter) {
+  const grid = document.getElementById('properties-grid');
+  const filtered = filter === 'all' ? PROPERTIES : PROPERTIES.filter(p => p.status === filter);
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="text-align:center;padding:48px 20px;background:var(--white);border:1px dashed var(--border);font-size:14px;color:var(--gray);font-style:italic;">No properties in this category yet.</div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="property-card status-${p.status}">
+      <div class="property-card-header">
+        <div>
+          <div class="property-address">${p.address}</div>
+          <div class="property-tags">
+            <span class="property-tag tag-size">${p.size}</span>
+            ${p.price !== 'Contact agent' ? `<span class="property-tag tag-price">${p.price}</span>` : ''}
+          </div>
+        </div>
+        ${statusBadge(p.status)}
+      </div>
+      <div class="property-card-body">
+        <div>
+          <div class="prop-section-label">Key Advantage</div>
+          <div class="prop-text">${p.advantage}</div>
+        </div>
+        <div>
+          <div class="prop-section-label">Zoning Consideration</div>
+          <div class="prop-text">${p.zoning}</div>
+        </div>
+      </div>
+      <div class="property-card-footer">
+        <div class="prop-notes">${p.notes}</div>
+        <div class="prop-contact">${p.contact}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterProps(status, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderProperties(status);
+}
+
+function copyTemplate() {
+  const text = document.getElementById('template-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.btn-copy-template');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy Template to Clipboard', 2000);
+  });
+}
+
+// INIT
+renderProperties('all');
+</script>
+
+</body>
+</html>
