@@ -157,12 +157,10 @@
 </footer>
 
 <script>
-  const STORAGE_KEY = 'latonya-comms';
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
   let currentIdentity = null;
   let messages = [];
 
-  // ─── IDENTITY ───────────────────────────────────────────────────────────────
   function setIdentity(name) {
     currentIdentity = name;
     document.querySelectorAll('.identity-btn').forEach(b => {
@@ -187,40 +185,24 @@
       ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   }
 
-  // ─── STORAGE ────────────────────────────────────────────────────────────────
-  async function loadMessages() {
-    try {
-      const result = await window.storage.get(STORAGE_KEY, true);
-      return result ? JSON.parse(result.value) : [];
-    } catch(e) { return []; }
+  async function fetchMessages() {
+    const res = await fetch(`${SCRIPT_URL}?action=getMessages`);
+    const data = await res.json();
+    if (!Array.isArray(data)) {
+      throw new Error(data.error || 'Failed to load messages.');
+    }
+    return data;
   }
 
-  async function saveMessages(msgs) {
-    try {
-      await window.storage.set(STORAGE_KEY, JSON.stringify(msgs), true);
-    } catch(e) {}
-  }
-
-  // ─── EMAIL NOTIFICATION ─────────────────────────────────────────────────────
-  function sendNotification(sender, text, parentId) {
-    const isReply = !!parentId;
-    const data = {
-      type: 'communication_board',
-      sender,
-      message: text,
-      isReply,
-      timestamp: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
-      client: 'LaTonya Mark'
-    };
-    fetch(SCRIPT_URL, {
+  async function sendMessage(payload) {
+    const res = await fetch(SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    }).catch(() => {});
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
   }
 
-  // ─── POST MESSAGE ────────────────────────────────────────────────────────────
   async function postMessage() {
     const text = document.getElementById('compose-text').value.trim();
     if (!text || !currentIdentity) return;
@@ -229,48 +211,64 @@
     btn.disabled = true;
     btn.textContent = 'Posting...';
 
-    const msg = {
-      id: Date.now().toString(),
-      sender: currentIdentity,
-      text,
-      timestamp: Date.now(),
-      replies: []
-    };
+    try {
+      const payload = {
+        type: 'communication_board',
+        id: Date.now().toString(),
+        parentId: '',
+        sender: currentIdentity,
+        message: text,
+        timestamp: new Date().toISOString(),
+        client: 'LaTonya Mark'
+      };
 
-    messages.unshift(msg);
-    await saveMessages(messages);
-    sendNotification(currentIdentity, text, null);
+      const result = await sendMessage(payload);
+      if (!result.ok) throw new Error(result.error || 'Post failed.');
 
-    document.getElementById('compose-text').value = '';
-    const status = document.getElementById('send-status');
-    status.style.display = 'inline';
-    setTimeout(() => { status.style.display = 'none'; }, 3000);
-    btn.disabled = false;
-    btn.textContent = 'Post Message';
-    renderMessages();
+      document.getElementById('compose-text').value = '';
+      const status = document.getElementById('send-status');
+      status.style.display = 'inline';
+      setTimeout(() => { status.style.display = 'none'; }, 3000);
+
+      messages = await fetchMessages();
+      renderMessages();
+    } catch (err) {
+      alert('Message failed to post. ' + err.message);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Post Message';
+    }
   }
 
-  // ─── POST REPLY ──────────────────────────────────────────────────────────────
   async function postReply(msgId) {
-    if (!currentIdentity) { alert('Please select who you are at the top first.'); return; }
+    if (!currentIdentity) {
+      alert('Please select who you are at the top first.');
+      return;
+    }
+
     const textarea = document.querySelector(`[data-reply-input="${msgId}"]`);
     const text = textarea ? textarea.value.trim() : '';
     if (!text) return;
 
-    const msg = messages.find(m => m.id === msgId);
-    if (!msg) return;
+    try {
+      const payload = {
+        type: 'communication_board',
+        id: Date.now().toString(),
+        parentId: msgId,
+        sender: currentIdentity,
+        message: text,
+        timestamp: new Date().toISOString(),
+        client: 'LaTonya Mark'
+      };
 
-    if (!msg.replies) msg.replies = [];
-    msg.replies.push({
-      id: Date.now().toString(),
-      sender: currentIdentity,
-      text,
-      timestamp: Date.now()
-    });
+      const result = await sendMessage(payload);
+      if (!result.ok) throw new Error(result.error || 'Reply failed.');
 
-    await saveMessages(messages);
-    sendNotification(currentIdentity, text, msgId);
-    renderMessages();
+      messages = await fetchMessages();
+      renderMessages();
+    } catch (err) {
+      alert('Reply failed to post. ' + err.message);
+    }
   }
 
   function toggleReplyBox(msgId) {
@@ -286,10 +284,13 @@
 
   function cancelReply(msgId) {
     const box = document.querySelector(`[data-reply-box="${msgId}"]`);
-    if (box) box.style.display = 'none';
+    if (box) {
+      const ta = box.querySelector('textarea');
+      if (ta) ta.value = '';
+      box.style.display = 'none';
+    }
   }
 
-  // ─── RENDER ──────────────────────────────────────────────────────────────────
   function renderMessages() {
     const container = document.getElementById('messages-container');
     document.getElementById('messages-count').textContent =
@@ -347,10 +348,16 @@
     }).join('');
   }
 
-  // ─── INIT ────────────────────────────────────────────────────────────────────
   async function init() {
-    messages = await loadMessages();
-    renderMessages();
+    try {
+      messages = await fetchMessages();
+      renderMessages();
+    } catch (err) {
+      document.getElementById('messages-container').innerHTML = `
+        <div class="messages-empty">
+          <p>Unable to load messages right now. ${err.message}</p>
+        </div>`;
+    }
   }
 
   init();
