@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Board — LaTonya Mark</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0E1E35; --gold: #C9A84C; --gold-light: #E8D49A;
+    --cream: #FAF7F2; --warm: #F2EDE6; --gray: #6B6560;
+    --border: #E0D9CF; --white: #ffffff; --green: #3a7d5a;
+    --green-light: #edf7f2;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* HEADER */
+  .header { background: var(--navy); padding: 40px 48px 32px; position: relative; overflow: hidden; flex-shrink: 0; }
+  .header::after { content: ''; position: absolute; right: -60px; top: -60px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 14px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 4vw, 32px); color: #fff; line-height: 1.15; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 6px; }
+
+  /* WHO AM I BAR */
+  .identity-bar { background: var(--white); border-bottom: 1px solid var(--border); padding: 12px 48px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .identity-label { font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
+  .identity-btns { display: flex; gap: 8px; }
+  .identity-btn { padding: 7px 16px; border: 1px solid var(--border); background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--gray); cursor: pointer; transition: all 0.2s; border-radius: 2px; }
+  .identity-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .identity-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
+  .identity-note { font-size: 11px; color: var(--gray); font-weight: 300; font-style: italic; }
+
+  /* MAIN */
+  .main { max-width: 760px; margin: 0 auto; padding: 32px 32px 40px; flex: 1; width: 100%; }
+
+  /* COMPOSE */
+  .compose-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--gold); padding: 20px 24px; margin-bottom: 28px; }
+  .compose-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .compose-card textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--border); background: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--navy); outline: none; resize: vertical; min-height: 90px; line-height: 1.65; transition: border-color 0.2s; border-radius: 1px; }
+  .compose-card textarea:focus { border-color: var(--gold); background: #fffdf8; }
+  .compose-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; flex-wrap: wrap; gap: 10px; }
+  .compose-sender { font-size: 12px; color: var(--gray); font-weight: 300; }
+  .compose-sender strong { color: var(--navy); font-weight: 500; }
+  .btn-send { background: var(--navy); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 11px 24px; border: none; cursor: pointer; transition: opacity 0.2s; }
+  .btn-send:hover { opacity: 0.85; }
+  .btn-send:disabled { opacity: 0.4; cursor: default; }
+  .send-status { font-size: 12px; color: var(--green); font-weight: 500; display: none; }
+
+  /* MESSAGES */
+  .messages-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .messages-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--navy); }
+  .messages-count { font-size: 11px; color: var(--gray); font-weight: 300; }
+  .messages-loading { text-align: center; padding: 48px 20px; font-size: 13px; color: var(--gray); font-style: italic; }
+  .messages-empty { text-align: center; padding: 48px 20px; background: var(--white); border: 1px dashed var(--border); }
+  .messages-empty p { font-size: 14px; color: var(--gray); font-weight: 300; line-height: 1.7; }
+
+  /* MESSAGE CARD */
+  .message-card { background: var(--white); border: 1px solid var(--border); margin-bottom: 12px; overflow: hidden; }
+  .message-card.from-client { border-left: 3px solid var(--gold); }
+  .message-card.from-consultant { border-left: 3px solid var(--navy); }
+
+  .message-header { padding: 12px 18px 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .message-sender { display: flex; align-items: center; gap: 10px; }
+  .sender-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+  .avatar-client { background: rgba(201,168,76,0.15); color: #8a6d1e; }
+  .avatar-consultant { background: rgba(14,30,53,0.1); color: var(--navy); }
+  .sender-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .sender-role { font-size: 10px; color: var(--gray); font-weight: 300; letter-spacing: 0.5px; }
+  .message-time { font-size: 11px; color: var(--gray); font-weight: 300; white-space: nowrap; }
+
+  .message-body { padding: 4px 18px 16px; }
+  .message-text { font-size: 14px; color: var(--navy); line-height: 1.7; font-weight: 300; }
+
+  .message-actions { padding: 0 18px 12px; display: flex; gap: 10px; }
+  .btn-reply { background: none; border: 1px solid var(--border); color: var(--gray); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 6px 14px; cursor: pointer; transition: all 0.2s; }
+  .btn-reply:hover { border-color: var(--navy); color: var(--navy); }
+
+  /* REPLY THREAD */
+  .reply-thread { border-top: 1px solid var(--border); background: var(--cream); }
+  .reply-item { padding: 12px 18px; border-bottom: 1px solid var(--border); }
+  .reply-item:last-child { border-bottom: none; }
+  .reply-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .reply-sender { font-size: 12px; font-weight: 600; color: var(--navy); }
+  .reply-time { font-size: 11px; color: var(--gray); font-weight: 300; }
+  .reply-text { font-size: 13px; color: var(--navy); line-height: 1.65; font-weight: 300; }
+
+  /* INLINE REPLY COMPOSE */
+  .reply-compose { padding: 12px 18px; border-top: 1px solid var(--border); background: var(--white); display: none; }
+  .reply-compose textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--border); background: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--navy); outline: none; resize: none; min-height: 70px; line-height: 1.6; transition: border-color 0.2s; }
+  .reply-compose textarea:focus { border-color: var(--gold); }
+  .reply-compose-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 8px; }
+  .btn-cancel-reply { background: none; border: 1px solid var(--border); color: var(--gray); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 14px; cursor: pointer; }
+  .btn-send-reply { background: var(--navy); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 7px 14px; border: none; cursor: pointer; }
+
+  /* FOOTER */
+  footer { background: var(--navy); padding: 20px 48px; text-align: center; flex-shrink: 0; }
+  footer p { font-size: 11px; color: rgba(255,255,255,0.3); }
+  footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 600px) {
+    .header { padding: 32px 20px 28px; }
+    .identity-bar { padding: 12px 20px; }
+    .main { padding: 24px 16px 32px; }
+    footer { padding: 18px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Communication Board</div>
+  <h1>Between-Session <em>Messages</em></h1>
+  <p class="header-sub">Ask questions, share updates, and get responses between your weekly sessions.</p>
+</div>
+
+<!-- IDENTITY BAR -->
+<div class="identity-bar">
+  <span class="identity-label">Posting as:</span>
+  <div class="identity-btns">
+    <button class="identity-btn" onclick="setIdentity('LaTonya')">LaTonya</button>
+    <button class="identity-btn" onclick="setIdentity('Dr. Catrina')">Dr. Catrina</button>
+    <button class="identity-btn" onclick="setIdentity('Dr. Tasha')">Dr. Tasha</button>
+  </div>
+  <span class="identity-note" id="identity-note">Select who you are before posting</span>
+</div>
+
+<div class="main">
+
+  <!-- COMPOSE -->
+  <div class="compose-card">
+    <div class="compose-label">New Message</div>
+    <textarea id="compose-text" placeholder="Type your question or update here..."></textarea>
+    <div class="compose-footer">
+      <span class="compose-sender" id="compose-sender-label">Select your name above to post</span>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="send-status" id="send-status">Message sent!</span>
+        <button class="btn-send" id="btn-send" onclick="postMessage()" disabled>Post Message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="messages-header">
+    <div class="messages-title">Conversation</div>
+    <div class="messages-count" id="messages-count"></div>
+  </div>
+  <div id="messages-container">
+    <div class="messages-loading">Loading messages...</div>
+  </div>
+
+</div>
+
+<footer>
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Communication Board &nbsp;|&nbsp; Confidential</p>
+</footer>
+
+<script>
+  const STORAGE_KEY = 'latonya-comms';
+  const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+  let currentIdentity = null;
+  let messages = [];
+
+  // ─── IDENTITY ───────────────────────────────────────────────────────────────
+  function setIdentity(name) {
+    currentIdentity = name;
+    document.querySelectorAll('.identity-btn').forEach(b => {
+      b.classList.toggle('active', b.textContent === name);
+    });
+    document.getElementById('identity-note').textContent = `Posting as ${name}`;
+    document.getElementById('compose-sender-label').innerHTML = `Posting as <strong>${name}</strong>`;
+    document.getElementById('btn-send').disabled = false;
+  }
+
+  function isConsultant(name) {
+    return name === 'Dr. Catrina' || name === 'Dr. Tasha';
+  }
+
+  function getInitials(name) {
+    return name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  }
+
+  function formatTime(ts) {
+    const d = new Date(ts);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) +
+      ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+  }
+
+  // ─── STORAGE ────────────────────────────────────────────────────────────────
+  async function loadMessages() {
+    try {
+      const result = await window.storage.get(STORAGE_KEY, true);
+      return result ? JSON.parse(result.value) : [];
+    } catch(e) { return []; }
+  }
+
+  async function saveMessages(msgs) {
+    try {
+      await window.storage.set(STORAGE_KEY, JSON.stringify(msgs), true);
+    } catch(e) {}
+  }
+
+  // ─── EMAIL NOTIFICATION ─────────────────────────────────────────────────────
+  function sendNotification(sender, text, parentId) {
+    const isReply = !!parentId;
+    const data = {
+      type: 'communication_board',
+      sender,
+      message: text,
+      isReply,
+      timestamp: new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' }),
+      client: 'LaTonya Mark'
+    };
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    }).catch(() => {});
+  }
+
+  // ─── POST MESSAGE ────────────────────────────────────────────────────────────
+  async function postMessage() {
+    const text = document.getElementById('compose-text').value.trim();
+    if (!text || !currentIdentity) return;
+
+    const btn = document.getElementById('btn-send');
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
+
+    const msg = {
+      id: Date.now().toString(),
+      sender: currentIdentity,
+      text,
+      timestamp: Date.now(),
+      replies: []
+    };
+
+    messages.unshift(msg);
+    await saveMessages(messages);
+    sendNotification(currentIdentity, text, null);
+
+    document.getElementById('compose-text').value = '';
+    const status = document.getElementById('send-status');
+    status.style.display = 'inline';
+    setTimeout(() => { status.style.display = 'none'; }, 3000);
+    btn.disabled = false;
+    btn.textContent = 'Post Message';
+    renderMessages();
+  }
+
+  // ─── POST REPLY ──────────────────────────────────────────────────────────────
+  async function postReply(msgId) {
+    if (!currentIdentity) { alert('Please select who you are at the top first.'); return; }
+    const textarea = document.querySelector(`[data-reply-input="${msgId}"]`);
+    const text = textarea ? textarea.value.trim() : '';
+    if (!text) return;
+
+    const msg = messages.find(m => m.id === msgId);
+    if (!msg) return;
+
+    if (!msg.replies) msg.replies = [];
+    msg.replies.push({
+      id: Date.now().toString(),
+      sender: currentIdentity,
+      text,
+      timestamp: Date.now()
+    });
+
+    await saveMessages(messages);
+    sendNotification(currentIdentity, text, msgId);
+    renderMessages();
+  }
+
+  function toggleReplyBox(msgId) {
+    const box = document.querySelector(`[data-reply-box="${msgId}"]`);
+    if (!box) return;
+    const isOpen = box.style.display === 'block';
+    box.style.display = isOpen ? 'none' : 'block';
+    if (!isOpen) {
+      const ta = box.querySelector('textarea');
+      if (ta) ta.focus();
+    }
+  }
+
+  function cancelReply(msgId) {
+    const box = document.querySelector(`[data-reply-box="${msgId}"]`);
+    if (box) box.style.display = 'none';
+  }
+
+  // ─── RENDER ──────────────────────────────────────────────────────────────────
+  function renderMessages() {
+    const container = document.getElementById('messages-container');
+    document.getElementById('messages-count').textContent =
+      messages.length === 0 ? '' : `${messages.length} message${messages.length !== 1 ? 's' : ''}`;
+
+    if (messages.length === 0) {
+      container.innerHTML = `
+        <div class="messages-empty">
+          <p>No messages yet. Post a question or update above and we will respond within two business days.</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = messages.map(msg => {
+      const consultant = isConsultant(msg.sender);
+      const cardClass = consultant ? 'from-consultant' : 'from-client';
+      const avatarClass = consultant ? 'avatar-consultant' : 'avatar-client';
+
+      const repliesHtml = (msg.replies || []).map(r => `
+        <div class="reply-item">
+          <div class="reply-header">
+            <span class="reply-sender">${r.sender}</span>
+            <span class="reply-time">${formatTime(r.timestamp)}</span>
+          </div>
+          <div class="reply-text">${r.text.replace(/\n/g, '<br>')}</div>
+        </div>`).join('');
+
+      return `
+        <div class="message-card ${cardClass}">
+          <div class="message-header">
+            <div class="message-sender">
+              <div class="sender-avatar ${avatarClass}">${getInitials(msg.sender)}</div>
+              <div>
+                <div class="sender-name">${msg.sender}</div>
+                <div class="sender-role">${consultant ? 'CatrinaL Consulting | CompliTrst, Inc.' : 'Client'}</div>
+              </div>
+            </div>
+            <div class="message-time">${formatTime(msg.timestamp)}</div>
+          </div>
+          <div class="message-body">
+            <div class="message-text">${msg.text.replace(/\n/g, '<br>')}</div>
+          </div>
+          <div class="message-actions">
+            <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
+          </div>
+          ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
+          <div class="reply-compose" data-reply-box="${msg.id}">
+            <textarea data-reply-input="${msg.id}" placeholder="Write your reply..."></textarea>
+            <div class="reply-compose-footer">
+              <button class="btn-cancel-reply" onclick="cancelReply('${msg.id}')">Cancel</button>
+              <button class="btn-send-reply" onclick="postReply('${msg.id}')">Send Reply</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ─── INIT ────────────────────────────────────────────────────────────────────
+  async function init() {
+    messages = await loadMessages();
+    renderMessages();
+  }
+
+  init();
+</script>
+</body>
+</html>
