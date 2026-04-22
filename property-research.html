@@ -342,11 +342,38 @@ function filterProps(status, btn) {
 
 function copyTemplate() {
   const text = document.getElementById('template-text').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.querySelector('.btn-copy-template');
+  const btn = document.querySelector('.btn-copy-template');
+
+  // Try modern clipboard first
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy Template to Clipboard', 2000);
+    }).catch(() => fallbackCopy(text, btn));
+  } else {
+    fallbackCopy(text, btn);
+  }
+}
+
+// 🔥 FALLBACK (this is what actually fixes your issue)
+function fallbackCopy(text, btn) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  try {
+    document.execCommand('copy');
     btn.textContent = 'Copied!';
-    setTimeout(() => btn.textContent = 'Copy Template to Clipboard', 2000);
-  });
+  } catch (err) {
+    btn.textContent = 'Copy Failed';
+  }
+
+  document.body.removeChild(textarea);
+
+  setTimeout(() => {
+    btn.textContent = 'Copy Template to Clipboard';
+  }, 2000);
 }
 
 // INIT
