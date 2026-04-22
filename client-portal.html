@@ -1394,7 +1394,9 @@ function closePropertyResearch() {
  function saveTask(week, taskId, label, completed) {
   fetch(SCRIPT_URL, {
     method: 'POST',
-    mode: 'no-cors',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({
       type: 'save_progress',
       client: 'LaTonya Mark',
@@ -1403,11 +1405,14 @@ function closePropertyResearch() {
       taskLabel: label,
       completed: completed
     })
-  });
-
-  setTimeout(() => {
+  })
+  .then(() => {
+    // reload AFTER saving
     loadProgress();
-  }, 400);
+  })
+  .catch(err => {
+    console.error('Save failed:', err);
+  });
 }
 
 async function loadProgress() {
