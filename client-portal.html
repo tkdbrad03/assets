@@ -1000,6 +1000,13 @@
     <div class="doc-type">Updated After Every Session</div>
   </div>
 </a>
+      <a class="doc-link" href="#" onclick="openPropertyResearch(event)">
+  <div class="doc-icon">🏢</div>
+  <div class="doc-info">
+    <div class="doc-name">Property Research</div>
+    <div class="doc-type">Deal Analysis & Notes</div>
+  </div>
+</a>
          <a class="doc-link" href="#" onclick="openCommBoard(event)">
   <div class="doc-icon">&#128172;</div>
   <div class="doc-info">
@@ -1180,12 +1187,22 @@ function closeCommBoard() {
   document.getElementById('commModal').style.display = 'none';
 }
  window.addEventListener('click', function(e) {
-    const modal = document.getElementById('commModal');
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+  const comm = document.getElementById('commModal');
+  const prop = document.getElementById('propertyModal');
+
+  if (e.target === comm) comm.style.display = 'none';
+  if (e.target === prop) prop.style.display = 'none';
+});
  updateNotificationBadge();
+
+ function openPropertyResearch(e) {
+  e.preventDefault();
+  document.getElementById('propertyModal').style.display = 'flex';
+}
+
+function closePropertyResearch() {
+  document.getElementById('propertyModal').style.display = 'none';
+}
 </script>
 <!-- COMMUNICATION BOARD MODAL -->
 <div id="commModal" class="modal-overlay">
@@ -1202,6 +1219,21 @@ function closeCommBoard() {
       class="modal-iframe">
     </iframe>
 
+  </div>
+</div>
+
+ <!-- PROPERTY RESEARCH MODAL -->
+<div id="propertyModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Property Research</div>
+      <button class="modal-close" onclick="closePropertyResearch()">✕</button>
+    </div>
+
+    <iframe 
+      src="https://complitrst-assets.vercel.app/property-research.html"
+      class="modal-iframe">
+    </iframe>
   </div>
 </div>
 </body>
