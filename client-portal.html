@@ -610,6 +610,61 @@
     .week-body { padding: 14px 16px 18px 16px; }
     .footer { padding: 20px 24px; }
   }
+
+ /* MODAL OVERLAY */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 30, 53, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+/* MODAL BOX */
+.modal-content {
+  width: 95%;
+  max-width: 1100px;
+  height: 85%;
+  background: #fff;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--navy);
+  color: white;
+}
+
+.modal-title {
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* CLOSE BUTTON */
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* IFRAME */
+.modal-iframe {
+  flex: 1;
+  width: 100%;
+  border: none;
+}
 </style>
 </head>
 <body>
@@ -936,6 +991,13 @@
     <div class="doc-type">Updated After Every Session</div>
   </div>
 </a>
+         <a class="doc-link" href="#" onclick="openCommBoard(event)">
+  <div class="doc-icon">&#128172;</div>
+  <div class="doc-info">
+    <div class="doc-name">Live Communication Board</div>
+    <div class="doc-type">Used Between Sessions</div>
+  </div>
+</a>
         </div>
       </div>
 
@@ -975,6 +1037,7 @@
   </div>
 
 </div>
+
 
 <script>
   // TIME RELEASE — May 12, 2026
@@ -1066,7 +1129,38 @@
     const card = document.getElementById(id);
     card.classList.toggle('open');
   }
-</script>
 
+ function openCommBoard(e) {
+  e.preventDefault();
+  document.getElementById('commModal').style.display = 'flex';
+}
+
+function closeCommBoard() {
+  document.getElementById('commModal').style.display = 'none';
+}
+ window.addEventListener('click', function(e) {
+    const modal = document.getElementById('commModal');
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+</script>
+<!-- COMMUNICATION BOARD MODAL -->
+<div id="commModal" class="modal-overlay">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <div class="modal-title">Communication Board</div>
+      <button class="modal-close" onclick="closeCommBoard()">✕</button>
+    </div>
+
+    <iframe 
+      src="https://complitrst-assets.vercel.app/communication-board.html"
+      frameborder="0"
+      class="modal-iframe">
+    </iframe>
+
+  </div>
+</div>
 </body>
 </html>
