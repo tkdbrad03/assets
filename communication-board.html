@@ -159,7 +159,7 @@
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
   const ADMINS = ['Dr. Tasha', 'Dr. Catrina'];
-  let currentIdentity = null;
+  let currentIdentity = 'Dr. Tasha'; // default admin
   let messages = [];
 
   // ─── IDENTITY ─────────────────────────────────────────────
@@ -361,6 +361,7 @@
 
   // ─── INIT ────────────────────────────────────────────────
   async function init() {
+    setIdentity('Dr. Tasha');
     messages = await fetchMessages();
     renderMessages();
   }
