@@ -665,6 +665,15 @@
   width: 100%;
   border: none;
 }
+ .notif-badge {
+  background: #C9A84C;
+  color: #0E1E35;
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 12px;
+  padding: 2px 6px;
+  margin-left: 6px;
+}
 </style>
 </head>
 <body>
@@ -994,8 +1003,11 @@
          <a class="doc-link" href="#" onclick="openCommBoard(event)">
   <div class="doc-icon">&#128172;</div>
   <div class="doc-info">
-    <div class="doc-name">Live Communication Board</div>
-    <div class="doc-type">Used Between Sessions</div>
+    <div class="doc-name">
+      Communication Board 
+      <span id="comm-badge" class="notif-badge" style="display:none;">0</span>
+    </div>
+    <div class="doc-type">Live Updates & Notes</div>
   </div>
 </a>
         </div>
@@ -1040,6 +1052,7 @@
 
 
 <script>
+ const LAST_SEEN_KEY = 'comm_last_seen';
   // TIME RELEASE — May 12, 2026
   const UNLOCK_DATE = new Date('2026-05-12T00:00:00');
 
@@ -1079,6 +1092,28 @@
       formLink.querySelector('.doc-type').textContent = 'Interactive Kit — Week 5';
     }
   }
+ async function updateNotificationBadge() {
+  try {
+    const res = await fetch(`${SCRIPT_URL}?action=getMessages`);
+    const data = await res.json();
+
+    const lastSeen = localStorage.getItem(LAST_SEEN_KEY) || 0;
+
+    const newMessages = data.filter(msg => msg.timestamp > lastSeen);
+
+    const badge = document.getElementById('comm-badge');
+
+    if (newMessages.length > 0) {
+      badge.style.display = 'inline-block';
+      badge.textContent = newMessages.length;
+    } else {
+      badge.style.display = 'none';
+    }
+
+  } catch (err) {
+    console.error('Badge error:', err);
+  }
+}
 
   // ADMIN OVERRIDE — full access regardless of date
   function adminOverride() {
@@ -1132,7 +1167,13 @@
 
  function openCommBoard(e) {
   e.preventDefault();
+
+  // OPEN MODAL
   document.getElementById('commModal').style.display = 'flex';
+
+  // 🔥 ADD THESE TWO LINES RIGHT HERE
+  localStorage.setItem(LAST_SEEN_KEY, Date.now());
+  updateNotificationBadge();
 }
 
 function closeCommBoard() {
@@ -1144,6 +1185,7 @@ function closeCommBoard() {
       modal.style.display = 'none';
     }
   });
+ updateNotificationBadge();
 </script>
 <!-- COMMUNICATION BOARD MODAL -->
 <div id="commModal" class="modal-overlay">
