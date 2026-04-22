@@ -386,7 +386,7 @@ function toggleCheck(el) {
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
   el.querySelector('.check-box').textContent = _checks[key] ? '✓' : '';
-  await saveChecks(_checks);
+  saveChecks(_checks);
   updateOverallProgress();
 }
 
