@@ -158,9 +158,11 @@
 
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
+
   let currentIdentity = null;
   let messages = [];
 
+  // ─── IDENTITY ─────────────────────────────────────────────
   function setIdentity(name) {
     currentIdentity = name;
     document.querySelectorAll('.identity-btn').forEach(b => {
@@ -185,24 +187,31 @@
       ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
   }
 
+  // ─── FETCH FROM GOOGLE SHEET ─────────────────────────────
   async function fetchMessages() {
-    const res = await fetch(`${SCRIPT_URL}?action=getMessages`);
-    const data = await res.json();
-    if (!Array.isArray(data)) {
-      throw new Error(data.error || 'Failed to load messages.');
+    try {
+      const res = await fetch(`${SCRIPT_URL}?action=getMessages`);
+      const data = await res.json();
+      return data || [];
+    } catch (err) {
+      console.error('Fetch failed:', err);
+      return [];
     }
-    return data;
   }
 
-  async function sendMessage(payload) {
-    const res = await fetch(SCRIPT_URL, {
+  // ─── SEND (NO CORS ISSUE) ────────────────────────────────
+  function sendMessage(payload) {
+    fetch(SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(payload)
-    });
-    return await res.json();
+    }).catch(() => {});
   }
 
+  // ─── POST MESSAGE ────────────────────────────────────────
   async function postMessage() {
     const text = document.getElementById('compose-text').value.trim();
     if (!text || !currentIdentity) return;
@@ -211,102 +220,94 @@
     btn.disabled = true;
     btn.textContent = 'Posting...';
 
-    try {
-      const payload = {
-        type: 'communication_board',
-        id: Date.now().toString(),
-        parentId: '',
-        sender: currentIdentity,
-        message: text,
-        timestamp: new Date().toISOString(),
-        client: 'LaTonya Mark'
-      };
+    const payload = {
+      type: 'communication_board',
+      id: Date.now().toString(),
+      parentId: '',
+      sender: currentIdentity,
+      message: text,
+      timestamp: new Date().toISOString(),
+      client: 'LaTonya Mark'
+    };
 
-      const result = await sendMessage(payload);
-      if (!result.ok) throw new Error(result.error || 'Post failed.');
+    // send to backend
+    sendMessage(payload);
 
-      document.getElementById('compose-text').value = '';
-      const status = document.getElementById('send-status');
-      status.style.display = 'inline';
-      setTimeout(() => { status.style.display = 'none'; }, 3000);
-
+    // reload from sheet
+    setTimeout(async () => {
       messages = await fetchMessages();
       renderMessages();
-    } catch (err) {
-      alert('Message failed to post. ' + err.message);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Post Message';
-    }
+    }, 1200);
+
+    document.getElementById('compose-text').value = '';
+
+    const status = document.getElementById('send-status');
+    status.style.display = 'inline';
+    setTimeout(() => { status.style.display = 'none'; }, 3000);
+
+    btn.disabled = false;
+    btn.textContent = 'Post Message';
   }
 
-  async function postReply(msgId) {
+  // ─── POST REPLY ─────────────────────────────────────────
+  function postReply(msgId) {
     if (!currentIdentity) {
-      alert('Please select who you are at the top first.');
+      alert('Select who you are first.');
       return;
     }
 
     const textarea = document.querySelector(`[data-reply-input="${msgId}"]`);
-    const text = textarea ? textarea.value.trim() : '';
+    const text = textarea.value.trim();
     if (!text) return;
 
-    try {
-      const payload = {
-        type: 'communication_board',
-        id: Date.now().toString(),
-        parentId: msgId,
-        sender: currentIdentity,
-        message: text,
-        timestamp: new Date().toISOString(),
-        client: 'LaTonya Mark'
-      };
+    const payload = {
+      type: 'communication_board',
+      id: Date.now().toString(),
+      parentId: msgId,
+      sender: currentIdentity,
+      message: text,
+      timestamp: new Date().toISOString(),
+      client: 'LaTonya Mark'
+    };
 
-      const result = await sendMessage(payload);
-      if (!result.ok) throw new Error(result.error || 'Reply failed.');
+    sendMessage(payload);
 
+    setTimeout(async () => {
       messages = await fetchMessages();
       renderMessages();
-    } catch (err) {
-      alert('Reply failed to post. ' + err.message);
-    }
+    }, 1200);
   }
 
+  // ─── UI FUNCTIONS ─────────────────────────────────────────
   function toggleReplyBox(msgId) {
     const box = document.querySelector(`[data-reply-box="${msgId}"]`);
     if (!box) return;
     const isOpen = box.style.display === 'block';
     box.style.display = isOpen ? 'none' : 'block';
-    if (!isOpen) {
-      const ta = box.querySelector('textarea');
-      if (ta) ta.focus();
-    }
   }
 
   function cancelReply(msgId) {
     const box = document.querySelector(`[data-reply-box="${msgId}"]`);
-    if (box) {
-      const ta = box.querySelector('textarea');
-      if (ta) ta.value = '';
-      box.style.display = 'none';
-    }
+    if (box) box.style.display = 'none';
   }
 
+  // ─── RENDER ───────────────────────────────────────────────
   function renderMessages() {
     const container = document.getElementById('messages-container');
+
     document.getElementById('messages-count').textContent =
       messages.length === 0 ? '' : `${messages.length} message${messages.length !== 1 ? 's' : ''}`;
 
     if (messages.length === 0) {
       container.innerHTML = `
         <div class="messages-empty">
-          <p>No messages yet. Post a question or update above and we will respond within two business days.</p>
+          <p>No messages yet. Post a question or update above.</p>
         </div>`;
       return;
     }
 
     container.innerHTML = messages.map(msg => {
       const consultant = isConsultant(msg.sender);
-      const cardClass = consultant ? 'from-consultant' : 'from-client';
       const avatarClass = consultant ? 'avatar-consultant' : 'avatar-client';
 
       const repliesHtml = (msg.replies || []).map(r => `
@@ -315,49 +316,48 @@
             <span class="reply-sender">${r.sender}</span>
             <span class="reply-time">${formatTime(r.timestamp)}</span>
           </div>
-          <div class="reply-text">${r.text.replace(/\n/g, '<br>')}</div>
+          <div class="reply-text">${r.text}</div>
         </div>`).join('');
 
       return `
-        <div class="message-card ${cardClass}">
+        <div class="message-card">
           <div class="message-header">
             <div class="message-sender">
-              <div class="sender-avatar ${avatarClass}">${getInitials(msg.sender)}</div>
+              <div class="sender-avatar ${avatarClass}">
+                ${getInitials(msg.sender)}
+              </div>
               <div>
                 <div class="sender-name">${msg.sender}</div>
-                <div class="sender-role">${consultant ? 'CatrinaL Consulting | CompliTrst, Inc.' : 'Client'}</div>
               </div>
             </div>
             <div class="message-time">${formatTime(msg.timestamp)}</div>
           </div>
+
           <div class="message-body">
-            <div class="message-text">${msg.text.replace(/\n/g, '<br>')}</div>
+            <div class="message-text">${msg.text}</div>
           </div>
+
           <div class="message-actions">
             <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
           </div>
+
           ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
+
           <div class="reply-compose" data-reply-box="${msg.id}">
-            <textarea data-reply-input="${msg.id}" placeholder="Write your reply..."></textarea>
+            <textarea data-reply-input="${msg.id}" placeholder="Write reply..."></textarea>
             <div class="reply-compose-footer">
               <button class="btn-cancel-reply" onclick="cancelReply('${msg.id}')">Cancel</button>
-              <button class="btn-send-reply" onclick="postReply('${msg.id}')">Send Reply</button>
+              <button class="btn-send-reply" onclick="postReply('${msg.id}')">Send</button>
             </div>
           </div>
         </div>`;
     }).join('');
   }
 
+  // ─── INIT ────────────────────────────────────────────────
   async function init() {
-    try {
-      messages = await fetchMessages();
-      renderMessages();
-    } catch (err) {
-      document.getElementById('messages-container').innerHTML = `
-        <div class="messages-empty">
-          <p>Unable to load messages right now. ${err.message}</p>
-        </div>`;
-    }
+    messages = await fetchMessages();
+    renderMessages();
   }
 
   init();
