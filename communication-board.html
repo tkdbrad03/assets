@@ -338,8 +338,13 @@
           </div>
 
           <div class="message-actions">
-            <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
-          </div>
+  <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
+
+  ${msg.sender === currentIdentity ? `
+    <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
+    <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
+  ` : ''}
+</div>
 
           ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
 
@@ -361,6 +366,39 @@
   }
 
   init();
+ async function editMessage(id, currentText) {
+  const newText = prompt("Edit your message:", currentText);
+  if (!newText) return;
+
+  const payload = {
+    type: 'edit_message',
+    id: id,
+    message: newText
+  };
+
+  sendMessage(payload);
+
+  setTimeout(async () => {
+    messages = await fetchMessages();
+    renderMessages();
+  }, 1000);
+}
+ async function deleteMessage(id) {
+  const confirmDelete = confirm("Delete this message?");
+  if (!confirmDelete) return;
+
+  const payload = {
+    type: 'delete_message',
+    id: id
+  };
+
+  sendMessage(payload);
+
+  setTimeout(async () => {
+    messages = await fetchMessages();
+    renderMessages();
+  }, 1000);
+}
 </script>
 </body>
 </html>
