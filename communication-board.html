@@ -158,7 +158,7 @@
 
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
-
+  const ADMINS = ['Dr. Tasha', 'Dr. Catrina'];
   let currentIdentity = null;
   let messages = [];
 
@@ -340,10 +340,10 @@
           <div class="message-actions">
   <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
 
-  ${msg.sender === currentIdentity ? `
-    <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
-    <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
-  ` : ''}
+  ${(msg.sender === currentIdentity || ADMINS.includes(currentIdentity)) ? `
+  <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
+  <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
+` : ''}
 </div>
 
           ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
