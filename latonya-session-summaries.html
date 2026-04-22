@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Summaries — LaTonya Mark</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0E1E35; --gold: #C9A84C; --gold-light: #E8D49A;
+    --cream: #FAF7F2; --warm: #F2EDE6; --gray: #6B6560;
+    --border: #E0D9CF; --white: #ffffff;
+    --green: #3a7d5a; --green-light: #edf7f2;
+    --amber: #d4843a; --amber-light: #fdf3e7;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
+
+  .header { background: var(--navy); padding: 48px 48px 40px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -60px; top: -60px; width: 300px; height: 300px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.12); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 18px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 4vw, 36px); color: #fff; line-height: 1.15; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-meta { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 16px; }
+  .meta-item { font-size: 12px; color: rgba(255,255,255,0.45); }
+  .meta-item strong { display: block; color: var(--gold-light); font-size: 12px; font-weight: 500; margin-bottom: 1px; }
+
+  /* OVERALL PROGRESS */
+  .overall-progress { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 48px; display: flex; align-items: center; gap: 16px; }
+  .progress-label { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); white-space: nowrap; }
+  .progress-track { flex: 1; height: 6px; background: var(--warm); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--green)); border-radius: 3px; transition: width 0.4s ease; width: 0%; }
+  .progress-count { font-size: 12px; font-weight: 500; color: var(--navy); white-space: nowrap; min-width: 120px; text-align: right; }
+
+  /* SESSION TABS */
+  .session-tabs { background: var(--white); border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; padding: 0 48px; }
+  .session-tab { padding: 14px 20px; font-size: 12px; font-weight: 500; color: var(--gray); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: color 0.2s, border-color 0.2s; user-select: none; }
+  .session-tab:hover { color: var(--navy); }
+  .session-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+  .session-tab.locked { opacity: 0.4; cursor: default; pointer-events: none; }
+
+  /* MAIN */
+  .main { max-width: 860px; margin: 0 auto; padding: 40px 32px 60px; }
+  .session-panel { display: none; }
+  .session-panel.active { display: block; }
+
+  /* SESSION HEADER */
+  .session-header { background: var(--navy); padding: 24px 28px; margin-bottom: 20px; display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  .session-header-left {}
+  .session-week-badge { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .session-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: #fff; line-height: 1.2; }
+  .session-meta-row { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+  .session-meta-item { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .session-meta-item strong { color: var(--gold-light); font-weight: 500; margin-right: 4px; }
+  .win-pill { background: rgba(58,125,90,0.25); border: 1px solid rgba(58,125,90,0.4); color: #7ecba1; font-size: 12px; font-weight: 400; padding: 8px 14px; line-height: 1.5; max-width: 280px; }
+
+  /* BLOCKS */
+  .block { background: var(--white); border: 1px solid var(--border); margin-bottom: 16px; overflow: hidden; }
+  .block-header { background: var(--navy); padding: 12px 20px; display: flex; align-items: center; gap: 10px; }
+  .block-header .bnum { width: 22px; height: 22px; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
+  .block-header h3 { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold-light); }
+  .block-body { padding: 20px 24px; }
+
+  .sub-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; margin-top: 16px; padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+  .sub-label:first-child { margin-top: 0; }
+
+  .item-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .item-list li { font-size: 13.5px; color: var(--gray); padding-left: 14px; position: relative; line-height: 1.6; }
+  .item-list li::before { content: ''; position: absolute; left: 0; top: 10px; width: 5px; height: 1px; background: var(--gold); }
+  .item-list li strong { color: var(--navy); font-weight: 500; }
+
+  /* ACTION ITEM CHECKBOXES */
+  .action-section { margin-bottom: 8px; }
+  .action-section-title { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 10px 16px; margin-bottom: 6px; }
+  .client-title { background: rgba(201,168,76,0.1); color: #8a6d1e; border-left: 3px solid var(--gold); }
+  .consultant-title { background: rgba(14,30,53,0.06); color: var(--navy); border-left: 3px solid var(--navy); }
+
+  .action-check-item { display: flex; align-items: flex-start; gap: 12px; padding: 11px 16px; border: 1px solid var(--border); margin-bottom: 6px; cursor: pointer; transition: all 0.2s; user-select: none; background: var(--white); }
+  .action-check-item:hover { border-color: var(--gold); }
+  .action-check-item.done { background: var(--green-light); border-color: #b8ddc9; }
+
+  .check-box { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; background: var(--white); transition: all 0.2s; font-size: 11px; color: white; }
+  .action-check-item.done .check-box { background: var(--green); border-color: var(--green); }
+
+  .action-check-content {}
+  .action-check-title { font-size: 13px; font-weight: 500; color: var(--navy); line-height: 1.4; margin-bottom: 2px; }
+  .action-check-item.done .action-check-title { color: var(--green); text-decoration: line-through; text-decoration-color: #a8d5be; }
+  .action-check-desc { font-size: 12px; color: var(--gray); font-weight: 300; line-height: 1.5; }
+
+  .priority-tag { display: inline-block; font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; margin-left: 6px; vertical-align: middle; }
+  .tag-high { background: rgba(201,168,76,0.15); color: #8a6d1e; border: 1px solid rgba(201,168,76,0.3); }
+  .tag-medium { background: rgba(107,101,96,0.1); color: var(--gray); border: 1px solid var(--border); }
+
+  /* NEXT SESSION */
+  .next-card { background: var(--navy); border: 1px solid rgba(201,168,76,0.2); padding: 24px 28px; margin-bottom: 16px; }
+  .next-card .ns-label { font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .next-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: #fff; margin-bottom: 14px; line-height: 1.2; }
+  .prep-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .prep-list li { font-size: 13px; color: rgba(255,255,255,0.65); padding-left: 16px; position: relative; line-height: 1.5; }
+  .prep-list li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-size: 11px; }
+
+  /* LOADING */
+  .loading-msg { text-align: center; padding: 60px 20px; font-size: 14px; color: var(--gray); font-style: italic; }
+
+  .footer { background: var(--navy); padding: 24px 48px; text-align: center; margin-top: 40px; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.3); }
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 600px) {
+    .header { padding: 36px 24px 30px; }
+    .overall-progress { padding: 12px 20px; }
+    .session-tabs { padding: 0 16px; }
+    .main { padding: 28px 16px 48px; }
+    .footer { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">Session Summaries</div>
+  <h1>Adult Day Care Startup Intensive<br><em>Session Summaries</em></h1>
+  <div class="header-meta">
+    <div class="meta-item"><strong>Client</strong>LaTonya Mark</div>
+    <div class="meta-item"><strong>Consultants</strong>Dr. Catrina Smith and Dr. Tasha McCray</div>
+    <div class="meta-item"><strong>Program</strong>6-Week Private Intensive</div>
+  </div>
+</div>
+
+<div class="overall-progress">
+  <span class="progress-label">Action Items</span>
+  <div class="progress-track"><div class="progress-fill" id="overall-fill"></div></div>
+  <span class="progress-count" id="overall-count">Loading...</span>
+</div>
+
+<div class="session-tabs" id="session-tabs"></div>
+
+<div class="main" id="main-content">
+  <div class="loading-msg">Loading session summaries...</div>
+</div>
+
+<div class="footer">
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Confidential — Prepared exclusively for LaTonya Mark</p>
+</div>
+
+<script>
+// ─── SESSION DATA ─────────────────────────────────────────────────────────────
+// To add a new week: paste the generated JSON object into this array
+const SESSIONS = [
+  {
+    week: 1,
+    client: "LaTonya Mark",
+    date: "April 22, 2026",
+    conductedBy: "Dr. Catrina Smith and Dr. Tasha McCray",
+    win: "LaTonya arrived to Week 1 with her business foundation nearly complete — EIN, LLC, bank account, articles of incorporation, virtual address, and registered agent all secured before our first call.",
+    topics: [
+      "Medical adult day care business model selection and why it maximizes funding over a social-only model",
+      "Mission statement review and approval",
+      "Ideal client capacity and target sweet spot of 15 clients",
+      "Facility type and aesthetic — home-like commercial space over institutional settings",
+      "Staffing approach using LaTonya and her son as RN coverage",
+      "Business licensing status and virtual office address question",
+      "NPI number clarification — individual NPI vs. business NPI",
+      "Operating hours — Medicaid minimum 5 hours daily, up to 8 hours",
+      "Client populations: mental health, aging adults, community re-entry, dementia",
+      "Medicaid strategy and early engagement with DOM office",
+      "Respite care vouchers and transportation services",
+      "Mississippi RN hour requirements for medical adult day care"
+    ],
+    decisions: [
+      "Pursue full medical adult day care model to maximize Medicaid reimbursement rates",
+      "Mission statement approved as is — no changes needed",
+      "Target 15 clients — maintains quality care without over-extension",
+      "Home-like commercial building preferred over institutional or strip mall locations",
+      "LaTonya as primary RN and her son as secondary RN satisfies Mississippi requirements"
+    ],
+    resources: [
+      "Mississippi Medicaid Checklist available in your portal — review Phase 1 and Phase 2 this week",
+      "Licensing application documents available in your portal under Week 2",
+      "Walthall County Tax Assessor contact: (601) 876-4942"
+    ],
+    completed: [
+      "Mississippi state business license obtained",
+      "Federal EIN acquired from IRS",
+      "Business named and LLC formed",
+      "Business bank account established",
+      "Articles of incorporation filed with Mississippi Secretary of State",
+      "Virtual address and registered agent secured"
+    ],
+    wins: [
+      "Mission statement approved without changes — strong foundation already in place",
+      "LaTonya is an RN which fully satisfies Mississippi medical adult day care nursing requirements",
+      "Her son is also an RN — two licensed nurses giving strong clinical depth for a 15-client operation",
+      "14 to 17 existing Medicaid clients already in place — the hardest part of building a client base is done"
+    ],
+    clientActions: [
+      { text: "Call Walthall County Tax Assessor at (601) 876-4942 to confirm county privilege license requirement and fee. Ask: 'I do not have a facility address yet. Can I apply with a virtual office address in the interim?'", priority: "high" },
+      { text: "Draft your vision statement to complement the approved mission statement", priority: "high" },
+      { text: "Begin drafting your proposed staffing plan listing yourself and your son as primary nursing staff", priority: "high" },
+      { text: "Review licensing application documents in your portal under Week 2", priority: "high" },
+      { text: "Begin developing your adult day care business plan starting with executive summary, mission, services, and target market", priority: "medium" },
+      { text: "Obtain workers compensation insurance quotes in preparation for hiring at 5 or more employees", priority: "medium" }
+    ],
+    consultantActions: [
+      { text: "Dr. Tasha: Research commercial properties in Tylertown with correct zoning verification and capacity for up to 20 clients", priority: "high" },
+      { text: "Dr. Catrina: Confirm Mississippi specific RN hour requirements and compile full staffing plan requirements for medical adult day care", priority: "high" },
+      { text: "Dr. Catrina: Provide sample client contract template including discharge provisions for safety and behavioral concerns", priority: "medium" },
+      { text: "Dr. Tasha: Add communication board to client portal for streamlined question and answer tracking", priority: "medium" }
+    ],
+    challenges: [
+      "County privilege license pending — needs confirmation from Walthall County Tax Assessor",
+      "No facility address yet — creating a ripple effect on county license, Medicaid application, and zoning verification",
+      "NPI number clarification needed — individual NPI from private duty nursing may or may not transfer to adult day care business",
+      "Workers compensation will be required once staffing reaches 5 or more employees"
+    ],
+    questions: [
+      "Does LaTonya's existing individual NPI satisfy the adult day care business NPI requirement in Mississippi?",
+      "What are the exact Mississippi DOM requirements for RN hours on site daily for a medical adult day care model?",
+      "What commercial properties in Tylertown are available and zoned correctly for adult day care?"
+    ],
+    nextFocus: "Mississippi Licensing Requirements and Compliance Roadmap",
+    nextPrep: [
+      "Complete your call to Walthall County Tax Assessor and report the outcome",
+      "Have your draft vision statement ready to review",
+      "Begin thinking about prospective facility locations in Tylertown",
+      "Review the Mississippi Medicaid Checklist in your portal — focus on Phase 1 and Phase 2"
+    ]
+  }
+  // ADD NEW WEEKS HERE — paste generated JSON objects separated by commas
+];
+
+// ─── STORAGE KEYS ─────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'latonya-action-checks';
+
+// ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
+async function loadChecks() {
+  try {
+    const result = await window.storage.get(STORAGE_KEY, true);
+    return result ? JSON.parse(result.value) : {};
+  } catch(e) {
+    return {};
+  }
+}
+
+async function saveChecks(checks) {
+  try {
+    await window.storage.set(STORAGE_KEY, JSON.stringify(checks), true);
+  } catch(e) {}
+}
+
+// ─── BUILD UI ─────────────────────────────────────────────────────────────────
+function buildTabs() {
+  const tabsEl = document.getElementById('session-tabs');
+  tabsEl.innerHTML = '';
+  for (let w = 1; w <= 6; w++) {
+    const session = SESSIONS.find(s => s.week === w);
+    const tab = document.createElement('div');
+    tab.className = 'session-tab' + (w === 1 ? ' active' : '') + (!session ? ' locked' : '');
+    tab.textContent = session ? `Week ${w}` : `Week ${w} — Upcoming`;
+    if (session) tab.onclick = () => switchTab(w);
+    tabsEl.appendChild(tab);
+  }
+}
+
+function switchTab(week) {
+  document.querySelectorAll('.session-tab').forEach((t, i) => {
+    t.classList.toggle('active', i + 1 === week);
+  });
+  document.querySelectorAll('.session-panel').forEach(p => {
+    p.classList.toggle('active', p.dataset.week === String(week));
+  });
+}
+
+function buildSessions(checks) {
+  const main = document.getElementById('main-content');
+  main.innerHTML = '';
+
+  SESSIONS.forEach(s => {
+    const panel = document.createElement('div');
+    panel.className = 'session-panel' + (s.week === 1 ? ' active' : '');
+    panel.dataset.week = s.week;
+
+    const clientDone = (s.clientActions || []).filter((_, i) => checks[`w${s.week}-client-${i}`]).length;
+    const consultDone = (s.consultantActions || []).filter((_, i) => checks[`w${s.week}-consult-${i}`]).length;
+    const totalDone = clientDone + consultDone;
+    const totalAll = (s.clientActions || []).length + (s.consultantActions || []).length;
+
+    panel.innerHTML = `
+      <!-- SESSION HEADER -->
+      <div class="session-header">
+        <div class="session-header-left">
+          <div class="session-week-badge">Week ${s.week} of 6 &nbsp;|&nbsp; Session Summary</div>
+          <div class="session-title">${s.nextFocus ? s.nextFocus : 'Session ' + s.week}</div>
+          <div class="session-meta-row">
+            <div class="session-meta-item"><strong>Date</strong>${s.date}</div>
+            <div class="session-meta-item"><strong>Conducted By</strong>${s.conductedBy}</div>
+            <div class="session-meta-item"><strong>Action Items</strong>${totalDone} of ${totalAll} complete</div>
+          </div>
+        </div>
+        ${s.win ? `<div class="win-pill">&#127881; ${s.win}</div>` : ''}
+      </div>
+
+      <!-- TOPICS -->
+      ${buildBlock(1, 'Topics and Decisions', `
+        ${buildSubList('Key Topics Covered', s.topics)}
+        ${buildSubList('Key Decisions Made', s.decisions)}
+        ${buildSubList('Resources Shared', s.resources)}
+      `)}
+
+      <!-- PROGRESS -->
+      ${buildBlock(2, 'Progress and Wins', `
+        ${buildSubList('Completed This Session', s.completed)}
+        ${buildSubList('Notable Wins', s.wins)}
+      `)}
+
+      <!-- ACTION ITEMS -->
+      <div class="block">
+        <div class="block-header"><div class="bnum">3</div><h3>Action Items</h3></div>
+        <div class="block-body">
+          <div class="action-section">
+            <div class="action-section-title client-title">Your Action Items — LaTonya Mark</div>
+            ${(s.clientActions || []).map((a, i) => buildCheckItem(`w${s.week}-client-${i}`, a, checks)).join('')}
+          </div>
+          <div class="action-section" style="margin-top:16px;">
+            <div class="action-section-title consultant-title">Our Action Items — CatrinaL Consulting and CompliTrst, Inc.</div>
+            ${(s.consultantActions || []).map((a, i) => buildCheckItem(`w${s.week}-consult-${i}`, a, checks)).join('')}
+          </div>
+        </div>
+      </div>
+
+      <!-- CHALLENGES -->
+      ${buildBlock(4, 'Challenges and Open Questions', `
+        ${buildSubList('Challenges Identified', s.challenges)}
+        ${buildSubList('Open Questions', s.questions)}
+      `)}
+
+      <!-- NEXT SESSION -->
+      ${s.nextFocus ? `
+      <div class="next-card">
+        <div class="ns-label">Coming Up</div>
+        <h3>Week ${s.week + 1} — ${s.nextFocus}</h3>
+        ${s.nextPrep && s.nextPrep.length ? `
+          <div style="font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(201,168,76,0.7);margin-bottom:10px;">Prepare Before Next Session</div>
+          <ul class="prep-list">${s.nextPrep.map(p => `<li>${p}</li>`).join('')}</ul>
+        ` : ''}
+      </div>` : ''}
+    `;
+
+    main.appendChild(panel);
+  });
+}
+
+function buildBlock(num, title, content) {
+  return `
+    <div class="block">
+      <div class="block-header"><div class="bnum">${num}</div><h3>${title}</h3></div>
+      <div class="block-body">${content}</div>
+    </div>`;
+}
+
+function buildSubList(label, items) {
+  if (!items || !items.length) return '';
+  return `
+    <div class="sub-label">${label}</div>
+    <ul class="item-list">${items.map(i => `<li>${i}</li>`).join('')}</ul>`;
+}
+
+function buildCheckItem(key, action, checks) {
+  const done = checks[key] ? 'done' : '';
+  const check = checks[key] ? '✓' : '';
+  const tagClass = action.priority === 'high' ? 'tag-high' : 'tag-medium';
+  return `
+    <div class="action-check-item ${done}" data-key="${key}" onclick="toggleCheck(this)">
+      <div class="check-box">${check}</div>
+      <div class="action-check-content">
+        <div class="action-check-title">${action.text} <span class="priority-tag ${tagClass}">${action.priority}</span></div>
+      </div>
+    </div>`;
+}
+
+// ─── TOGGLE CHECK ─────────────────────────────────────────────────────────────
+let _checks = {};
+
+async function toggleCheck(el) {
+  const key = el.dataset.key;
+  _checks[key] = !_checks[key];
+  el.classList.toggle('done', _checks[key]);
+  el.querySelector('.check-box').textContent = _checks[key] ? '✓' : '';
+  await saveChecks(_checks);
+  updateOverallProgress();
+}
+
+function updateOverallProgress() {
+  let total = 0, done = 0;
+  SESSIONS.forEach(s => {
+    (s.clientActions || []).forEach((_, i) => {
+      total++;
+      if (_checks[`w${s.week}-client-${i}`]) done++;
+    });
+    (s.consultantActions || []).forEach((_, i) => {
+      total++;
+      if (_checks[`w${s.week}-consult-${i}`]) done++;
+    });
+  });
+  const pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('overall-fill').style.width = pct + '%';
+  document.getElementById('overall-count').textContent = `${done} of ${total} items complete`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  _checks = await loadChecks();
+  buildTabs();
+  buildSessions(_checks);
+  updateOverallProgress();
+}
+
+init();
+</script>
+
+</body>
+</html>
