@@ -365,18 +365,42 @@ if (!text) return;
   }
 
   // ─── INIT ────────────────────────────────────────────────
-  async function init() {
+async function init() {
+  // 1. Load the messages from the sheet
   messages = await fetchMessages();
   
-  // Look at the URL to see who is logged in
+  // 2. Check the URL for a user (e.g., ?user=Dr. Catrina)
   const urlParams = new URLSearchParams(window.location.search);
   const userFromUrl = urlParams.get('user');
-  
+
   if (userFromUrl) {
-    setIdentity(userFromUrl); // This automatically triggers the buttons
+    // If the URL says who it is, set that identity immediately
+    setIdentity(userFromUrl);
+  } else {
+    // Default to 'LaTonya' if no user is specified, to be safe
+    setIdentity('LaTonya');
   }
   
   renderMessages();
+}
+
+// Ensure setIdentity also calls renderMessages to refresh the buttons
+function setIdentity(name) {
+  currentIdentity = name;
+  document.querySelectorAll('.identity-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === name);
+  });
+  
+  const note = document.getElementById('identity-note');
+  const label = document.getElementById('compose-sender-label');
+  const btn = document.getElementById('btn-send');
+
+  if (note) note.textContent = `Posting as ${name}`;
+  if (label) label.innerHTML = `Posting as <strong>${name}</strong>`;
+  if (btn) btn.disabled = false;
+  
+  // CRITICAL: This line makes the Edit/Delete buttons appear
+  renderMessages(); 
 }
 
   init();
