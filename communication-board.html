@@ -236,7 +236,7 @@ if (!text) return;
       type: 'communication_board',
       id: Date.now().toString(),
       parentId: '',
-      sender: currentIdentity,
+      sender: role === 'admin' ? 'Admin' : 'Client',
       message: text,
       timestamp: new Date().toISOString(),
       client: 'LaTonya Mark'
@@ -352,8 +352,11 @@ if (!text) return;
           <div class="message-actions">
   <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
 
-  ${(msg.sender === currentIdentity || ADMINS.includes(currentIdentity)) ? `
+  ${(isAdmin() || msg.sender === 'Client') ? `
   <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
+` : ''}
+
+${isAdmin() ? `
   <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
 ` : ''}
 </div>
@@ -421,10 +424,11 @@ async function editMessage(id, currentText) {
   if (!newText || newText === currentText) return;
 
   const payload = {
-    type: 'edit_message',
-    id: id,
-    message: newText
-  };
+  type: 'edit_message',
+  id: msgId,
+  message: newText,
+  role: role
+};
 
   sendMessage(payload);
 
@@ -439,10 +443,7 @@ async function deleteMessage(id) {
   const confirmDelete = confirm("Are you sure you want to delete this message?");
   if (!confirmDelete) return;
 
-  const payload = {
-    type: 'delete_message',
-    id: id
-  };
+  
 
   sendMessage(payload);
 
