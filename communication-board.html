@@ -108,7 +108,12 @@
 </style>
 </head>
 <body>
-
+<div class="container">
+    <div class="identity-bar" style="background: #f4f4f4; padding: 10px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 10px; justify-content: center;">
+      <button class="identity-btn" onclick="setIdentity('Dr. Catrina')">Dr. Catrina</button>
+      <button class="identity-btn" onclick="setIdentity('Dr. Tasha')">Dr. Tasha</button>
+      <button class="identity-btn" onclick="setIdentity('LaTonya')">LaTonya</button>
+    </div>
 <div class="header">
   <div class="header-badge">Communication Board</div>
   <h1>Between-Session <em>Messages</em></h1>
@@ -150,8 +155,19 @@
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
   const ADMINS = ['Dr. Tasha', 'Dr. Catrina'];
-  let currentIdentity = ''; // This will be filled automatically by the URL
-  let messages = [];
+  let currentIdentity = ''; 
+
+// This function unlocks everything when you click your name
+function setIdentity(name) {
+  currentIdentity = name;
+  
+  // 1. Enable the post button
+  const btn = document.getElementById('btn-send');
+  if (btn) btn.disabled = false;
+
+  // 2. Refresh the board to show Edit/Delete buttons if you are an Admin
+  renderMessages();
+}
 
   // ─── IDENTITY ─────────────────────────────────────────────
   function setIdentity(name) {
