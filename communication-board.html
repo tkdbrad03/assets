@@ -357,17 +357,13 @@ if (!text) return;
             <div class="message-text">${msg.text}</div>
           </div>
 
-          <div class="message-actions">
+         <div class="message-actions">
   <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
 
-  ${(isAdmin() || msg.sender === 'Client') ? `
-  <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
-` : ''}
-
-${isAdmin() ? `
-  <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
-  <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
-` : ''}
+  ${isAdmin() ? `
+    <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
+    <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
+  ` : ''}
 </div>
 
           ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
