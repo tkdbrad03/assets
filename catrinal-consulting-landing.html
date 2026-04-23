@@ -797,6 +797,21 @@
     </div>
 
     <div class="hero-apply-card">
+     <form id="leadForm" style="margin-top:10px;">
+  <input type="text" name="name" placeholder="Your Name" required
+    style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E0D9CF;">
+
+  <input type="email" name="email" placeholder="Your Email" required
+    style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E0D9CF;">
+
+  <button type="submit" class="btn-apply-hero">
+    Get the Free Guide
+  </button>
+</form>
+
+<p style="font-size:11px; color:#6B6560; margin-top:8px;">
+  Free 6-Week Adult Day Care Startup Guide
+</p>
       <div class="card-label">Limited Availability</div>
       <h3>6-Week Adult Day Care Startup Intensive</h3>
       <p>Private consulting for founders who are ready to launch right. Application required. Not everyone is accepted.</p>
@@ -1271,6 +1286,45 @@
     });
   }
 </script>
+<script>
+const form = document.getElementById("leadForm");
+const btn = form.querySelector("button");
 
+form.addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = new FormData(this);
+
+  const payload = {
+    type: "lead_magnet",
+    name: formData.get("name"),
+    email: formData.get("email")
+  };
+
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec";
+
+  // 🔥 Disable button + show loading
+  btn.disabled = true;
+  btn.innerText = "Sending...";
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    // 🔥 Redirect instead of alert (MUCH better UX)
+    window.location.href = "/thank-you";
+
+  } catch (err) {
+    alert("Something went wrong. Please try again.");
+    btn.disabled = false;
+    btn.innerText = "Get the Free Guide";
+  }
+});
+</script>
 </body>
 </html>
