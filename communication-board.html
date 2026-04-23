@@ -204,15 +204,26 @@ function setIdentity(name) {
 
   // ─── FETCH FROM GOOGLE SHEET ─────────────────────────────
   async function fetchMessages() {
-    try {
-      const res = await fetch(`${SCRIPT_URL}?action=getMessages`);
-      const data = await res.json();
-      return data || [];
-    } catch (err) {
-      console.error('Fetch failed:', err);
-      return [];
-    }
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify({
+        type: 'get_messages',
+        client: 'LaTonya Mark'
+      })
+    });
+
+    const data = await res.json();
+    return data || [];
+
+  } catch (err) {
+    console.error('Fetch failed:', err);
+    return [];
   }
+}
 
   // ─── SEND (NO CORS ISSUE) ────────────────────────────────
   function sendMessage(payload) {
