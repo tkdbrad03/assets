@@ -358,6 +358,22 @@ if (!text) return;
           </div>
           <div class="reply-text">${r.text}</div>
         </div>`).join('');
+     messages.forEach(msg => {
+  const actionsEl = document.getElementById(`actions-${msg.id}`);
+  if (!actionsEl) return;
+
+  if (isAdmin()) {
+    actionsEl.innerHTML = `
+      <button class="btn-reply">Edit</button>
+      <button class="btn-reply">Delete</button>
+    `;
+
+    const [editBtn, deleteBtn] = actionsEl.querySelectorAll('button');
+
+    editBtn.onclick = () => editMessage(msg.id, msg.text);
+    deleteBtn.onclick = () => deleteMessage(msg.id);
+  }
+});
 
       return `
         <div class="message-card">
@@ -379,11 +395,7 @@ if (!text) return;
 
          <div class="message-actions">
   <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
-
-  ${isAdmin() ? `
-  <button class="btn-reply" onclick="editMessage('${msg.id}', ${JSON.stringify(msg.text)})">Edit</button>
-  <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
-` : ''}
+  <span id="actions-${msg.id}"></span>
 </div>
 
           ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
@@ -449,15 +461,14 @@ async function editMessage(id, currentText) {
   if (!newText || newText === currentText) return;
 
   const payload = {
-  type: 'edit_message',
-  id: id,
-  message: newText,
-  role: role
-};
+    type: 'edit_message',
+    id: id,
+    message: newText,
+    role: role
+  };
 
   sendMessage(payload);
 
-  // Changed from 1000 to 300 for a faster response
   setTimeout(async () => {
     messages = await fetchMessages();
     renderMessages();
