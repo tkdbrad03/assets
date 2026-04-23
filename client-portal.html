@@ -1471,13 +1471,13 @@ function openCommBoard() {
   const modal = document.getElementById('commModal');
   const iframe = modal.querySelector('iframe');
   
-  // Logic based on your two logins:
-  // If the current URL contains 'ADMIN2026', we log in as Dr. Catrina (Admin)
-  // Otherwise, we assume it's the ADC2026 login for LaTonya
-  const userRole = window.location.href.includes('ADMIN2026') ? 'Dr. Catrina' : 'LaTonya';
+  // If the current URL is the Admin login path, we set you as Dr. Tasha.
+  // Otherwise, we set the identity as LaTonya.
+  const isAdmin = window.location.href.includes('ADMIN2026');
+  const identity = isAdmin ? 'Dr. Tasha' : 'LaTonya';
   
-  // This sends the identity into the board
-  iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(userRole);
+  // This "locks" the board to the correct person
+  iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(identity);
   
   modal.style.display = 'flex';
 }
