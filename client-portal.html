@@ -1244,6 +1244,12 @@
 <script>
  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
  const LAST_SEEN_KEY = 'comm_last_seen';
+ let currentUser = '';
+ const ADMINS = ['Dr. Tasha', 'Dr. Catrina'];
+
+function isAdmin() {
+  return ADMINS.includes(currentUser);
+}
   // TIME RELEASE — May 12, 2026
   const UNLOCK_DATE = new Date('2026-05-12T00:00:00');
 
@@ -1331,22 +1337,30 @@
   }
 
   function checkPassword() {
-    const input = document.getElementById('pw-input').value;
-    const error = document.getElementById('pw-error');
-    if (input === 'ADC2026') {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('portal').style.display = 'block';
-      applyTimeRelease();
-    } else if (input === 'ADMIN2026') {
-      document.getElementById('password-screen').style.display = 'none';
-      document.getElementById('portal').style.display = 'block';
-      adminOverride();
-    } else {
-      error.style.display = 'block';
-      document.getElementById('pw-input').value = '';
-    }
-  }
+  const input = document.getElementById('pw-input').value;
+  const error = document.getElementById('pw-error');
 
+  if (input === 'ADC2026') {
+    currentUser = 'Client';
+
+    document.getElementById('password-screen').style.display = 'none';
+    document.getElementById('portal').style.display = 'block';
+
+    applyTimeRelease();
+
+  } else if (input === 'ADMIN2026') {
+    currentUser = 'Dr. Tasha'; // or 'Dr. Catrina' if needed
+
+    document.getElementById('password-screen').style.display = 'none';
+    document.getElementById('portal').style.display = 'block';
+
+    adminOverride();
+
+  } else {
+    error.style.display = 'block';
+    document.getElementById('pw-input').value = '';
+  }
+}
   document.getElementById('pw-input').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') checkPassword();
   });
@@ -1359,10 +1373,13 @@
  function openCommBoard(e) {
   e.preventDefault();
 
-  // OPEN MODAL
+  const role = isAdmin() ? 'admin' : 'client';
+
+  document.getElementById('commBoardIframe').src =
+    `https://complitrst-assets.vercel.app/communication-board.html?role=${role}`;
+
   document.getElementById('commModal').style.display = 'flex';
 
-  // 🔥 ADD THESE TWO LINES RIGHT HERE
   localStorage.setItem(LAST_SEEN_KEY, Date.now());
   updateNotificationBadge();
 }
@@ -1466,19 +1483,6 @@ function updateSidebarProgress() {
       }
     }
   }
-}
-function openCommBoard() {
-  const modal = document.getElementById('commModal');
-  const iframe = document.getElementById('commBoardIframe');
-  
-  // Determine identity based on your session/verification logic
-  // (Assuming you've set a variable 'isAdmin' after the pw check)
-  const identity = isAdmin ? 'Dr. Tasha' : 'LaTonya';
-  
-  // Pass the identity to the board URL
-  iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(identity);
-  
-  modal.style.display = 'flex';
 }
 
 </script>
