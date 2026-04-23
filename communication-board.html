@@ -367,6 +367,15 @@ if (!text) return;
   // ─── INIT ────────────────────────────────────────────────
   async function init() {
   messages = await fetchMessages();
+  
+  // Look at the URL to see who is logged in
+  const urlParams = new URLSearchParams(window.location.search);
+  const userFromUrl = urlParams.get('user');
+  
+  if (userFromUrl) {
+    setIdentity(userFromUrl); // This automatically triggers the buttons
+  }
+  
   renderMessages();
 }
 
