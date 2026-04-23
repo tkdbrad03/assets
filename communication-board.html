@@ -393,6 +393,8 @@ async function init() {
 // Ensure setIdentity also calls renderMessages to refresh the buttons
 function setIdentity(name) {
   currentIdentity = name;
+  
+  // Highlight the active button in the identity bar
   document.querySelectorAll('.identity-btn').forEach(b => {
     b.classList.toggle('active', b.textContent === name);
   });
@@ -403,16 +405,20 @@ function setIdentity(name) {
 
   if (note) note.textContent = `Posting as ${name}`;
   if (label) label.innerHTML = `Posting as <strong>${name}</strong>`;
+  
+  // This enables the "Post Message" button once a name is picked
   if (btn) btn.disabled = false;
   
-  // CRITICAL: This line makes the Edit/Delete buttons appear
+  // CRITICAL: This line makes the Edit/Delete buttons appear for Admins (Tasha/Catrina)
   renderMessages(); 
 }
 
-  init();
- async function editMessage(id, currentText) {
+// Initialize the board
+init();
+
+async function editMessage(id, currentText) {
   const newText = prompt("Edit your message:", currentText);
-  if (!newText) return;
+  if (!newText || newText === currentText) return;
 
   const payload = {
     type: 'edit_message',
@@ -422,13 +428,15 @@ function setIdentity(name) {
 
   sendMessage(payload);
 
+  // Changed from 1000 to 300 for a faster response
   setTimeout(async () => {
     messages = await fetchMessages();
     renderMessages();
-  }, 1000);
+  }, 300);
 }
- async function deleteMessage(id) {
-  const confirmDelete = confirm("Delete this message?");
+
+async function deleteMessage(id) {
+  const confirmDelete = confirm("Are you sure you want to delete this message?");
   if (!confirmDelete) return;
 
   const payload = {
@@ -438,10 +446,11 @@ function setIdentity(name) {
 
   sendMessage(payload);
 
+  // Changed from 1000 to 300 for a faster response
   setTimeout(async () => {
     messages = await fetchMessages();
     renderMessages();
-  }, 1000);
+  }, 300);
 }
 </script>
 </body>
