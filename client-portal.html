@@ -1467,6 +1467,19 @@ function updateSidebarProgress() {
     }
   }
 }
+function openCommBoard() {
+  const modal = document.getElementById('commModal');
+  const iframe = document.getElementById('commBoardIframe');
+  
+  // Logic: If this is the Admin's version of the portal, set as Catrina. 
+  // Otherwise, set as LaTonya.
+  const userRole = window.location.href.includes('admin') ? 'Dr. Catrina' : 'LaTonya';
+  
+  // This sends the name directly to the communication board
+  iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(userRole);
+  
+  modal.style.display = 'flex';
+}
 
 </script>
 <!-- COMMUNICATION BOARD MODAL -->
@@ -1479,10 +1492,11 @@ function updateSidebarProgress() {
     </div>
 
     <iframe 
-      src="https://complitrst-assets.vercel.app/communication-board.html"
-      frameborder="0"
-      class="modal-iframe">
-    </iframe>
+  id="commBoardIframe"
+  src="https://complitrst-assets.vercel.app/communication-board.html"
+  frameborder="0"
+  class="modal-iframe">
+</iframe>
 
   </div>
 </div>
