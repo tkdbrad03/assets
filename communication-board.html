@@ -115,16 +115,7 @@
   <p class="header-sub">Ask questions, share updates, and get responses between your weekly sessions.</p>
 </div>
 
-<!-- IDENTITY BAR -->
-<div class="identity-bar">
-  <span class="identity-label">Posting as:</span>
-  <div class="identity-btns">
-    <button class="identity-btn" onclick="setIdentity('LaTonya')">LaTonya</button>
-    <button class="identity-btn" onclick="setIdentity('Dr. Catrina')">Dr. Catrina</button>
-    <button class="identity-btn" onclick="setIdentity('Dr. Tasha')">Dr. Tasha</button>
-  </div>
-  <span class="identity-note" id="identity-note">Select who you are before posting</span>
-</div>
+
 
 <div class="main">
 
@@ -159,7 +150,7 @@
 <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec';
   const ADMINS = ['Dr. Tasha', 'Dr. Catrina'];
-  let currentIdentity = ''; // default admin
+  let currentIdentity = ''; // This will be filled automatically by the URL
   let messages = [];
 
   // ─── IDENTITY ─────────────────────────────────────────────
@@ -366,21 +357,22 @@ if (!text) return;
 
   // ─── INIT ────────────────────────────────────────────────
 async function init() {
-  // 1. Load the messages from the sheet
+  // 1. Fetch the messages
   messages = await fetchMessages();
   
-  // 2. Check the URL for a user (e.g., ?user=Dr. Catrina)
+  // 2. Look at the URL to see who is logged in
   const urlParams = new URLSearchParams(window.location.search);
   const userFromUrl = urlParams.get('user');
 
   if (userFromUrl) {
-    // If the URL says who it is, set that identity immediately
-    setIdentity(userFromUrl);
+    // This locks the identity to whatever name the Portal passed over
+    currentIdentity = userFromUrl;
   } else {
-    // Default to 'LaTonya' if no user is specified, to be safe
-    setIdentity('LaTonya');
+    // Fallback if someone tries to access the board directly without the portal
+    currentIdentity = 'Guest'; 
   }
   
+  // 3. Highlight the correct name and show/hide Admin buttons
   renderMessages();
 }
 
