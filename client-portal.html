@@ -1469,16 +1469,14 @@ function updateSidebarProgress() {
 }
 function openCommBoard() {
   const modal = document.getElementById('commModal');
-  const iframe = modal.querySelector('iframe');
+  const iframe = document.getElementById('commBoardIframe');
   
-  // SECURE LOGIC: Check the URL to see if this is the Admin portal
-  const isAdminPortal = window.location.href.includes('ADMIN2026');
+  // Determine identity based on your session/verification logic
+  // (Assuming you've set a variable 'isAdmin' after the pw check)
+  const identity = isAdmin ? 'Dr. Tasha' : 'LaTonya';
   
-  // Assign identity: if Admin login, you are Dr. Tasha. If ADC2026, it's LaTonya.
-  const user = isAdminPortal ? 'Dr. Tasha' : 'LaTonya';
-  
-  // Pass that name into the board URL
-  iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(user);
+  // Pass the identity to the board URL
+  iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(identity);
   
   modal.style.display = 'flex';
 }
