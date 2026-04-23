@@ -1245,7 +1245,13 @@
     const formData = new FormData(form);
 
     // Collect all inputs including checkboxes
-    const data = {};
+    const data = {
+  type: "application",
+  name: form.querySelector('input[placeholder="Your first name"]').value + " " +
+        form.querySelector('input[placeholder="Your last name"]').value,
+  email: form.querySelector('input[type="email"]').value,
+  phone: form.querySelector('input[type="tel"]').value
+};
     const checkboxes = [];
 
     form.querySelectorAll('input, select, textarea').forEach(el => {
@@ -1258,7 +1264,7 @@
       } else {
         const label = el.closest('.form-group') ? el.closest('.form-group').querySelector('label') : null;
         const labelText = label ? label.textContent.replace('*','').trim() : el.placeholder || el.name;
-        if (el.value) data[labelText] = el.value;
+        if (el.value) if (el.value) data[labelText] = el.value;
       }
     });
 
