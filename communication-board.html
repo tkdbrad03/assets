@@ -357,24 +357,23 @@ if (!text) return;
 
   // ─── INIT ────────────────────────────────────────────────
 async function init() {
-  // 1. Get messages
+  // 1. Fetch messages from the sheet
   messages = await fetchMessages();
   
-  // 2. Grab the user from the URL
+  // 2. Check the URL for the user identity (passed from the portal)
   const urlParams = new URLSearchParams(window.location.search);
   const userFromUrl = urlParams.get('user');
 
   if (userFromUrl) {
-    // This locks you in as Dr. Tasha automatically
-    currentIdentity = userFromUrl; 
+    // This function sets currentIdentity and ENABLES the post button
+    setIdentity(userFromUrl); 
   } else {
+    // If no user is passed, it remains 'Guest' (Read-only mode)
     currentIdentity = 'Guest';
   }
   
-  // 3. Draw the board (this will now show the Edit/Delete buttons)
   renderMessages();
 }
-
 // Ensure setIdentity also calls renderMessages to refresh the buttons
 function setIdentity(name) {
   currentIdentity = name;
