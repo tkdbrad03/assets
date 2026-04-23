@@ -797,21 +797,6 @@
     </div>
 
     <div class="hero-apply-card">
-     <form id="leadForm" style="margin-top:10px;">
-  <input type="text" name="name" placeholder="Your Name" required
-    style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E0D9CF;">
-
-  <input type="email" name="email" placeholder="Your Email" required
-    style="width:100%; padding:12px; margin-bottom:10px; border:1px solid #E0D9CF;">
-
-  <button type="submit" class="btn-apply-hero">
-    Get the Free Guide
-  </button>
-</form>
-
-<p style="font-size:11px; color:#6B6560; margin-top:8px;">
-  Free 6-Week Adult Day Care Startup Guide
-</p>
       <div class="card-label">Limited Availability</div>
       <h3>6-Week Adult Day Care Startup Intensive</h3>
       <p>Private consulting for founders who are ready to launch right. Application required. Not everyone is accepted.</p>
@@ -1245,13 +1230,7 @@
     const formData = new FormData(form);
 
     // Collect all inputs including checkboxes
-    const data = {
-  type: "application",
-  name: form.querySelector('input[placeholder="Your first name"]').value + " " +
-        form.querySelector('input[placeholder="Your last name"]').value,
-  email: form.querySelector('input[type="email"]').value,
-  phone: form.querySelector('input[type="tel"]').value
-};
+    const data = {};
     const checkboxes = [];
 
     form.querySelectorAll('input, select, textarea').forEach(el => {
@@ -1264,7 +1243,7 @@
       } else {
         const label = el.closest('.form-group') ? el.closest('.form-group').querySelector('label') : null;
         const labelText = label ? label.textContent.replace('*','').trim() : el.placeholder || el.name;
-        if (el.value) if (el.value) data[labelText] = el.value;
+        if (el.value) data[labelText] = el.value;
       }
     });
 
@@ -1275,6 +1254,7 @@
 
     fetch(SCRIPT_URL, {
       method: 'POST',
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     })
@@ -1291,45 +1271,6 @@
     });
   }
 </script>
-<script>
-const form = document.getElementById("leadForm");
-const btn = form.querySelector("button");
 
-form.addEventListener("submit", async function(e) {
-  e.preventDefault();
-
-  const formData = new FormData(this);
-
-  const payload = {
-    type: "lead_magnet",
-    name: formData.get("name"),
-    email: formData.get("email")
-  };
-
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxd2KGyPI5fNhvcZZBsm4yrutIY832FEtR0miOUFNquXc35JHKOooEiZ_7y6jx0j3Tt/exec";
-
-  // 🔥 Disable button + show loading
-  btn.disabled = true;
-  btn.innerText = "Sending...";
-
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-
-    // 🔥 Redirect instead of alert (MUCH better UX)
-    window.location.href = "https://catrinalconsulting.com/thank-you/";
-
-  } catch (err) {
-    alert("Something went wrong. Please try again.");
-    btn.disabled = false;
-    btn.innerText = "Get the Free Guide";
-  }
-});
-</script>
 </body>
 </html>
