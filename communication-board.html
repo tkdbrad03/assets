@@ -374,16 +374,16 @@ if (!text) return;
           </div>
 
           <div class="message-body">
-            <div class="message-text">${msg.text}</div>
+            <div class="message-text">${msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
           </div>
 
          <div class="message-actions">
   <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
 
   ${isAdmin() ? `
-    <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text}\`)">Edit</button>
-    <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
-  ` : ''}
+  <button class="btn-reply" onclick="editMessage('${msg.id}', ${JSON.stringify(msg.text)})">Edit</button>
+  <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>
+` : ''}
 </div>
 
           ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
