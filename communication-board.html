@@ -336,7 +336,9 @@ if (!text) return;
 }
 
     document.getElementById('messages-count').textContent =
-      Array.isArray(messages) ? `${messages.length} messages` : '0 messages'{messages.length !== 1 ? 's' : ''}`;
+      countEl.textContent = Array.isArray(messages)
+  ? `${messages.length} message${messages.length !== 1 ? 's' : ''}`
+  : '0 messages';
 
     if (messages.length === 0) {
       container.innerHTML = `
