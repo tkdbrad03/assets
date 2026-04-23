@@ -1392,10 +1392,11 @@ function closePropertyResearch() {
 }
 
  function saveTask(week, taskId, label, completed) {
+
   fetch(SCRIPT_URL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'text/plain;charset=utf-8'  // 🔥 REQUIRED
     },
     body: JSON.stringify({
       type: 'save_progress',
@@ -1407,11 +1408,10 @@ function closePropertyResearch() {
     })
   })
   .then(() => {
-    // reload AFTER saving
-    loadProgress();
+    console.log('Saved to backend');
   })
   .catch(err => {
-    console.error('Save failed:', err);
+    console.error('SAVE FAILED:', err);
   });
 }
 
