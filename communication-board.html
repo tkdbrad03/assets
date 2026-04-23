@@ -124,7 +124,7 @@
     <div class="compose-label">New Message</div>
     <textarea id="compose-text" placeholder="Type your question or update here..."></textarea>
     <div class="compose-footer">
-      <span class="compose-sender" id="compose-sender-label">Select your name above to post</span>
+
       <div style="display:flex;align-items:center;gap:12px;">
         <span class="send-status" id="send-status">Message sent!</span>
         <button class="btn-send" id="btn-send" onclick="postMessage()" disabled>Post Message</button>
@@ -357,22 +357,21 @@ if (!text) return;
 
   // ─── INIT ────────────────────────────────────────────────
 async function init() {
-  // 1. Fetch the messages
+  // 1. Get messages
   messages = await fetchMessages();
   
-  // 2. Look at the URL to see who is logged in
+  // 2. Grab the user from the URL
   const urlParams = new URLSearchParams(window.location.search);
   const userFromUrl = urlParams.get('user');
 
   if (userFromUrl) {
-    // This locks the identity to whatever name the Portal passed over
-    currentIdentity = userFromUrl;
+    // This locks you in as Dr. Tasha automatically
+    currentIdentity = userFromUrl; 
   } else {
-    // Fallback if someone tries to access the board directly without the portal
-    currentIdentity = 'Guest'; 
+    currentIdentity = 'Guest';
   }
   
-  // 3. Highlight the correct name and show/hide Admin buttons
+  // 3. Draw the board (this will now show the Edit/Delete buttons)
   renderMessages();
 }
 
