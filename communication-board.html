@@ -205,19 +205,16 @@ function setIdentity(name) {
   // ─── FETCH FROM GOOGLE SHEET ─────────────────────────────
   async function fetchMessages() {
   try {
-    const res = await fetch(SCRIPT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8'
-      },
-      body: JSON.stringify({
-        type: 'get_messages',
-        client: 'LaTonya Mark'
-      })
-    });
-
+    const res = await fetch(`${SCRIPT_URL}?action=getMessages`);
     const data = await res.json();
-    return data || [];
+
+    // 🔥 FORCE ARRAY (THIS FIXES YOUR ERROR)
+    if (!Array.isArray(data)) {
+      console.error('Invalid response:', data);
+      return [];
+    }
+
+    return data;
 
   } catch (err) {
     console.error('Fetch failed:', err);
@@ -325,9 +322,21 @@ if (!text) return;
   // ─── RENDER ───────────────────────────────────────────────
   function renderMessages() {
     const container = document.getElementById('messages-container');
+    // 🔥 HARD PROTECTION
+  if (!Array.isArray(messages)) {
+    console.error('Messages is not an array:', messages);
+    messages = [];
+  }
+
+    // 🔥 FIX MESSAGE COUNT
+  const countEl = document.getElementById('messages-count');
+  if (countEl) {
+    countEl.textContent = `${messages.length} message${messages.length !== 1 ? 's' : ''}`;
+  }
+}
 
     document.getElementById('messages-count').textContent =
-      messages.length === 0 ? '' : `${messages.length} message${messages.length !== 1 ? 's' : ''}`;
+      Array.isArray(messages) ? `${messages.length} messages` : '0 messages'{messages.length !== 1 ? 's' : ''}`;
 
     if (messages.length === 0) {
       container.innerHTML = `
