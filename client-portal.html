@@ -1469,13 +1469,14 @@ function updateSidebarProgress() {
 }
 function openCommBoard() {
   const modal = document.getElementById('commModal');
-  const iframe = document.getElementById('commBoardIframe');
+  const iframe = modal.querySelector('iframe');
   
-  // Logic: If this is the Admin's version of the portal, set as Catrina. 
-  // Otherwise, set as LaTonya.
-  const userRole = window.location.href.includes('admin') ? 'Dr. Catrina' : 'LaTonya';
+  // Logic based on your two logins:
+  // If the current URL contains 'ADMIN2026', we log in as Dr. Catrina (Admin)
+  // Otherwise, we assume it's the ADC2026 login for LaTonya
+  const userRole = window.location.href.includes('ADMIN2026') ? 'Dr. Catrina' : 'LaTonya';
   
-  // This sends the name directly to the communication board
+  // This sends the identity into the board
   iframe.src = "https://complitrst-assets.vercel.app/communication-board.html?user=" + encodeURIComponent(userRole);
   
   modal.style.display = 'flex';
