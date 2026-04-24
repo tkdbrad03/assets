@@ -320,99 +320,73 @@ if (!text) return;
   }
 
   // ─── RENDER ───────────────────────────────────────────────
-  function renderMessages() {
-    const container = document.getElementById('messages-container');
-    // 🔥 HARD PROTECTION
+function renderMessages() {
+  const container = document.getElementById('messages-container');
+
   if (!Array.isArray(messages)) {
     console.error('Messages is not an array:', messages);
     messages = [];
   }
 
-    // 🔥 FIX MESSAGE COUNT
   const countEl = document.getElementById('messages-count');
   if (countEl) {
     countEl.textContent = `${messages.length} message${messages.length !== 1 ? 's' : ''}`;
   }
+
+  if (messages.length === 0) {
+    container.innerHTML = `
+      <div class="messages-empty">
+        <p>No messages yet. Post a question or update above.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = messages.map(msg => {
+    const consultant = isConsultant(msg.sender);
+    const avatarClass = consultant ? 'avatar-consultant' : 'avatar-client';
+
+    const repliesHtml = (msg.replies || []).map(r => `
+      <div class="reply-item">
+        <div class="reply-header">
+          <span class="reply-sender">${r.sender}</span>
+          <span class="reply-time">${formatTime(r.timestamp)}</span>
+        </div>
+        <div class="reply-text">${r.text}</div>
+      </div>`).join('');
+
+    const adminButtons = isAdmin() ? `
+      <button class="btn-reply" onclick="editMessage('${msg.id}', \`${msg.text.replace(/`/g, '\\`')}\`)">Edit</button>
+      <button class="btn-reply" onclick="deleteMessage('${msg.id}')">Delete</button>` : '';
+
+    return `
+      <div class="message-card ${consultant ? 'from-consultant' : 'from-client'}">
+        <div class="message-header">
+          <div class="message-sender">
+            <div class="sender-avatar ${avatarClass}">${getInitials(msg.sender)}</div>
+            <div>
+              <div class="sender-name">${msg.sender}</div>
+            </div>
+          </div>
+          <div class="message-time">${formatTime(msg.timestamp)}</div>
+        </div>
+        <div class="message-body">
+          <div class="message-text">${msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
+        </div>
+        <div class="message-actions">
+          <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
+          ${adminButtons}
+        </div>
+        ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
+        <div class="reply-compose" data-reply-box="${msg.id}">
+          <textarea data-reply-input="${msg.id}" placeholder="Write reply..."></textarea>
+          <div class="reply-compose-footer">
+            <button class="btn-cancel-reply" onclick="cancelReply('${msg.id}')">Cancel</button>
+            <button class="btn-send-reply" onclick="postReply('${msg.id}')">Send</button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 }
-
-    document.getElementById('messages-count').textContent =
-      countEl.textContent = Array.isArray(messages)
-  ? `${messages.length} message${messages.length !== 1 ? 's' : ''}`
-  : '0 messages';
-
-    if (messages.length === 0) {
-      container.innerHTML = `
-        <div class="messages-empty">
-          <p>No messages yet. Post a question or update above.</p>
-        </div>`;
-      return;
-    }
-
-    container.innerHTML = messages.map(msg => {
-      const consultant = isConsultant(msg.sender);
-      const avatarClass = consultant ? 'avatar-consultant' : 'avatar-client';
-
-      const repliesHtml = (msg.replies || []).map(r => `
-        <div class="reply-item">
-          <div class="reply-header">
-            <span class="reply-sender">${r.sender}</span>
-            <span class="reply-time">${formatTime(r.timestamp)}</span>
-          </div>
-          <div class="reply-text">${r.text}</div>
-        </div>`).join('');
-     messages.forEach(msg => {
-  const actionsEl = document.getElementById(`actions-${msg.id}`);
-  if (!actionsEl) return;
-
-  if (isAdmin()) {
-    actionsEl.innerHTML = `
-      <button class="btn-reply">Edit</button>
-      <button class="btn-reply">Delete</button>
-    `;
-
-    const [editBtn, deleteBtn] = actionsEl.querySelectorAll('button');
-
-    editBtn.onclick = () => editMessage(msg.id, msg.text);
-    deleteBtn.onclick = () => deleteMessage(msg.id);
-  }
-});
-
-      return `
-        <div class="message-card">
-          <div class="message-header">
-            <div class="message-sender">
-              <div class="sender-avatar ${avatarClass}">
-                ${getInitials(msg.sender)}
-              </div>
-              <div>
-                <div class="sender-name">${msg.sender}</div>
-              </div>
-            </div>
-            <div class="message-time">${formatTime(msg.timestamp)}</div>
-          </div>
-
-          <div class="message-body">
-            <div class="message-text">${msg.text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div>
-          </div>
-
-         <div class="message-actions">
-  <button class="btn-reply" onclick="toggleReplyBox('${msg.id}')">Reply</button>
-  <span id="actions-${msg.id}"></span>
-</div>
-
-          ${repliesHtml ? `<div class="reply-thread">${repliesHtml}</div>` : ''}
-
-          <div class="reply-compose" data-reply-box="${msg.id}">
-            <textarea data-reply-input="${msg.id}" placeholder="Write reply..."></textarea>
-            <div class="reply-compose-footer">
-              <button class="btn-cancel-reply" onclick="cancelReply('${msg.id}')">Cancel</button>
-              <button class="btn-send-reply" onclick="postReply('${msg.id}')">Send</button>
-            </div>
-          </div>
-        </div>`;
-    }).join('');
-  }
-
   // ─── INIT ────────────────────────────────────────────────
 async function init() {
   // 1. Fetch messages from the sheet
