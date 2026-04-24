@@ -674,6 +674,10 @@
   padding: 2px 6px;
   margin-left: 6px;
 }
+ @keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
 </style>
 </head>
 <body>
@@ -1144,6 +1148,24 @@
         </div>
       </div>
 
+<!-- COMMUNICATION BOARD -->
+<div class="sidebar-card">
+  <div class="sidebar-card-header" style="display:flex;align-items:center;justify-content:space-between;">
+    <h3>Communication Board</h3>
+    <span style="display:flex;align-items:center;gap:6px;font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(201,168,76,0.7);">
+      <span style="width:6px;height:6px;border-radius:50%;background:#3a7d5a;display:inline-block;animation:pulse 2s infinite;"></span>
+      Live
+    </span>
+  </div>
+  <div class="sidebar-card-body">
+    <p style="font-size:12px;color:var(--gray);font-weight:300;line-height:1.6;margin-bottom:12px;">Post questions and updates between sessions. We respond within two business days.</p>
+    <a href="#" onclick="openCommBoard(event)" style="display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:11px 16px;text-decoration:none;transition:opacity 0.2s;">
+      <span>Open Board</span>
+      <span id="comm-badge" class="notif-badge" style="display:none;">0</span>
+    </a>
+  </div>
+</div>
+     
       <!-- DOCUMENTS -->
       <div class="sidebar-card">
         <div class="sidebar-card-header"><h3>Your Documents</h3></div>
@@ -1190,16 +1212,7 @@
     <div class="doc-type">Deal Analysis & Notes</div>
   </div>
 </a>
-         <a class="doc-link" href="#" onclick="openCommBoard(event)">
-  <div class="doc-icon">&#128172;</div>
-  <div class="doc-info">
-    <div class="doc-name">
-      Communication Board 
-      <span id="comm-badge" class="notif-badge" style="display:none;">0</span>
-    </div>
-    <div class="doc-type">Live Updates & Notes</div>
-  </div>
-</a>
+  
         </div>
       </div>
 
