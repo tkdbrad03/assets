@@ -186,7 +186,15 @@ const CHURCHES = [
 ];
 
 // LOAD DATA
+let isEditing = false;
+
+document.addEventListener("focusin", () => isEditing = true);
+document.addEventListener("focusout", () => isEditing = false);
+
 async function load() {
+
+  if (isEditing) return; // 🔥 prevents overwrite while typing
+
   const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
   const data = await res.json();
 
@@ -195,7 +203,7 @@ async function load() {
 
   render(map);
 }
-
+setInterval(load, 5000);
 // RENDER UI
 function render(data) {
   const app = document.getElementById('app');
@@ -241,7 +249,8 @@ function render(data) {
       <button class="btn" onclick="save('${name}')">Save Update</button>
 
       <div class="small">
-        Last Updated: ${d.lastUpdated || '—'}
+        Last Updated: ${d.lastUpdated || '—'} 
+        <br>Updated By: ${d.assignedTo || '—'}
       </div>
     `;
 
@@ -269,7 +278,7 @@ async function save(name) {
     body: JSON.stringify(payload)
   });
 
-  alert("Saved");
+  console.log("Saved");
 
   load();
 }
