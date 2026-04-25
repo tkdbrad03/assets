@@ -81,7 +81,8 @@ textarea {
   color:var(--gray);
   margin-top:6px;
 }
-  .script-card {
+
+.script-card {
   background: var(--white);
   border: 1px solid var(--border);
   padding: 16px;
@@ -125,7 +126,6 @@ textarea {
 
 <div class="container">
 
-  <!-- CALL SCRIPT PANEL -->
   <div class="script-card">
     <div class="script-header">Call Script</div>
 
@@ -163,54 +163,71 @@ textarea {
       <strong>If They Ask for Info</strong>
       <p>Absolutely, I can send a proposal over. What’s the best email for you?</p>
     </div>
-
   </div>
 
-  <!-- APP RENDERS BELOW -->
-  <div id="app"></div>
+  <div class="card">
+    <h3>Add New Church</h3>
+
+    <div class="row">
+      <label>Church Name</label>
+      <input id="new-name" placeholder="Enter church name">
+    </div>
+
+    <div class="row">
+      <label>Phone</label>
+      <input id="new-phone" placeholder="Optional">
+    </div>
+
+    <button class="btn" onclick="addChurch()">Add Church</button>
+  </div>
+
+  <div id="app">Loading...</div>
 
 </div>
 
 <script>
 
-// 🔥 YOUR API URL
 const API = "https://script.google.com/macros/s/AKfycbwvlU7IglU5j8Lbv3bq_qaecAZf0nyurcpfkgt5WfxkLAn5E6nVhZcyFi7mBShzHme5/exec";
-
 const CLIENT = "LaTonya Mark";
 
-const CHURCHES = [
-  "Tylertown First Baptist Church",
-  "Tylertown United Methodist Church",
-  "Calvary Temple Pentecostal Church",
-  "Magee's Creek Baptist Church"
-];
-
-// LOAD DATA
 let isEditing = false;
+let isLoading = false;
 
 document.addEventListener("focusin", () => isEditing = true);
 document.addEventListener("focusout", () => isEditing = false);
 
 async function load() {
 
-  if (isEditing) return; // 🔥 prevents overwrite while typing
+  if (isEditing || isLoading) return;
 
-  const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
-  const data = await res.json();
+  isLoading = true;
 
-  const map = {};
-  data.forEach(c => map[c.churchName] = c);
+  try {
+    const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
+    const data = await res.json();
 
-  render(map);
+    const map = {};
+    data.forEach(c => map[c.churchName] = c);
+
+    render(map);
+
+  } catch (err) {
+    console.error(err);
+  }
+
+  isLoading = false;
 }
-setInterval(load, 5000);
-// RENDER UI
+
+setInterval(load, 10000);
+
 function render(data) {
+
   const app = document.getElementById('app');
   app.innerHTML = '';
 
-  CHURCHES.forEach(name => {
-    const d = data[name] || {};
+  Object.keys(data).forEach(name => {
+
+    const d = data[name];
 
     const div = document.createElement('div');
     div.className = 'card';
@@ -249,8 +266,7 @@ function render(data) {
       <button class="btn" onclick="save('${name}')">Save Update</button>
 
       <div class="small">
-        Last Updated: ${d.lastUpdated || '—'} 
-        <br>Updated By: ${d.assignedTo || '—'}
+        Last Updated: ${d.lastUpdated || '—'}
       </div>
     `;
 
@@ -258,7 +274,6 @@ function render(data) {
   });
 }
 
-// SAVE DATA
 async function save(name) {
 
   const payload = {
@@ -278,12 +293,42 @@ async function save(name) {
     body: JSON.stringify(payload)
   });
 
-  console.log("Saved");
-
-  load();
+  setTimeout(load, 2000);
 }
 
-// INIT
+async function addChurch() {
+
+  const name = document.getElementById('new-name').value.trim();
+  const phone = document.getElementById('new-phone').value.trim();
+
+  if (!name) {
+    alert("Enter church name");
+    return;
+  }
+
+  const payload = {
+    type: "save_church",
+    client: CLIENT,
+    churchName: name,
+    status: "Not Contacted",
+    contactPerson: "",
+    phone: phone,
+    notes: "",
+    nextStep: "",
+    updatedBy: "LaTonya"
+  };
+
+  await fetch(API, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+
+  document.getElementById('new-name').value = '';
+  document.getElementById('new-phone').value = '';
+
+  setTimeout(load, 2000);
+}
+
 load();
 
 </script>
