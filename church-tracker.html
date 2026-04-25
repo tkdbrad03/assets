@@ -81,6 +81,39 @@ textarea {
   color:var(--gray);
   margin-top:6px;
 }
+  .script-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.script-header {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.script-section {
+  margin-bottom: 12px;
+}
+
+.script-section strong {
+  display: block;
+  font-size: 12px;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.script-section p {
+  font-size: 13px;
+  color: var(--gray);
+  line-height: 1.6;
+  margin: 0;
+}
 </style>
 </head>
 
@@ -90,7 +123,53 @@ textarea {
   <h1>Church Outreach Tracker</h1>
 </div>
 
-<div class="container" id="app"></div>
+<div class="container">
+
+  <!-- CALL SCRIPT PANEL -->
+  <div class="script-card">
+    <div class="script-header">Call Script</div>
+
+    <div class="script-section">
+      <strong>Opening</strong>
+      <p>Hi, my name is LaTonya. I’m a nurse here in Tylertown and I’m opening a licensed adult day care for seniors and adults with disabilities.</p>
+    </div>
+
+    <div class="script-section">
+      <strong>Credibility</strong>
+      <p>I already have 14 to 17 individuals who will be enrolling, and I’m currently working through licensing and Medicaid approval.</p>
+    </div>
+
+    <div class="script-section">
+      <strong>The Ask</strong>
+      <p>I’m looking to partner with a church that has unused weekday space and would be open to a lease arrangement that also creates steady income for the church while serving the community.</p>
+    </div>
+
+    <div class="script-section">
+      <strong>Close</strong>
+      <p>Who would be the best person to speak with about something like this?</p>
+    </div>
+
+    <div class="script-section">
+      <strong>If They Ask What This Is</strong>
+      <p>It’s daytime care for seniors and adults with disabilities. It allows families to keep their loved ones at home instead of placing them in a facility.</p>
+    </div>
+
+    <div class="script-section">
+      <strong>If They Ask How It Works</strong>
+      <p>It would be weekday use only, typically Monday through Friday during the day. The church keeps full use of the space evenings and weekends.</p>
+    </div>
+
+    <div class="script-section">
+      <strong>If They Ask for Info</strong>
+      <p>Absolutely, I can send a proposal over. What’s the best email for you?</p>
+    </div>
+
+  </div>
+
+  <!-- APP RENDERS BELOW -->
+  <div id="app"></div>
+
+</div>
 
 <script>
 
