@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Church Outreach Tracker</title>
+
+<style>
+:root {
+  --navy:#0E1E35;
+  --gold:#C9A84C;
+  --cream:#FAF7F2;
+  --border:#E0D9CF;
+  --gray:#6B6560;
+  --white:#ffffff;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  margin:0;
+}
+
+.header {
+  background:var(--navy);
+  color:white;
+  padding:20px;
+}
+
+.header h1 {
+  margin:0;
+  font-size:22px;
+}
+
+.container {
+  padding:16px;
+  max-width:700px;
+  margin:auto;
+}
+
+.card {
+  background:white;
+  border:1px solid var(--border);
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.card h3 {
+  margin:0 0 10px;
+  font-size:16px;
+}
+
+select, input, textarea {
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  border:1px solid var(--border);
+  font-size:14px;
+}
+
+textarea {
+  min-height:70px;
+}
+
+.row {
+  margin-bottom:10px;
+}
+
+.btn {
+  background:var(--navy);
+  color:var(--gold);
+  border:none;
+  padding:12px;
+  width:100%;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.small {
+  font-size:11px;
+  color:var(--gray);
+  margin-top:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>Church Outreach Tracker</h1>
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+
+// 🔥 YOUR API URL
+const API = "https://script.google.com/macros/s/AKfycbwvlU7IglU5j8Lbv3bq_qaecAZf0nyurcpfkgt5WfxkLAn5E6nVhZcyFi7mBShzHme5/exec";
+
+const CLIENT = "LaTonya Mark";
+
+const CHURCHES = [
+  "Tylertown First Baptist Church",
+  "Tylertown United Methodist Church",
+  "Calvary Temple Pentecostal Church",
+  "Magee's Creek Baptist Church"
+];
+
+// LOAD DATA
+async function load() {
+  const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
+  const data = await res.json();
+
+  const map = {};
+  data.forEach(c => map[c.churchName] = c);
+
+  render(map);
+}
+
+// RENDER UI
+function render(data) {
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  CHURCHES.forEach(name => {
+    const d = data[name] || {};
+
+    const div = document.createElement('div');
+    div.className = 'card';
+
+    div.innerHTML = `
+      <h3>${name}</h3>
+
+      <div class="row">
+        <label>Status</label>
+        <select id="status-${name}">
+          ${['Not Contacted','Called','Voicemail','Meeting Scheduled','Follow-Up','Closed']
+            .map(s => `<option ${d.status===s?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="row">
+        <label>Contact Person</label>
+        <input id="contact-${name}" value="${d.contactPerson || ''}">
+      </div>
+
+      <div class="row">
+        <label>Phone</label>
+        <input id="phone-${name}" value="${d.phone || ''}">
+      </div>
+
+      <div class="row">
+        <label>Notes</label>
+        <textarea id="notes-${name}">${d.notes || ''}</textarea>
+      </div>
+
+      <div class="row">
+        <label>Next Step</label>
+        <input id="next-${name}" value="${d.nextStep || ''}">
+      </div>
+
+      <button class="btn" onclick="save('${name}')">Save Update</button>
+
+      <div class="small">
+        Last Updated: ${d.lastUpdated || '—'}
+      </div>
+    `;
+
+    app.appendChild(div);
+  });
+}
+
+// SAVE DATA
+async function save(name) {
+
+  const payload = {
+    type: "save_church",
+    client: CLIENT,
+    churchName: name,
+    status: document.getElementById(`status-${name}`).value,
+    contactPerson: document.getElementById(`contact-${name}`).value,
+    phone: document.getElementById(`phone-${name}`).value,
+    notes: document.getElementById(`notes-${name}`).value,
+    nextStep: document.getElementById(`next-${name}`).value,
+    updatedBy: "LaTonya"
+  };
+
+  await fetch(API, {
+    method:"POST",
+    body: JSON.stringify(payload)
+  });
+
+  alert("Saved");
+
+  load();
+}
+
+// INIT
+load();
+
+</script>
+
+</body>
+</html>
