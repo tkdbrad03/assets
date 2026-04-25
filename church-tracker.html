@@ -3,335 +3,394 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Church Outreach Tracker</title>
-
+<title>Church Outreach Tracker — LaTonya Mark</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --navy:#0E1E35;
-  --gold:#C9A84C;
-  --cream:#FAF7F2;
-  --border:#E0D9CF;
-  --gray:#6B6560;
-  --white:#ffffff;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0E1E35; --gold: #C9A84C; --gold-light: #E8D49A;
+    --cream: #FAF7F2; --warm: #F2EDE6; --gray: #6B6560;
+    --border: #E0D9CF; --white: #ffffff; --green: #3a7d5a;
+    --green-light: #edf7f2;
+  }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
-  margin:0;
-}
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
 
-.header {
-  background:var(--navy);
-  color:white;
-  padding:20px;
-}
+  /* HEADER */
+  .header { background: var(--navy); padding: 36px 40px 28px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -60px; top: -60px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 10px; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 12px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(22px, 4vw, 30px); color: #fff; line-height: 1.15; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 5px; }
 
-.header h1 {
-  margin:0;
-  font-size:22px;
-}
+  /* MAIN */
+  .main { max-width: 720px; margin: 0 auto; padding: 28px 24px 48px; }
 
-.container {
-  padding:16px;
-  max-width:700px;
-  margin:auto;
-}
+  /* SCRIPT CARD */
+  .script-card { background: var(--navy); border: 1px solid rgba(201,168,76,0.2); margin-bottom: 24px; overflow: hidden; }
+  .script-header { background: var(--gold); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+  .script-header h3 { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--navy); }
+  .script-toggle { font-size: 12px; color: var(--navy); opacity: 0.6; }
+  .script-body { padding: 20px 24px; display: none; }
+  .script-body.open { display: block; }
+  .script-section { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .script-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .script-section strong { display: block; font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .script-section p { font-size: 13px; color: rgba(255,255,255,0.7); line-height: 1.7; }
 
-.card {
-  background:white;
-  border:1px solid var(--border);
-  padding:16px;
-  margin-bottom:12px;
-}
+  /* ADD CHURCH */
+  .add-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--gold); padding: 20px 22px; margin-bottom: 24px; }
+  .add-card-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group label { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); }
+  .form-group input { padding: 9px 12px; border: 1px solid var(--border); background: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--navy); outline: none; transition: border-color 0.2s; }
+  .form-group input:focus { border-color: var(--gold); background: #fffdf8; }
+  .btn-add { background: var(--navy); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 11px 24px; border: none; cursor: pointer; transition: opacity 0.2s; width: 100%; margin-top: 4px; }
+  .btn-add:hover { opacity: 0.85; }
 
-.card h3 {
-  margin:0 0 10px;
-  font-size:16px;
-}
+  /* STATS BAR */
+  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+  .stat-item { background: var(--white); border: 1px solid var(--border); padding: 14px 12px; text-align: center; }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gray); }
 
-select, input, textarea {
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  border:1px solid var(--border);
-  font-size:14px;
-}
+  /* FILTER TABS */
+  .filter-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-btn { padding: 6px 14px; border: 1px solid var(--border); background: var(--white); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 500; color: var(--gray); cursor: pointer; transition: all 0.2s; border-radius: 2px; }
+  .filter-btn:hover { border-color: var(--navy); color: var(--navy); }
+  .filter-btn.active { background: var(--navy); color: var(--gold); border-color: var(--navy); }
 
-textarea {
-  min-height:70px;
-}
+  /* CHURCH CARDS */
+  .churches-list { display: flex; flex-direction: column; gap: 12px; }
+  .church-card { background: var(--white); border: 1px solid var(--border); overflow: hidden; }
+  .church-card.status-not-contacted { border-left: 3px solid var(--border); }
+  .church-card.status-called { border-left: 3px solid var(--gold); }
+  .church-card.status-voicemail { border-left: 3px solid #d4843a; }
+  .church-card.status-meeting { border-left: 3px solid var(--green); }
+  .church-card.status-follow-up { border-left: 3px solid #6b5bab; }
+  .church-card.status-closed { border-left: 3px solid #c0392b; opacity: 0.55; }
 
-.row {
-  margin-bottom:10px;
-}
+  .church-card-header { padding: 14px 18px 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
+  .church-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 600; color: var(--navy); }
+  .church-meta { font-size: 11px; color: var(--gray); font-weight: 300; margin-top: 2px; }
+  .status-pill { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 10px; border-radius: 2px; white-space: nowrap; }
+  .pill-not-contacted { background: var(--warm); color: var(--gray); }
+  .pill-called { background: rgba(201,168,76,0.12); color: #8a6d1e; }
+  .pill-voicemail { background: #fdf3e7; color: #d4843a; }
+  .pill-meeting { background: var(--green-light); color: var(--green); }
+  .pill-follow-up { background: #f0eef8; color: #6b5bab; }
+  .pill-closed { background: #fdf0ee; color: #c0392b; }
 
-.btn {
-  background:var(--navy);
-  color:var(--gold);
-  border:none;
-  padding:12px;
-  width:100%;
-  font-weight:bold;
-  margin-top:8px;
-}
+  .church-card-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+  .church-card-body.open { display: block; padding-top: 16px; }
 
-.small {
-  font-size:11px;
-  color:var(--gray);
-  margin-top:6px;
-}
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-group label { font-size: 10px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); }
+  .field-group input, .field-group select, .field-group textarea {
+    padding: 9px 12px; border: 1px solid var(--border); background: var(--cream);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--navy); outline: none;
+    transition: border-color 0.2s; appearance: none;
+  }
+  .field-group input:focus, .field-group select:focus, .field-group textarea:focus { border-color: var(--gold); background: #fffdf8; }
+  .field-group textarea { min-height: 70px; resize: vertical; line-height: 1.6; grid-column: span 2; }
+  .field-group.full { grid-column: span 2; }
+  .field-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B6560'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-color: var(--cream); padding-right: 28px; }
 
-.script-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  padding: 16px;
-  margin-bottom: 16px;
-}
+  .card-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .btn-save { background: var(--navy); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 10px 20px; border: none; cursor: pointer; transition: opacity 0.2s; flex: 1; }
+  .btn-save:hover { opacity: 0.85; }
+  .save-confirm { font-size: 11px; color: var(--green); font-weight: 500; display: none; padding: 10px 0; }
+  .last-updated { font-size: 11px; color: var(--gray); font-weight: 300; padding-top: 8px; }
 
-.script-header {
-  font-size: 11px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 12px;
-  font-weight: 600;
-}
+  .empty-state { text-align: center; padding: 48px 20px; background: var(--white); border: 1px dashed var(--border); }
+  .empty-state p { font-size: 14px; color: var(--gray); font-weight: 300; }
 
-.script-section {
-  margin-bottom: 12px;
-}
+  .loading { text-align: center; padding: 40px; font-size: 13px; color: var(--gray); font-style: italic; }
 
-.script-section strong {
-  display: block;
-  font-size: 12px;
-  color: var(--navy);
-  margin-bottom: 4px;
-}
+  footer { background: var(--navy); padding: 18px 40px; text-align: center; margin-top: 40px; }
+  footer p { font-size: 11px; color: rgba(255,255,255,0.3); }
+  footer strong { color: var(--gold); font-weight: 400; }
 
-.script-section p {
-  font-size: 13px;
-  color: var(--gray);
-  line-height: 1.6;
-  margin: 0;
-}
+  @media (max-width: 600px) {
+    .header { padding: 28px 20px 22px; }
+    .main { padding: 20px 16px 40px; }
+    .form-row, .field-grid { grid-template-columns: 1fr; }
+    .field-group.full, .field-group textarea { grid-column: span 1; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    footer { padding: 16px 20px; }
+  }
 </style>
 </head>
-
 <body>
 
 <div class="header">
-  <h1>Church Outreach Tracker</h1>
+  <div class="header-badge">Facility Strategy</div>
+  <h1>Church Outreach <em>Tracker</em></h1>
+  <p class="header-sub">Track your church partnership outreach — Tylertown, Mississippi</p>
 </div>
 
-<div class="container">
+<div class="main">
 
+  <!-- CALL SCRIPT -->
   <div class="script-card">
-    <div class="script-header">Call Script</div>
-
-    <div class="script-section">
-      <strong>Opening</strong>
-      <p>Hi, my name is LaTonya. I’m a nurse here in Tylertown and I’m opening a licensed adult day care for seniors and adults with disabilities.</p>
+    <div class="script-header" onclick="toggleScript()">
+      <h3>Call Script — Use This When You Call</h3>
+      <span class="script-toggle" id="script-toggle">Show ▾</span>
     </div>
-
-    <div class="script-section">
-      <strong>Credibility</strong>
-      <p>I already have 14 to 17 individuals who will be enrolling, and I’m currently working through licensing and Medicaid approval.</p>
-    </div>
-
-    <div class="script-section">
-      <strong>The Ask</strong>
-      <p>I’m looking to partner with a church that has unused weekday space and would be open to a lease arrangement that also creates steady income for the church while serving the community.</p>
-    </div>
-
-    <div class="script-section">
-      <strong>Close</strong>
-      <p>Who would be the best person to speak with about something like this?</p>
-    </div>
-
-    <div class="script-section">
-      <strong>If They Ask What This Is</strong>
-      <p>It’s daytime care for seniors and adults with disabilities. It allows families to keep their loved ones at home instead of placing them in a facility.</p>
-    </div>
-
-    <div class="script-section">
-      <strong>If They Ask How It Works</strong>
-      <p>It would be weekday use only, typically Monday through Friday during the day. The church keeps full use of the space evenings and weekends.</p>
-    </div>
-
-    <div class="script-section">
-      <strong>If They Ask for Info</strong>
-      <p>Absolutely, I can send a proposal over. What’s the best email for you?</p>
+    <div class="script-body" id="script-body">
+      <div class="script-section">
+        <strong>Opening</strong>
+        <p>Hi, my name is LaTonya. I am a nurse here in Tylertown and I am opening a licensed adult day care for seniors and adults with disabilities.</p>
+      </div>
+      <div class="script-section">
+        <strong>Credibility</strong>
+        <p>I already have 14 to 17 individuals who will be enrolling and I am currently working through licensing and Medicaid approval.</p>
+      </div>
+      <div class="script-section">
+        <strong>The Ask</strong>
+        <p>I am looking to partner with a church that has unused weekday space and would be open to a lease arrangement that also creates steady income for the church while serving the community.</p>
+      </div>
+      <div class="script-section">
+        <strong>Close</strong>
+        <p>Who would be the best person to speak with about something like this?</p>
+      </div>
+      <div class="script-section">
+        <strong>If They Ask What This Is</strong>
+        <p>It is daytime care for seniors and adults with disabilities. It allows families to keep their loved ones at home instead of placing them in a facility.</p>
+      </div>
+      <div class="script-section">
+        <strong>If They Ask How It Works</strong>
+        <p>It would be weekday use only — Monday through Friday during the day. The church keeps full use of the space evenings and weekends.</p>
+      </div>
+      <div class="script-section">
+        <strong>If They Ask for More Info</strong>
+        <p>Absolutely. I can send a formal proposal over. What is the best email address for you?</p>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <h3>Add New Church</h3>
-
-    <div class="row">
-      <label>Church Name</label>
-      <input id="new-name" placeholder="Enter church name">
+  <!-- ADD CHURCH -->
+  <div class="add-card">
+    <div class="add-card-label">Add a Church to Track</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Church Name</label>
+        <input id="new-name" placeholder="e.g. Tylertown First Baptist">
+      </div>
+      <div class="form-group">
+        <label>Phone (optional)</label>
+        <input id="new-phone" placeholder="(601) 000-0000">
+      </div>
     </div>
-
-    <div class="row">
-      <label>Phone</label>
-      <input id="new-phone" placeholder="Optional">
-    </div>
-
-    <button class="btn" onclick="addChurch()">Add Church</button>
+    <button class="btn-add" onclick="addChurch()">Add Church</button>
   </div>
 
-  <div id="app">Loading...</div>
+  <!-- STATS -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-item"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-contacted">—</div><div class="stat-label">Contacted</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-meetings">—</div><div class="stat-label">Meetings</div></div>
+    <div class="stat-item"><div class="stat-num" id="stat-pending">—</div><div class="stat-label">Pending</div></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" onclick="setFilter('Not Contacted', this)">Not Contacted</button>
+    <button class="filter-btn" onclick="setFilter('Called', this)">Called</button>
+    <button class="filter-btn" onclick="setFilter('Voicemail', this)">Voicemail</button>
+    <button class="filter-btn" onclick="setFilter('Meeting Scheduled', this)">Meeting Scheduled</button>
+    <button class="filter-btn" onclick="setFilter('Follow-Up', this)">Follow-Up</button>
+  </div>
+
+  <!-- CHURCHES -->
+  <div class="churches-list" id="app">
+    <div class="loading">Loading churches...</div>
+  </div>
 
 </div>
+
+<footer>
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Church Outreach Tracker &nbsp;|&nbsp; LaTonya Mark</p>
+</footer>
 
 <script>
+  const API = 'https://script.google.com/macros/s/AKfycbwvlU7IglU5j8Lbv3bq_qaecAZf0nyurcpfkgt5WfxkLAn5E6nVhZcyFi7mBShzHme5/exec';
+  const CLIENT = 'LaTonya Mark';
+  let churches = {};
+  let currentFilter = 'all';
+  let isEditing = false;
+  let isLoading = false;
+  let openCards = new Set();
 
-const API = "https://script.google.com/macros/s/AKfycbwvlU7IglU5j8Lbv3bq_qaecAZf0nyurcpfkgt5WfxkLAn5E6nVhZcyFi7mBShzHme5/exec";
-const CLIENT = "LaTonya Mark";
+  document.addEventListener('focusin', () => isEditing = true);
+  document.addEventListener('focusout', () => setTimeout(() => isEditing = false, 200));
 
-let isEditing = false;
-let isLoading = false;
-
-document.addEventListener("focusin", () => isEditing = true);
-document.addEventListener("focusout", () => isEditing = false);
-
-async function load() {
-
-  if (isEditing || isLoading) return;
-
-  isLoading = true;
-
-  try {
-    const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
-    const data = await res.json();
-
-    const map = {};
-    data.forEach(c => map[c.churchName] = c);
-
-    render(map);
-
-  } catch (err) {
-    console.error(err);
+  function toggleScript() {
+    const body = document.getElementById('script-body');
+    const toggle = document.getElementById('script-toggle');
+    body.classList.toggle('open');
+    toggle.textContent = body.classList.contains('open') ? 'Hide ▴' : 'Show ▾';
   }
 
-  isLoading = false;
-}
-
-setInterval(load, 10000);
-
-function render(data) {
-
-  const app = document.getElementById('app');
-  app.innerHTML = '';
-
-  Object.keys(data).forEach(name => {
-
-    const d = data[name];
-
-    const div = document.createElement('div');
-    div.className = 'card';
-
-    div.innerHTML = `
-      <h3>${name}</h3>
-
-      <div class="row">
-        <label>Status</label>
-        <select id="status-${name}">
-          ${['Not Contacted','Called','Voicemail','Meeting Scheduled','Follow-Up','Closed']
-            .map(s => `<option ${d.status===s?'selected':''}>${s}</option>`).join('')}
-        </select>
-      </div>
-
-      <div class="row">
-        <label>Contact Person</label>
-        <input id="contact-${name}" value="${d.contactPerson || ''}">
-      </div>
-
-      <div class="row">
-        <label>Phone</label>
-        <input id="phone-${name}" value="${d.phone || ''}">
-      </div>
-
-      <div class="row">
-        <label>Notes</label>
-        <textarea id="notes-${name}">${d.notes || ''}</textarea>
-      </div>
-
-      <div class="row">
-        <label>Next Step</label>
-        <input id="next-${name}" value="${d.nextStep || ''}">
-      </div>
-
-      <button class="btn" onclick="save('${name}')">Save Update</button>
-
-      <div class="small">
-        Last Updated: ${d.lastUpdated || '—'}
-      </div>
-    `;
-
-    app.appendChild(div);
-  });
-}
-
-async function save(name) {
-
-  const payload = {
-    type: "save_church",
-    client: CLIENT,
-    churchName: name,
-    status: document.getElementById(`status-${name}`).value,
-    contactPerson: document.getElementById(`contact-${name}`).value,
-    phone: document.getElementById(`phone-${name}`).value,
-    notes: document.getElementById(`notes-${name}`).value,
-    nextStep: document.getElementById(`next-${name}`).value,
-    updatedBy: "LaTonya"
-  };
-
-  await fetch(API, {
-    method:"POST",
-    body: JSON.stringify(payload)
-  });
-
-  setTimeout(load, 2000);
-}
-
-async function addChurch() {
-
-  const name = document.getElementById('new-name').value.trim();
-  const phone = document.getElementById('new-phone').value.trim();
-
-  if (!name) {
-    alert("Enter church name");
-    return;
+  function statusClass(status) {
+    const map = {
+      'Not Contacted': 'not-contacted',
+      'Called': 'called',
+      'Voicemail': 'voicemail',
+      'Meeting Scheduled': 'meeting',
+      'Follow-Up': 'follow-up',
+      'Closed': 'closed'
+    };
+    return map[status] || 'not-contacted';
   }
 
-  const payload = {
-    type: "save_church",
-    client: CLIENT,
-    churchName: name,
-    status: "Not Contacted",
-    contactPerson: "",
-    phone: phone,
-    notes: "",
-    nextStep: "",
-    updatedBy: "LaTonya"
-  };
+  function pillClass(status) {
+    const map = {
+      'Not Contacted': 'pill-not-contacted',
+      'Called': 'pill-called',
+      'Voicemail': 'pill-voicemail',
+      'Meeting Scheduled': 'pill-meeting',
+      'Follow-Up': 'pill-follow-up',
+      'Closed': 'pill-closed'
+    };
+    return map[status] || 'pill-not-contacted';
+  }
 
-  await fetch(API, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  });
+  function setFilter(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(churches);
+  }
 
-  document.getElementById('new-name').value = '';
-  document.getElementById('new-phone').value = '';
+  function updateStats() {
+    const all = Object.values(churches);
+    const contacted = all.filter(c => c.status !== 'Not Contacted').length;
+    const meetings = all.filter(c => c.status === 'Meeting Scheduled').length;
+    const pending = all.filter(c => ['Called', 'Voicemail', 'Follow-Up'].includes(c.status)).length;
+    document.getElementById('stat-total').textContent = all.length;
+    document.getElementById('stat-contacted').textContent = contacted;
+    document.getElementById('stat-meetings').textContent = meetings;
+    document.getElementById('stat-pending').textContent = pending;
+  }
 
-  setTimeout(load, 2000);
-}
+  function toggleCard(name) {
+    if (openCards.has(name)) openCards.delete(name);
+    else openCards.add(name);
+    render(churches);
+  }
 
-load();
+  function render(data) {
+    const app = document.getElementById('app');
+    let filtered = Object.values(data);
+    if (currentFilter !== 'all') filtered = filtered.filter(c => c.status === currentFilter);
 
+    if (filtered.length === 0) {
+      app.innerHTML = `<div class="empty-state"><p>${currentFilter === 'all' ? 'No churches added yet. Add your first church above.' : 'No churches with this status yet.'}</p></div>`;
+      return;
+    }
+
+    app.innerHTML = filtered.map(d => {
+      const sc = statusClass(d.status);
+      const pc = pillClass(d.status);
+      const isOpen = openCards.has(d.churchName);
+      return `
+        <div class="church-card status-${sc}">
+          <div class="church-card-header" onclick="toggleCard('${d.churchName}')">
+            <div>
+              <div class="church-name">${d.churchName}</div>
+              ${d.phone ? `<div class="church-meta">${d.phone}</div>` : ''}
+            </div>
+            <span class="status-pill ${pc}">${d.status}</span>
+          </div>
+          <div class="church-card-body ${isOpen ? 'open' : ''}">
+            <div class="field-grid">
+              <div class="field-group">
+                <label>Status</label>
+                <select id="status-${d.churchName}">
+                  ${['Not Contacted','Called','Voicemail','Meeting Scheduled','Follow-Up','Closed']
+                    .map(s => `<option ${d.status===s?'selected':''}>${s}</option>`).join('')}
+                </select>
+              </div>
+              <div class="field-group">
+                <label>Contact Person</label>
+                <input id="contact-${d.churchName}" value="${d.contactPerson || ''}" placeholder="Pastor or admin name">
+              </div>
+              <div class="field-group">
+                <label>Phone</label>
+                <input id="phone-${d.churchName}" value="${d.phone || ''}" placeholder="(601) 000-0000">
+              </div>
+              <div class="field-group">
+                <label>Next Step</label>
+                <input id="next-${d.churchName}" value="${d.nextStep || ''}" placeholder="e.g. Send proposal">
+              </div>
+              <div class="field-group full">
+                <label>Notes</label>
+                <textarea id="notes-${d.churchName}" placeholder="What happened on the call? Any details to remember...">${d.notes || ''}</textarea>
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="btn-save" onclick="save('${d.churchName}')">Save Update</button>
+              <span class="save-confirm" id="confirm-${d.churchName}">Saved ✓</span>
+            </div>
+            ${d.lastUpdated ? `<div class="last-updated">Last updated: ${d.lastUpdated}</div>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  async function load() {
+    if (isEditing || isLoading) return;
+    isLoading = true;
+    try {
+      const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
+      const data = await res.json();
+      const map = {};
+      data.forEach(c => map[c.churchName] = c);
+      churches = map;
+      render(churches);
+      updateStats();
+    } catch(e) { console.error(e); }
+    isLoading = false;
+  }
+
+  async function save(name) {
+    const payload = {
+      type: 'save_church',
+      client: CLIENT,
+      churchName: name,
+      status: document.getElementById(`status-${name}`).value,
+      contactPerson: document.getElementById(`contact-${name}`).value,
+      phone: document.getElementById(`phone-${name}`).value,
+      notes: document.getElementById(`notes-${name}`).value,
+      nextStep: document.getElementById(`next-${name}`).value,
+      updatedBy: 'LaTonya'
+    };
+    await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
+    const confirm = document.getElementById(`confirm-${name}`);
+    if (confirm) { confirm.style.display = 'inline'; setTimeout(() => confirm.style.display = 'none', 2500); }
+    setTimeout(load, 1500);
+  }
+
+  async function addChurch() {
+    const name = document.getElementById('new-name').value.trim();
+    const phone = document.getElementById('new-phone').value.trim();
+    if (!name) { alert('Please enter a church name.'); return; }
+    await fetch(API, {
+      method: 'POST',
+      body: JSON.stringify({ type: 'save_church', client: CLIENT, churchName: name, status: 'Not Contacted', contactPerson: '', phone, notes: '', nextStep: '', updatedBy: 'LaTonya' })
+    });
+    document.getElementById('new-name').value = '';
+    document.getElementById('new-phone').value = '';
+    setTimeout(load, 1500);
+  }
+
+  setInterval(() => { if (!isEditing) load(); }, 15000);
+  load();
 </script>
-
 </body>
 </html>
