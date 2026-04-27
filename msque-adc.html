@@ -10,529 +10,172 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'Jost', sans-serif; background: #FAF7F2; color: #1A1410; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: 'Jost', sans-serif;
-      background: #FAF7F2;
-      color: #1A1410;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── NAV ── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 20px;
-      border-bottom: 0.5px solid rgba(139,100,60,0.2);
-      background: #FAF7F2;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .logo-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 300;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #1A1410;
-    }
-
-    .logo-sub {
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(139,100,60,0.6);
-      font-weight: 300;
-      margin-top: 3px;
-    }
-
-    .nav-links {
-      display: none;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-size: 11px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: rgba(26,20,16,0.5);
-      font-weight: 300;
-    }
-
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 0.5px solid rgba(139,100,60,0.2); background: #FAF7F2; position: sticky; top: 0; z-index: 100; }
+    .logo-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; letter-spacing: 3px; text-transform: uppercase; color: #1A1410; }
+    .logo-sub { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: rgba(139,100,60,0.6); font-weight: 300; margin-top: 3px; }
+    .nav-links { display: none; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: rgba(26,20,16,0.5); font-weight: 300; }
     .nav-links a:hover { color: #1A1410; }
+    .nav-cta-desktop { border: 0.5px solid rgba(139,100,60,0.5); padding: 10px 24px; color: #8B643C !important; }
+    .nav-cta-mobile { display: inline-block; border: 0.5px solid rgba(139,100,60,0.5); padding: 9px 18px; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: #8B643C; font-family: 'Jost', sans-serif; font-weight: 400; }
 
-    .nav-cta-desktop {
-      border: 0.5px solid rgba(139,100,60,0.5);
-      padding: 10px 24px;
-      color: #8B643C !important;
-    }
-
-    .nav-cta-mobile {
-      display: inline-block;
-      border: 0.5px solid rgba(139,100,60,0.5);
-      padding: 9px 18px;
-      font-size: 9px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #8B643C;
-      font-family: 'Jost', sans-serif;
-      font-weight: 400;
-    }
-
-    /* ── HERO ── */
     .hero { display: flex; flex-direction: column; }
-
     .hero-text { padding: 44px 20px 48px; }
-
-    .eyebrow {
-      font-size: 8px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #8B643C;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .eyebrow::before {
-      content: '';
-      display: block;
-      width: 24px;
-      height: 0.5px;
-      background: #8B643C;
-      flex-shrink: 0;
-    }
-
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 42px;
-      font-weight: 300;
-      line-height: 1.1;
-      color: #1A1410;
-      margin-bottom: 14px;
-    }
-
+    .eyebrow { font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: #8B643C; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+    .eyebrow::before { content: ''; display: block; width: 24px; height: 0.5px; background: #8B643C; flex-shrink: 0; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: 42px; font-weight: 300; line-height: 1.1; color: #1A1410; margin-bottom: 14px; }
     .hero h1 em { font-style: italic; color: #8B643C; }
-
-    .hero-sub {
-      font-size: 13px;
-      font-weight: 300;
-      line-height: 1.9;
-      color: rgba(26,20,16,0.55);
-      margin-bottom: 32px;
-      letter-spacing: 0.3px;
-    }
-
+    .hero-sub { font-size: 13px; font-weight: 300; line-height: 1.9; color: rgba(26,20,16,0.55); margin-bottom: 32px; letter-spacing: 0.3px; }
     .hero-btns { display: flex; flex-direction: column; gap: 12px; }
-
-    .hero-img-block {
-      background: #F0EAE0;
-      min-height: 280px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      position: relative;
-    }
-
-    .hero-img-icon {
-      width: 48px;
-      height: 48px;
-      border: 0.5px solid rgba(139,100,60,0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
+    .hero-img-block { background: #F0EAE0; min-height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; position: relative; }
+    .hero-img-icon { width: 48px; height: 48px; border: 0.5px solid rgba(139,100,60,0.3); display: flex; align-items: center; justify-content: center; }
     .hero-img-icon svg { width: 22px; height: 22px; fill: #8B643C; opacity: 0.45; }
-
-    .hero-img-label {
-      font-size: 8px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(139,100,60,0.35);
-    }
-
-    .hero-stat-row {
-      display: flex;
-      justify-content: space-around;
-      width: 100%;
-      padding: 18px 20px 20px;
-      border-top: 0.5px solid rgba(139,100,60,0.15);
-    }
-
+    .hero-img-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: rgba(139,100,60,0.35); }
+    .hero-stat-row { display: flex; justify-content: space-around; width: 100%; padding: 18px 20px 20px; border-top: 0.5px solid rgba(139,100,60,0.15); }
     .hero-stat { text-align: center; }
+    .hero-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 24px; font-weight: 300; color: #1A1410; }
+    .hero-stat-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(26,20,16,0.4); margin-top: 2px; }
 
-    .hero-stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-weight: 300;
-      color: #1A1410;
-    }
+    .btn-dark { display: block; background: #1A1410; color: #FAF7F2; border: 2px solid #1A1410; padding: 15px 24px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; cursor: pointer; text-align: center; text-decoration: none; -webkit-appearance: none; appearance: none; width: 100%; }
+    .btn-ghost-dark { display: block; background: #FAF7F2; color: #1A1410; border: 2px solid #1A1410; padding: 15px 24px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 400; cursor: pointer; text-align: center; text-decoration: none; -webkit-appearance: none; appearance: none; width: 100%; }
+    .btn-ghost-sm { display: inline-block; background: #FAF7F2; color: #1A1410; border: 2px solid #1A1410; padding: 13px 28px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 400; cursor: pointer; text-align: center; text-decoration: none; -webkit-appearance: none; appearance: none; }
+    .btn-cream-solid { display: block; background: #FAF7F2; color: #1A1410; border: 2px solid #FAF7F2; padding: 16px 24px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; cursor: pointer; text-align: center; text-decoration: none; -webkit-appearance: none; appearance: none; width: 100%; margin-bottom: 12px; }
+    .btn-outline-white { display: block; background: transparent; color: #FAF7F2; border: 2px solid rgba(250,247,242,0.7); padding: 16px 24px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 400; cursor: pointer; text-align: center; text-decoration: none; -webkit-appearance: none; appearance: none; width: 100%; }
+    .btn-submit { display: block; width: 100%; background: #C4A882; color: #1A1410; border: 2px solid #C4A882; padding: 16px 24px; font-family: 'Jost', sans-serif; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; font-weight: 500; cursor: pointer; text-align: center; -webkit-appearance: none; appearance: none; margin-top: 8px; }
 
-    .hero-stat-label {
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(26,20,16,0.4);
-      margin-top: 2px;
-    }
-
-    /* ── BUTTONS ── */
-    .btn-dark {
-      display: block;
-      background: #1A1410;
-      color: #FAF7F2;
-      border: 2px solid #1A1410;
-      padding: 15px 24px;
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-    }
-
-    .btn-ghost-dark {
-      display: block;
-      background: #FAF7F2;
-      color: #1A1410;
-      border: 2px solid #1A1410;
-      padding: 15px 24px;
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 400;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-    }
-
-    .btn-ghost-sm {
-      display: inline-block;
-      background: #FAF7F2;
-      color: #1A1410;
-      border: 2px solid #1A1410;
-      padding: 13px 28px;
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 400;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-
-    .btn-gold-solid {
-      display: block;
-      background: #C4A882;
-      color: #1A1410;
-      border: 2px solid #C4A882;
-      padding: 16px 24px;
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 500;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-      margin-bottom: 12px;
-    }
-
-    .btn-outline-cream {
-      display: block;
-      background: transparent;
-      color: #FAF7F2;
-      border: 2px solid #FAF7F2;
-      padding: 16px 24px;
-      font-family: 'Jost', sans-serif;
-      font-size: 10px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      font-weight: 400;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      -webkit-appearance: none;
-      appearance: none;
-      width: 100%;
-    }
-
-    /* ── DIVIDER BAR ── */
-    .divider-bar {
-      display: flex;
-      flex-direction: column;
-      background: #1A1410;
-    }
-
-    .divider-item {
-      text-align: center;
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(240,234,224,0.6);
-      font-weight: 300;
-      padding: 11px 20px;
-      border-bottom: 0.5px solid rgba(240,234,224,0.08);
-    }
-
+    .divider-bar { display: flex; flex-direction: column; background: #1A1410; }
+    .divider-item { text-align: center; font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(240,234,224,0.6); font-weight: 300; padding: 11px 20px; border-bottom: 0.5px solid rgba(240,234,224,0.08); }
     .divider-item:last-child { border-bottom: none; }
 
-    /* ── SERVICES ── */
     .services { padding: 52px 20px; background: #FAF7F2; }
-
-    .section-eyebrow {
-      font-size: 8px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: #8B643C;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .section-eyebrow::before {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 0.5px;
-      background: #8B643C;
-      flex-shrink: 0;
-    }
-
-    .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      font-weight: 300;
-      color: #1A1410;
-      line-height: 1.15;
-      margin-bottom: 36px;
-    }
-
-    .services-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: rgba(139,100,60,0.12);
-    }
-
+    .section-eyebrow { font-size: 8px; letter-spacing: 4px; text-transform: uppercase; color: #8B643C; margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .section-eyebrow::before { content: ''; display: block; width: 20px; height: 0.5px; background: #8B643C; flex-shrink: 0; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 300; color: #1A1410; line-height: 1.15; margin-bottom: 36px; }
+    .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(139,100,60,0.12); }
     .service-card { background: #FAF7F2; padding: 24px 18px; }
+    .service-num { font-family: 'Cormorant Garamond', serif; font-size: 12px; color: rgba(139,100,60,0.4); margin-bottom: 14px; font-weight: 300; }
+    .service-line { width: 20px; height: 0.5px; background: #8B643C; margin-bottom: 14px; opacity: 0.5; }
+    .service-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 300; color: #1A1410; margin-bottom: 8px; }
+    .service-desc { font-size: 11px; font-weight: 300; line-height: 1.75; color: rgba(26,20,16,0.5); }
 
-    .service-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 12px;
-      color: rgba(139,100,60,0.4);
-      margin-bottom: 14px;
-      font-weight: 300;
-    }
+    .admissions { padding: 52px 20px; background: #1A1410; }
+    .admissions .section-eyebrow { color: #C4A882; }
+    .admissions .section-eyebrow::before { background: #C4A882; }
+    .admissions .section-title { color: #FAF7F2; }
+    .admissions .section-title em { font-style: italic; color: #C4A882; }
+    .steps-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: rgba(196,168,130,0.12); margin-top: 36px; }
+    .step-card { background: #1A1410; padding: 28px 22px; display: flex; gap: 20px; align-items: flex-start; }
+    .step-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: #C4A882; line-height: 1; flex-shrink: 0; min-width: 36px; }
+    .step-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 300; color: #FAF7F2; margin-bottom: 8px; }
+    .step-desc { font-size: 12px; font-weight: 300; line-height: 1.8; color: rgba(240,234,224,0.45); }
+    .admissions-note { margin-top: 28px; padding: 20px; border: 0.5px solid rgba(196,168,130,0.2); }
+    .admissions-note p { font-size: 12px; font-weight: 300; color: rgba(196,168,130,0.6); line-height: 1.8; }
+    .admissions-note strong { color: #C4A882; font-weight: 400; }
 
-    .service-line {
-      width: 20px;
-      height: 0.5px;
-      background: #8B643C;
-      margin-bottom: 14px;
-      opacity: 0.5;
-    }
+    .testimonials { padding: 52px 20px; background: #F0EAE0; }
+    .testimonials-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 36px; }
+    .testimonial-card { background: #FAF7F2; border: 0.5px solid rgba(139,100,60,0.15); padding: 28px 24px; }
+    .testimonial-stars { color: #8B643C; font-size: 12px; letter-spacing: 3px; margin-bottom: 16px; }
+    .testimonial-text { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-style: italic; font-weight: 300; color: #1A1410; line-height: 1.6; margin-bottom: 20px; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; border-top: 0.5px solid rgba(139,100,60,0.12); padding-top: 16px; }
+    .testimonial-avatar { width: 36px; height: 36px; border-radius: 50%; background: #D4B996; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 14px; color: #1A1410; font-weight: 400; flex-shrink: 0; }
+    .testimonial-name { font-size: 12px; font-weight: 500; color: #1A1410; letter-spacing: 0.5px; }
+    .testimonial-relation { font-size: 10px; font-weight: 300; color: rgba(26,20,16,0.4); letter-spacing: 0.5px; margin-top: 2px; }
 
-    .service-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 17px;
-      font-weight: 300;
-      color: #1A1410;
-      margin-bottom: 8px;
-    }
-
-    .service-desc {
-      font-size: 11px;
-      font-weight: 300;
-      line-height: 1.75;
-      color: rgba(26,20,16,0.5);
-    }
-
-    /* ── ABOUT ── */
     .about-text { padding: 52px 20px; background: #FAF7F2; }
-
-    .about-text p {
-      font-size: 13px;
-      font-weight: 300;
-      line-height: 1.95;
-      color: rgba(26,20,16,0.55);
-      margin-bottom: 18px;
-      letter-spacing: 0.2px;
-    }
-
-    .about-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-style: italic;
-      font-weight: 300;
-      color: #8B643C;
-      line-height: 1.5;
-      border-left: 1px solid #8B643C;
-      padding-left: 20px;
-      margin: 28px 0;
-    }
-
+    .about-text p { font-size: 13px; font-weight: 300; line-height: 1.95; color: rgba(26,20,16,0.55); margin-bottom: 18px; letter-spacing: 0.2px; }
+    .about-quote { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-style: italic; font-weight: 300; color: #8B643C; line-height: 1.5; border-left: 1px solid #8B643C; padding-left: 20px; margin: 28px 0; }
     .about-stats-wrap { padding: 52px 20px; background: #F0EAE0; }
-
     .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-
     .astat { border-top: 0.5px solid rgba(139,100,60,0.25); padding-top: 16px; }
+    .astat-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: #1A1410; }
+    .astat-label { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(26,20,16,0.4); margin-top: 4px; line-height: 1.6; }
 
-    .astat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      font-weight: 300;
-      color: #1A1410;
-    }
+    .location-section { padding: 52px 20px; background: #FAF7F2; }
+    .map-container { margin-top: 32px; border: 0.5px solid rgba(139,100,60,0.2); overflow: hidden; }
+    .map-placeholder { background: #E8E0D4; height: 240px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+    .map-placeholder svg { width: 32px; height: 32px; fill: #8B643C; opacity: 0.4; }
+    .map-placeholder-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: rgba(139,100,60,0.4); }
+    .map-info { display: grid; grid-template-columns: 1fr; gap: 1px; background: rgba(139,100,60,0.12); margin-top: 1px; }
+    .map-info-card { background: #FAF7F2; padding: 18px 20px; }
+    .map-info-label { font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase; color: #8B643C; margin-bottom: 8px; }
+    .map-info-value { font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 300; color: #1A1410; line-height: 1.5; }
 
-    .astat-label {
-      font-size: 8px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: rgba(26,20,16,0.4);
-      margin-top: 4px;
-      line-height: 1.6;
-    }
+    .contact-section { padding: 52px 20px; background: #1A1410; }
+    .contact-section .section-eyebrow { color: #C4A882; }
+    .contact-section .section-eyebrow::before { background: #C4A882; }
+    .contact-section .section-title { color: #FAF7F2; margin-bottom: 8px; }
+    .contact-intro { font-size: 13px; font-weight: 300; color: rgba(240,234,224,0.4); line-height: 1.8; margin-bottom: 36px; }
+    .form-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(196,168,130,0.6); font-weight: 400; }
+    .form-input { background: rgba(250,247,242,0.05); border: 0.5px solid rgba(196,168,130,0.25); padding: 13px 16px; font-family: 'Jost', sans-serif; font-size: 13px; font-weight: 300; color: #FAF7F2; width: 100%; -webkit-appearance: none; appearance: none; border-radius: 0; outline: none; }
+    .form-input::placeholder { color: rgba(250,247,242,0.2); }
+    .form-input:focus { border-color: rgba(196,168,130,0.55); }
+    select.form-input { cursor: pointer; }
+    select.form-input option { background: #1A1410; color: #FAF7F2; }
+    textarea.form-input { resize: vertical; min-height: 100px; }
+    .form-success { display: none; text-align: center; padding: 48px 20px; }
+    .form-success-check { width: 56px; height: 56px; border: 1.5px solid #C4A882; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 22px; color: #C4A882; }
+    .form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; color: #FAF7F2; margin-bottom: 12px; }
+    .form-success p { font-size: 13px; font-weight: 300; color: rgba(240,234,224,0.45); line-height: 1.8; }
 
-    /* ── CTA ── */
-    .cta { background: #1A1410; padding: 60px 20px; }
-
-    .cta h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      font-weight: 300;
-      color: #FAF7F2;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
-    .cta h2 em { font-style: italic; color: #C4A882; }
-
-    .cta-note {
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(196,168,130,0.6);
-      margin-bottom: 28px;
-      margin-top: 6px;
-    }
-
+    .cta { background: #8B643C; padding: 60px 20px; }
+    .cta h2 { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: #FAF7F2; line-height: 1.1; margin-bottom: 8px; }
+    .cta h2 em { font-style: italic; color: rgba(250,247,242,0.7); }
+    .cta-note { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(250,247,242,0.5); margin-bottom: 28px; margin-top: 6px; }
     .cta-btns { display: flex; flex-direction: column; gap: 14px; }
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 24px 20px;
-      border-top: 0.5px solid rgba(139,100,60,0.15);
-      background: #FAF7F2;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      align-items: center;
-      text-align: center;
-    }
+    footer { padding: 24px 20px; border-top: 0.5px solid rgba(139,100,60,0.15); background: #FAF7F2; display: flex; flex-direction: column; gap: 14px; align-items: center; text-align: center; }
+    .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: rgba(26,20,16,0.4); font-weight: 300; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(139,100,60,0.5); text-decoration: none; }
+    .footer-copy { font-size: 9px; letter-spacing: 1px; color: rgba(26,20,16,0.25); }
+    .footer-credit { font-size: 9px; letter-spacing: 1px; color: rgba(139,100,60,0.35); margin-top: 3px; }
 
-    .footer-logo {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 13px;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: rgba(26,20,16,0.4);
-      font-weight: 300;
-    }
-
-    .footer-links { display: flex; gap: 20px; }
-
-    .footer-links a {
-      font-size: 9px;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: rgba(139,100,60,0.5);
-      text-decoration: none;
-    }
-
-    .footer-copy {
-      font-size: 9px;
-      letter-spacing: 1px;
-      color: rgba(26,20,16,0.25);
-    }
-
-    /* ── DESKTOP ── */
     @media (min-width: 768px) {
       nav { padding: 22px 48px; }
       .nav-links { display: flex; }
       .nav-cta-mobile { display: none; }
-
       .hero { display: grid; grid-template-columns: 1fr 1fr; }
       .hero-text { padding: 80px 48px; order: 1; }
       .hero-img-block { min-height: 520px; border-left: 0.5px solid rgba(139,100,60,0.12); order: 2; }
       .hero-btns { flex-direction: row; }
       .btn-dark, .btn-ghost-dark { width: auto; display: inline-block; }
       .hero h1 { font-size: 52px; }
-
       .divider-bar { flex-direction: row; }
       .divider-item { flex: 1; border-bottom: none; border-right: 0.5px solid rgba(240,234,224,0.08); }
       .divider-item:last-child { border-right: none; }
-
       .services { padding: 80px 48px; }
       .section-title { font-size: 38px; margin-bottom: 52px; }
       .services-grid { grid-template-columns: repeat(3, 1fr); }
-
+      .admissions { padding: 80px 48px; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials { padding: 80px 48px; }
+      .testimonials-grid { grid-template-columns: repeat(3, 1fr); }
       .about-text { padding: 80px 48px; }
       .about-stats-wrap { padding: 80px 48px; }
-
-      .cta {
-        padding: 80px 48px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 60px;
-      }
+      .location-section { padding: 80px 48px; }
+      .map-placeholder { height: 380px; }
+      .map-info { grid-template-columns: repeat(3, 1fr); }
+      .contact-section { padding: 80px 48px; }
+      .form-grid { grid-template-columns: 1fr 1fr; }
+      .form-group.full { grid-column: 1 / -1; }
+      .cta { padding: 80px 48px; display: flex; align-items: center; justify-content: space-between; gap: 60px; }
       .cta h2 { font-size: 42px; margin-bottom: 0; }
       .cta-note { margin-bottom: 0; margin-top: 0; }
       .cta-btns { flex-shrink: 0; }
-      .btn-gold-solid, .btn-outline-cream { width: 240px; }
-      .btn-gold-solid { margin-bottom: 0; }
-
-      footer {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 28px 48px;
-        text-align: left;
-      }
+      .btn-cream-solid, .btn-outline-white { width: 240px; }
+      .btn-cream-solid { margin-bottom: 0; }
+      footer { flex-direction: row; justify-content: space-between; padding: 28px 48px; text-align: left; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav>
     <div>
       <div class="logo-name">MsQue</div>
@@ -542,13 +185,12 @@
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#admissions">Admissions</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
       <li><a href="#contact" class="nav-cta-desktop">Schedule a Tour</a></li>
     </ul>
     <a href="#contact" class="nav-cta-mobile">Tour</a>
   </nav>
 
-  <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-text">
       <div class="eyebrow">Wisconsin's Premier Adult Day Center</div>
@@ -560,29 +202,18 @@
       </div>
     </div>
     <div class="hero-img-block">
-      <!-- Replace the block below with an <img> tag once you have photography -->
       <div class="hero-img-icon">
         <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
       </div>
       <div class="hero-img-label">Your center photography here</div>
       <div class="hero-stat-row">
-        <div class="hero-stat">
-          <div class="hero-stat-num">5:1</div>
-          <div class="hero-stat-label">Staff ratio</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">6+</div>
-          <div class="hero-stat-label">Daily programs</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">5&#9733;</div>
-          <div class="hero-stat-label">Family rated</div>
-        </div>
+        <div class="hero-stat"><div class="hero-stat-num">5:1</div><div class="hero-stat-label">Staff ratio</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">6+</div><div class="hero-stat-label">Daily programs</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">5&#9733;</div><div class="hero-stat-label">Family rated</div></div>
       </div>
     </div>
   </section>
 
-  <!-- TRUST BAR -->
   <div class="divider-bar">
     <div class="divider-item">Medicaid &amp; Insurance Accepted</div>
     <div class="divider-item">Licensed in Wisconsin</div>
@@ -590,51 +221,57 @@
     <div class="divider-item">Accepting New Clients</div>
   </div>
 
-  <!-- SERVICES -->
   <section class="services" id="services">
     <div class="section-eyebrow">Our Services</div>
     <div class="section-title">Everything Your Loved<br>One Deserves</div>
     <div class="services-grid">
-      <div class="service-card">
-        <div class="service-num">01</div>
-        <div class="service-line"></div>
-        <div class="service-title">Personal Care</div>
-        <div class="service-desc">Assistance with daily living — grooming, hygiene, and mobility — delivered with dignity and respect.</div>
+      <div class="service-card"><div class="service-num">01</div><div class="service-line"></div><div class="service-title">Personal Care</div><div class="service-desc">Assistance with daily living — grooming, hygiene, and mobility — delivered with dignity and respect.</div></div>
+      <div class="service-card"><div class="service-num">02</div><div class="service-line"></div><div class="service-title">Health Monitoring</div><div class="service-desc">Wellness checks, medication reminders, and seamless coordination with your loved one's care team.</div></div>
+      <div class="service-card"><div class="service-num">03</div><div class="service-line"></div><div class="service-title">Social Enrichment</div><div class="service-desc">Curated group activities, arts, music, and outings that foster genuine community and connection.</div></div>
+      <div class="service-card"><div class="service-num">04</div><div class="service-line"></div><div class="service-title">Nutritious Dining</div><div class="service-desc">Thoughtfully prepared meals daily, with full dietary accommodations in a warm communal setting.</div></div>
+      <div class="service-card"><div class="service-num">05</div><div class="service-line"></div><div class="service-title">Memory Care</div><div class="service-desc">Specialized programming for individuals with Alzheimer's or dementia — designed to engage and comfort.</div></div>
+      <div class="service-card"><div class="service-num">06</div><div class="service-line"></div><div class="service-title">Transportation</div><div class="service-desc">Reliable door-to-door service ensuring every client can access the care they deserve.</div></div>
+    </div>
+  </section>
+
+  <section class="admissions" id="admissions">
+    <div class="section-eyebrow">Admissions Process</div>
+    <div class="section-title">Simple Steps to<br><em>Getting Started</em></div>
+    <div class="steps-grid">
+      <div class="step-card"><div class="step-num">01</div><div><div class="step-title">Initial Inquiry</div><div class="step-desc">Reach out by phone, form, or walk-in. Our admissions team will answer every question and help determine if MsQue is the right fit.</div></div></div>
+      <div class="step-card"><div class="step-num">02</div><div><div class="step-title">Schedule a Tour</div><div class="step-desc">Visit our center, meet the team, and see our programs in action. We encourage you to bring your loved one so they feel comfortable from day one.</div></div></div>
+      <div class="step-card"><div class="step-num">03</div><div><div class="step-title">Care Assessment</div><div class="step-desc">Our clinical team conducts a personalized assessment to understand your loved one's needs, preferences, and goals — creating a tailored care plan.</div></div></div>
+      <div class="step-card"><div class="step-num">04</div><div><div class="step-title">Insurance &amp; Enrollment</div><div class="step-desc">We accept Medicaid, private pay, and most major insurance. Our team guides you through every form and handles authorization on your behalf.</div></div></div>
+      <div class="step-card"><div class="step-num">05</div><div><div class="step-title">Welcome Day</div><div class="step-desc">Your loved one joins our community with a warm, structured welcome — ensuring they feel at home from the very first morning.</div></div></div>
+      <div class="step-card"><div class="step-num">06</div><div><div class="step-title">Ongoing Partnership</div><div class="step-desc">We communicate with families regularly — sharing updates, progress, and care plan adjustments so you're always in the loop.</div></div></div>
+    </div>
+    <div class="admissions-note">
+      <p><strong>Questions about eligibility?</strong> Most adults 18+ who need supervision or assistance with daily activities qualify. Medicaid waiver programs may cover all or part of the cost. Call us — we'll walk you through everything at no obligation.</p>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials">
+    <div class="section-eyebrow">Family Reviews</div>
+    <div class="section-title">What Families<br>Are Saying</div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">"MsQue has been a blessing for our entire family. My mother looks forward to going every single day — she's made friends, she's engaged, and she's thriving."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">DW</div><div><div class="testimonial-name">Diane W.</div><div class="testimonial-relation">Daughter of participant</div></div></div>
       </div>
-      <div class="service-card">
-        <div class="service-num">02</div>
-        <div class="service-line"></div>
-        <div class="service-title">Health Monitoring</div>
-        <div class="service-desc">Wellness checks, medication reminders, and seamless coordination with your loved one's care team.</div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">"The staff truly care. They know my father by name, they know what he likes, and they treat him with so much dignity. I couldn't ask for more."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">MJ</div><div><div class="testimonial-name">Marcus J.</div><div class="testimonial-relation">Son of participant</div></div></div>
       </div>
-      <div class="service-card">
-        <div class="service-num">03</div>
-        <div class="service-line"></div>
-        <div class="service-title">Social Enrichment</div>
-        <div class="service-desc">Curated group activities, arts, music, and outings that foster genuine community and connection.</div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">04</div>
-        <div class="service-line"></div>
-        <div class="service-title">Nutritious Dining</div>
-        <div class="service-desc">Thoughtfully prepared meals daily, with full dietary accommodations in a warm communal setting.</div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">05</div>
-        <div class="service-line"></div>
-        <div class="service-title">Memory Care</div>
-        <div class="service-desc">Specialized programming for individuals with Alzheimer's or dementia — designed to engage and comfort.</div>
-      </div>
-      <div class="service-card">
-        <div class="service-num">06</div>
-        <div class="service-line"></div>
-        <div class="service-title">Transportation</div>
-        <div class="service-desc">Reliable door-to-door service ensuring every client can access the care they deserve.</div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <div class="testimonial-text">"As a caregiver I was exhausted. MsQue gave me peace of mind and gave my husband a life. The admissions process was seamless and the team held our hand the whole way."</div>
+        <div class="testimonial-author"><div class="testimonial-avatar">RL</div><div><div class="testimonial-name">Rosa L.</div><div class="testimonial-relation">Spouse of participant</div></div></div>
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
   <section class="about-text" id="about">
     <div class="section-eyebrow">Our Story</div>
     <div class="section-title" style="margin-bottom:24px">Built on a<br>Foundation of Love</div>
@@ -646,47 +283,138 @@
 
   <section class="about-stats-wrap">
     <div class="about-stats">
-      <div class="astat">
-        <div class="astat-num">100%</div>
-        <div class="astat-label">Licensed &amp; certified professionals</div>
+      <div class="astat"><div class="astat-num">100%</div><div class="astat-label">Licensed &amp; certified professionals</div></div>
+      <div class="astat"><div class="astat-num">5:1</div><div class="astat-label">Staff-to-client ratio</div></div>
+      <div class="astat"><div class="astat-num">6+</div><div class="astat-label">Daily enrichment programs</div></div>
+      <div class="astat"><div class="astat-num">5&#9733;</div><div class="astat-label">Rated by Wisconsin families</div></div>
+    </div>
+  </section>
+
+  <section class="location-section" id="location">
+    <div class="section-eyebrow">Find Us</div>
+    <div class="section-title">Conveniently Located<br>in Wisconsin</div>
+    <div class="map-container">
+      <!--
+        REPLACE the div below with your Google Maps embed:
+        1. Go to maps.google.com and search your address
+        2. Click Share > Embed a map
+        3. Copy the <iframe> code and paste it here in place of the .map-placeholder div
+        Example:
+        <iframe src="https://www.google.com/maps/embed?pb=YOUR_CODE_HERE"
+          width="100%" height="380" style="border:0;display:block;"
+          allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      -->
+      <div class="map-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <div class="map-placeholder-label">Replace with Google Maps embed</div>
       </div>
-      <div class="astat">
-        <div class="astat-num">5:1</div>
-        <div class="astat-label">Staff-to-client ratio</div>
-      </div>
-      <div class="astat">
-        <div class="astat-num">6+</div>
-        <div class="astat-label">Daily enrichment programs</div>
-      </div>
-      <div class="astat">
-        <div class="astat-num">5&#9733;</div>
-        <div class="astat-label">Rated by Wisconsin families</div>
+      <div class="map-info">
+        <div class="map-info-card"><div class="map-info-label">Address</div><div class="map-info-value">123 Care Lane<br>Wisconsin, WI 00000</div></div>
+        <div class="map-info-card"><div class="map-info-label">Hours</div><div class="map-info-value">Mon – Fri<br>7:00 AM – 6:00 PM</div></div>
+        <div class="map-info-card"><div class="map-info-label">Contact</div><div class="map-info-value">(000) 000-0000<br>hello@msqueadc.com</div></div>
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="cta" id="contact">
+  <section class="contact-section" id="contact">
+    <div class="section-eyebrow">Get in Touch</div>
+    <div class="section-title">Schedule Your<br>Free Consultation</div>
+    <p class="contact-intro">Fill out the form below and our admissions team will reach out within 24 hours to answer your questions and schedule a complimentary tour.</p>
+    <div id="contact-form">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label" for="fname">First Name</label>
+          <input class="form-input" type="text" id="fname" placeholder="Jane" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="lname">Last Name</label>
+          <input class="form-input" type="text" id="lname" placeholder="Smith" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="phone">Phone Number</label>
+          <input class="form-input" type="tel" id="phone" placeholder="(000) 000-0000" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" type="email" id="email" placeholder="jane@email.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="relation">Your Relation to Participant</label>
+          <select class="form-input" id="relation">
+            <option value="" disabled selected>Select one</option>
+            <option>Spouse / Partner</option>
+            <option>Adult Child</option>
+            <option>Sibling</option>
+            <option>Legal Guardian</option>
+            <option>Case Manager / Social Worker</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="insurance">Insurance / Payment Type</label>
+          <select class="form-input" id="insurance">
+            <option value="" disabled selected>Select one</option>
+            <option>Medicaid</option>
+            <option>Private Pay</option>
+            <option>Long-Term Care Insurance</option>
+            <option>VA Benefits</option>
+            <option>Unsure — need guidance</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label class="form-label" for="message">Tell Us About Your Loved One</label>
+          <textarea class="form-input" id="message" placeholder="Any details about their needs, schedule preferences, or questions you have..."></textarea>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="handleSubmit()">Send My Inquiry</button>
+    </div>
+    <div class="form-success" id="form-success">
+      <div class="form-success-check">&#10003;</div>
+      <h3>Thank You — We'll Be in Touch</h3>
+      <p>Our admissions team will reach out within 24 hours. We look forward to welcoming your family into the MsQue community.</p>
+    </div>
+  </section>
+
+  <section class="cta">
     <div>
       <h2>Begin the Journey<br>Toward <em>Better Days</em></h2>
       <p class="cta-note">Complimentary consultation included</p>
     </div>
     <div class="cta-btns">
-      <a href="tel:+11234567890" class="btn-gold-solid">Schedule a Free Tour</a>
-      <a href="tel:+11234567890" class="btn-outline-cream">Call Us Today</a>
+      <a href="#contact" class="btn-cream-solid">Schedule a Free Tour</a>
+      <a href="tel:+10000000000" class="btn-outline-white">Call Us Today</a>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <div class="footer-logo">MsQue ADC</div>
     <div class="footer-links">
-      <a href="#">Privacy</a>
       <a href="#services">Services</a>
+      <a href="#admissions">Admissions</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#location">Location</a>
       <a href="#contact">Contact</a>
     </div>
-    <div class="footer-copy">&copy; 2026 MsQue Adult Day Care Center &middot; Wisconsin</div>
+    <div>
+      <div class="footer-copy">&copy; 2026 MsQue Adult Day Care Center &middot; Wisconsin</div>
+      <div class="footer-credit">Website by CompliTrst, Inc.</div>
+    </div>
   </footer>
+
+  <script>
+    function handleSubmit() {
+      var fname = document.getElementById('fname').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var email = document.getElementById('email').value.trim();
+      if (!fname || !phone || !email) {
+        alert('Please fill in your name, phone number, and email to continue.');
+        return;
+      }
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }
+  </script>
 
 </body>
 </html>
