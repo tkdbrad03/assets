@@ -1291,8 +1291,8 @@ async function loadNextSession() {
     const weekday = start.toLocaleDateString('en-US', { weekday: 'long' });
     const time = start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZoneName: 'short' });
     const diffMs = start - new Date();
-    const now = new Date();
-const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const todayDate = new Date();
+const today = new Date(todayDate.getFullYear(), todayDate.getMonth(), todayDate.getDate());
 const sessionDay = new Date(start.getFullYear(), start.getMonth(), start.getDate());
 const diffDays = Math.round((sessionDay - today) / (1000 * 60 * 60 * 24));
 const countdown = diffDays === 0 ? 'Today' : diffDays === 1 ? 'Tomorrow' : `${diffDays} days away`;
