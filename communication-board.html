@@ -292,7 +292,7 @@
             <span class="reply-sender">${r.sender}</span>
             <span class="reply-time">${formatTime(r.timestamp)}</span>
           </div>
-          <div class="reply-text">${(r.text || '').replace(/\n/g, '<br>')}</div>
+          <div class="reply-text">${((r.text || '').replace(/\n/g, '<br>').replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:var(--gold);text-decoration:underline;">$1</a>'))}</div>
         </div>`).join('');
 
       const replyBadgeHtml = replyCount > 0
@@ -315,7 +315,7 @@
             </div>
           </div>
           <div class="message-body">
-            <div class="message-text">${(msg.text || '').replace(/\n/g, '<br>')}</div>
+            <div class="message-text">${((msg.text || '').replace(/\n/g, '<br>').replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" style="color:var(--gold);text-decoration:underline;">$1</a>'))}</div>
           </div>
           <div class="message-actions">
             <button class="btn-action" onclick="toggleReplyBox('${msg.id}')">Reply</button>
