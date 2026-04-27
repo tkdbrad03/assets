@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MsQue Adult Day Care Center | Wisconsin</title>
+  <meta name="description" content="MsQue Adult Day Care Center offers a refined, dignified environment where your loved ones thrive. Serving Wisconsin with compassionate, professional adult day care." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background: #FAF7F2;
+      color: #1A1410;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 0.5px solid rgba(139,100,60,0.2);
+      background: #FAF7F2;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #1A1410;
+    }
+
+    .logo-sub {
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(139,100,60,0.6);
+      font-weight: 300;
+      margin-top: 3px;
+    }
+
+    .nav-links {
+      display: none;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(26,20,16,0.5);
+      font-weight: 300;
+    }
+
+    .nav-links a:hover { color: #1A1410; }
+
+    .nav-cta-desktop {
+      border: 0.5px solid rgba(139,100,60,0.5);
+      padding: 10px 24px;
+      color: #8B643C !important;
+    }
+
+    .nav-cta-mobile {
+      display: inline-block;
+      border: 0.5px solid rgba(139,100,60,0.5);
+      padding: 9px 18px;
+      font-size: 9px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #8B643C;
+      font-family: 'Jost', sans-serif;
+      font-weight: 400;
+    }
+
+    /* ── HERO ── */
+    .hero { display: flex; flex-direction: column; }
+
+    .hero-text { padding: 44px 20px 48px; }
+
+    .eyebrow {
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #8B643C;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 0.5px;
+      background: #8B643C;
+      flex-shrink: 0;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1.1;
+      color: #1A1410;
+      margin-bottom: 14px;
+    }
+
+    .hero h1 em { font-style: italic; color: #8B643C; }
+
+    .hero-sub {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: rgba(26,20,16,0.55);
+      margin-bottom: 32px;
+      letter-spacing: 0.3px;
+    }
+
+    .hero-btns { display: flex; flex-direction: column; gap: 12px; }
+
+    .hero-img-block {
+      background: #F0EAE0;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+    }
+
+    .hero-img-icon {
+      width: 48px;
+      height: 48px;
+      border: 0.5px solid rgba(139,100,60,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-img-icon svg { width: 22px; height: 22px; fill: #8B643C; opacity: 0.45; }
+
+    .hero-img-label {
+      font-size: 8px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(139,100,60,0.35);
+    }
+
+    .hero-stat-row {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      padding: 18px 20px 20px;
+      border-top: 0.5px solid rgba(139,100,60,0.15);
+    }
+
+    .hero-stat { text-align: center; }
+
+    .hero-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: #1A1410;
+    }
+
+    .hero-stat-label {
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(26,20,16,0.4);
+      margin-top: 2px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-dark {
+      display: block;
+      background: #1A1410;
+      color: #FAF7F2;
+      border: 2px solid #1A1410;
+      padding: 15px 24px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+    }
+
+    .btn-ghost-dark {
+      display: block;
+      background: #FAF7F2;
+      color: #1A1410;
+      border: 2px solid #1A1410;
+      padding: 15px 24px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+    }
+
+    .btn-ghost-sm {
+      display: inline-block;
+      background: #FAF7F2;
+      color: #1A1410;
+      border: 2px solid #1A1410;
+      padding: 13px 28px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .btn-gold-solid {
+      display: block;
+      background: #C4A882;
+      color: #1A1410;
+      border: 2px solid #C4A882;
+      padding: 16px 24px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .btn-outline-cream {
+      display: block;
+      background: transparent;
+      color: #FAF7F2;
+      border: 2px solid #FAF7F2;
+      padding: 16px 24px;
+      font-family: 'Jost', sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 400;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+    }
+
+    /* ── DIVIDER BAR ── */
+    .divider-bar {
+      display: flex;
+      flex-direction: column;
+      background: #1A1410;
+    }
+
+    .divider-item {
+      text-align: center;
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(240,234,224,0.6);
+      font-weight: 300;
+      padding: 11px 20px;
+      border-bottom: 0.5px solid rgba(240,234,224,0.08);
+    }
+
+    .divider-item:last-child { border-bottom: none; }
+
+    /* ── SERVICES ── */
+    .services { padding: 52px 20px; background: #FAF7F2; }
+
+    .section-eyebrow {
+      font-size: 8px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #8B643C;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 0.5px;
+      background: #8B643C;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: #1A1410;
+      line-height: 1.15;
+      margin-bottom: 36px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(139,100,60,0.12);
+    }
+
+    .service-card { background: #FAF7F2; padding: 24px 18px; }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 12px;
+      color: rgba(139,100,60,0.4);
+      margin-bottom: 14px;
+      font-weight: 300;
+    }
+
+    .service-line {
+      width: 20px;
+      height: 0.5px;
+      background: #8B643C;
+      margin-bottom: 14px;
+      opacity: 0.5;
+    }
+
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px;
+      font-weight: 300;
+      color: #1A1410;
+      margin-bottom: 8px;
+    }
+
+    .service-desc {
+      font-size: 11px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: rgba(26,20,16,0.5);
+    }
+
+    /* ── ABOUT ── */
+    .about-text { padding: 52px 20px; background: #FAF7F2; }
+
+    .about-text p {
+      font-size: 13px;
+      font-weight: 300;
+      line-height: 1.95;
+      color: rgba(26,20,16,0.55);
+      margin-bottom: 18px;
+      letter-spacing: 0.2px;
+    }
+
+    .about-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-style: italic;
+      font-weight: 300;
+      color: #8B643C;
+      line-height: 1.5;
+      border-left: 1px solid #8B643C;
+      padding-left: 20px;
+      margin: 28px 0;
+    }
+
+    .about-stats-wrap { padding: 52px 20px; background: #F0EAE0; }
+
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+    .astat { border-top: 0.5px solid rgba(139,100,60,0.25); padding-top: 16px; }
+
+    .astat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: #1A1410;
+    }
+
+    .astat-label {
+      font-size: 8px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(26,20,16,0.4);
+      margin-top: 4px;
+      line-height: 1.6;
+    }
+
+    /* ── CTA ── */
+    .cta { background: #1A1410; padding: 60px 20px; }
+
+    .cta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      color: #FAF7F2;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .cta h2 em { font-style: italic; color: #C4A882; }
+
+    .cta-note {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(196,168,130,0.6);
+      margin-bottom: 28px;
+      margin-top: 6px;
+    }
+
+    .cta-btns { display: flex; flex-direction: column; gap: 14px; }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 20px;
+      border-top: 0.5px solid rgba(139,100,60,0.15);
+      background: #FAF7F2;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(26,20,16,0.4);
+      font-weight: 300;
+    }
+
+    .footer-links { display: flex; gap: 20px; }
+
+    .footer-links a {
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(139,100,60,0.5);
+      text-decoration: none;
+    }
+
+    .footer-copy {
+      font-size: 9px;
+      letter-spacing: 1px;
+      color: rgba(26,20,16,0.25);
+    }
+
+    /* ── DESKTOP ── */
+    @media (min-width: 768px) {
+      nav { padding: 22px 48px; }
+      .nav-links { display: flex; }
+      .nav-cta-mobile { display: none; }
+
+      .hero { display: grid; grid-template-columns: 1fr 1fr; }
+      .hero-text { padding: 80px 48px; order: 1; }
+      .hero-img-block { min-height: 520px; border-left: 0.5px solid rgba(139,100,60,0.12); order: 2; }
+      .hero-btns { flex-direction: row; }
+      .btn-dark, .btn-ghost-dark { width: auto; display: inline-block; }
+      .hero h1 { font-size: 52px; }
+
+      .divider-bar { flex-direction: row; }
+      .divider-item { flex: 1; border-bottom: none; border-right: 0.5px solid rgba(240,234,224,0.08); }
+      .divider-item:last-child { border-right: none; }
+
+      .services { padding: 80px 48px; }
+      .section-title { font-size: 38px; margin-bottom: 52px; }
+      .services-grid { grid-template-columns: repeat(3, 1fr); }
+
+      .about-text { padding: 80px 48px; }
+      .about-stats-wrap { padding: 80px 48px; }
+
+      .cta {
+        padding: 80px 48px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 60px;
+      }
+      .cta h2 { font-size: 42px; margin-bottom: 0; }
+      .cta-note { margin-bottom: 0; margin-top: 0; }
+      .cta-btns { flex-shrink: 0; }
+      .btn-gold-solid, .btn-outline-cream { width: 240px; }
+      .btn-gold-solid { margin-bottom: 0; }
+
+      footer {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 28px 48px;
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div>
+      <div class="logo-name">MsQue</div>
+      <div class="logo-sub">Adult Day Care Center</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#admissions">Admissions</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#contact" class="nav-cta-desktop">Schedule a Tour</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta-mobile">Tour</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <div class="eyebrow">Wisconsin's Premier Adult Day Center</div>
+      <h1>Where Every Day is<br><em>Full of Purpose</em></h1>
+      <p class="hero-sub">MsQue Adult Day Care Center offers a refined, dignified environment where your loved ones thrive — surrounded by compassionate professionals who treat every client as family.</p>
+      <div class="hero-btns">
+        <a href="#contact" class="btn-dark">Schedule a Tour</a>
+        <a href="#about" class="btn-ghost-dark">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-img-block">
+      <!-- Replace the block below with an <img> tag once you have photography -->
+      <div class="hero-img-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+      </div>
+      <div class="hero-img-label">Your center photography here</div>
+      <div class="hero-stat-row">
+        <div class="hero-stat">
+          <div class="hero-stat-num">5:1</div>
+          <div class="hero-stat-label">Staff ratio</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">6+</div>
+          <div class="hero-stat-label">Daily programs</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5&#9733;</div>
+          <div class="hero-stat-label">Family rated</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="divider-bar">
+    <div class="divider-item">Medicaid &amp; Insurance Accepted</div>
+    <div class="divider-item">Licensed in Wisconsin</div>
+    <div class="divider-item">Transportation Available</div>
+    <div class="divider-item">Accepting New Clients</div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="section-eyebrow">Our Services</div>
+    <div class="section-title">Everything Your Loved<br>One Deserves</div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <div class="service-line"></div>
+        <div class="service-title">Personal Care</div>
+        <div class="service-desc">Assistance with daily living — grooming, hygiene, and mobility — delivered with dignity and respect.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <div class="service-line"></div>
+        <div class="service-title">Health Monitoring</div>
+        <div class="service-desc">Wellness checks, medication reminders, and seamless coordination with your loved one's care team.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <div class="service-line"></div>
+        <div class="service-title">Social Enrichment</div>
+        <div class="service-desc">Curated group activities, arts, music, and outings that foster genuine community and connection.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <div class="service-line"></div>
+        <div class="service-title">Nutritious Dining</div>
+        <div class="service-desc">Thoughtfully prepared meals daily, with full dietary accommodations in a warm communal setting.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <div class="service-line"></div>
+        <div class="service-title">Memory Care</div>
+        <div class="service-desc">Specialized programming for individuals with Alzheimer's or dementia — designed to engage and comfort.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <div class="service-line"></div>
+        <div class="service-title">Transportation</div>
+        <div class="service-desc">Reliable door-to-door service ensuring every client can access the care they deserve.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about-text" id="about">
+    <div class="section-eyebrow">Our Story</div>
+    <div class="section-title" style="margin-bottom:24px">Built on a<br>Foundation of Love</div>
+    <p>MsQue Adult Day Care Center was founded with a singular belief: that every adult deserves more than just care — they deserve to feel seen, valued, and celebrated every single day.</p>
+    <p>We bridge the gap between independent living and full-time residential care, offering families the peace of mind that their loved ones are in exceptional hands.</p>
+    <div class="about-quote">"We don't just care for your family — we become part of it."</div>
+    <a href="#contact" class="btn-ghost-sm">Meet Our Team</a>
+  </section>
+
+  <section class="about-stats-wrap">
+    <div class="about-stats">
+      <div class="astat">
+        <div class="astat-num">100%</div>
+        <div class="astat-label">Licensed &amp; certified professionals</div>
+      </div>
+      <div class="astat">
+        <div class="astat-num">5:1</div>
+        <div class="astat-label">Staff-to-client ratio</div>
+      </div>
+      <div class="astat">
+        <div class="astat-num">6+</div>
+        <div class="astat-label">Daily enrichment programs</div>
+      </div>
+      <div class="astat">
+        <div class="astat-num">5&#9733;</div>
+        <div class="astat-label">Rated by Wisconsin families</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <div>
+      <h2>Begin the Journey<br>Toward <em>Better Days</em></h2>
+      <p class="cta-note">Complimentary consultation included</p>
+    </div>
+    <div class="cta-btns">
+      <a href="tel:+11234567890" class="btn-gold-solid">Schedule a Free Tour</a>
+      <a href="tel:+11234567890" class="btn-outline-cream">Call Us Today</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">MsQue ADC</div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 MsQue Adult Day Care Center &middot; Wisconsin</div>
+  </footer>
+
+</body>
+</html>
