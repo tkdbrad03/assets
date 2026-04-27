@@ -300,7 +300,8 @@
         : '';
 
       const adminHtml = isAdmin()
-        ? `<button class="btn-action" onclick="deleteMessage('${msg.id}')">Delete</button>` : '';
+        ? `<button class="btn-action" onclick="deleteMessage('${msg.id}')">Delete</button>
+           <button class="btn-action" onclick="editMessage('${msg.id}')">Edit</button>` : '';
 
       return `
         <div class="message-card ${cardClass}">
@@ -334,6 +335,41 @@
         </div>`;
     }).join('');
   }
+ function editMessage(msgId) {
+  const card = document.getElementById(`card-${msgId}`);
+  const textEl = card ? card.querySelector('.message-text') : null;
+  if (!textEl) return;
+  const currentText = textEl.textContent.trim();
+  const wrap = document.createElement('div');
+  wrap.id = `edit-wrap-${msgId}`;
+  wrap.style.cssText = 'padding:0 16px 12px;';
+  wrap.innerHTML = `
+    <textarea id="edit-ta-${msgId}" style="width:100%;padding:10px 12px;border:1px solid var(--border);background:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;color:var(--navy);outline:none;resize:vertical;min-height:70px;line-height:1.6;margin-bottom:8px;">${currentText}</textarea>
+    <button onclick="saveEdit('${msgId}')" style="background:var(--navy);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;border:none;cursor:pointer;margin-right:8px;">Save</button>
+    <button onclick="cancelEdit('${msgId}')" style="background:none;border:1px solid var(--border);color:var(--gray);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;padding:8px 16px;cursor:pointer;">Cancel</button>
+  `;
+  textEl.style.display = 'none';
+  textEl.parentNode.insertBefore(wrap, textEl.nextSibling);
+  document.getElementById(`edit-ta-${msgId}`).focus();
+}
+
+function cancelEdit(msgId) {
+  const card = document.getElementById(`card-${msgId}`);
+  if (!card) return;
+  const wrap = document.getElementById(`edit-wrap-${msgId}`);
+  const textEl = card.querySelector('.message-text');
+  if (wrap) wrap.remove();
+  if (textEl) textEl.style.display = '';
+}
+
+async function saveEdit(msgId) {
+  const ta = document.getElementById(`edit-ta-${msgId}`);
+  if (!ta) return;
+  const updated = ta.value.trim();
+  if (!updated) return;
+  sendToScript({ type: 'edit_message', id: msgId, message: updated, role });
+  setTimeout(async () => { messages = await fetchMessages(); renderMessages(); updateFilterCounts(); }, 1200);
+}
 
   async function init() {
     messages = await fetchMessages();
