@@ -226,6 +226,92 @@ const SESSIONS = [
       "Review the Mississippi Medicaid Checklist in your portal — focus on Phase 1 and Phase 2"
     ]
   }
+,
+  {
+    week: 2,
+    client: "LaTonya Mark",
+    date: "April 27, 2026",
+    conductedBy: "Dr. Catrina Smith and Dr. Tasha McCray",
+    recording: "https://us02web.zoom.us/rec/share/3LFFqwQxrky53Qn5RPVX1mw141uojQmqKLlAPLJOImzA0zuMbvT1-5Tdzc8DE-EH.g6nxb5u69Ywbv9J7",
+    win: "Major breakthrough — LaTonya confirmed she does NOT need to hire a BSN-level RN, social worker, or dietician at startup. As an LPN with her RN son on-call, she fully satisfies Mississippi requirements and can serve as administrator, nurse, and coordinator simultaneously.",
+    topics: [
+      "Mississippi Division of Medicaid adult day care licensing requirements and correct licensing path",
+      "Staffing model clarification — owner-operator can fill multiple roles at startup",
+      "Acuity level and how it determines staffing requirements — social model vs medical model",
+      "Organizational chart structure for the DOM proposal packet",
+      "Food service options — catering vs on-site cooking and kitchen requirements",
+      "Transportation — husband's NEMT company as contracted transportation provider",
+      "Social worker requirement — consultant contract vs full-time hire",
+      "Background check requirements — fresh fingerprints specific to this application",
+      "Building search update — expanding from Tylertown to Laurel and Columbia, Mississippi",
+      "Business plan executive summary strategy",
+      "Provider orientation quiz status and DOM holiday closure"
+    ],
+    decisions: [
+      "Staffing model — LaTonya serves as administrator and primary staff; son listed as on-call RN",
+      "Food service — meals catered through local vendor Mays in Laurel; no full kitchen required",
+      "Social worker — contract as monthly consultant rather than hire full-time",
+      "Transportation — husband's NEMT company listed as contracted transportation provider",
+      "Target capacity — start with 10 to 20 clients to stay below the higher regulatory requirements triggered at 40 or more clients",
+      "Business model correction — social model confirmed for startup phase, not high-acuity medical model"
+    ],
+    resources: [
+      "Mississippi Division of Medicaid END Waiver provider path — correct licensing links shared",
+      "ABC Organizational Chart template provided for completion",
+      "Updated portal with communication board, Zoom links, and session summaries",
+      "Corrected Mississippi DOM adult day care licensing path — provider enrollment through MESA portal at medicaid.ms.gov/mesa-portal-for-providers"
+    ],
+    completed: [
+      "Provider orientation presentation completed and quiz requested via email",
+      "Week 1 foundation items — LLC, EIN, bank account, state license all confirmed",
+      "Staffing model finalized and organizational chart structure clarified",
+      "Food service vendor identified — Mays in Laurel confirmed interest in catering contract",
+      "Transportation solution identified — husband's NEMT company"
+    ],
+    wins: [
+      "Staffing confusion resolved — LaTonya does not need to hire a BSN RN, social worker, or dietician at startup",
+      "Mississippi allows owner-operators to fill multiple roles initially — significantly reduces overhead",
+      "LaTonya as LPN plus son as on-call RN fully satisfies the nursing requirement",
+      "No full commercial kitchen required — kitchenette sufficient for reheating catered meals",
+      "Transportation covered through husband's existing NEMT company",
+      "LaTonya expressed renewed confidence and readiness after receiving these clarifications"
+    ],
+    clientActions: [
+      { text: "Submit all proposal packet documents through the portal for Dr. Catrina's review before final submission", priority: "high" },
+      { text: "Complete the organizational chart using the ABC template provided — list yourself in multiple roles: administrator, nurse, bookkeeper, program coordinator", priority: "high" },
+      { text: "Write your business plan executive summary emphasizing nursing qualifications and program model", priority: "high" },
+      { text: "Secure a building lease in Laurel or Columbia, Mississippi within 2 to 3 weeks", priority: "high" },
+      { text: "Obtain fresh fingerprints and background checks specific to this adult day care application — do not reuse prior checks", priority: "high" },
+      { text: "Finalize catering contract details with Mays in Laurel or identify Columbia vendor if location changes", priority: "medium" },
+      { text: "Follow up with DOM on provider orientation quiz — check if response was delayed by Confederate Memorial Day holiday closure", priority: "medium" }
+    ],
+    consultantActions: [
+      { text: "Dr. Catrina: Review submitted proposal documents and provide feedback on application materials", priority: "high" },
+      { text: "Dr. Catrina: Send job description templates for staff positions", priority: "high" },
+      { text: "Dr. Catrina: Upload additional resources to portal based on LaTonya's submitted materials", priority: "high" },
+      { text: "Dr. Catrina: Post available dates and times in portal for Week 3 session scheduling", priority: "high" },
+      { text: "Dr. Tasha: Upload workbook to portal for LaTonya's note-taking", priority: "medium" }
+    ],
+    challenges: [
+      "No commercial lease space found yet in Laurel — search expanding to Columbia, Mississippi",
+      "Provider orientation quiz response pending — DOM office closed for Confederate Memorial Day",
+      "Husband's NEMT company not yet Medicaid-approved — exploring subcontracting options",
+      "Initial portal materials referenced child daycare licensing through Mississippi Department of Health — corrected to adult day care licensing through Division of Medicaid"
+    ],
+    questions: [
+      "Will the Columbia, Mississippi area have suitable commercial space within budget and zoning requirements?",
+      "What is the timeline for husband's NEMT company to become Medicaid-approved or identify a subcontracting arrangement?",
+      "Has DOM responded to the provider orientation quiz request?"
+    ],
+    nextFocus: "Medicaid Provider Application, Positioning and Bridge Funding",
+    nextPrep: [
+      "Submit proposal packet documents through portal before next session",
+      "Complete and submit organizational chart using the ABC template",
+      "Have your business plan executive summary drafted",
+      "Confirm building location — Laurel or Columbia",
+      "Follow up with DOM on orientation quiz response"
+    ]
+  }
   // ADD NEW WEEKS HERE — paste generated JSON objects separated by commas
 ];
 
@@ -233,42 +319,19 @@ const SESSIONS = [
 const STORAGE_KEY = 'latonya-action-checks';
 
 // ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
-const SCRIPT_URL_SS = 'https://script.google.com/macros/s/AKfycbwITHLv7SNlCjm1ueentgA70YyoWXyWAD88Jcw5Y33IbCDigtumsIxKvlLy4Io_u3Pm/exec';
-
-async function loadChecks() {
+function loadChecks() {
   try {
-    const res = await fetch(`${SCRIPT_URL_SS}?action=getProgress&client=LaTonya Mark`);
-    const data = await res.json();
-    const flat = {};
-    Object.keys(data).forEach(week => {
-      Object.keys(data[week]).forEach(taskId => {
-        flat[taskId] = data[week][taskId];
-      });
-    });
-    return flat;
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
   } catch(e) {
     return {};
   }
 }
 
-function saveChecks(checks, key) {
-  const parts = key.split('-');
-  const weekNum = parts[0].replace('w','');
-  const week = 'Week' + weekNum;
-  const completed = checks[key];
-  fetch(SCRIPT_URL_SS, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify({
-      type: 'save_progress',
-      client: 'LaTonya Mark',
-      week: week,
-      taskId: key,
-      taskLabel: key,
-      completed: completed
-    })
-  }).catch(() => {});
+function saveChecks(checks) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checks));
+  } catch(e) {}
 }
 
 // ─── BUILD UI ─────────────────────────────────────────────────────────────────
@@ -321,6 +384,7 @@ function buildSessions(checks) {
           </div>
         </div>
         ${s.win ? `<div class="win-pill">&#127881; ${s.win}</div>` : ''}
+        ${s.recording ? `<a href="${s.recording}" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);color:var(--gold);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:8px 14px;text-decoration:none;margin-top:10px;">&#9654;&nbsp; Watch Session Recording</a>` : ''}
       </div>
 
       <!-- TOPICS -->
@@ -409,7 +473,7 @@ function toggleCheck(el) {
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
   el.querySelector('.check-box').textContent = _checks[key] ? '✓' : '';
-  saveChecks(_checks, key);
+  saveChecks(_checks);
   updateOverallProgress();
 }
 
@@ -431,8 +495,8 @@ function updateOverallProgress() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-async function init() {
-  _checks = await loadChecks();
+function init() {
+  _checks = loadChecks();
   buildTabs();
   buildSessions(_checks);
   updateOverallProgress();
