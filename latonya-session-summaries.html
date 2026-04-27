@@ -233,19 +233,42 @@ const SESSIONS = [
 const STORAGE_KEY = 'latonya-action-checks';
 
 // ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
-function loadChecks() {
+const SCRIPT_URL_SS = 'https://script.google.com/macros/s/AKfycbwITHLv7SNlCjm1ueentgA70YyoWXyWAD88Jcw5Y33IbCDigtumsIxKvlLy4Io_u3Pm/exec';
+
+async function loadChecks() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {};
+    const res = await fetch(`${SCRIPT_URL_SS}?action=getProgress&client=LaTonya Mark`);
+    const data = await res.json();
+    const flat = {};
+    Object.keys(data).forEach(week => {
+      Object.keys(data[week]).forEach(taskId => {
+        flat[taskId] = data[week][taskId];
+      });
+    });
+    return flat;
   } catch(e) {
     return {};
   }
 }
 
-function saveChecks(checks) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(checks));
-  } catch(e) {}
+function saveChecks(checks, key) {
+  const parts = key.split('-');
+  const weekNum = parts[0].replace('w','');
+  const week = 'Week' + weekNum;
+  const completed = checks[key];
+  fetch(SCRIPT_URL_SS, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({
+      type: 'save_progress',
+      client: 'LaTonya Mark',
+      week: week,
+      taskId: key,
+      taskLabel: key,
+      completed: completed
+    })
+  }).catch(() => {});
 }
 
 // ─── BUILD UI ─────────────────────────────────────────────────────────────────
@@ -386,7 +409,7 @@ function toggleCheck(el) {
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
   el.querySelector('.check-box').textContent = _checks[key] ? '✓' : '';
-  saveChecks(_checks);
+  saveChecks(_checks, key);
   updateOverallProgress();
 }
 
@@ -408,8 +431,8 @@ function updateOverallProgress() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-function init() {
-  _checks = loadChecks();
+async function init() {
+  _checks = await loadChecks();
   buildTabs();
   buildSessions(_checks);
   updateOverallProgress();
