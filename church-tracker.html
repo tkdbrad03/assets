@@ -221,13 +221,34 @@
   const API = 'https://script.google.com/macros/s/AKfycbwvlU7IglU5j8Lbv3bq_qaecAZf0nyurcpfkgt5WfxkLAn5E6nVhZcyFi7mBShzHme5/exec';
   const CLIENT = 'LaTonya Mark';
   let churches = {};
+  let churchOrder = []; // preserve insertion order
   let currentFilter = 'all';
   let isEditing = false;
   let isLoading = false;
   let openCards = new Set();
 
+  // Use index-based keys so special characters / apostrophes in names never break anything
+  // cardIndex maps numeric index → churchName
+  let cardIndex = [];
+
   document.addEventListener('focusin', () => isEditing = true);
   document.addEventListener('focusout', () => setTimeout(() => isEditing = false, 200));
+
+  // Event delegation — no more inline onclick handlers with embedded names
+  document.getElementById('app').addEventListener('click', e => {
+    const header = e.target.closest('.church-card-header');
+    const saveBtn = e.target.closest('.btn-save');
+    if (header) {
+      const idx = header.dataset.idx;
+      const name = cardIndex[idx];
+      if (name !== undefined) toggleCard(name);
+    }
+    if (saveBtn) {
+      const idx = saveBtn.dataset.idx;
+      const name = cardIndex[idx];
+      if (name !== undefined) save(idx, name);
+    }
+  });
 
   function toggleScript() {
     const body = document.getElementById('script-body');
@@ -238,24 +259,18 @@
 
   function statusClass(status) {
     const map = {
-      'Not Contacted': 'not-contacted',
-      'Called': 'called',
-      'Voicemail': 'voicemail',
-      'Meeting Scheduled': 'meeting',
-      'Follow-Up': 'follow-up',
-      'Closed': 'closed'
+      'Not Contacted': 'not-contacted', 'Called': 'called',
+      'Voicemail': 'voicemail', 'Meeting Scheduled': 'meeting',
+      'Follow-Up': 'follow-up', 'Closed': 'closed'
     };
     return map[status] || 'not-contacted';
   }
 
   function pillClass(status) {
     const map = {
-      'Not Contacted': 'pill-not-contacted',
-      'Called': 'pill-called',
-      'Voicemail': 'pill-voicemail',
-      'Meeting Scheduled': 'pill-meeting',
-      'Follow-Up': 'pill-follow-up',
-      'Closed': 'pill-closed'
+      'Not Contacted': 'pill-not-contacted', 'Called': 'pill-called',
+      'Voicemail': 'pill-voicemail', 'Meeting Scheduled': 'pill-meeting',
+      'Follow-Up': 'pill-follow-up', 'Closed': 'pill-closed'
     };
     return map[status] || 'pill-not-contacted';
   }
@@ -264,29 +279,35 @@
     currentFilter = filter;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    render(churches);
+    render();
   }
 
   function updateStats() {
     const all = Object.values(churches);
     const contacted = all.filter(c => c.status !== 'Not Contacted').length;
-    const meetings = all.filter(c => c.status === 'Meeting Scheduled').length;
-    const pending = all.filter(c => ['Called', 'Voicemail', 'Follow-Up'].includes(c.status)).length;
-    document.getElementById('stat-total').textContent = all.length;
+    const meetings  = all.filter(c => c.status === 'Meeting Scheduled').length;
+    const pending   = all.filter(c => ['Called','Voicemail','Follow-Up'].includes(c.status)).length;
+    document.getElementById('stat-total').textContent     = all.length;
     document.getElementById('stat-contacted').textContent = contacted;
-    document.getElementById('stat-meetings').textContent = meetings;
-    document.getElementById('stat-pending').textContent = pending;
+    document.getElementById('stat-meetings').textContent  = meetings;
+    document.getElementById('stat-pending').textContent   = pending;
   }
 
   function toggleCard(name) {
     if (openCards.has(name)) openCards.delete(name);
     else openCards.add(name);
-    render(churches);
+    render();
   }
 
-  function render(data) {
+  function escapeHtml(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function render() {
     const app = document.getElementById('app');
-    let filtered = Object.values(data);
+    // Rebuild cardIndex fresh each render so idx is stable within this render
+    cardIndex = [];
+    let filtered = churchOrder.map(name => churches[name]).filter(Boolean);
     if (currentFilter !== 'all') filtered = filtered.filter(c => c.status === currentFilter);
 
     if (filtered.length === 0) {
@@ -295,47 +316,49 @@
     }
 
     app.innerHTML = filtered.map(d => {
-      const sc = statusClass(d.status);
-      const pc = pillClass(d.status);
+      const idx = cardIndex.length;
+      cardIndex.push(d.churchName);
+      const sc     = statusClass(d.status);
+      const pc     = pillClass(d.status);
       const isOpen = openCards.has(d.churchName);
       return `
         <div class="church-card status-${sc}">
-          <div class="church-card-header" onclick="toggleCard('${d.churchName}')">
+          <div class="church-card-header" data-idx="${idx}">
             <div>
-              <div class="church-name">${d.churchName}</div>
-              ${d.phone ? `<div class="church-meta">${d.phone}</div>` : ''}
+              <div class="church-name">${escapeHtml(d.churchName)}</div>
+              ${d.phone ? `<div class="church-meta">${escapeHtml(d.phone)}</div>` : ''}
             </div>
-            <span class="status-pill ${pc}">${d.status}</span>
+            <span class="status-pill ${pc}">${escapeHtml(d.status)}</span>
           </div>
           <div class="church-card-body ${isOpen ? 'open' : ''}">
             <div class="field-grid">
               <div class="field-group">
                 <label>Status</label>
-                <select id="status-${d.churchName}">
+                <select data-field="status" data-idx="${idx}">
                   ${['Not Contacted','Called','Voicemail','Meeting Scheduled','Follow-Up','Closed']
                     .map(s => `<option ${d.status===s?'selected':''}>${s}</option>`).join('')}
                 </select>
               </div>
               <div class="field-group">
                 <label>Contact Person</label>
-                <input id="contact-${d.churchName}" value="${d.contactPerson || ''}" placeholder="Pastor or admin name">
+                <input data-field="contact" data-idx="${idx}" value="${escapeHtml(d.contactPerson || '')}" placeholder="Pastor or admin name">
               </div>
               <div class="field-group">
                 <label>Phone</label>
-                <input id="phone-${d.churchName}" value="${d.phone || ''}" placeholder="(601) 000-0000">
+                <input data-field="phone" data-idx="${idx}" value="${escapeHtml(d.phone || '')}" placeholder="(601) 000-0000">
               </div>
               <div class="field-group">
                 <label>Next Step</label>
-                <input id="next-${d.churchName}" value="${d.nextStep || ''}" placeholder="e.g. Send proposal">
+                <input data-field="next" data-idx="${idx}" value="${escapeHtml(d.nextStep || '')}" placeholder="e.g. Send proposal">
               </div>
               <div class="field-group full">
                 <label>Notes</label>
-                <textarea id="notes-${d.churchName}" placeholder="What happened on the call? Any details to remember...">${d.notes || ''}</textarea>
+                <textarea data-field="notes" data-idx="${idx}" placeholder="What happened on the call? Any details to remember...">${escapeHtml(d.notes || '')}</textarea>
               </div>
             </div>
             <div class="card-actions">
-              <button class="btn-save" onclick="save('${d.churchName}')">Save Update</button>
-              <span class="save-confirm" id="confirm-${d.churchName}">Saved ✓</span>
+              <button class="btn-save" data-idx="${idx}">Save Update</button>
+              <span class="save-confirm" data-confirm="${idx}">Saved ✓</span>
             </div>
             ${d.lastUpdated ? `<div class="last-updated">Last updated: ${d.lastUpdated}</div>` : ''}
           </div>
@@ -343,53 +366,80 @@
     }).join('');
   }
 
+  function getCardValues(idx) {
+    const app = document.getElementById('app');
+    const get = field => app.querySelector(`[data-field="${field}"][data-idx="${idx}"]`);
+    return {
+      status:        get('status')?.value  || '',
+      contactPerson: get('contact')?.value || '',
+      phone:         get('phone')?.value   || '',
+      notes:         get('notes')?.value   || '',
+      nextStep:      get('next')?.value    || ''
+    };
+  }
+
   async function load() {
     if (isEditing || isLoading) return;
     isLoading = true;
     try {
-      const res = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
+      const res  = await fetch(`${API}?action=get_churches&client=${encodeURIComponent(CLIENT)}`);
       const data = await res.json();
-      const map = {};
-      data.forEach(c => map[c.churchName] = c);
-      churches = map;
-      render(churches);
+      const map  = {};
+      const order = [];
+      data.forEach(c => { map[c.churchName] = c; order.push(c.churchName); });
+      churches   = map;
+      churchOrder = order;
+      render();
       updateStats();
-    } catch(e) { console.error(e); }
+    } catch(e) { console.error('Load error:', e); }
     isLoading = false;
   }
 
-  async function save(name) {
+  async function save(idx, name) {
+    const vals = getCardValues(idx);
+    const now  = new Date().toISOString();
     const payload = {
-      type: 'save_church',
-      client: CLIENT,
-      churchName: name,
-      status: document.getElementById(`status-${name}`).value,
-      contactPerson: document.getElementById(`contact-${name}`).value,
-      phone: document.getElementById(`phone-${name}`).value,
-      notes: document.getElementById(`notes-${name}`).value,
-      nextStep: document.getElementById(`next-${name}`).value,
-      updatedBy: 'LaTonya'
+      type: 'save_church', client: CLIENT,
+      churchName: name, updatedBy: 'LaTonya',
+      lastUpdated: now,
+      ...vals
     };
-    await fetch(API, { method: 'POST', body: JSON.stringify(payload) });
-    const confirm = document.getElementById(`confirm-${name}`);
-    if (confirm) { confirm.style.display = 'inline'; setTimeout(() => confirm.style.display = 'none', 2500); }
-    setTimeout(load, 1500);
+
+    // Update local state immediately — no waiting for re-fetch
+    if (churches[name]) {
+      Object.assign(churches[name], vals, { lastUpdated: now });
+    }
+
+    // Show confirmation immediately
+    const confirmEl = document.querySelector(`[data-confirm="${idx}"]`);
+    if (confirmEl) { confirmEl.style.display = 'inline'; setTimeout(() => confirmEl.style.display = 'none', 2500); }
+
+    // Fire-and-forget to server
+    fetch(API, { method: 'POST', body: JSON.stringify(payload) }).catch(e => console.error('Save error:', e));
   }
 
   async function addChurch() {
-    const name = document.getElementById('new-name').value.trim();
-    const phone = document.getElementById('new-phone').value.trim();
+    const nameInput  = document.getElementById('new-name');
+    const phoneInput = document.getElementById('new-phone');
+    const name  = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
     if (!name) { alert('Please enter a church name.'); return; }
-    await fetch(API, {
-      method: 'POST',
-      body: JSON.stringify({ type: 'save_church', client: CLIENT, churchName: name, status: 'Not Contacted', contactPerson: '', phone, notes: '', nextStep: '', updatedBy: 'LaTonya' })
-    });
-    document.getElementById('new-name').value = '';
-    document.getElementById('new-phone').value = '';
-    setTimeout(load, 1500);
+    if (churches[name]) { alert('A church with that name already exists.'); return; }
+
+    const newEntry = { churchName: name, status: 'Not Contacted', contactPerson: '', phone, notes: '', nextStep: '', updatedBy: 'LaTonya' };
+    churches[name] = newEntry;
+    churchOrder.push(name);
+    nameInput.value  = '';
+    phoneInput.value = '';
+    render();
+    updateStats();
+
+    fetch(API, { method: 'POST', body: JSON.stringify({ type: 'save_church', client: CLIENT, ...newEntry }) })
+      .catch(e => console.error('Add error:', e));
   }
 
-  setInterval(() => { if (!isEditing) load(); }, 15000);
+  // Auto-refresh every 60s (was 15s — reduced unnecessary API hammering)
+  setInterval(() => { if (!isEditing) load(); }, 60000);
   load();
 </script>
 </body>
