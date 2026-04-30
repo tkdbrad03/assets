@@ -11,106 +11,131 @@
   body { font-family: 'DM Sans', sans-serif; background: #f5f4f0; color: #1a1a18; min-height: 100vh; }
   .page { max-width: 780px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
-  /* Hero */
-  .hero { background: #1a2e1a; padding: 2.25rem 2rem 1.75rem; border-radius: 14px; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -50px; right: -50px; width: 220px; height: 220px; border-radius: 50%; background: rgba(99,153,34,0.12); pointer-events: none; }
-  .hero-eye { font-size: 11px; letter-spacing: 0.13em; color: #7ab648; text-transform: uppercase; font-weight: 500; margin-bottom: 0.5rem; }
-  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; line-height: 1; color: #f0f0e8; letter-spacing: 0.02em; }
-  .hero-title span { color: #7ab648; }
-  .hero-sub { font-size: 13px; color: #8fa888; line-height: 1.6; margin-top: 0.75rem; max-width: 500px; }
-  .hero-badges { display: flex; gap: 8px; margin-top: 1.25rem; flex-wrap: wrap; }
-  .badge { font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 100px; }
-  .badge-g { background: rgba(99,153,34,0.22); color: #7ab648; }
-  .badge-a { background: rgba(186,117,23,0.22); color: #e8a030; }
-  .badge-gr { background: rgba(255,255,255,0.09); color: #8fa888; }
+/* Hero */
+.hero { background: #1a2e1a; padding: 2.25rem 2rem 1.75rem; border-radius: 14px; margin-bottom: 1.5rem; position: relative; overflow: hidden; }
+.hero::before { content: ‘’; position: absolute; top: -50px; right: -50px; width: 220px; height: 220px; border-radius: 50%; background: rgba(99,153,34,0.12); pointer-events: none; }
+.hero-eye { font-size: 11px; letter-spacing: 0.13em; color: #7ab648; text-transform: uppercase; font-weight: 500; margin-bottom: 0.5rem; }
+.hero-title { font-family: ‘Bebas Neue’, sans-serif; font-size: 52px; line-height: 1; color: #f0f0e8; letter-spacing: 0.02em; }
+.hero-title span { color: #7ab648; }
+.hero-sub { font-size: 13px; color: #8fa888; line-height: 1.6; margin-top: 0.75rem; max-width: 500px; }
+.hero-badges { display: flex; gap: 8px; margin-top: 1.25rem; flex-wrap: wrap; }
+.badge { font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 100px; }
+.badge-g { background: rgba(99,153,34,0.22); color: #7ab648; }
+.badge-a { background: rgba(186,117,23,0.22); color: #e8a030; }
+.badge-gr { background: rgba(255,255,255,0.09); color: #8fa888; }
 
-  /* Overall progress */
-  .overall { background: #fff; border: 1px solid #e8e6df; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
-  .overall-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-  .overall-label { font-size: 13px; font-weight: 500; color: #1a1a18; }
-  .overall-count { font-size: 12px; color: #888780; }
-  .overall-track { height: 7px; background: #eeede8; border-radius: 100px; overflow: hidden; }
-  .overall-fill { height: 100%; background: #7ab648; border-radius: 100px; transition: width 0.35s ease; width: 0%; }
+/* Overall progress */
+.overall { background: #fff; border: 1px solid #e8e6df; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; }
+.overall-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+.overall-label { font-size: 13px; font-weight: 500; color: #1a1a18; }
+.overall-count { font-size: 12px; color: #888780; }
+.overall-track { height: 7px; background: #eeede8; border-radius: 100px; overflow: hidden; }
+.overall-fill { height: 100%; background: #7ab648; border-radius: 100px; transition: width 0.35s ease; width: 0%; }
 
-  /* Section label */
-  .sec { margin-bottom: 1.5rem; }
-  .sec-label { font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: #888780; font-weight: 500; margin-bottom: 0.75rem; padding-left: 2px; }
-  .divider { border: none; border-top: 1px solid #e8e6df; margin: 0.25rem 0 1.5rem; }
+/* Section label */
+.sec { margin-bottom: 1.5rem; }
+.sec-label { font-size: 10px; letter-spacing: 0.13em; text-transform: uppercase; color: #888780; font-weight: 500; margin-bottom: 0.75rem; padding-left: 2px; }
+.divider { border: none; border-top: 1px solid #e8e6df; margin: 0.25rem 0 1.5rem; }
 
-  /* Phase block */
-  .phase-block { background: #fff; border: 1px solid #e8e6df; border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
-  .phase-prog { height: 4px; background: #eeede8; }
-  .phase-prog-fill { height: 100%; background: #7ab648; transition: width 0.3s ease; width: 0%; }
-  .phase-header { display: flex; align-items: center; gap: 12px; padding: 0.9rem 1.25rem; border-bottom: 1px solid #f0efe9; }
-  .phase-num { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: #7ab648; line-height: 1; min-width: 22px; }
-  .phase-info { flex: 1; }
-  .phase-title { font-size: 13px; font-weight: 500; color: #1a1a18; }
-  .phase-range { font-size: 11px; color: #7ab648; margin-top: 2px; }
-  .phase-pct { font-size: 11px; color: #888780; min-width: 44px; text-align: right; }
-  .phase-items { padding: 0.4rem 1.25rem 0.9rem; }
+/* Phase block */
+.phase-block { background: #fff; border: 1px solid #e8e6df; border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
+.phase-prog { height: 4px; background: #eeede8; }
+.phase-prog-fill { height: 100%; background: #7ab648; transition: width 0.3s ease; width: 0%; }
+.phase-header { display: flex; align-items: center; gap: 12px; padding: 0.9rem 1.25rem; border-bottom: 1px solid #f0efe9; }
+.phase-num { font-family: ‘Bebas Neue’, sans-serif; font-size: 24px; color: #7ab648; line-height: 1; min-width: 22px; }
+.phase-info { flex: 1; }
+.phase-title { font-size: 13px; font-weight: 500; color: #1a1a18; }
+.phase-range { font-size: 11px; color: #7ab648; margin-top: 2px; }
+.phase-pct { font-size: 11px; color: #888780; min-width: 44px; text-align: right; }
+.phase-items { padding: 0.4rem 1.25rem 0.9rem; }
 
-  /* Check items */
-  .check-item { display: flex; align-items: flex-start; gap: 11px; padding: 8px 0; border-bottom: 1px solid #f0efe9; cursor: pointer; user-select: none; transition: opacity 0.15s; }
-  .check-item:last-child { border-bottom: none; }
-  .check-item:hover { opacity: 0.88; }
-  .check-item.done .check-label { color: #aaa; text-decoration: line-through; }
-  .check-item.done .check-note { color: #bbb; }
+/* Check items */
+.check-item { display: flex; align-items: flex-start; gap: 11px; padding: 8px 0; border-bottom: 1px solid #f0efe9; cursor: pointer; user-select: none; transition: opacity 0.15s; }
+.check-item:last-child { border-bottom: none; }
+.check-item:hover { opacity: 0.88; }
+.check-item.done .check-label { color: #aaa; text-decoration: line-through; }
+.check-item.done .check-note { color: #bbb; }
 
-  .checkbox { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid #ccc; background: #f7f6f2; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s; }
-  .check-item.done .checkbox { background: #7ab648; border-color: #639922; }
-  .checkmark { display: none; }
-  .check-item.done .checkmark { display: block; }
-  .checkmark svg { width: 11px; height: 11px; }
+.checkbox { width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid #ccc; background: #f7f6f2; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s; }
+.check-item.done .checkbox { background: #7ab648; border-color: #639922; }
+.checkmark { display: none; }
+.check-item.done .checkmark { display: block; }
+.checkmark svg { width: 11px; height: 11px; }
 
-  .check-body { flex: 1; min-width: 0; }
-  .check-label { font-size: 13px; color: #1a1a18; line-height: 1.5; }
-  .check-note { font-size: 11px; color: #888780; margin-top: 3px; line-height: 1.5; }
-  .check-tag { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 100px; flex-shrink: 0; margin-top: 2px; white-space: nowrap; align-self: flex-start; }
-  .tag-r { background: #fce8e8; color: #791f1f; }
-  .tag-a { background: #faeeda; color: #633806; }
-  .tag-g { background: #eaf3de; color: #27500a; }
+.check-body { flex: 1; min-width: 0; }
+.check-label { font-size: 13px; color: #1a1a18; line-height: 1.5; }
+.check-note { font-size: 11px; color: #888780; margin-top: 3px; line-height: 1.5; }
+.check-tag { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 100px; flex-shrink: 0; margin-top: 2px; white-space: nowrap; align-self: flex-start; }
+.tag-r { background: #fce8e8; color: #791f1f; }
+.tag-a { background: #faeeda; color: #633806; }
+.tag-g { background: #eaf3de; color: #27500a; }
 
-  /* Pricing */
-  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-  .price-card { background: #fff; border: 1px solid #e8e6df; border-radius: 14px; padding: 1rem 1.25rem; text-align: center; }
-  .price-card.featured { border: 2px solid #7ab648; }
-  .price-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888780; margin-bottom: 0.4rem; }
-  .price-amt { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: #1a1a18; line-height: 1; }
-  .price-per { font-size: 11px; color: #888780; }
-  .price-pill { font-size: 10px; font-weight: 500; background: rgba(99,153,34,0.15); color: #3b6d11; padding: 3px 9px; border-radius: 100px; display: inline-block; margin-top: 6px; }
-  .price-note { font-size: 11px; color: #5f5e5a; margin-top: 0.5rem; line-height: 1.5; }
+/* Pricing */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+.price-card { background: #fff; border: 1px solid #e8e6df; border-radius: 14px; padding: 1rem 1.25rem; text-align: center; }
+.price-card.featured { border: 2px solid #7ab648; }
+.price-type { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #888780; margin-bottom: 0.4rem; }
+.price-amt { font-family: ‘Bebas Neue’, sans-serif; font-size: 36px; color: #1a1a18; line-height: 1; }
+.price-per { font-size: 11px; color: #888780; }
+.price-pill { font-size: 10px; font-weight: 500; background: rgba(99,153,34,0.15); color: #3b6d11; padding: 3px 9px; border-radius: 100px; display: inline-block; margin-top: 6px; }
+.price-note { font-size: 11px; color: #5f5e5a; margin-top: 0.5rem; line-height: 1.5; }
 
-  /* Metrics */
-  .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
-  .metric { background: #f0efe9; border-radius: 9px; padding: 0.875rem 1rem; }
-  .metric-label { font-size: 11px; color: #888780; margin-bottom: 0.3rem; }
-  .metric-val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; color: #1a1a18; line-height: 1; }
-  .metric-sub { font-size: 11px; color: #888780; margin-top: 0.2rem; }
+/* Metrics */
+.metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+.metric { background: #f0efe9; border-radius: 9px; padding: 0.875rem 1rem; }
+.metric-label { font-size: 11px; color: #888780; margin-bottom: 0.3rem; }
+.metric-val { font-family: ‘Bebas Neue’, sans-serif; font-size: 26px; color: #1a1a18; line-height: 1; }
+.metric-sub { font-size: 11px; color: #888780; margin-top: 0.2rem; }
 
-  /* Copy box */
-  .copy-box { background: #1a2e1a; border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 12px; }
-  .copy-text { font-size: 13px; color: #c8d8c0; line-height: 1.85; font-style: italic; }
-  .copy-note { font-size: 11px; color: #5d7a57; margin-top: 0.75rem; }
+/* Copy box */
+.copy-box { background: #1a2e1a; border-radius: 14px; padding: 1.25rem 1.5rem; margin-bottom: 12px; }
+.copy-text { font-size: 13px; color: #c8d8c0; line-height: 1.85; font-style: italic; }
+.copy-note { font-size: 11px; color: #5d7a57; margin-top: 0.75rem; }
 
-  /* Say grid */
-  .say-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .say-no { padding: 0.9rem 1rem; border-radius: 10px; background: rgba(162,45,45,0.06); border: 1px solid rgba(162,45,45,0.18); }
-  .say-yes { padding: 0.9rem 1rem; border-radius: 10px; background: rgba(59,109,17,0.06); border: 1px solid rgba(99,153,34,0.28); }
-  .say-head { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; margin-bottom: 0.5rem; }
-  .say-no .say-head { color: #a32d2d; }
-  .say-yes .say-head { color: #3b6d11; }
-  .say-item { font-size: 12px; color: #5f5e5a; line-height: 1.8; }
+/* Say grid */
+.say-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.say-no { padding: 0.9rem 1rem; border-radius: 10px; background: rgba(162,45,45,0.06); border: 1px solid rgba(162,45,45,0.18); }
+.say-yes { padding: 0.9rem 1rem; border-radius: 10px; background: rgba(59,109,17,0.06); border: 1px solid rgba(99,153,34,0.28); }
+.say-head { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; margin-bottom: 0.5rem; }
+.say-no .say-head { color: #a32d2d; }
+.say-yes .say-head { color: #3b6d11; }
+.say-item { font-size: 12px; color: #5f5e5a; line-height: 1.8; }
 
-  /* Bottom card */
-  .bottom-card { background: #fff; border: 1px solid #e8e6df; border-left: 3px solid #7ab648; border-radius: 0 14px 14px 0; padding: 1.25rem 1.5rem; }
-  .bottom-note { font-size: 13px; color: #5f5e5a; line-height: 1.85; }
+/* Bottom card */
+.bottom-card { background: #fff; border: 1px solid #e8e6df; border-left: 3px solid #7ab648; border-radius: 0 14px 14px 0; padding: 1.25rem 1.5rem; }
+.bottom-note { font-size: 13px; color: #5f5e5a; line-height: 1.85; }
 
-  @media (max-width: 540px) {
-    .pricing-grid, .metrics, .say-grid { grid-template-columns: 1fr; }
-    .hero-title { font-size: 38px; }
-    .hero { padding: 1.5rem 1.25rem; }
-  }
+/* Command Center */
+.cmd-block { background: #fff; border: 1px solid #e8e6df; border-radius: 14px; margin-bottom: 10px; overflow: hidden; }
+.cmd-subhead { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #7ab648; font-weight: 500; padding: 0.75rem 1.25rem 0; }
+.cmd-rule { background: #fff8ec; border: 1px solid #f0d89a; border-radius: 9px; margin: 0.5rem 1.25rem 0.75rem; padding: 0.65rem 0.875rem; font-size: 12px; color: #633806; line-height: 1.5; }
+.cmd-rule strong { font-weight: 500; }
+.cmd-script { background: #1a2e1a; border-radius: 10px; margin: 0.5rem 1.25rem 0.875rem; padding: 1rem 1.25rem; }
+.cmd-script-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #5d7a57; font-weight: 500; margin-bottom: 0.5rem; }
+.cmd-script-text { font-size: 12px; color: #c8d8c0; line-height: 1.85; font-style: italic; }
+.cmd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 0.5rem 1.25rem 0.875rem; }
+.cmd-stat { background: #f0efe9; border-radius: 9px; padding: 0.75rem 1rem; }
+.cmd-stat-label { font-size: 11px; color: #888780; margin-bottom: 0.25rem; }
+.cmd-stat-val { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: #1a1a18; line-height: 1; }
+.cmd-stat-sub { font-size: 11px; color: #888780; margin-top: 0.15rem; }
+.cmd-seq { margin: 0.5rem 1.25rem 0.875rem; counter-reset: seq; }
+.cmd-seq-item { display: flex; gap: 10px; align-items: flex-start; padding: 6px 0; border-bottom: 1px solid #f0efe9; font-size: 12px; color: #1a1a18; line-height: 1.5; }
+.cmd-seq-item:last-child { border-bottom: none; }
+.cmd-seq-num { font-family: ‘Bebas Neue’, sans-serif; font-size: 18px; color: #7ab648; min-width: 18px; line-height: 1.1; }
+.cmd-verify { margin: 0.5rem 1.25rem 0.875rem; display: flex; flex-direction: column; gap: 6px; }
+.cmd-verify-item { display: flex; gap: 8px; align-items: center; font-size: 12px; color: #5f5e5a; }
+.cmd-dot { width: 6px; height: 6px; border-radius: 50%; background: #7ab648; flex-shrink: 0; }
+.cmd-target { margin: 0.5rem 1.25rem 0.875rem; background: #f0efe9; border-radius: 9px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+.cmd-target-label { font-size: 12px; color: #888780; }
+.cmd-target-val { font-family: ‘Bebas Neue’, sans-serif; font-size: 22px; color: #1a1a18; }
+
+@media (max-width: 540px) {
+.pricing-grid, .metrics, .say-grid, .cmd-grid { grid-template-columns: 1fr; }
+.hero-title { font-size: 38px; }
+.hero { padding: 1.5rem 1.25rem; }
+}
 </style>
+
 </head>
 <body>
 <div class="page">
@@ -135,293 +160,534 @@
   </div>
 
   <!-- PHASE 1 -->
+
   <div class="sec">
     <div class="sec-label">Phase 1 — Before you break ground</div>
 
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-0"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">1</div>
-        <div class="phase-info">
-          <div class="phase-title">Legal &amp; admin</div>
-          <div class="phase-range">Cost: minimal — do these first</div>
-        </div>
-        <div class="phase-pct" id="pct-0">0 / 3</div>
-      </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="0" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Confirm SC state business license requirement for paid lodging on private land</div>
-            <div class="check-note">Check sc.gov — usually cheap and fast, but do it before collecting money</div>
-          </div>
-          <span class="check-tag tag-r">do first</span>
-        </div>
-        <div class="check-item" data-phase="0" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Verify Kings Creek 50-ft buffer with your grader before finalizing pad placement</div>
-            <div class="check-note">Your concept pads look clear — just confirm with whoever does the grading</div>
-          </div>
-          <span class="check-tag tag-a">verify</span>
-        </div>
-        <div class="check-item" data-phase="0" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Obtain SC state business license (or confirm it's not required)</div>
-            <div class="check-note">Must be done before first paying guest</div>
-          </div>
-          <span class="check-tag tag-r">required</span>
-        </div>
-      </div>
+```
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-0"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">1</div>
+    <div class="phase-info">
+      <div class="phase-title">Legal &amp; admin</div>
+      <div class="phase-range">Cost: minimal — do these first</div>
     </div>
+    <div class="phase-pct" id="pct-0">0 / 3</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="0" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Confirm SC state business license requirement for paid lodging on private land</div>
+        <div class="check-note">Check sc.gov — usually cheap and fast, but do it before collecting money</div>
+      </div>
+      <span class="check-tag tag-r">do first</span>
+    </div>
+    <div class="check-item" data-phase="0" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Verify Kings Creek 50-ft buffer with your grader before finalizing pad placement</div>
+        <div class="check-note">Your concept pads look clear — just confirm with whoever does the grading</div>
+      </div>
+      <span class="check-tag tag-a">verify</span>
+    </div>
+    <div class="check-item" data-phase="0" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Obtain SC state business license (or confirm it's not required)</div>
+        <div class="check-note">Must be done before first paying guest</div>
+      </div>
+      <span class="check-tag tag-r">required</span>
+    </div>
+  </div>
+</div>
 
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-1"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">2</div>
-        <div class="phase-info">
-          <div class="phase-title">Get your real numbers</div>
-          <div class="phase-range">Cost: free — do before spending anything</div>
-        </div>
-        <div class="phase-pct" id="pct-1">0 / 3</div>
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-1"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">2</div>
+    <div class="phase-info">
+      <div class="phase-title">Get your real numbers</div>
+      <div class="phase-range">Cost: free — do before spending anything</div>
+    </div>
+    <div class="phase-pct" id="pct-1">0 / 3</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="1" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Get at least one local gravel quote — full loop drive + 6 pads</div>
+        <div class="check-note">SE gravel prices are volatile. Budget $10K–$14K is real but verify locally</div>
       </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="1" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Get at least one local gravel quote — full loop drive + 6 pads</div>
-            <div class="check-note">SE gravel prices are volatile. Budget $10K–$14K is real but verify locally</div>
-          </div>
-          <span class="check-tag tag-r">locks budget</span>
-        </div>
-        <div class="check-item" data-phase="1" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Get a clearing + grading quote from the same or a second contractor</div>
-            <div class="check-note">Ask them to walk the lot — they'll flag the creek buffer on sight</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="1" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Set your final startup budget and confirm funds are available</div>
-            <div class="check-note">Lean: $14K–$18K · Comfortable: $20K–$27K</div>
-          </div>
-        </div>
+      <span class="check-tag tag-r">locks budget</span>
+    </div>
+    <div class="check-item" data-phase="1" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Get a clearing + grading quote from the same or a second contractor</div>
+        <div class="check-note">Ask them to walk the lot — they'll flag the creek buffer on sight</div>
       </div>
     </div>
+    <div class="check-item" data-phase="1" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Set your final startup budget and confirm funds are available</div>
+        <div class="check-note">Lean: $14K–$18K · Comfortable: $20K–$27K</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
   </div>
 
   <!-- PHASE 2 -->
+
   <div class="sec">
     <div class="sec-label">Phase 2 — Ground work</div>
 
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-2"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">3</div>
-        <div class="phase-info">
-          <div class="phase-title">Clearing &amp; grading</div>
-          <div class="phase-range">$3,500 – $11,000</div>
-        </div>
-        <div class="phase-pct" id="pct-2">0 / 4</div>
-      </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="2" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Clear brush and select trees on Lot 2 footprint (1–2 acres)</div>
-            <div class="check-note">$1,500–$6,000 depending on density</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="2" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Grade loop drive and 6 pad locations per concept drawing</div>
-            <div class="check-note">$2,000–$5,000 — direct drainage away from Kings Creek</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="2" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Widen and smooth entrance from Hickory Hollow Rd</div>
-            <div class="check-note">$500–$1,500 — RV-friendly transition from road to loop</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="2" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Inspect all 6 pad locations before gravel — confirm level and drainage</div>
-          </div>
-        </div>
+```
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-2"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">3</div>
+    <div class="phase-info">
+      <div class="phase-title">Clearing &amp; grading</div>
+      <div class="phase-range">$3,500 – $11,000</div>
+    </div>
+    <div class="phase-pct" id="pct-2">0 / 4</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="2" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Clear brush and select trees on Lot 2 footprint (1–2 acres)</div>
+        <div class="check-note">$1,500–$6,000 depending on density</div>
       </div>
     </div>
-
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-3"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">4</div>
-        <div class="phase-info">
-          <div class="phase-title">Gravel — biggest spend</div>
-          <div class="phase-range">$10,000 – $14,000 (full loop)</div>
-        </div>
-        <div class="phase-pct" id="pct-3">0 / 3</div>
-      </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="3" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Deliver and spread gravel on loop drive</div>
-            <div class="check-note">Full loop is longer than most expect — don't underestimate truckloads</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="3" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Deliver and spread gravel on all 6 pads (12–14 x 40–60 ft each)</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="3" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Turnaround area gravel complete — test with a large vehicle before listing</div>
-            <div class="check-note">If a guest can't turn around, you'll hear about it in your first review</div>
-          </div>
-        </div>
+    <div class="check-item" data-phase="2" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Grade loop drive and 6 pad locations per concept drawing</div>
+        <div class="check-note">$2,000–$5,000 — direct drainage away from Kings Creek</div>
       </div>
     </div>
-
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-4"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">5</div>
-        <div class="phase-info">
-          <div class="phase-title">Marking &amp; basic setup</div>
-          <div class="phase-range">$200 – $500</div>
-        </div>
-        <div class="phase-pct" id="pct-4">0 / 4</div>
+    <div class="check-item" data-phase="2" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Widen and smooth entrance from Hickory Hollow Rd</div>
+        <div class="check-note">$500–$1,500 — RV-friendly transition from road to loop</div>
       </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="4" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body"><div class="check-label">Number all 6 sites with visible markers (Site 1–6)</div></div>
-        </div>
-        <div class="check-item" data-phase="4" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Install entrance sign: "Hickory Hollow RV Retreat — Private Property"</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="4" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body"><div class="check-label">Add directional arrow sign at entrance pointing toward loop</div></div>
-        </div>
-        <div class="check-item" data-phase="4" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Photograph all 6 pads, loop drive, and entrance for listings</div>
-            <div class="check-note">Do this before first guests — good photos drive bookings</div>
-          </div>
-        </div>
+    </div>
+    <div class="check-item" data-phase="2" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Inspect all 6 pad locations before gravel — confirm level and drainage</div>
       </div>
     </div>
   </div>
+</div>
+
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-3"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">4</div>
+    <div class="phase-info">
+      <div class="phase-title">Gravel — biggest spend</div>
+      <div class="phase-range">$10,000 – $14,000 (full loop)</div>
+    </div>
+    <div class="phase-pct" id="pct-3">0 / 3</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="3" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Deliver and spread gravel on loop drive</div>
+        <div class="check-note">Full loop is longer than most expect — don't underestimate truckloads</div>
+      </div>
+    </div>
+    <div class="check-item" data-phase="3" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Deliver and spread gravel on all 6 pads (12–14 x 40–60 ft each)</div>
+      </div>
+    </div>
+    <div class="check-item" data-phase="3" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Turnaround area gravel complete — test with a large vehicle before listing</div>
+        <div class="check-note">If a guest can't turn around, you'll hear about it in your first review</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- STEP 4 COMMAND CENTER -->
+
+  <div class="sec">
+    <div class="sec-label">Step 4 — Build command center</div>
+
+```
+<!-- 4.1 Scope Lock -->
+<div class="cmd-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-s41"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">4.1</div>
+    <div class="phase-info">
+      <div class="phase-title">Final scope lock — do this first</div>
+      <div class="phase-range">Lock before any pricing is confirmed</div>
+    </div>
+    <div class="phase-pct" id="pct-s41">0 / 4</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="s41" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Confirm 6 RV pads at 12 × 50 ft each</div></div>
+    </div>
+    <div class="check-item" data-phase="s41" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Confirm loop drive at 12–16 ft wide + turnaround area in scope</div></div>
+    </div>
+    <div class="check-item" data-phase="s41" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Confirm material: Crusher Run only — 115–120 tons total</div></div>
+    </div>
+    <div class="check-item" data-phase="s41" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Freeze scope — no changes once pricing is confirmed</div></div>
+      <span class="check-tag tag-r">hard rule</span>
+    </div>
+  </div>
+</div>
+
+<!-- 4.2 Supplier -->
+<div class="cmd-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-s42"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">4.2</div>
+    <div class="phase-info">
+      <div class="phase-title">Supplier coordination — Reeves call</div>
+      <div class="phase-range">Lock price, load size, and delivery schedule</div>
+    </div>
+    <div class="phase-pct" id="pct-s42">0 / 3</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="s42" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Call Reeves — confirm current price per ton for crusher run in Blacksburg</div></div>
+      <span class="check-tag tag-r">call first</span>
+    </div>
+    <div class="check-item" data-phase="s42" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Confirm: tons per tri-axle load · delivery cost per load · loads per day available</div></div>
+    </div>
+    <div class="check-item" data-phase="s42" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Get earliest available window for 6–7 loads over 1–2 days</div></div>
+    </div>
+  </div>
+  <div class="cmd-script">
+    <div class="cmd-script-label">Call script</div>
+    <div class="cmd-script-text">"Hi, I'm calling to get pricing and delivery details for crusher run in Blacksburg. I'm planning a delivery of about 115 to 120 tons for a small site project. What's your current price per ton? How many tons per tri-axle load? What's delivery per load? How many loads can you deliver per day? How soon can you schedule 6–7 loads? I'll be running this over one to two days with equipment on site to spread."</div>
+  </div>
+</div>
+
+<!-- 4.3 Material Plan -->
+<div class="cmd-block">
+  <div class="phase-header" style="border-bottom: none;">
+    <div class="phase-num">4.3</div>
+    <div class="phase-info">
+      <div class="phase-title">Material plan</div>
+      <div class="phase-range">Control point: $6,500–$7,500 before delivery</div>
+    </div>
+  </div>
+  <div class="cmd-grid">
+    <div class="cmd-stat"><div class="cmd-stat-label">Total material</div><div class="cmd-stat-val">115–120 T</div><div class="cmd-stat-sub">Crusher Run only</div></div>
+    <div class="cmd-stat"><div class="cmd-stat-label">Loads</div><div class="cmd-stat-val">6–7</div><div class="cmd-stat-sub">tri-axle deliveries</div></div>
+    <div class="cmd-stat"><div class="cmd-stat-label">Schedule</div><div class="cmd-stat-val">1–2 days</div><div class="cmd-stat-sub">staged or direct spread</div></div>
+    <div class="cmd-stat"><div class="cmd-stat-label">Material cost target</div><div class="cmd-stat-val">≈$7K</div><div class="cmd-stat-sub">before delivery fees</div></div>
+  </div>
+</div>
+
+<!-- 4.4 Contractor -->
+<div class="cmd-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-s44"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">4.4</div>
+    <div class="phase-info">
+      <div class="phase-title">Contractor coordination</div>
+      <div class="phase-range">Labor separate from materials</div>
+    </div>
+    <div class="phase-pct" id="pct-s44">0 / 4</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="s44" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Confirm contractor scope: light clearing (build zone only) · grading pads + drive · spreading + compaction</div></div>
+    </div>
+    <div class="check-item" data-phase="s44" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Confirm labor cost (separate from materials), equipment included, and 3–5 day timeline</div></div>
+    </div>
+    <div class="check-item" data-phase="s44" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Agree payment structure: 30–50% upfront · balance after completion</div></div>
+    </div>
+    <div class="check-item" data-phase="s44" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Do NOT start contractor without confirmed gravel delivery date</div></div>
+      <span class="check-tag tag-r">hard rule</span>
+    </div>
+  </div>
+</div>
+
+<!-- 4.5 Scheduling Sequence -->
+<div class="cmd-block">
+  <div class="phase-header" style="border-bottom: none;">
+    <div class="phase-num">4.5</div>
+    <div class="phase-info">
+      <div class="phase-title">Scheduling sequence — critical order</div>
+      <div class="phase-range">Do not skip or reorder these steps</div>
+    </div>
+  </div>
+  <div class="cmd-seq">
+    <div class="cmd-seq-item"><div class="cmd-seq-num">1</div><div>Call supplier — confirm pricing and availability</div></div>
+    <div class="cmd-seq-item"><div class="cmd-seq-num">2</div><div>Lock delivery window (1–2 days)</div></div>
+    <div class="cmd-seq-item"><div class="cmd-seq-num">3</div><div>Schedule contractor to match delivery window</div></div>
+    <div class="cmd-seq-item"><div class="cmd-seq-num">4</div><div>Stake pad and drive layout on site</div></div>
+    <div class="cmd-seq-item"><div class="cmd-seq-num">5</div><div>Begin clearing and grading</div></div>
+    <div class="cmd-seq-item"><div class="cmd-seq-num">6</div><div>Deliver gravel</div></div>
+    <div class="cmd-seq-item"><div class="cmd-seq-num">7</div><div>Spread and compact immediately after delivery</div></div>
+  </div>
+</div>
+
+<!-- 4.6 On-Site Execution -->
+<div class="cmd-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-s46"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">4.6</div>
+    <div class="phase-info">
+      <div class="phase-title">On-site execution — verify during build</div>
+      <div class="phase-range">Check each of these while work is happening</div>
+    </div>
+    <div class="phase-pct" id="pct-s46">0 / 5</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="s46" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">All 6 pads are level</div></div>
+    </div>
+    <div class="check-item" data-phase="s46" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Drive is smooth and drivable end to end</div></div>
+    </div>
+    <div class="check-item" data-phase="s46" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Turnaround works for trailers — tested with a large vehicle</div></div>
+    </div>
+    <div class="check-item" data-phase="s46" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">No soft spots or pooling water anywhere on site</div></div>
+    </div>
+    <div class="check-item" data-phase="s46" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">All work stays within defined area — creek buffer maintained</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4.7 Cost Control -->
+<div class="cmd-block">
+  <div class="phase-header" style="border-bottom: none;">
+    <div class="phase-num">4.7</div>
+    <div class="phase-info">
+      <div class="phase-title">Cost control checkpoints</div>
+      <div class="phase-range">Price each line separately — never bundle</div>
+    </div>
+  </div>
+  <div class="cmd-verify">
+    <div class="cmd-verify-item"><div class="cmd-dot"></div>Material priced per ton</div>
+    <div class="cmd-verify-item"><div class="cmd-dot"></div>Delivery priced per load</div>
+    <div class="cmd-verify-item"><div class="cmd-dot"></div>Labor priced separately from materials</div>
+  </div>
+  <div class="cmd-target">
+    <div class="cmd-target-label">Target total (materials + labor)</div>
+    <div class="cmd-target-val">$9,500 – $12,000</div>
+  </div>
+</div>
+
+<!-- 4.8 Completion Standard -->
+<div class="cmd-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-s48"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">4.8</div>
+    <div class="phase-info">
+      <div class="phase-title">Completion standard — before final payment</div>
+      <div class="phase-range">Do not release final payment until all pass</div>
+    </div>
+    <div class="phase-pct" id="pct-s48">0 / 4</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="s48" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">All 6 pads are usable — level, compacted, no soft spots</div></div>
+    </div>
+    <div class="check-item" data-phase="s48" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Drive is fully functional and accessible for full-size RVs</div></div>
+    </div>
+    <div class="check-item" data-phase="s48" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Site is clean and accessible — no debris, equipment removed</div></div>
+    </div>
+    <div class="check-item" data-phase="s48" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">No rework needed — inspect before releasing final payment</div></div>
+      <span class="check-tag tag-r">hold payment</span>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+  <!-- END STEP 4 -->
+
+  </div>
+
+```
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-4"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">5</div>
+    <div class="phase-info">
+      <div class="phase-title">Marking &amp; basic setup</div>
+      <div class="phase-range">$200 – $500</div>
+    </div>
+    <div class="phase-pct" id="pct-4">0 / 4</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="4" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Number all 6 sites with visible markers (Site 1–6)</div></div>
+    </div>
+    <div class="check-item" data-phase="4" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Install entrance sign: "Hickory Hollow RV Retreat — Private Property"</div></div>
+    </div>
+    <div class="check-item" data-phase="4" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Add directional arrow sign at entrance pointing toward loop</div></div>
+    </div>
+    <div class="check-item" data-phase="4" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Photograph all 6 pads, loop drive, and entrance for listings</div>
+        <div class="check-note">Do this before first guests — good photos drive bookings</div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
 
   <!-- PHASE 3 -->
+
   <div class="sec">
     <div class="sec-label">Phase 3 — Go live</div>
 
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-5"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">6</div>
-        <div class="phase-info">
-          <div class="phase-title">Listing &amp; marketing</div>
-          <div class="phase-range">Cost: free — start before site is finished</div>
-        </div>
-        <div class="phase-pct" id="pct-5">0 / 6</div>
-      </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="5" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">List on Facebook Marketplace — "Private retreat near Two Kings Casino"</div>
-            <div class="check-note">Do this as soon as gravel is down — serious guests book early for deals</div>
-          </div>
-          <span class="check-tag tag-g">early</span>
-        </div>
-        <div class="check-item" data-phase="5" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Post in Cherokee County / SC RV Facebook groups</div>
-          </div>
-          <span class="check-tag tag-g">early</span>
-        </div>
-        <div class="check-item" data-phase="5" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body"><div class="check-label">List on Campendium</div></div>
-        </div>
-        <div class="check-item" data-phase="5" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body"><div class="check-label">List on Craigslist (Upstate SC — housing / parking section)</div></div>
-        </div>
-        <div class="check-item" data-phase="5" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Fill first 2 monthly anchor spots before opening nightly / weekly</div>
-            <div class="check-note">Stable base income first — then test nightly demand with remaining sites</div>
-          </div>
-          <span class="check-tag tag-r">priority</span>
-        </div>
-        <div class="check-item" data-phase="5" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Set up a simple payment method (Venmo, Zelle, or cash — log everything)</div>
-          </div>
-        </div>
-      </div>
+```
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-5"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">6</div>
+    <div class="phase-info">
+      <div class="phase-title">Listing &amp; marketing</div>
+      <div class="phase-range">Cost: free — start before site is finished</div>
     </div>
+    <div class="phase-pct" id="pct-5">0 / 6</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="5" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">List on Facebook Marketplace — "Private retreat near Two Kings Casino"</div>
+        <div class="check-note">Do this as soon as gravel is down — serious guests book early for deals</div>
+      </div>
+      <span class="check-tag tag-g">early</span>
+    </div>
+    <div class="check-item" data-phase="5" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Post in Cherokee County / SC RV Facebook groups</div></div>
+      <span class="check-tag tag-g">early</span>
+    </div>
+    <div class="check-item" data-phase="5" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">List on Campendium</div></div>
+    </div>
+    <div class="check-item" data-phase="5" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">List on Craigslist (Upstate SC — housing / parking section)</div></div>
+    </div>
+    <div class="check-item" data-phase="5" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Fill first 2 monthly anchor spots before opening nightly / weekly</div>
+        <div class="check-note">Stable base income first — then test nightly demand with remaining sites</div>
+      </div>
+      <span class="check-tag tag-r">priority</span>
+    </div>
+    <div class="check-item" data-phase="5" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Set up a simple payment method (Venmo, Zelle, or cash — log everything)</div></div>
+    </div>
+  </div>
+</div>
 
-    <div class="phase-block">
-      <div class="phase-prog"><div class="phase-prog-fill" id="prog-6"></div></div>
-      <div class="phase-header">
-        <div class="phase-num">7</div>
-        <div class="phase-info">
-          <div class="phase-title">Optional add-ons — only after demand proven</div>
-          <div class="phase-range">Add when sites are 60%+ occupied</div>
-        </div>
-        <div class="phase-pct" id="pct-6">0 / 3</div>
-      </div>
-      <div class="phase-items">
-        <div class="check-item" data-phase="6" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Portable toilet rental — $100–$150/mo</div>
-            <div class="check-note">Hold until you have 3+ regulars</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="6" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Solar lighting at entrance and along loop — $200–$600</div>
-          </div>
-        </div>
-        <div class="check-item" data-phase="6" onclick="toggle(this)">
-          <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
-          <div class="check-body">
-            <div class="check-label">Evaluate water / electric hookup demand — add only if guests consistently request it</div>
-            <div class="check-note">Cost multiplier. Do not add speculatively.</div>
-          </div>
-          <span class="check-tag tag-a">no rush</span>
-        </div>
+<div class="phase-block">
+  <div class="phase-prog"><div class="phase-prog-fill" id="prog-6"></div></div>
+  <div class="phase-header">
+    <div class="phase-num">7</div>
+    <div class="phase-info">
+      <div class="phase-title">Optional add-ons — only after demand proven</div>
+      <div class="phase-range">Add when sites are 60%+ occupied</div>
+    </div>
+    <div class="phase-pct" id="pct-6">0 / 3</div>
+  </div>
+  <div class="phase-items">
+    <div class="check-item" data-phase="6" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Portable toilet rental — $100–$150/mo</div>
+        <div class="check-note">Hold until you have 3+ regulars</div>
       </div>
     </div>
+    <div class="check-item" data-phase="6" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body"><div class="check-label">Solar lighting at entrance and along loop — $200–$600</div></div>
+    </div>
+    <div class="check-item" data-phase="6" onclick="toggle(this)">
+      <div class="checkbox"><div class="checkmark"><svg viewBox="0 0 11 9" fill="none"><polyline points="1,4.5 4,7.5 10,1" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+      <div class="check-body">
+        <div class="check-label">Evaluate water / electric hookup demand — add only if guests consistently request it</div>
+        <div class="check-note">Cost multiplier. Do not add speculatively.</div>
+      </div>
+      <span class="check-tag tag-a">no rush</span>
+    </div>
+  </div>
+</div>
+```
+
   </div>
 
   <hr class="divider">
 
   <!-- Pricing -->
+
   <div class="sec">
     <div class="sec-label">Pricing model</div>
     <div class="pricing-grid">
@@ -455,6 +721,7 @@
   <hr class="divider">
 
   <!-- Copy -->
+
   <div class="sec">
     <div class="sec-label">Listing copy — use this exactly</div>
     <div class="copy-box">
@@ -464,6 +731,7 @@
   </div>
 
   <!-- Say this -->
+
   <div class="sec">
     <div class="sec-label">Say this, not that</div>
     <div class="say-grid">
@@ -512,7 +780,7 @@
 
   function updateOverall() {
     var ta = 0, da = 0;
-    Object.keys(totals).forEach(function(p) { ta += totals[p]; da += done[p] || 0; });
+    Object.keys(totals).forEach(function(p) { ta += totals[p]; da += (done[p] || 0); });
     var pct = ta > 0 ? Math.round(da / ta * 100) : 0;
     document.getElementById('overall-fill').style.width = pct + '%';
     document.getElementById('overall-count').textContent = da + ' of ' + ta + ' complete';
@@ -524,7 +792,8 @@
     updatePhase(p);
   }
 
-  Object.keys(totals).forEach(updatePhase);
+  Object.keys(totals).forEach(function(p) { updatePhase(p); });
 </script>
+
 </body>
 </html>
