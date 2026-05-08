@@ -27,11 +27,11 @@ const DRIVERS = [
 ];
 
 // ── STATE
-let fuels = [], mileages = [], maints = [], receipts = [];
+let fuels = [], mileages = [], maints = [], receipts = [], vehicles = [];
 let currentUser = null;
-let editingFuelId = null, editingMileageId = null, editingMaintId = null, editingReceiptId = null;
+let editingFuelId = null, editingMileageId = null, editingMaintId = null, editingReceiptId = null, editingVehicleId = null;
 let pendingReceiptImage = null;
-let unsubFuels, unsubMileages, unsubMaints, unsubReceipts;
+let unsubFuels, unsubMileages, unsubMaints, unsubReceipts, unsubVehicles;
 
 // ── AUTH
 firebase.auth().getRedirectResult().catch(e => console.error('Redirect error:', e.code));
@@ -111,11 +111,16 @@ function subscribeToData() {
     maints = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderMaintenance();
   });
-  unsubReceipts = userColl('receipts').orderBy('createdAt','desc').onSnapshot(snap => {
+    unsubReceipts = userColl('receipts').orderBy('createdAt','desc').onSnapshot(snap => {
     receipts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderReceipts();
   });
+  unsubVehicles = userColl('vehicles').orderBy('createdAt','desc').onSnapshot(snap => {
+    vehicles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderVehicles();
+  });
 }
+
 
 // ── HELPERS
 function toISO(d) { return d.toISOString().split('T')[0]; }
@@ -503,6 +508,91 @@ function renderMaintenance() {
         ${m.shop ? `<span>${m.shop}</span>` : ''}
       </div>
       ${m.next ? `<div class="maint-next">⏰ Next: ${m.next}</div>` : ''}
+    </div>`).join('');
+}
+// ── VEHICLES
+window.openVehicleSheet = function(id) {
+  editingVehicleId = id || null;
+  const isEdit = !!id;
+  document.getElementById('vehicle-sheet-title').textContent = isEdit ? 'Edit Vehicle' : 'Add Vehicle';
+  document.getElementById('delete-vehicle-btn').style.display = isEdit ? 'block' : 'none';
+  if (isEdit) {
+    const v = vehicles.find(v => v.id === id); if (!v) return;
+    document.getElementById('v-name').value = v.name || '';
+    document.getElementById('v-type').value = v.type || '';
+    document.getElementById('v-year').value = v.year || '';
+    document.getElementById('v-color').value = v.color || '';
+    document.getElementById('v-plate').value = v.plate || '';
+    document.getElementById('v-vin').value = v.vin || '';
+    document.getElementById('v-insurance').value = v.insurance || '';
+    document.getElementById('v-notes').value = v.notes || '';
+  } else {
+    ['v-name','v-year','v-color','v-plate','v-vin','v-insurance','v-notes'].forEach(i => document.getElementById(i).value = '');
+    document.getElementById('v-type').value = '';
+  }
+  openSheet('vehicle-sheet-backdrop');
+};
+
+window.saveVehicle = function() {
+  const rec = {
+    name: document.getElementById('v-name').value.trim(),
+    type: document.getElementById('v-type').value,
+    year: document.getElementById('v-year').value.trim(),
+    color: document.getElementById('v-color').value.trim(),
+    plate: document.getElementById('v-plate').value.trim(),
+    vin: document.getElementById('v-vin').value.trim(),
+    insurance: document.getElementById('v-insurance').value.trim(),
+    notes: document.getElementById('v-notes').value.trim(),
+  };
+  if (!rec.name) { showToast('Vehicle name is required', '#C0392B'); return; }
+  const p = editingVehicleId
+    ? userColl('vehicles').doc(editingVehicleId).update(rec)
+    : userColl('vehicles').add({ ...rec, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+  p.then(() => { closeSheet('vehicle-sheet-backdrop'); showToast('✔ Vehicle saved!'); })
+   .catch(() => showToast('Error saving', '#C0392B'));
+};
+
+window.deleteVehicle = function() {
+  if (!editingVehicleId || !confirm('Delete this vehicle?')) return;
+  userColl('vehicles').doc(editingVehicleId).delete()
+    .then(() => { closeSheet('vehicle-sheet-backdrop'); showToast('Vehicle deleted', '#888'); });
+};
+
+function renderVehicles() {
+  const el = document.getElementById('vehicles-list'); if (!el) return;
+
+  // Always show the 3 default vehicles first if no custom ones added
+  const allVehicles = vehicles.length ? vehicles : VEHICLES.map(name => ({ name, type: '', year: '', color: '', plate: '', vin: '', insurance: '' }));
+
+  if (!vehicles.length) {
+    el.innerHTML = `
+      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gray);padding:8px 0 16px">Default fleet vehicles — tap + Add Vehicle to add more or customize.</div>
+      ${VEHICLES.map(v => `
+        <div class="vehicle-card" style="cursor:default">
+          <div class="vehicle-name">${v}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">Default vehicle</div>
+        </div>`).join('')}`;
+    return;
+  }
+
+  el.innerHTML = vehicles.map(v => `
+    <div class="vehicle-card" onclick="openVehicleSheet('${v.id}')" style="cursor:pointer">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div>
+          <div class="vehicle-name">${v.name}</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray);margin-bottom:8px">
+            ${[v.year, v.type, v.color].filter(Boolean).join(' · ')}
+          </div>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);text-align:right">
+          ${v.plate ? `🪪 ${v.plate}` : ''}
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px">
+        ${v.vin ? `<div><div class="stat-label">VIN (last 6)</div><div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#111">${v.vin}</div></div>` : ''}
+        ${v.insurance ? `<div><div class="stat-label">Insurance</div><div style="font-family:'Share Tech Mono',monospace;font-size:12px;color:#111">${v.insurance}</div></div>` : ''}
+      </div>
+      ${v.notes ? `<div style="font-size:11px;color:var(--gray);margin-top:6px">${v.notes}</div>` : ''}
     </div>`).join('');
 }
 
