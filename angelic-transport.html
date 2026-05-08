@@ -465,6 +465,15 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
     </div>
     <div id="receipts-gallery"></div>
   </div>
+    <!-- VEHICLES -->
+  <div class="panel" id="panel-vehicles">
+    <div class="section-label">
+      <span>Fleet Vehicles</span>
+      <button class="btn-outline" onclick="openVehicleSheet()">+ Add Vehicle</button>
+    </div>
+    <div id="vehicles-list"></div>
+  </div>
+
   <!-- DRIVERS -->
   <div class="panel" id="panel-drivers">
     <div class="section-label"><span>Drivers — 7 Active</span></div>
@@ -486,6 +495,7 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   <button class="nav-btn" onclick="switchTab('fuel');setFab('fuel')" id="nav-fuel"><span class="nav-icon">⛽</span>Fuel</button>
   <button class="nav-btn" onclick="switchTab('mileage');setFab('mileage')" id="nav-mileage"><span class="nav-icon">🛣</span>Mileage</button>
   <button class="nav-btn" onclick="switchTab('maint');setFab('maint')" id="nav-maint"><span class="nav-icon">🔧</span>Maint.</button>
+  <button class="nav-btn" onclick="switchTab('vehicles');setFab('vehicles')" id="nav-vehicles"><span class="nav-icon">🚐</span>Vehicles</button>
   <button class="nav-btn" onclick="switchTab('receipts');setFab('receipts')" id="nav-receipts"><span class="nav-icon">📷</span>Receipts</button>
   <button class="nav-btn" onclick="switchTab('drivers');setFab('drivers')" id="nav-drivers"><span class="nav-icon">👥</span>Drivers</button>
 </nav>
@@ -674,6 +684,43 @@ html, body { height: 100%; overflow: hidden; background: var(--dark); color: #11
   <img id="receipt-fullscreen-img" style="max-width:100%;max-height:90vh;object-fit:contain">
   <div style="color:rgba(255,255,255,0.4);font-family:'Share Tech Mono',monospace;font-size:11px;margin-top:12px">Tap to close</div>
 </div>
+<!-- VEHICLE SHEET -->
+<div class="sheet-backdrop" id="vehicle-sheet-backdrop" onclick="sheetBackdrop(event,'vehicle-sheet-backdrop')">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title"><span id="vehicle-sheet-title">Add Vehicle</span><button class="sheet-close" onclick="closeSheet('vehicle-sheet-backdrop')">✕</button></div>
+    <div class="sheet-body">
+      <div class="field"><label>Vehicle Name</label><input type="text" id="v-name" placeholder="e.g. Honda Mini-Van"></div>
+      <div class="field"><label>Type</label>
+        <select id="v-type">
+          <option value="">Select type…</option>
+          <option>Mini-Van</option>
+          <option>Transit Bus</option>
+          <option>Wheelchair Van (Cutaway)</option>
+          <option>Sedan</option>
+          <option>SUV</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>Year</label><input type="number" id="v-year" placeholder="e.g. 2020" inputmode="numeric"></div>
+        <div class="field"><label>Color</label><input type="text" id="v-color" placeholder="e.g. White"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>License Plate</label><input type="text" id="v-plate" placeholder="e.g. ABC 1234"></div>
+        <div class="field"><label>VIN (last 6)</label><input type="text" id="v-vin" placeholder="e.g. 4F2YU2"></div>
+      </div>
+      <div class="field"><label>Insurance Policy #</label><input type="text" id="v-insurance" placeholder="Optional"></div>
+      <div class="field"><label>Notes</label><input type="text" id="v-notes" placeholder="Optional notes"></div>
+      <button class="btn-full btn-yellow" onclick="saveVehicle()">Save Vehicle</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" id="delete-vehicle-btn" onclick="deleteVehicle()" style="display:none;color:var(--red)">Delete Vehicle</button>
+      <div style="height:8px"></div>
+      <button class="btn-full btn-ghost" onclick="closeSheet('vehicle-sheet-backdrop')">Cancel</button>
+    </div>
+  </div>
+</div>
+
 <!-- FIREBASE SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
