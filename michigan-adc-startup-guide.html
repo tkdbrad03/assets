@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starting Your Adult Day Care in Michigan — CatrinaL Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --navy: #0E1E35; --gold: #C9A84C; --cream: #FAF7F2; --warm: #F2EDE6; --gray: #6B6560; --border: #E0D9CF; --white: #ffffff; --light: #F8F5F0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
+  .page { max-width: 860px; margin: 0 auto; padding: 0 0 60px; }
+  .header { background: var(--navy); padding: 40px 48px 32px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 16px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: 36px; color: var(--white); line-height: 1.15; font-weight: 700; margin-bottom: 6px; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-divider { width: 48px; height: 2px; background: var(--gold); margin: 16px 0; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; }
+  .intro-bar { background: var(--warm); border-left: 4px solid var(--gold); padding: 16px 48px; font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.7; }
+  .content { padding: 0 48px; }
+  .step { margin-top: 36px; }
+  .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .step-num { background: var(--navy); color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .step-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+  .step-items { display: flex; flex-direction: column; gap: 8px; }
+  .step-item { display: flex; align-items: flex-start; gap: 12px; background: var(--white); border: 1px solid var(--border); padding: 12px 16px; }
+  .step-item:nth-child(even) { background: var(--light); }
+  .item-num { font-size: 10px; font-weight: 700; color: var(--gold); min-width: 20px; padding-top: 1px; }
+  .item-text { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.6; }
+  .item-text strong { color: var(--navy); font-weight: 600; }
+  .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); padding: 10px 14px; }
+  .check-box { width: 14px; height: 14px; border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 2px; }
+  .check-text { font-size: 12px; color: var(--gray); font-weight: 300; line-height: 1.5; }
+  .timeline { margin-top: 36px; }
+  .timeline-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .timeline-badge { background: var(--navy); color: var(--gold); font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 8px 14px; }
+  .timeline-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+  .timeline-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .timeline-card { background: var(--white); border: 1px solid var(--border); border-top: 3px solid var(--gold); padding: 18px 16px; }
+  .timeline-period { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .timeline-tasks { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .timeline-tasks li { font-size: 12px; color: var(--gray); font-weight: 300; padding-left: 10px; border-left: 2px solid var(--border); line-height: 1.5; }
+  .resources { margin-top: 36px; }
+  .resources-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .resource-card { background: var(--white); border: 1px solid var(--border); padding: 14px 16px; }
+  .resource-name { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .resource-url { font-size: 11px; color: var(--gold); font-weight: 300; text-decoration: none; }
+  .resource-note { font-size: 11px; color: var(--gray); font-weight: 300; margin-top: 2px; }
+  .cta { margin-top: 36px; margin-bottom: 36px; background: var(--navy); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .cta-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,168,76,0.6); margin-bottom: 6px; }
+  .cta-heading { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 6px; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.6; }
+  .cta-btn { background: var(--gold); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 24px; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+  .footer { background: var(--navy); padding: 36px 48px; text-align: center; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.25); line-height: 1.7; }
+  .footer strong { color: var(--gold); font-weight: 400; }
+  @media (max-width: 640px) {
+    .header, .intro-bar, .content, .footer { padding-left: 24px; padding-right: 24px; }
+    .checklist, .timeline-grid, .resources-grid { grid-template-columns: 1fr; }
+    .cta { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-badge">State-Specific Startup Resource</div>
+    <h1>Starting Your Adult Day Care<br>in <em>Michigan</em></h1>
+    <div class="header-divider"></div>
+    <p class="header-sub">A Step-by-Step Startup Guide and 6-Month Roadmap &nbsp;|&nbsp; CatrinaL Consulting &nbsp;|&nbsp; CompliTrst, Inc.</p>
+  </div>
+
+  <div class="intro-bar">
+    Researching your LLC, EIN, licenses, and policies before opening is exactly what successful adult day care owners do. This guide walks you through every step in the right order for Michigan, from business formation through your first Medicaid billing submission.
+  </div>
+
+  <div class="content">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div><div class="step-label">Foundation</div><div class="step-title">Form Your Business</div></div>
+      </div>
+      <div class="step-items">
+        <div class="step-item"><div class="item-num">01</div><div class="item-text"><strong>Choose your business name</strong> and check availability at michigan.gov/lara before filing</div></div>
+        <div class="step-item"><div class="item-num">02</div><div class="item-text"><strong>File your LLC</strong> with the State of Michigan at michigan.gov/sos — approximately $50 filing fee</div></div>
+        <div class="step-item"><div class="item-num">03</div><div class="item-text"><strong>Obtain your Federal EIN</strong> free at irs.gov — takes under 10 minutes online. Michigan HCBS enrollment requires your EIN to be at least one year old before applying for Medicaid provider status</div></div>
+        <div class="step-item"><div class="item-num">04</div><div class="item-text"><strong>Open a dedicated business bank account</strong> — keep personal and business finances completely separate from day one</div></div>
+        <div class="step-item"><div class="item-num">05</div><div class="item-text"><strong>Appoint a Registered Agent</strong> — required in Michigan for your LLC to receive official state correspondence</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div><div class="step-label">Licensing</div><div class="step-title">Michigan LARA Licensure</div></div>
+      </div>
+      <div class="step-items">
+        <div class="step-item"><div class="item-num">01</div><div class="item-text"><strong>Apply for your Adult Day Care license</strong> through the Michigan Department of Licensing and Regulatory Affairs at michigan.gov/lara</div></div>
+        <div class="step-item"><div class="item-num">02</div><div class="item-text"><strong>Pass a site inspection</strong> — your facility must meet all health, safety, and accessibility standards before approval</div></div>
+        <div class="step-item"><div class="item-num">03</div><div class="item-text"><strong>Complete background checks</strong> — required for you and all staff through Michigan's ICHAT system</div></div>
+        <div class="step-item"><div class="item-num">04</div><div class="item-text"><strong>Meet staff-to-participant ratios</strong> — Michigan requires a minimum ratio of 1 staff per 6 participants</div></div>
+        <div class="step-item"><div class="item-num">05</div><div class="item-text"><strong>First Aid and CPR certification</strong> — at least one certified staff member must be on-site at all times</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div><div class="step-label">Documentation</div><div class="step-title">Policies and Forms You Need</div></div>
+      </div>
+      <div class="checklist">
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Participant Intake and Enrollment Form</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Health Assessment Form with physician sign-off</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Emergency Contact and Medical Release</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Grievance and Complaint Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Incident and Accident Report Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Medication Administration Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Confidentiality and HIPAA Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Staffing and Supervision Policy</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div><div class="step-label">Financial Setup</div><div class="step-title">Insurance and Revenue</div></div>
+      </div>
+      <div class="step-items">
+        <div class="step-item"><div class="item-num">01</div><div class="item-text"><strong>General Liability Insurance</strong> — protects against accidents and injuries. Required before opening</div></div>
+        <div class="step-item"><div class="item-num">02</div><div class="item-text"><strong>Professional Liability Insurance</strong> — covers claims of negligence or failure to provide adequate care</div></div>
+        <div class="step-item"><div class="item-num">03</div><div class="item-text"><strong>Workers Compensation</strong> — required in Michigan once you hire any staff</div></div>
+        <div class="step-item"><div class="item-num">04</div><div class="item-text"><strong>Set your rates</strong> — average adult day care rates in Michigan range from $70 to $100 per day depending on services offered</div></div>
+        <div class="step-item"><div class="item-num">05</div><div class="item-text"><strong>MI Choice Waiver and Medicaid billing</strong> — a primary revenue source for participants. Begin the enrollment process early as approval timelines vary</div></div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-header">
+        <div class="timeline-badge">6-Month</div>
+        <div class="timeline-title">Your Startup Roadmap</div>
+      </div>
+      <div class="timeline-grid">
+        <div class="timeline-card">
+          <div class="timeline-period">Months 1 and 2</div>
+          <ul class="timeline-tasks">
+            <li>File LLC and obtain EIN</li>
+            <li>Open business bank account</li>
+            <li>Scout and secure facility location</li>
+            <li>Begin LARA license application</li>
+            <li>Obtain insurance quotes</li>
+          </ul>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-period">Months 3 and 4</div>
+          <ul class="timeline-tasks">
+            <li>Build all policies and forms</li>
+            <li>Pass facility inspection</li>
+            <li>Complete CPR certification</li>
+            <li>Secure all insurance coverage</li>
+            <li>Begin hiring and onboarding staff</li>
+          </ul>
+        </div>
+        <div class="timeline-card">
+          <div class="timeline-period">Months 5 and 6</div>
+          <ul class="timeline-tasks">
+            <li>Market to referral sources</li>
+            <li>Network with hospitals and social workers</li>
+            <li>Enroll your first participants</li>
+            <li>Apply for Medicaid billing</li>
+            <li>Launch operations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="resources">
+      <div class="resources-header">
+        <div class="step-num" style="font-size:16px;">R</div>
+        <div><div class="step-label">Michigan</div><div class="step-title">Key Resources and Contacts</div></div>
+      </div>
+      <div class="resources-grid">
+        <div class="resource-card"><div class="resource-name">Michigan LARA — Adult Day Care Licensing</div><a href="https://michigan.gov/lara" class="resource-url">michigan.gov/lara</a></div>
+        <div class="resource-card"><div class="resource-name">Michigan LLC Filing — Secretary of State</div><a href="https://michigan.gov/sos" class="resource-url">michigan.gov/sos</a></div>
+        <div class="resource-card"><div class="resource-name">Federal EIN Application — IRS</div><a href="https://irs.gov" class="resource-url">irs.gov</a><div class="resource-note">Free — takes under 10 minutes online</div></div>
+        <div class="resource-card"><div class="resource-name">MI Choice Waiver and Medicaid</div><a href="https://michigan.gov/mdhhs" class="resource-url">michigan.gov/mdhhs</a></div>
+        <div class="resource-card"><div class="resource-name">Michigan Small Business Development Center</div><a href="https://sbdcmichigan.org" class="resource-url">sbdcmichigan.org</a><div class="resource-note">Free business coaching and advising</div></div>
+        <div class="resource-card"><div class="resource-name">SCORE Michigan — Free Mentoring</div><a href="https://score.org/chapter/score-michigan" class="resource-url">score.org/chapter/score-michigan</a><div class="resource-note">Free mentoring from experienced business owners</div></div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <div class="cta-label">Ready to Build This the Right Way?</div>
+        <div class="cta-heading">Private 6-Week Consulting Intensive</div>
+        <div class="cta-sub">We walk you through every step on this list, from business formation to your first Medicaid billing submission. Limited spots available.</div>
+      </div>
+      <a href="https://complitrst-assets.vercel.app/catrinal-consulting-landing.html" class="cta-btn">Apply Now</a>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Adult Day Care Startup Specialists &nbsp;|&nbsp; This guide is for informational purposes only. Requirements may change. Always verify current requirements with the relevant Michigan state agencies.</p>
+  </div>
+
+</div>
+</body>
+</html>
