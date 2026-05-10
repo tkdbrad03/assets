@@ -93,8 +93,8 @@ function setTodayDefaults() {
     const el = document.getElementById(id);
     if (el) el.value = toISO(new Date());
   });
-  populateVehicleDropdowns();
 }
+
 
 // ── FIRESTORE
 function userColl(name) { return db.collection('angelic').doc(currentUser.uid).collection(name); }
@@ -239,8 +239,9 @@ window.openFuelSheet = function(id) {
     ['fuel-station','fuel-amount','fuel-gallons','fuel-notes'].forEach(i => document.getElementById(i).value = '');
     document.getElementById('fuel-driver').value = '';
     document.getElementById('fuel-vehicle').value = '';
-    document.getElementById('fuel-payment').value = 'Card - 6027';
+        document.getElementById('fuel-payment').value = 'Card - 6027';
   }
+  populateVehicleDropdowns();
   openSheet('fuel-sheet-backdrop');
 };
 
@@ -334,9 +335,11 @@ window.openMileageSheet = function(id) {
     document.getElementById('mi-date').value = today();
     ['mi-start','mi-end','mi-total','mi-notes'].forEach(i => document.getElementById(i).value = '');
     document.getElementById('mi-vehicle').value = '';
-    document.getElementById('mi-driver').value = '';
+        document.getElementById('mi-driver').value = '';
   }
+  populateVehicleDropdowns();
   openSheet('mileage-sheet-backdrop');
+
 };
 
 document.addEventListener('input', e => {
@@ -463,9 +466,11 @@ window.openMaintSheet = function(id) {
     document.getElementById('maint-date').value = today();
     ['maint-cost','maint-mileage','maint-shop','maint-next','maint-notes'].forEach(i => document.getElementById(i).value = '');
     document.getElementById('maint-vehicle').value = '';
-    document.getElementById('maint-type').value = 'Oil Change';
+        document.getElementById('maint-type').value = 'Oil Change';
   }
+  populateVehicleDropdowns();
   openSheet('maint-sheet-backdrop');
+
 };
 
 window.saveMaint = function() {
@@ -598,18 +603,15 @@ function renderVehicles() {
   // Always show the 3 default vehicles first if no custom ones added
   const allVehicles = vehicles.length ? vehicles : VEHICLES.map(name => ({ name, type: '', year: '', color: '', plate: '', vin: '', insurance: '' }));
 
-  if (!vehicles.length) {
-    el.innerHTML = `
-      <div style="font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--gray);padding:8px 0 16px">Default fleet vehicles — tap + Add Vehicle to add more or customize.</div>
-      ${VEHICLES.map(v => `
-        <div class="vehicle-card" style="cursor:default">
-          <div class="vehicle-name">${v}</div>
-          <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">Default vehicle</div>
-        </div>`).join('')}`;
-    return;
-  }
+    const customNames = vehicles.map(v => v.name);
+  const defaultCards = VEHICLES.filter(name => !customNames.includes(name)).map(name => `
+    <div class="vehicle-card" style="cursor:default">
+      <div class="vehicle-name">${name}</div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--gray)">Default vehicle</div>
+    </div>`).join('');
 
-  el.innerHTML = vehicles.map(v => `
+  el.innerHTML = defaultCards + vehicles.map(v => `
+
     <div class="vehicle-card" onclick="openVehicleSheet('${v.id}')" style="cursor:pointer">
       <div style="display:flex;justify-content:space-between;align-items:flex-start">
         <div>
