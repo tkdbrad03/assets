@@ -561,9 +561,12 @@ window.deleteVehicle = function() {
     .then(() => { closeSheet('vehicle-sheet-backdrop'); showToast('Vehicle deleted', '#888'); });
 };
 function populateVehicleDropdowns() {
-  const allVehicles = vehicles.length
-    ? vehicles.map(v => v.name)
-    : VEHICLES;
+  const customNames = vehicles.map(v => v.name);
+  const allVehicles = [
+    ...VEHICLES,
+    ...customNames.filter(name => !VEHICLES.includes(name))
+  ];
+
 
   const dropdownIds = [
     'fuel-vehicle',
