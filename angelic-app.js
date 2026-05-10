@@ -116,11 +116,13 @@ function subscribeToData() {
     receipts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderReceipts();
   });
-    unsubVehicles = userColl('vehicles').orderBy('createdAt','desc').onSnapshot(snap => {
+      unsubVehicles = userColl('vehicles').orderBy('createdAt','desc').onSnapshot(snap => {
     vehicles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderVehicles();
     populateVehicleDropdowns();
+    renderDash();
   });
+
 
 }
 
