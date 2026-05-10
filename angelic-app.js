@@ -169,7 +169,13 @@ function renderDash() {
 
   // Per vehicle this week
   const byVehicle = {};
-  VEHICLES.forEach(v => byVehicle[v] = { fuel: 0, miles: 0 });
+    const customNames = vehicles.map(v => v.name);
+  const allVehicleNames = [
+    ...VEHICLES,
+    ...customNames.filter(name => !VEHICLES.includes(name))
+  ];
+  allVehicleNames.forEach(v => byVehicle[v] = { fuel: 0, miles: 0 });
+
   weekFuels.forEach(f => { if (byVehicle[f.vehicle]) byVehicle[f.vehicle].fuel += f.amount || 0; });
   mileages.filter(m => m.date >= ws).forEach(m => { if (byVehicle[m.vehicle]) byVehicle[m.vehicle].miles += m.total || 0; });
 
@@ -193,7 +199,7 @@ function renderDash() {
     </div>`;
 
   // Vehicle breakdown cards
-  const vCards = VEHICLES.map(v => `
+  const vCards = allVehicleNames.map(v => ` 
     <div class="vehicle-card">
       <div class="vehicle-name">${v}</div>
       <div class="vehicle-stats">
