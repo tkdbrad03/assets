@@ -93,6 +93,7 @@ function setTodayDefaults() {
     const el = document.getElementById(id);
     if (el) el.value = toISO(new Date());
   });
+  populateVehicleDropdowns();
 }
 
 // ── FIRESTORE
@@ -115,10 +116,12 @@ function subscribeToData() {
     receipts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderReceipts();
   });
-  unsubVehicles = userColl('vehicles').orderBy('createdAt','desc').onSnapshot(snap => {
+    unsubVehicles = userColl('vehicles').orderBy('createdAt','desc').onSnapshot(snap => {
     vehicles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderVehicles();
+    populateVehicleDropdowns();
   });
+
 }
 
 
@@ -557,6 +560,26 @@ window.deleteVehicle = function() {
   userColl('vehicles').doc(editingVehicleId).delete()
     .then(() => { closeSheet('vehicle-sheet-backdrop'); showToast('Vehicle deleted', '#888'); });
 };
+function populateVehicleDropdowns() {
+  const allVehicles = vehicles.length
+    ? vehicles.map(v => v.name)
+    : VEHICLES;
+
+  const dropdownIds = [
+    'fuel-vehicle',
+    'mi-vehicle',
+    'maint-vehicle',
+    'r-vehicle'
+  ];
+
+  dropdownIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const current = el.value;
+    el.innerHTML = `<option value="">Select vehicle…</option>` +
+      allVehicles.map(v => `<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`).join('');
+  });
+}
 
 function renderVehicles() {
   const el = document.getElementById('vehicles-list'); if (!el) return;
