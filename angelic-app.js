@@ -581,19 +581,24 @@ function populateVehicleDropdowns() {
   ];
 
 
-  const dropdownIds = [
+    const dropdownIds = [
     'fuel-vehicle',
     'mi-vehicle',
     'maint-vehicle',
-    'r-vehicle'
+    'r-vehicle',
+    'fuel-filter-vehicle',
+    'mi-filter-vehicle'
   ];
+
 
   dropdownIds.forEach(id => {
     const el = document.getElementById(id);
     if (!el) return;
     const current = el.value;
-    el.innerHTML = `<option value="">Select vehicle…</option>` +
+        const isFilter = id.includes('filter');
+    el.innerHTML = `<option value="">${isFilter ? 'All Vehicles' : 'Select vehicle…'}</option>` +
       allVehicles.map(v => `<option value="${v}"${current === v ? ' selected' : ''}>${v}</option>`).join('');
+
   });
 }
 
