@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starting Your Adult Day Care in Florida — CompliTrst | TMac Inspired</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tkdbrad03/assets/main/complitrst.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pine: #1f4236;
+    --pine-deep: #152e25;
+    --gold: #c9a961;
+    --rose: #b76e79;
+    --white: #ffffff;
+    --cream: #fdfaf5;
+    --cream-dark: #f4ede0;
+    --text: #1f4236;
+    --text-light: #5c6b64;
+    --border: #c5d9ce;
+    --light: #f8faf8;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--text); line-height: 1.6; font-size: 16px; }
+  .page { max-width: 860px; margin: 0 auto; padding: 0 0 60px; }
+
+  /* HEADER */
+  .header { background: var(--pine); padding: 32px 24px 24px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; border: 1px solid rgba(201,169,97,0.1); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--pine); font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 14px; border-radius: 20px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(26px, 5vw, 36px); color: var(--white); line-height: 1.15; font-weight: 700; margin-bottom: 6px; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-divider { width: 48px; height: 2px; background: var(--gold); margin: 14px 0; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+  /* INTRO */
+  .intro-bar { background: #eaf3ee; border-left: 4px solid var(--pine); padding: 14px 24px; font-size: 14px; color: var(--text); font-weight: 300; line-height: 1.7; }
+
+  /* CONTENT */
+  .content { padding: 0 24px; }
+  .step { margin-top: 32px; }
+  .step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .step-num { background: var(--pine); color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 4px; }
+  .step-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--pine); }
+  .step-items { display: flex; flex-direction: column; gap: 8px; }
+  .step-item { display: flex; align-items: flex-start; gap: 12px; background: var(--white); border: 1px solid var(--border); padding: 12px 16px; border-radius: 4px; }
+  .step-item:nth-child(even) { background: var(--light); }
+  .item-num { font-size: 10px; font-weight: 700; color: var(--gold); min-width: 20px; padding-top: 2px; }
+  .item-text { font-size: 14px; color: var(--text-light); font-weight: 300; line-height: 1.6; }
+  .item-text strong { color: var(--pine); font-weight: 600; }
+
+  /* TAGS */
+  .tag { display: inline-block; background: #fef3cd; color: #6b4e00; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; margin-left: 5px; }
+  .tag.green { background: #d1e7dd; color: #0a3622; }
+  .tag.blue { background: #cfe2ff; color: #084298; }
+  .tag.rose { background: #f9dfe2; color: #6b1a24; }
+
+  /* CHECKLIST */
+  .checklist { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 4px; }
+  .check-item { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); padding: 11px 14px; border-radius: 4px; }
+  .check-box { width: 16px; height: 16px; border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 2px; border-radius: 2px; }
+  .check-text { font-size: 14px; color: var(--text-light); font-weight: 300; line-height: 1.5; }
+
+  /* TIMELINE */
+  .timeline { margin-top: 32px; }
+  .timeline-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .timeline-badge { background: var(--pine); color: var(--gold); font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 8px 14px; border-radius: 4px; }
+  .timeline-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--pine); }
+  .timeline-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .timeline-card { background: var(--white); border: 1px solid var(--border); border-left: 4px solid var(--pine); padding: 16px 16px; border-radius: 4px; }
+  .timeline-card.gold { border-left-color: var(--gold); }
+  .timeline-card.rose { border-left-color: var(--rose); }
+  .timeline-period { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .timeline-tasks { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .timeline-tasks li { font-size: 14px; color: var(--text-light); font-weight: 300; padding-left: 10px; border-left: 2px solid var(--border); line-height: 1.5; }
+
+  /* RESOURCES */
+  .resources { margin-top: 32px; }
+  .resources-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .resources-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .resource-card { background: var(--white); border: 1px solid var(--border); border-left: 3px solid var(--gold); padding: 12px 14px; border-radius: 4px; }
+  .resource-card.fund { border-left-color: var(--rose); }
+  .resource-name { font-size: 13px; font-weight: 600; color: var(--pine); margin-bottom: 2px; }
+  .resource-url { font-size: 12px; color: var(--gold); font-weight: 300; text-decoration: none; }
+  .resource-note { font-size: 12px; color: var(--text-light); font-weight: 300; margin-top: 2px; }
+
+  /* CTA */
+  .cta { margin-top: 32px; margin-bottom: 32px; background: var(--pine); padding: 24px; display: flex; flex-direction: column; gap: 16px; border-radius: 4px; }
+  .cta-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.6); margin-bottom: 4px; }
+  .cta-heading { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 4px; }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.6; }
+  .cta-btn { background: var(--gold); color: var(--pine); font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 24px; text-decoration: none; display: inline-block; align-self: flex-start; border-radius: 2px; }
+
+  /* FOOTER */
+  .footer { background: var(--pine); padding: 28px 24px; text-align: center; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.25); line-height: 1.8; }
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  /* DESKTOP */
+  @media (min-width: 640px) {
+    .header { padding: 40px 48px 32px; }
+    .intro-bar { padding: 16px 48px; }
+    .content { padding: 0 48px; }
+    .checklist { grid-template-columns: 1fr 1fr; }
+    .timeline-grid { grid-template-columns: repeat(3, 1fr); }
+    .timeline-card { border-left: none; border-top: 3px solid var(--pine); }
+    .timeline-card.gold { border-top-color: var(--gold); border-left: none; }
+    .timeline-card.rose { border-top-color: var(--rose); border-left: none; }
+    .resources-grid { grid-template-columns: 1fr 1fr; }
+    .cta { flex-direction: row; align-items: center; justify-content: space-between; padding: 28px 32px; }
+    .cta-btn { align-self: auto; white-space: nowrap; flex-shrink: 0; }
+    .footer { padding: 36px 48px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-badge">State-Specific Startup Resource — Florida</div>
+    <h1>Starting Your Adult Day Care<br>in <em>Florida</em></h1>
+    <div class="header-divider"></div>
+    <p class="header-sub">Startup Guide, Funding Resources &amp; 6-Month Roadmap &nbsp;|&nbsp; CompliTrst | TMac Inspired &nbsp;|&nbsp; The Care CEO Collective</p>
+  </div>
+
+  <div class="intro-bar">
+This guide walks you through every step in the right order for Florida, from business formation through licensing, funding, and your first day of operations.  </div>
+
+  <div class="content">
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div><div class="step-label">Licensing</div><div class="step-title">Florida AHCA Licensure</div></div>
+      </div>
+      <div class="step-items">
+        <div class="step-item"><div class="item-num">01</div><div class="item-text"><strong>Apply for your Adult Day Care license</strong> through Florida AHCA (Agency for Health Care Administration) at ahca.myflorida.com</div></div>
+        <div class="step-item"><div class="item-num">02</div><div class="item-text"><strong>Pass a facility inspection</strong> — your space must meet all health, safety, and accessibility standards before approval</div></div>
+        <div class="step-item"><div class="item-num">03</div><div class="item-text"><strong>Background screening</strong> — required for all owners and staff through Florida's VECHS system <span class="tag blue">All Staff</span></div></div>
+        <div class="step-item"><div class="item-num">04</div><div class="item-text"><strong>Staff-to-participant ratio</strong> — Florida requires a minimum of 1:6 (1:4 for memory care participants)</div></div>
+        <div class="step-item"><div class="item-num">05</div><div class="item-text"><strong>First Aid and CPR certification</strong> — at least one certified staff member must be on-site at all times</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div><div class="step-label">Documentation</div><div class="step-title">Policies and Forms You Need</div></div>
+      </div>
+      <div class="checklist">
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Participant Intake and Enrollment Form</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Health Assessment Form with physician sign-off</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Emergency Contact and Medical Release</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Grievance and Complaint Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Incident and Accident Report Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Medication Administration Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Confidentiality and HIPAA Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Staffing and Supervision Policy</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Transportation Policy (if applicable)</div></div>
+        <div class="check-item"><div class="check-box"></div><div class="check-text">Elopement and Missing Participant Policy</div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div><div class="step-label">Financial Setup</div><div class="step-title">Insurance and Revenue</div></div>
+      </div>
+      <div class="step-items">
+        <div class="step-item"><div class="item-num">01</div><div class="item-text"><strong>General Liability Insurance</strong> — required before AHCA will approve your license <span class="tag">Required</span></div></div>
+        <div class="step-item"><div class="item-num">02</div><div class="item-text"><strong>Professional Liability Insurance</strong> — covers claims of negligence or failure to provide adequate care</div></div>
+        <div class="step-item"><div class="item-num">03</div><div class="item-text"><strong>Workers' Compensation</strong> — required in Florida once you have 4 or more employees</div></div>
+        <div class="step-item"><div class="item-num">04</div><div class="item-text"><strong>Set your rates</strong> — Florida adult day care rates average $70–$110 per day depending on services offered</div></div>
+        <div class="step-item"><div class="item-num">05</div><div class="item-text"><strong>Florida Medicaid / HCBS Waiver</strong> — a primary revenue source for participants. Begin the enrollment process early as approval timelines vary <span class="tag green">Revenue</span></div></div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <div><div class="step-label">Funding</div><div class="step-title">Funding Sources for Miami</div></div>
+      </div>
+      <div class="step-items">
+        <div class="step-item"><div class="item-num">01</div><div class="item-text"><strong>SBA Microloan Program</strong> — up to $50K for startup costs and equipment with flexible terms <span class="tag rose">Funding</span></div></div>
+        <div class="step-item"><div class="item-num">02</div><div class="item-text"><strong>Florida SBDC Funding Programs</strong> — free one-on-one advising and lender connections at floridasbdc.org</div></div>
+        <div class="step-item"><div class="item-num">03</div><div class="item-text"><strong>Miami-Dade CDFI Lenders</strong> — community development lenders focused on underserved and minority-owned businesses</div></div>
+        <div class="step-item"><div class="item-num">04</div><div class="item-text"><strong>Grants.gov</strong> — search "adult day" to find active federal grant opportunities for care facilities</div></div>
+        <div class="step-item"><div class="item-num">05</div><div class="item-text"><strong>Florida First Capital — SBA 504 Loans</strong> — for equipment purchases and real estate at floridafirstcapital.com</div></div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-header">
+        <div class="timeline-badge">6-Month</div>
+        <div class="timeline-title">Your Startup Roadmap</div>
+      </div>
+      <div class="timeline-grid">
+        <div class="timeline-card">
+          <div class="timeline-period">Months 1 and 2</div>
+          <ul class="timeline-tasks">
+            <li>LLC is done — open your business bank account</li>
+            <li>Scout and secure your facility location</li>
+            <li>Begin AHCA license application</li>
+            <li>Get insurance quotes and apply for funding</li>
+          </ul>
+        </div>
+        <div class="timeline-card gold">
+          <div class="timeline-period">Months 3 and 4</div>
+          <ul class="timeline-tasks">
+            <li>Build all policies and required forms</li>
+            <li>Pass facility inspection</li>
+            <li>Complete CPR and First Aid certification</li>
+            <li>Secure all insurance coverage</li>
+            <li>Hire and background-screen all staff</li>
+          </ul>
+        </div>
+        <div class="timeline-card rose">
+          <div class="timeline-period">Months 5 and 6</div>
+          <ul class="timeline-tasks">
+            <li>Market to hospitals and referral sources</li>
+            <li>Network with social workers and discharge planners</li>
+            <li>Enroll your first participants</li>
+            <li>Apply for Medicaid billing and launch operations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="resources">
+      <div class="resources-header">
+        <div class="step-num" style="font-size:16px; border-radius:4px;">R</div>
+        <div><div class="step-label">Florida</div><div class="step-title">Key Resources and Contacts</div></div>
+      </div>
+      <div class="resources-grid">
+        <div class="resource-card"><div class="resource-name">Florida AHCA — Adult Day Care Licensing</div><a href="https://ahca.myflorida.com" class="resource-url">ahca.myflorida.com</a></div>
+        <div class="resource-card"><div class="resource-name">Florida Medicaid / HCBS Waiver</div><a href="https://ahca.myflorida.com/medicaid" class="resource-url">ahca.myflorida.com/medicaid</a></div>
+        <div class="resource-card fund"><div class="resource-name">SBA Microloan Program</div><a href="https://sba.gov/microloans" class="resource-url">sba.gov/microloans</a><div class="resource-note">Up to $50K — flexible terms for startups</div></div>
+        <div class="resource-card fund"><div class="resource-name">Florida SBDC — Free Business Advising</div><a href="https://floridasbdc.org" class="resource-url">floridasbdc.org</a><div class="resource-note">Free funding navigation and business plan support</div></div>
+        <div class="resource-card fund"><div class="resource-name">Grants.gov — Federal Grants</div><a href="https://grants.gov" class="resource-url">grants.gov</a><div class="resource-note">Search "adult day" for active opportunities</div></div>
+        <div class="resource-card fund"><div class="resource-name">Florida First Capital — SBA 504 Loans</div><a href="https://floridafirstcapital.com" class="resource-url">floridafirstcapital.com</a><div class="resource-note">Equipment and real estate financing</div></div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div>
+        <div class="cta-label">Ready to Build This the Right Way?</div>
+        <div class="cta-heading">Join The Care CEO Collective</div>
+        <div class="cta-sub">The 90-Day Operational Blueprint — from application-ready to audit-prepared. Limited spots available.</div>
+      </div>
+      <a href="https://tmacinspired.com/care-ceo-collective" class="cta-btn">Apply Now</a>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p><strong>CompliTrst | TMac Inspired</strong> &nbsp;|&nbsp; The Care CEO Collective &nbsp;|&nbsp; support@complitrst.com</p>
+    <p>This guide is for informational purposes only. Requirements may change. Always verify current requirements with Florida AHCA.</p>
+  </div>
+
+</div>
+</body>
+</html>
