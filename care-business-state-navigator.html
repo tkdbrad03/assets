@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Care Business State Navigator — CompliTrst | TMac Inspired</title>
+<link rel="icon" type="image/png" href="https://raw.githubusercontent.com/tkdbrad03/assets/main/complitrst.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --pine: #1f4236; --pine-deep: #152e25; --gold: #c9a961; --rose: #b76e79;
+    --white: #ffffff; --light: #f8faf8; --border: #c5d9ce; --text: #1f4236; --text-light: #5c6b64;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: #f0f4f1; color: var(--text); min-height: 100vh; padding: 20px 16px 60px; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  .header { background: var(--pine); border-radius: 10px 10px 0 0; padding: 32px 28px 24px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -60px; top: -60px; width: 240px; height: 240px; border-radius: 50%; border: 1px solid rgba(201,169,97,0.1); pointer-events: none; }
+  .badge { display: inline-block; background: var(--gold); color: var(--pine); font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 14px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(24px, 5vw, 36px); color: var(--white); font-weight: 700; line-height: 1.15; margin-bottom: 6px; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-divider { width: 48px; height: 2px; background: var(--gold); margin: 14px 0; }
+  .header-sub { font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 300; }
+
+  .selector { background: var(--white); padding: 24px; border-left: 1px solid var(--border); border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .selector-title { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--pine); margin-bottom: 16px; }
+  .selector-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  label { font-size: 12px; font-weight: 600; color: var(--pine); letter-spacing: 0.3px; }
+  select { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--text); background: var(--light); -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231f4236' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; cursor: pointer; transition: border-color 0.2s; }
+  select:focus { outline: none; border-color: var(--pine); }
+  .go-btn { width: 100%; background: var(--pine); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px; border: none; border-radius: 6px; cursor: pointer; transition: background 0.2s; margin-top: 4px; }
+  .go-btn:hover { background: var(--pine-deep); }
+
+  .results { display: none; background: var(--white); border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; padding: 24px; }
+  .results.visible { display: block; }
+
+  .result-header { background: var(--pine); border-radius: 8px; padding: 18px 20px; margin-bottom: 20px; }
+  .result-state { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--white); font-weight: 700; }
+  .result-model { font-size: 11px; color: var(--gold); font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 4px; }
+
+  .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
+  .info-card { border: 1.5px solid var(--border); border-radius: 7px; overflow: hidden; }
+  .info-card-header { background: var(--pine); color: var(--white); padding: 8px 14px; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+  .info-card-body { padding: 12px 14px; font-size: 13px; color: var(--text-light); font-weight: 300; line-height: 1.7; }
+  .info-card-body strong { color: var(--pine); font-weight: 600; display: block; margin-bottom: 2px; }
+  .info-card-body a { color: var(--gold); text-decoration: none; }
+  .info-card-body a:hover { text-decoration: underline; }
+
+  .req-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .req-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--text-light); font-weight: 300; line-height: 1.5; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+  .req-list li:last-child { border-bottom: none; }
+  .req-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+
+  .verify-note { background: #fef9ee; border-left: 3px solid var(--gold); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 11px; color: var(--text-light); margin-top: 4px; line-height: 1.6; }
+  .verify-note strong { color: var(--pine); }
+
+  .cta-box { background: var(--pine); border-radius: 8px; padding: 20px; margin-top: 20px; text-align: center; }
+  .cta-box .cta-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,169,97,0.6); margin-bottom: 8px; }
+  .cta-box h3 { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--white); font-weight: 700; margin-bottom: 6px; }
+  .cta-box p { font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 300; margin-bottom: 14px; line-height: 1.6; }
+  .cta-box a { display: inline-block; background: var(--gold); color: var(--pine); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 12px 24px; border-radius: 4px; text-decoration: none; }
+
+  .footer { background: var(--pine); padding: 20px; border-radius: 10px; text-align: center; margin-top: 14px; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.25); line-height: 1.8; }
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (min-width: 540px) {
+    body { padding: 32px 24px 60px; }
+    .header { padding: 40px 36px 28px; }
+    .selector { padding: 28px 32px; }
+    .selector-grid { grid-template-columns: 1fr 1fr; }
+    .results { padding: 28px 32px; }
+    .info-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="badge">Substack Subscriber Gift</div>
+    <h1>Care Business<br><em>State Navigator</em></h1>
+    <div class="header-divider"></div>
+    <p class="header-sub">CompliTrst | TMac Inspired &nbsp;·&nbsp; The Care CEO Collective &nbsp;·&nbsp; support@complitrst.com</p>
+  </div>
+
+  <div class="selector">
+    <div class="selector-title">Select Your State and Care Model</div>
+    <div class="selector-grid">
+      <div class="field-group">
+        <label>Your State</label>
+        <select id="stateSelect">
+          <option value="">Choose your state...</option>
+          <option value="AL">Alabama</option><option value="AK">Alaska</option>
+          <option value="AZ">Arizona</option><option value="AR">Arkansas</option>
+          <option value="CA">California</option><option value="CO">Colorado</option>
+          <option value="CT">Connecticut</option><option value="DE">Delaware</option>
+          <option value="FL">Florida</option><option value="GA">Georgia</option>
+          <option value="HI">Hawaii</option><option value="ID">Idaho</option>
+          <option value="IL">Illinois</option><option value="IN">Indiana</option>
+          <option value="IA">Iowa</option><option value="KS">Kansas</option>
+          <option value="KY">Kentucky</option><option value="LA">Louisiana</option>
+          <option value="ME">Maine</option><option value="MD">Maryland</option>
+          <option value="MA">Massachusetts</option><option value="MI">Michigan</option>
+          <option value="MN">Minnesota</option><option value="MS">Mississippi</option>
+          <option value="MO">Missouri</option><option value="MT">Montana</option>
+          <option value="NE">Nebraska</option><option value="NV">Nevada</option>
+          <option value="NH">New Hampshire</option><option value="NJ">New Jersey</option>
+          <option value="NM">New Mexico</option><option value="NY">New York</option>
+          <option value="NC">North Carolina</option><option value="ND">North Dakota</option>
+          <option value="OH">Ohio</option><option value="OK">Oklahoma</option>
+          <option value="OR">Oregon</option><option value="PA">Pennsylvania</option>
+          <option value="RI">Rhode Island</option><option value="SC">South Carolina</option>
+          <option value="SD">South Dakota</option><option value="TN">Tennessee</option>
+          <option value="TX">Texas</option><option value="UT">Utah</option>
+          <option value="VT">Vermont</option><option value="VA">Virginia</option>
+          <option value="WA">Washington</option><option value="WV">West Virginia</option>
+          <option value="WI">Wisconsin</option><option value="WY">Wyoming</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Care Model</label>
+        <select id="modelSelect">
+          <option value="">Choose your model...</option>
+          <option value="adc">Adult Day Care</option>
+          <option value="gh">Group Home</option>
+          <option value="alf">Assisted Living Facility (ALF)</option>
+          <option value="hc">Home Care</option>
+        </select>
+      </div>
+    </div>
+    <button class="go-btn" onclick="showResults()">Show My State Requirements</button>
+  </div>
+
+  <div class="results" id="results">
+    <div class="result-header">
+      <div class="result-state" id="resultTitle"></div>
+      <div class="result-model" id="resultModel"></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-header">Regulatory Agency</div>
+        <div class="info-card-body" id="agency"></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header">License Type</div>
+        <div class="info-card-body" id="license"></div>
+      </div>
+      <div class="info-card" style="grid-column: 1 / -1;">
+        <div class="info-card-header">Key Requirements</div>
+        <div class="info-card-body">
+          <ul class="req-list" id="requirements"></ul>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header">Medicaid / Waiver Program</div>
+        <div class="info-card-body" id="medicaid"></div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-header">Key Resource</div>
+        <div class="info-card-body" id="resource"></div>
+      </div>
+    </div>
+    <div class="verify-note"><strong>Please verify:</strong> Licensing requirements change. Always confirm current requirements directly with the state agency listed above before making business decisions.</div>
+    <div class="cta-box">
+      <div class="cta-label">Ready to Go Deeper?</div>
+      <h3>Get the Full State Startup Guide</h3>
+      <p>The full guide includes your 6-month timeline, funding sources, complete policies checklist, and step-by-step formation walkthrough — built specifically for your state and care model.</p>
+      <a href="https://complitrst.com/full-guide">Get the Full Guide</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><strong>CompliTrst | TMac Inspired</strong> &nbsp;·&nbsp; The Care CEO Collective<br>
+    support@complitrst.com &nbsp;·&nbsp; This tool is for informational purposes only.<br>
+    <span style="font-size:10px;">Always verify requirements with your state agency directly.</span></p>
+  </div>
+
+</div>
+
+<script>
+const data = {
+  AL: {
+    adc: { agency: '<strong>Alabama Department of Senior Services</strong><br><a href="https://www.alabamaagingnetwork.org" target="_blank">alabamaagingnetwork.org</a>', license: 'Adult Day Care Center License', requirements: ['Minimum staff-to-participant ratio of 1:6','Annual facility inspection required','Background checks for all staff and owners','First Aid and CPR certification required on-site','Must have licensed administrator on record'], medicaid: '<strong>Alabama Elderly and Disabled Waiver</strong><br>Administered through Medicaid Agency — medicaid.alabama.gov', resource: '<strong>Alabama SBDC</strong><br><a href="https://asbdc.org" target="_blank">asbdc.org</a> — Free business advising' },
+    gh: { agency: '<strong>Alabama Department of Mental Health</strong><br><a href="https://www.dmh.alabama.gov" target="_blank">dmh.alabama.gov</a>', license: 'Community Residential Facility License', requirements: ['License required for 3+ unrelated residents','Background checks for all staff','Minimum health and safety inspections','Staff training in residents\' rights required','Fire safety inspection required'], medicaid: '<strong>Alabama Home and Community Based Waiver</strong><br>medicaid.alabama.gov', resource: '<strong>Alabama Secretary of State</strong><br><a href="https://www.sos.alabama.gov" target="_blank">sos.alabama.gov</a> — LLC formation' },
+    alf: { agency: '<strong>Alabama Department of Public Health</strong><br><a href="https://www.alabamapublichealth.gov" target="_blank">alabamapublichealth.gov</a>', license: 'Assisted Living Facility License', requirements: ['License required for 4+ residents','Minimum staffing ratio based on resident needs','Annual state inspection','Administrator must meet state qualifications','Residents\' rights policy required'], medicaid: '<strong>Alabama ALF Medicaid Waiver</strong><br>medicaid.alabama.gov', resource: '<strong>Alabama Assisted Living Association</strong><br><a href="https://www.alala.org" target="_blank">alala.org</a>' },
+    hc: { agency: '<strong>Alabama Department of Public Health</strong><br><a href="https://www.alabamapublichealth.gov" target="_blank">alabamapublichealth.gov</a>', license: 'Home Health Agency License', requirements: ['State license required before accepting clients','Background checks for all caregivers','Proof of liability insurance required','Supervision plan for all aides','Annual license renewal'], medicaid: '<strong>Alabama Medicaid Home Health Benefit</strong><br>medicaid.alabama.gov', resource: '<strong>Alabama Home Care Association</strong><br><a href="https://www.alhca.org" target="_blank">alhca.org</a>' }
+  },
+  FL: {
+    adc: { agency: '<strong>Florida Agency for Health Care Administration (AHCA)</strong><br><a href="https://ahca.myflorida.com" target="_blank">ahca.myflorida.com</a>', license: 'Adult Day Care Center License', requirements: ['Facility inspection required before license approval','Background screening via Florida VECHS for all staff','Minimum ratio 1:6 (1:4 for memory care)','First Aid and CPR certification required on-site','Sanitation certificate from Department of Health'], medicaid: '<strong>Florida HCBS / Long-Term Care Medicaid Waiver</strong><br><a href="https://ahca.myflorida.com/medicaid" target="_blank">ahca.myflorida.com/medicaid</a>', resource: '<strong>Florida SBDC</strong><br><a href="https://floridasbdc.org" target="_blank">floridasbdc.org</a> — Free advising and funding navigation' },
+    gh: { agency: '<strong>Florida Agency for Persons with Disabilities (APD)</strong><br><a href="https://apd.myflorida.com" target="_blank">apd.myflorida.com</a>', license: 'Group Home / Residential Facility License', requirements: ['License required for 4+ residents','Background screening via VECHS for all staff and owners','Annual inspections by APD','Staff training in residents\' rights and safety','Fire safety and zoning compliance required'], medicaid: '<strong>Florida iBudget Waiver (APD)</strong><br>apd.myflorida.com', resource: '<strong>Florida APD Provider Enrollment</strong><br><a href="https://apd.myflorida.com" target="_blank">apd.myflorida.com</a>' },
+    alf: { agency: '<strong>Florida Agency for Health Care Administration (AHCA)</strong><br><a href="https://ahca.myflorida.com" target="_blank">ahca.myflorida.com</a>', license: 'Assisted Living Facility (ALF) License', requirements: ['Core ALF license required — additional licenses for ECC or LNS','Annual AHCA inspection','Administrator must complete state-approved training','Background screening for all staff','Resident contracts and rights policies required'], medicaid: '<strong>Florida Statewide Medicaid Managed Care Long-Term Care</strong><br>ahca.myflorida.com/medicaid', resource: '<strong>Florida Assisted Living Association</strong><br><a href="https://www.fala.org" target="_blank">fala.org</a>' },
+    hc: { agency: '<strong>Florida Agency for Health Care Administration (AHCA)</strong><br><a href="https://ahca.myflorida.com" target="_blank">ahca.myflorida.com</a>', license: 'Home Health Agency or Nurse Registry License', requirements: ['License required before accepting any clients','Background screening for all caregivers via VECHS','Liability insurance required','Supervision and service plan for each client','Annual license renewal with AHCA'], medicaid: '<strong>Florida Medicaid Home Health Services</strong><br>ahca.myflorida.com/medicaid', resource: '<strong>Florida Association of Home Health Agencies</strong><br><a href="https://www.fahha.org" target="_blank">fahha.org</a>' }
+  },
+  MI: {
+    adc: { agency: '<strong>Michigan Dept. of Licensing and Regulatory Affairs (LARA)</strong><br><a href="https://michigan.gov/lara" target="_blank">michigan.gov/lara</a>', license: 'Adult Day Care Program License', requirements: ['Site inspection required before approval','Background checks via Michigan ICHAT for all staff','Minimum staff-to-participant ratio of 1:6','First Aid and CPR certification required on-site','EIN must be at least 1 year old before Medicaid enrollment'], medicaid: '<strong>Michigan MI Choice Waiver</strong><br><a href="https://michigan.gov/mdhhs" target="_blank">michigan.gov/mdhhs</a>', resource: '<strong>Michigan SBDC</strong><br><a href="https://sbdcmichigan.org" target="_blank">sbdcmichigan.org</a> — Free one-on-one coaching' },
+    gh: { agency: '<strong>Michigan LARA — Adult Foster Care Licensing</strong><br><a href="https://michigan.gov/lara" target="_blank">michigan.gov/lara</a>', license: 'Adult Foster Care Facility License', requirements: ['License required for 1–20 residents depending on capacity','Background checks via ICHAT for all household members','Annual inspections by LARA','Resident rights and complaint policy required','Fire safety compliance required'], medicaid: '<strong>Michigan Medicaid HCBS Waiver</strong><br>michigan.gov/mdhhs', resource: '<strong>Michigan Adult Foster Care Association</strong><br><a href="https://www.mafcca.com" target="_blank">mafcca.com</a>' },
+    alf: { agency: '<strong>Michigan LARA — Homes for the Aged</strong><br><a href="https://michigan.gov/lara" target="_blank">michigan.gov/lara</a>', license: 'Home for the Aged License (Michigan ALF equivalent)', requirements: ['Licensed as Home for the Aged for 21+ residents','Annual LARA inspection','Administrator qualifications required','Staffing ratios based on resident care needs','Resident agreements and rights policies required'], medicaid: '<strong>Michigan Medicaid Waiver Programs</strong><br>michigan.gov/mdhhs', resource: '<strong>Michigan Center for Assisted Living</strong><br><a href="https://www.mcal.org" target="_blank">mcal.org</a>' },
+    hc: { agency: '<strong>Michigan LARA — Home Health Agency Licensing</strong><br><a href="https://michigan.gov/lara" target="_blank">michigan.gov/lara</a>', license: 'Home Health Agency License', requirements: ['License required before providing services','Background checks for all caregivers','Liability insurance required','Written plan of care for each client','Annual renewal with LARA'], medicaid: '<strong>Michigan Medicaid Home Health Benefit</strong><br>michigan.gov/mdhhs', resource: '<strong>Home Care Association of Michigan</strong><br><a href="https://www.hcam.org" target="_blank">hcam.org</a>' }
+  },
+  TX: {
+    adc: { agency: '<strong>Texas Health and Human Services Commission (HHSC)</strong><br><a href="https://hhs.texas.gov" target="_blank">hhs.texas.gov</a>', license: 'Day Activity and Health Services (DAHS) License', requirements: ['License required before serving any participants','Background checks via Texas DPS for all staff','Minimum ratio 1:8 for standard participants','Annual HHSC inspection','Dietary and nursing oversight required'], medicaid: '<strong>Texas STAR+PLUS Waiver / Community Attendant Services</strong><br>hhs.texas.gov', resource: '<strong>Texas SBDC</strong><br><a href="https://www.txsbdc.org" target="_blank">txsbdc.org</a>' },
+    gh: { agency: '<strong>Texas HHSC — Residential Services</strong><br><a href="https://hhs.texas.gov" target="_blank">hhs.texas.gov</a>', license: 'Intermediate Care Facility or Host Home License', requirements: ['License type depends on population served','Background checks via Texas DPS for all staff and residents','Annual inspections','Staff training in rights and emergency procedures','Fire safety and zoning compliance'], medicaid: '<strong>Texas Home and Community-based Services (HCS) Waiver</strong><br>hhs.texas.gov', resource: '<strong>Texas Council of Community Centers</strong><br><a href="https://www.txcommunitycenters.org" target="_blank">txcommunitycenters.org</a>' },
+    alf: { agency: '<strong>Texas HHSC — Assisted Living Licensing</strong><br><a href="https://hhs.texas.gov" target="_blank">hhs.texas.gov</a>', license: 'Assisted Living Facility License (Type A or Type B)', requirements: ['Type A — residents capable of self-evacuation','Type B — residents requiring evacuation assistance','Annual HHSC inspection','Administrator license required','Staffing ratios based on resident classification'], medicaid: '<strong>Texas STAR+PLUS Managed Care Waiver</strong><br>hhs.texas.gov', resource: '<strong>Texas Assisted Living Association</strong><br><a href="https://www.tala.org" target="_blank">tala.org</a>' },
+    hc: { agency: '<strong>Texas HHSC — Home and Community Support Services</strong><br><a href="https://hhs.texas.gov" target="_blank">hhs.texas.gov</a>', license: 'Home and Community Support Services Agency (HCSSA) License', requirements: ['License required before accepting clients','Background checks for all caregivers','Liability insurance required','Written plan of care for each client','Annual renewal with HHSC'], medicaid: '<strong>Texas Medicaid Home Health Benefit</strong><br>hhs.texas.gov', resource: '<strong>Texas Association for Home Care and Hospice</strong><br><a href="https://www.tahch.org" target="_blank">tahch.org</a>' }
+  },
+  GA: {
+    adc: { agency: '<strong>Georgia Department of Community Health (DCH)</strong><br><a href="https://dch.georgia.gov" target="_blank">dch.georgia.gov</a>', license: 'Adult Day Care Center License', requirements: ['License required before opening','Background checks via Georgia GCIC for all staff','Minimum ratio 1:6','Annual state inspection','First Aid and CPR required on-site'], medicaid: '<strong>Georgia SOURCE / CCSP Medicaid Waiver</strong><br>dch.georgia.gov', resource: '<strong>Georgia SBDC</strong><br><a href="https://www.georgiasbdc.org" target="_blank">georgiasbdc.org</a>' },
+    gh: { agency: '<strong>Georgia Department of Behavioral Health and Developmental Disabilities</strong><br><a href="https://dbhdd.georgia.gov" target="_blank">dbhdd.georgia.gov</a>', license: 'Community Residential Alternative License', requirements: ['License required for all group homes','Background checks for all staff','Annual inspections','Behavior support and resident rights plans required','Fire safety compliance required'], medicaid: '<strong>Georgia NOW / COMP Medicaid Waiver</strong><br>dbhdd.georgia.gov', resource: '<strong>Georgia Council on Developmental Disabilities</strong><br><a href="https://gcdd.org" target="_blank">gcdd.org</a>' },
+    alf: { agency: '<strong>Georgia Department of Community Health</strong><br><a href="https://dch.georgia.gov" target="_blank">dch.georgia.gov</a>', license: 'Assisted Living Community License or Personal Care Home License', requirements: ['Personal Care Home — 2 to 24 residents','Assisted Living Community — 25+ residents','Annual DCH inspection','Administrator qualifications required','Staffing ratios based on resident level of care'], medicaid: '<strong>Georgia CCSP Waiver</strong><br>dch.georgia.gov', resource: '<strong>Georgia Assisted Living Association</strong><br><a href="https://www.georgiaassistedliving.org" target="_blank">georgiaassistedliving.org</a>' },
+    hc: { agency: '<strong>Georgia Department of Community Health</strong><br><a href="https://dch.georgia.gov" target="_blank">dch.georgia.gov</a>', license: 'Home Health Agency License', requirements: ['License required before serving clients','Background checks for all caregivers','Liability insurance required','Written plan of care required for each client','Annual license renewal'], medicaid: '<strong>Georgia Medicaid Home Health Benefit</strong><br>dch.georgia.gov', resource: '<strong>Georgia Association for Home Health Agencies</strong><br><a href="https://www.gahha.org" target="_blank">gahha.org</a>' }
+  },
+  NY: {
+    adc: { agency: '<strong>New York State Department of Health (DOH)</strong><br><a href="https://www.health.ny.gov" target="_blank">health.ny.gov</a>', license: 'Adult Day Health Care Program License', requirements: ['Certificate of Need (CON) may be required','Background checks via NY Justice Center for all staff','Minimum staffing ratios based on program type','Annual DOH inspection','Medical director required for health programs'], medicaid: '<strong>New York Medicaid MLTC / PACE Programs</strong><br>health.ny.gov', resource: '<strong>NY Small Business Development Center</strong><br><a href="https://nyssbdc.org" target="_blank">nyssbdc.org</a>' },
+    gh: { agency: '<strong>New York OPWDD or OMH depending on population</strong><br><a href="https://www.opwdd.ny.gov" target="_blank">opwdd.ny.gov</a>', license: 'Family Care or IRA License (population-dependent)', requirements: ['License type based on population served','Statewide Central Register clearance for all staff','Annual inspections','Individualized service plans required','Fire safety compliance and zoning required'], medicaid: '<strong>New York OPWDD Waiver</strong><br>opwdd.ny.gov', resource: '<strong>NYSARC</strong><br><a href="https://www.nysarc.org" target="_blank">nysarc.org</a>' },
+    alf: { agency: '<strong>New York State Department of Health</strong><br><a href="https://www.health.ny.gov" target="_blank">health.ny.gov</a>', license: 'Adult Care Facility License (Enriched Housing or EALR)', requirements: ['Certificate of need may be required','Annual DOH inspection','Administrator certification required','Staffing ratios based on resident needs','Comprehensive resident assessment required'], medicaid: '<strong>New York Medicaid Assisted Living Program (ALP)</strong><br>health.ny.gov', resource: '<strong>LeadingAge New York</strong><br><a href="https://www.leadingageny.org" target="_blank">leadingageny.org</a>' },
+    hc: { agency: '<strong>New York State Department of Health</strong><br><a href="https://www.health.ny.gov" target="_blank">health.ny.gov</a>', license: 'Licensed Home Care Services Agency (LHCSA)', requirements: ['LHCSA license required before hiring aides','Background checks via NY Justice Center','Liability insurance required','Aide training program approval required','Annual renewal with DOH'], medicaid: '<strong>New York Medicaid Consumer Directed Personal Assistance</strong><br>health.ny.gov', resource: '<strong>Home Care Association of New York State</strong><br><a href="https://www.hcanys.org" target="_blank">hcanys.org</a>' }
+  },
+  CA: {
+    adc: { agency: '<strong>California Department of Social Services (CDSS)</strong><br><a href="https://www.cdss.ca.gov" target="_blank">cdss.ca.gov</a>', license: 'Adult Day Program License', requirements: ['Community Care License required','Background checks via DOJ/FBI for all staff','Minimum ratio 1:8 general, 1:4 for higher needs','Annual CDSS inspection','Administrator must complete state-approved training'], medicaid: '<strong>California Medi-Cal HCBS Waiver / MSSP</strong><br>dhcs.ca.gov', resource: '<strong>California SBDC</strong><br><a href="https://www.casbdc.org" target="_blank">casbdc.org</a>' },
+    gh: { agency: '<strong>California Department of Social Services</strong><br><a href="https://www.cdss.ca.gov" target="_blank">cdss.ca.gov</a>', license: 'Residential Care Facility License (RCF or RCFE)', requirements: ['Community Care License required','Background checks via DOJ/FBI for all staff and residents','Annual CDSS inspection','Administrator certification required','Individualized service plans required'], medicaid: '<strong>California Medi-Cal Regional Center Waiver</strong><br>dds.ca.gov', resource: '<strong>California Residential Care Facilities Association</strong><br><a href="https://www.calcrc.org" target="_blank">calcrc.org</a>' },
+    alf: { agency: '<strong>California Department of Social Services</strong><br><a href="https://www.cdss.ca.gov" target="_blank">cdss.ca.gov</a>', license: 'Residential Care Facility for the Elderly (RCFE) License', requirements: ['RCFE license required for 6+ elderly residents','Background checks via DOJ/FBI for all staff','Annual CDSS inspection','Administrator must hold RCFE certification','Resident agreements and rights policies required'], medicaid: '<strong>California Medi-Cal Assisted Living Waiver</strong><br>dhcs.ca.gov', resource: '<strong>California Assisted Living Association</strong><br><a href="https://www.caassistedliving.org" target="_blank">caassistedliving.org</a>' },
+    hc: { agency: '<strong>California Department of Social Services / CDPH</strong><br><a href="https://www.cdss.ca.gov" target="_blank">cdss.ca.gov</a>', license: 'Home Care Organization (HCO) License', requirements: ['HCO license required before placing aides','Background checks via DOJ/FBI for all aides','Written client agreements required','Aide training and competency evaluation required','Annual renewal'], medicaid: '<strong>California Medi-Cal In-Home Supportive Services (IHSS)</strong><br>dhcs.ca.gov', resource: '<strong>California Association for Health Services at Home</strong><br><a href="https://www.cahsah.org" target="_blank">cahsah.org</a>' }
+  },
+  OH: {
+    adc: { agency: '<strong>Ohio Department of Aging / Ohio Department of Health</strong><br><a href="https://aging.ohio.gov" target="_blank">aging.ohio.gov</a>', license: 'Adult Day Care Program License', requirements: ['License required before opening','Background checks via Ohio BCI for all staff','Minimum ratio 1:6','Annual state inspection','First Aid and CPR required on-site'], medicaid: '<strong>Ohio MyCare / PASSPORT Medicaid Waiver</strong><br>medicaid.ohio.gov', resource: '<strong>Ohio SBDC</strong><br><a href="https://www.ohiosbdc.ohio.gov" target="_blank">ohiosbdc.ohio.gov</a>' },
+    gh: { agency: '<strong>Ohio Department of Developmental Disabilities (DODD)</strong><br><a href="https://dodd.ohio.gov" target="_blank">dodd.ohio.gov</a>', license: 'Residential Facility License', requirements: ['License required for all group homes','Background checks via Ohio BCI/FBI','Annual DODD inspection','Individual service plans required','Fire safety and zoning compliance'], medicaid: '<strong>Ohio Level 1 / IO Medicaid Waiver</strong><br>dodd.ohio.gov', resource: '<strong>ANCOR Ohio Chapter</strong><br><a href="https://www.ancor.org" target="_blank">ancor.org</a>' },
+    alf: { agency: '<strong>Ohio Department of Health</strong><br><a href="https://odh.ohio.gov" target="_blank">odh.ohio.gov</a>', license: 'Residential Care Facility License', requirements: ['License required before accepting residents','Annual ODH inspection','Administrator qualifications required','Staffing ratios based on resident acuity','Resident rights and grievance policies required'], medicaid: '<strong>Ohio Assisted Living Medicaid Waiver</strong><br>medicaid.ohio.gov', resource: '<strong>Ohio Assisted Living Association</strong><br><a href="https://www.ohioassistedliving.org" target="_blank">ohioassistedliving.org</a>' },
+    hc: { agency: '<strong>Ohio Department of Health</strong><br><a href="https://odh.ohio.gov" target="_blank">odh.ohio.gov</a>', license: 'Home Health Agency License', requirements: ['License required before serving clients','Background checks for all caregivers','Liability insurance required','Plan of care for each client','Annual renewal with ODH'], medicaid: '<strong>Ohio Medicaid Home Health Benefit</strong><br>medicaid.ohio.gov', resource: '<strong>Ohio Council for Home Care and Hospice</strong><br><a href="https://www.ochch.org" target="_blank">ochch.org</a>' }
+  },
+  NC: {
+    adc: { agency: '<strong>North Carolina Division of Health Service Regulation (DHSR)</strong><br><a href="https://www.ncdhhs.gov/dhsr" target="_blank">ncdhhs.gov/dhsr</a>', license: 'Adult Day Care Facility License', requirements: ['License required before opening','Background checks via NC Department of Justice','Minimum ratio 1:6','Annual DHSR inspection','Administrator must meet state qualifications'], medicaid: '<strong>NC Innovations Waiver / CAP/DA</strong><br>ncdhhs.gov', resource: '<strong>NC SBDC</strong><br><a href="https://www.ncsbdc.org" target="_blank">ncsbdc.org</a>' },
+    gh: { agency: '<strong>North Carolina DHSR — Residential Services</strong><br><a href="https://www.ncdhhs.gov/dhsr" target="_blank">ncdhhs.gov/dhsr</a>', license: 'Family Care Home or Group Home License', requirements: ['License based on number of residents and population','Background checks via NC DOJ for all staff','Annual DHSR inspection','Resident rights and grievance policies required','Fire safety compliance required'], medicaid: '<strong>NC Innovations Waiver</strong><br>ncdhhs.gov', resource: '<strong>Disability Rights NC</strong><br><a href="https://www.disabilityrightsnc.org" target="_blank">disabilityrightsnc.org</a>' },
+    alf: { agency: '<strong>North Carolina DHSR</strong><br><a href="https://www.ncdhhs.gov/dhsr" target="_blank">ncdhhs.gov/dhsr</a>', license: 'Adult Care Home License', requirements: ['License required before accepting residents','Annual DHSR inspection','Administrator certification required','Staffing ratios based on resident level of care','Resident agreements and rights required'], medicaid: '<strong>NC CAP/DA and CAP/C Medicaid Waivers</strong><br>ncdhhs.gov', resource: '<strong>NC Assisted Living Association</strong><br><a href="https://www.ncala.org" target="_blank">ncala.org</a>' },
+    hc: { agency: '<strong>North Carolina DHSR</strong><br><a href="https://www.ncdhhs.gov/dhsr" target="_blank">ncdhhs.gov/dhsr</a>', license: 'Home Care Agency License', requirements: ['License required before hiring aides','Background checks for all caregivers','Liability insurance required','Written service plan for each client','Annual renewal with DHSR'], medicaid: '<strong>NC Medicaid Personal Care Services</strong><br>ncdhhs.gov', resource: '<strong>NC Association for Home and Hospice Care</strong><br><a href="https://www.ncahec.net" target="_blank">ncahec.net</a>' }
+  },
+  PA: {
+    adc: { agency: '<strong>Pennsylvania Department of Human Services (DHS)</strong><br><a href="https://www.dhs.pa.gov" target="_blank">dhs.pa.gov</a>', license: 'Adult Day Care Center License', requirements: ['License required before opening','Background checks via PA State Police','Minimum ratio 1:6','Annual DHS inspection','First Aid and CPR required on-site'], medicaid: '<strong>Pennsylvania Community HealthChoices Waiver</strong><br>dhs.pa.gov', resource: '<strong>Pennsylvania SBDC</strong><br><a href="https://www.pasbdc.org" target="_blank">pasbdc.org</a>' },
+    gh: { agency: '<strong>Pennsylvania Office of Developmental Programs (ODP)</strong><br><a href="https://www.dhs.pa.gov/odp" target="_blank">dhs.pa.gov/odp</a>', license: 'Community Homes for Individuals with Intellectual Disabilities License', requirements: ['License required for all group homes','Background checks via PA State Police and FBI','Annual ODP inspection','Individual support plans required','Fire safety compliance required'], medicaid: '<strong>PA Consolidated and Person/Family Directed Support Waivers</strong><br>dhs.pa.gov', resource: '<strong>Pennsylvania Advocacy and Resources for Autism and ID</strong><br><a href="https://www.paar.net" target="_blank">paar.net</a>' },
+    alf: { agency: '<strong>Pennsylvania Department of Human Services</strong><br><a href="https://www.dhs.pa.gov" target="_blank">dhs.pa.gov</a>', license: 'Personal Care Home or Assisted Living Residence License', requirements: ['License required before accepting residents','Annual DHS inspection','Administrator qualifications required','Staffing ratios based on resident needs','Resident agreements required'], medicaid: '<strong>PA Community HealthChoices Managed Care Waiver</strong><br>dhs.pa.gov', resource: '<strong>Pennsylvania Assisted Living Association</strong><br><a href="https://www.paassistedliving.org" target="_blank">paassistedliving.org</a>' },
+    hc: { agency: '<strong>Pennsylvania Department of Health</strong><br><a href="https://www.health.pa.gov" target="_blank">health.pa.gov</a>', license: 'Home Health Agency License', requirements: ['License required before serving clients','Background checks for all caregivers','Liability insurance required','Plan of care required for each client','Annual renewal with DOH'], medicaid: '<strong>PA Medicaid Home Health Benefit</strong><br>dhs.pa.gov', resource: '<strong>Pennsylvania Homecare Association</strong><br><a href="https://pahomecare.org" target="_blank">pahomecare.org</a>' }
+  }
+};
+
+// Default data for states not yet fully detailed
+function getDefaultData(stateName, model) {
+  const modelNames = { adc: 'Adult Day Care', gh: 'Group Home', alf: 'Assisted Living Facility', hc: 'Home Care' };
+  const agencies = {
+    adc: 'Department of Health or Department of Social Services — search your state government website for Adult Day Care licensing',
+    gh: 'Department of Developmental Disabilities or Department of Behavioral Health — search your state government website',
+    alf: 'Department of Health or Department of Social Services — search your state government website for ALF licensing',
+    hc: 'Department of Health — search your state government website for Home Health Agency licensing'
+  };
+  const medicaidNames = {
+    adc: 'HCBS Waiver or Elderly and Disabled Waiver — contact your state Medicaid office for enrollment details',
+    gh: 'Home and Community Based Services (HCBS) Waiver — contact your state Medicaid office',
+    alf: 'Assisted Living or HCBS Waiver — contact your state Medicaid office for enrollment details',
+    hc: 'Medicaid Home Health Benefit — contact your state Medicaid office for provider enrollment'
+  };
+  return {
+    agency: `<strong>${stateName} ${agencies[model]}</strong>`,
+    license: `${modelNames[model]} License — contact your state agency for the specific license name and application`,
+    requirements: [
+      'License required before accepting any clients or residents',
+      'Background checks required for all owners and staff',
+      'Facility or home inspection required before approval',
+      'Staffing ratios and training requirements apply — verify with your state agency',
+      'First Aid and CPR certification typically required on-site'
+    ],
+    medicaid: `<strong>${stateName} ${medicaidNames[model]}</strong>`,
+    resource: `<strong>${stateName} Small Business Development Center</strong><br><a href="https://americassbdc.org" target="_blank">americassbdc.org</a> — Find your local SBDC for free advising`
+  };
+}
+
+const stateNames = {
+  AL:'Alabama',AK:'Alaska',AZ:'Arizona',AR:'Arkansas',CA:'California',CO:'Colorado',
+  CT:'Connecticut',DE:'Delaware',FL:'Florida',GA:'Georgia',HI:'Hawaii',ID:'Idaho',
+  IL:'Illinois',IN:'Indiana',IA:'Iowa',KS:'Kansas',KY:'Kentucky',LA:'Louisiana',
+  ME:'Maine',MD:'Maryland',MA:'Massachusetts',MI:'Michigan',MN:'Minnesota',MS:'Mississippi',
+  MO:'Missouri',MT:'Montana',NE:'Nebraska',NV:'Nevada',NH:'New Hampshire',NJ:'New Jersey',
+  NM:'New Mexico',NY:'New York',NC:'North Carolina',ND:'North Dakota',OH:'Ohio',
+  OK:'Oklahoma',OR:'Oregon',PA:'Pennsylvania',RI:'Rhode Island',SC:'South Carolina',
+  SD:'South Dakota',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',
+  WA:'Washington',WV:'West Virginia',WI:'Wisconsin',WY:'Wyoming'
+};
+
+const modelNames = { adc: 'Adult Day Care', gh: 'Group Home', alf: 'Assisted Living Facility (ALF)', hc: 'Home Care' };
+
+function showResults() {
+  const state = document.getElementById('stateSelect').value;
+  const model = document.getElementById('modelSelect').value;
+  if (!state || !model) { alert('Please select both a state and a care model.'); return; }
+
+  const stateName = stateNames[state];
+  const hasDetailedData = !!(data[state] && data[state][model]);
+  const d = hasDetailedData ? data[state][model] : getDefaultData(stateName, model);
+
+  document.getElementById('resultTitle').textContent = stateName;
+  document.getElementById('resultModel').textContent = modelNames[model];
+  document.getElementById('agency').innerHTML = d.agency;
+  document.getElementById('license').innerHTML = typeof d.license === 'string' ? d.license : d.license;
+  document.getElementById('medicaid').innerHTML = d.medicaid;
+  document.getElementById('resource').innerHTML = d.resource;
+
+  const reqList = document.getElementById('requirements');
+  reqList.innerHTML = '';
+  d.requirements.forEach(r => {
+    reqList.innerHTML += `<li><span class="req-dot"></span><span>${r}</span></li>`;
+  });
+
+  const results = document.getElementById('results');
+  results.classList.add('visible');
+  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+document.getElementById('stateSelect').addEventListener('keypress', e => { if (e.key === 'Enter') showResults(); });
+document.getElementById('modelSelect').addEventListener('keypress', e => { if (e.key === 'Enter') showResults(); });
+</script>
+</body>
+</html>
