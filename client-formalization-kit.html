@@ -451,12 +451,14 @@ body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:
       <!-- Tabs -->
       <div class="tabs">
         <button class="tab active" onclick="switchTab('personal')">👤 Personal Info</button>
-        <button class="tab" onclick="switchTab('care')">♥ Care Plan</button>
-        <button class="tab" onclick="switchTab('emergency')">📞 Emergency</button>
-        <button class="tab" onclick="switchTab('billing-tab')">💰 Insurance</button>
-        <button class="tab" onclick="switchTab('forms')">Forms</button>
-        <button class="tab" id="medicaid-tab-btn" onclick="switchTab('medicaid-docs')" style="display:none">Medicaid Checklist</button>
-        <button class="tab" onclick="switchTab('docs')">Uploads</button>
+<button class="tab" onclick="switchTab('care')">♥ Care Plan</button>
+<button class="tab" onclick="switchTab('emergency')">📞 Emergency</button>
+<button class="tab" onclick="switchTab('billing-tab')">💰 Insurance</button>
+<button class="tab" onclick="switchTab('forms')">📄 Forms</button>
+<button class="tab" id="medicaid-tab-btn" onclick="switchTab('medicaid-docs')" style="display:none">
+  Medicaid Checklist
+</button>
+<button class="tab" onclick="switchTab('docs')">✅ Documents</button>
       </div>
       <div class="card" style="padding:24px">
         <!-- PERSONAL INFO -->
@@ -511,9 +513,25 @@ body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:
           </div>
         </div>
         <!-- FORMS -->
-        <div class="tab-panel" id="panel-forms">
-          <div class="doc-grid" id="participant-form-cards"></div>
-        </div>
+<div class="tab-panel" id="panel-forms">
+  <div class="doc-grid" id="participant-form-cards"></div>
+</div>
+
+<!-- MEDICAID CHECKLIST -->
+<div class="tab-panel" id="panel-medicaid-docs">
+  <div class="medicaid-note">
+    This checklist appears when the participant has Medicaid credentials or a Medicaid payor type.
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill"
+         id="medicaid-progress-bar"
+         style="width:0%">
+    </div>
+  </div>
+
+  <div id="medicaid-checklist"></div>
+</div>
 
         <!-- MEDICAID CHECKLIST -->
         <div class="tab-panel" id="panel-medicaid-docs">
