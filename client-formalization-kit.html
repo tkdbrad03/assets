@@ -462,7 +462,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:
       </div>
       <div class="card" style="padding:24px">
         <!-- PERSONAL INFO -->
-        <div class="tab-panel active" id="panel-personal">
+        <div class="tab-panel active" id="panel-personal" style="display:block">
           <div id="personal-view" class="field-grid"></div>
           <div id="personal-edit" style="display:none" class="form-grid">
             <div class="form-field"><label>Full Name</label><input id="e-name"></div>
@@ -1500,10 +1500,34 @@ window.toggleMedicaidDoc = async (label) => {
   renderMedicaidChecklist();
 };
 
-function switchTabByName(tab){
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  const panel = document.getElementById('panel-' + tab);
-  if(panel) panel.classList.add('active');
+function switchTab(tabName){
+
+  // remove active class from tabs
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.classList.remove('active');
+  });
+
+  // hide all panels
+  document.querySelectorAll('.tab-panel').forEach(panel=>{
+    panel.style.display = 'none';
+    panel.classList.remove('active');
+  });
+
+  // activate selected tab
+  const activeTab = [...document.querySelectorAll('.tab')]
+    .find(tab => tab.getAttribute('onclick')?.includes(tabName));
+
+  if(activeTab){
+    activeTab.classList.add('active');
+  }
+
+  // show selected panel
+  const activePanel = document.getElementById(`panel-${tabName}`);
+
+  if(activePanel){
+    activePanel.style.display = 'block';
+    activePanel.classList.add('active');
+  }
 }
 
 function escapeHtml(v){return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
