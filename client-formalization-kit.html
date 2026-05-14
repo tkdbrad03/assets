@@ -454,8 +454,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:
 <button class="tab" onclick="switchTab('care')">♥ Care Plan</button>
 <button class="tab" onclick="switchTab('emergency')">📞 Emergency</button>
 <button class="tab" onclick="switchTab('billing-tab')">💰 Insurance</button>
-<button class="tab" onclick="switchTab('forms')">📄 Forms</button>
-<button class="tab" id="medicaid-tab-btn" onclick="switchTab('medicaid-docs')" style="display:none">
+<button class="tab"
+        onclick="switchTab('forms')">
+  📄 Forms
+</button><button class="tab" id="medicaid-tab-btn" onclick="switchTab('medicaid-docs')" style="display:none">
   Medicaid Checklist
 </button>
 <button class="tab" onclick="switchTab('docs')">✅ Documents</button>
@@ -513,8 +515,38 @@ body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:
           </div>
         </div>
         <!-- FORMS -->
-<div class="tab-panel" id="panel-forms">
-  <div class="doc-grid" id="participant-form-cards"></div>
+<div class="tab-panel"
+     id="panel-forms"
+     style="display:none;">
+
+  <div class="card">
+    <h3>Client Forms</h3>
+
+    <div class="doc-checklist">
+
+      <button class="doc-btn"
+              onclick="downloadForm('intake')">
+        Client Intake Form
+      </button>
+
+      <button class="doc-btn"
+              onclick="downloadForm('serviceAgreement')">
+        Client Service Agreement
+      </button>
+
+      <button class="doc-btn"
+              onclick="downloadForm('carePlan')">
+        Individualized Care Plan
+      </button>
+
+      <button class="doc-btn"
+              onclick="downloadForm('checklist')">
+        Client File Checklist
+      </button>
+
+    </div>
+  </div>
+
 </div>
 
 <!-- MEDICAID CHECKLIST -->
@@ -2093,7 +2125,65 @@ function avatarColor(name){
 
 // Set today's date in dashboard
 document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+' · Camille\'s Adult Day Care';
+function downloadForm(type){
 
+  const forms = {
+
+    intake: `
+CLIENT INTAKE FORM
+
+Client Name:
+DOB:
+Phone:
+Emergency Contact:
+Admission Date:
+Insurance:
+`,
+
+    serviceAgreement: `
+CLIENT SERVICE AGREEMENT
+
+Services Provided:
+Payment Terms:
+Attendance Policy:
+Transportation:
+`,
+
+    carePlan: `
+INDIVIDUALIZED CARE PLAN
+
+Diagnosis:
+Goals:
+Assistance Required:
+Medications:
+Diet:
+`,
+
+    checklist: `
+CLIENT FILE CHECKLIST
+
+☐ Intake Form
+☐ Insurance Card
+☐ Service Agreement
+☐ Care Plan
+☐ Medicaid Credentials
+☐ Physician Orders
+`
+  };
+
+  const blob = new Blob(
+    [forms[type]],
+    { type:'text/plain' }
+  );
+
+  const a = document.createElement('a');
+
+  a.href = URL.createObjectURL(blob);
+
+  a.download = `${type}.txt`;
+
+  a.click();
+}
 </script>
 </body>
 </html>
