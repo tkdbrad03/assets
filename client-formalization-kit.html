@@ -167,7 +167,16 @@ body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:
 .doc-pct-label{font-size:11px;color:#bbb;margin-top:2px}
 
 /* TABS */
-.tabs{display:flex;gap:4px;background:var(--white);border-radius:12px;padding:6px;border:1px solid var(--border);margin-bottom:20px;overflow-x:auto}
+.tabs{
+display:flex;
+flex-wrap:wrap;
+gap:4px;
+background:var(--white);
+border-radius:12px;
+padding:6px;
+border:1px solid var(--border);
+margin-bottom:20px;
+}
 .tab{flex:1;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--gray);cursor:pointer;border:none;background:none;font-family:var(--font);transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;justify-content:center}
 .tab:hover{color:var(--dark)}
 .tab.active{background:var(--pink);color:#fff;font-weight:600}
