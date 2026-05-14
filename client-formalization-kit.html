@@ -1128,6 +1128,7 @@ function renderProfile() {
     renderEditDays();
   }
   toggleEditDisplay();
+  renderParticipantForms();
 }
 
 function fieldDisplay(fields){
@@ -1569,6 +1570,174 @@ function renderAttendance() {
     </div>`;
   }).join('');
 }
+  function renderParticipantForms(){
+
+  const wrap = document.getElementById('participant-form-cards');
+
+  if(!wrap || !currentParticipant) return;
+
+  wrap.innerHTML = '';
+
+  Object.entries(PARTICIPANT_FORMS).forEach(([key, form]) => {
+
+    const saved =
+      currentParticipant.forms &&
+      currentParticipant.forms[key];
+
+    wrap.innerHTML += `
+
+      <div class="doc-card">
+
+        <div class="doc-card-title">
+          ${form.title}
+        </div>
+
+        <div class="doc-card-sub">
+          ${form.subtitle}
+        </div>
+
+        <div class="doc-meta">
+          ${
+            saved
+            ? 'Saved to participant chart'
+            : 'Not completed yet'
+          }
+        </div>
+
+        <div class="doc-actions">
+
+          <button
+            class="doc-mini-btn primary"
+            onclick="openParticipantForm('${key}')"
+          >
+            ${saved ? 'Edit Form' : 'Complete Form'}
+          </button>
+
+          ${
+            saved
+            ? `
+              <button
+                class="doc-mini-btn"
+                onclick="downloadParticipantFormPDF('${key}')"
+              >
+                Download PDF
+              </button>
+            `
+            : ''
+          }
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+  window.openParticipantForm = (formKey) => {
+
+  const form = PARTICIPANT_FORMS[formKey];
+
+  if(!form) return;
+
+  document.getElementById('form-modal-title').textContent =
+    form.title;
+
+  const existing =
+    currentParticipant.forms &&
+    currentParticipant.forms[formKey]
+      ? currentParticipant.forms[formKey]
+      : {};
+
+  let html = '<div class="form-grid">';
+
+  form.fields.forEach(field => {
+
+    const [id,label,type] = field;
+
+    if(type === 'textarea'){
+
+      html += `
+        <div class="form-field full">
+          <label>${label}</label>
+          <textarea id="pf-${id}">${existing[id] || ''}</textarea>
+        </div>
+      `;
+
+    } else {
+
+      html += `
+        <div class="form-field">
+          <label>${label}</label>
+          <input
+            type="${type}"
+            id="pf-${id}"
+            value="${existing[id] || ''}"
+          >
+        </div>
+      `;
+
+    }
+
+  });
+
+  html += '</div>';
+
+  document.getElementById('form-modal-body').innerHTML = html;
+
+  window.currentFormKey = formKey;
+
+  document
+    .getElementById('modal-participant-form')
+    .classList.add('open');
+
+};
+  window.closeParticipantForm = () => {
+
+  document
+    .getElementById('modal-participant-form')
+    .classList.remove('open');
+
+};
+  window.saveCurrentParticipantForm = async () => {
+
+  if(!window.currentFormKey) return;
+
+  const form =
+    PARTICIPANT_FORMS[window.currentFormKey];
+
+  const data = {};
+
+  form.fields.forEach(field => {
+
+    const [id] = field;
+
+    data[id] =
+      document.getElementById(`pf-${id}`).value;
+
+  });
+
+  if(!currentParticipant.forms)
+    currentParticipant.forms = {};
+
+  currentParticipant.forms[window.currentFormKey] =
+    data;
+
+  await updateDoc(
+    doc(db,'participants',currentParticipant.id),
+    {
+      forms: currentParticipant.forms
+    }
+  );
+
+  renderParticipantForms();
+
+  closeParticipantForm();
+
+  alert('Form saved to participant chart.');
+
+};
 
 window.checkIn = async (participantId, participantName, dailyRate, paymentType) => {
   const today = new Date().toISOString().split('T')[0];
@@ -1623,6 +1792,156 @@ function renderStaff() {
     </div>`;
   }).join('');
 }
+  function renderParticipantForms(){
+
+  const wrap = document.getElementById('participant-form-cards');
+
+  if(!wrap || !currentParticipant) return;
+
+  wrap.innerHTML = '';
+
+  Object.entries(PARTICIPANT_FORMS).forEach(([key, form]) => {
+
+    const saved =
+      currentParticipant.forms &&
+      currentParticipant.forms[key];
+
+    wrap.innerHTML += `
+
+      <div class="doc-card">
+
+        <div class="doc-card-title">
+          ${form.title}
+        </div>
+
+        <div class="doc-card-sub">
+          ${form.subtitle}
+        </div>
+
+        <div class="doc-meta">
+          ${
+            saved
+            ? 'Saved to participant chart'
+            : 'Not completed yet'
+          }
+        </div>
+
+        <div class="doc-actions">
+
+          <button
+            class="doc-mini-btn primary"
+            onclick="openParticipantForm('${key}')"
+          >
+            ${saved ? 'Edit Form' : 'Complete Form'}
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+}
+  window.openParticipantForm = (formKey) => {
+
+  const form = PARTICIPANT_FORMS[formKey];
+
+  if(!form) return;
+
+  document.getElementById('form-modal-title').textContent =
+    form.title;
+
+  const existing =
+    currentParticipant.forms &&
+    currentParticipant.forms[formKey]
+      ? currentParticipant.forms[formKey]
+      : {};
+
+  let html = '<div class="form-grid">';
+
+  form.fields.forEach(field => {
+
+    const [id,label,type] = field;
+
+    if(type === 'textarea'){
+
+      html += `
+        <div class="form-field full">
+          <label>${label}</label>
+          <textarea id="pf-${id}">${existing[id] || ''}</textarea>
+        </div>
+      `;
+
+    } else {
+
+      html += `
+        <div class="form-field">
+          <label>${label}</label>
+          <input
+            type="${type}"
+            id="pf-${id}"
+            value="${existing[id] || ''}"
+          >
+        </div>
+      `;
+
+    }
+
+  });
+
+  html += '</div>';
+
+  document.getElementById('form-modal-body').innerHTML = html;
+
+  window.currentFormKey = formKey;
+
+  document
+    .getElementById('modal-participant-form')
+    .classList.add('open');
+
+};
+  window.saveCurrentParticipantForm = async () => {
+
+  if(!window.currentFormKey) return;
+
+  const form =
+    PARTICIPANT_FORMS[window.currentFormKey];
+
+  const data = {};
+
+  form.fields.forEach(field => {
+
+    const [id] = field;
+
+    data[id] =
+      document.getElementById(`pf-${id}`).value;
+
+  });
+
+  if(!currentParticipant.forms)
+    currentParticipant.forms = {};
+
+  currentParticipant.forms[window.currentFormKey] =
+    data;
+
+  await updateDoc(
+    doc(db,'participants',currentParticipant.id),
+    {
+      forms: currentParticipant.forms
+    }
+  );
+
+  renderParticipantForms();
+
+  document
+    .getElementById('modal-participant-form')
+    .classList.remove('open');
+
+  alert('Form saved to participant chart.');
+
+};
 
 window.addStaff = async () => {
   const name = document.getElementById('ns-name').value.trim();
