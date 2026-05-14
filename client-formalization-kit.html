@@ -3,2186 +3,1316 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Camille's ADC Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<title>Client Formalization Kit — Adult Day Care Startup Intensive</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --pink:#f8586b;--pink-light:#fff0f1;--pink-mid:#ffd6da;
-  --dark:#111;--gray:#6b7280;--border:#e5e7eb;
-  --bg:#f7f7f7;--white:#ffffff;
-  --green:#16a34a;--green-bg:#dcfce7;
-  --font:'DM Sans',sans-serif;
-}
-body{font-family:var(--font);background:var(--bg);color:var(--dark);line-height:1.5;min-height:100vh}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* AUTH */
-.auth-screen{display:none;min-height:100vh;background:var(--dark)}
-.auth-screen.active{display:flex}
-.auth-brand{width:42%;background:#1a1a1a;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;border-right:1px solid #2a2a2a}
-.auth-logo{width:120px;height:120px;border-radius:20px;overflow:hidden;border:2px solid var(--pink);margin-bottom:24px}
-.auth-logo img{width:100%;height:100%;object-fit:cover}
-.auth-brand h1{font-family:'Playfair Display',serif;font-size:28px;color:var(--pink);margin-bottom:8px;text-align:center}
-.auth-brand p{font-size:13px;color:#666;text-align:center;line-height:1.7}
-.auth-brand .addr{font-size:11px;color:#444;margin-top:20px;text-align:center}
-.auth-form-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:48px;background:#0d0d0d}
-.auth-form{width:100%;max-width:380px}
-.auth-form h2{font-size:24px;font-weight:600;color:#fff;margin-bottom:6px}
-.auth-form .sub{font-size:13px;color:#555;margin-bottom:32px}
-.auth-error{background:#2a1515;border:1px solid var(--pink);color:var(--pink);padding:12px 16px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none}
-.auth-error.show{display:block}
-.field{margin-bottom:16px}
-.field label{display:block;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#555;margin-bottom:8px}
-.field input{width:100%;padding:12px 16px;background:#1a1a1a;border:1.5px solid #2a2a2a;border-radius:10px;font-size:14px;color:#fff;font-family:var(--font);outline:none;transition:border-color .2s}
-.field input:focus{border-color:var(--pink)}
-.field input::placeholder{color:#444}
-.btn-pink{width:100%;padding:13px;background:var(--pink);color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .2s;margin-top:8px}
-.btn-pink:hover{opacity:.9}
-.btn-pink:disabled{opacity:.5}
-.powered{text-align:center;font-size:11px;color:#333;margin-top:24px}
+  :root {
+    --navy: #0E1E35;
+    --gold: #C9A84C;
+    --gold-light: #E8D49A;
+    --cream: #FAF7F2;
+    --warm: #F2EDE6;
+    --gray: #6B6560;
+    --border: #E0D9CF;
+    --white: #ffffff;
+    --green: #3a7d5a;
+    --green-light: #edf7f2;
+  }
 
-/* APP SHELL */
-.app-shell{display:none;height:100vh;overflow:hidden}
-.app-shell.active{display:flex}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--navy);
+    line-height: 1.6;
+  }
 
-/* SIDEBAR */
-.sidebar{width:240px;background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
-.sidebar-logo{padding:20px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.sidebar-logo-img{width:38px;height:38px;border-radius:10px;overflow:hidden;border:1.5px solid var(--pink-mid);flex-shrink:0}
-.sidebar-logo-img img{width:100%;height:100%;object-fit:cover}
-.sidebar-logo-text .name{font-size:13px;font-weight:700;color:var(--pink)}
-.sidebar-logo-text .sub{font-size:10px;color:#aaa}
-.sidebar-nav{flex:1;padding:12px 10px;overflow-y:auto}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;font-size:13px;color:var(--gray);cursor:pointer;transition:all .15s;margin-bottom:2px;user-select:none}
-.nav-item:hover{background:#f9f9f9;color:var(--dark)}
-.nav-item.active{background:var(--pink-light);color:var(--pink);font-weight:600}
-.nav-item svg{width:16px;height:16px;flex-shrink:0}
-.sidebar-user{padding:14px 18px;border-top:1px solid var(--border)}
-.user-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
-.user-email{font-size:11px;color:var(--gray);font-weight:500;truncate:ellipsis;overflow:hidden;white-space:nowrap;max-width:150px}
-.user-role{font-size:10px;color:#ccc}
-.btn-signout{display:flex;align-items:center;gap:6px;font-size:12px;color:#bbb;background:none;border:none;cursor:pointer;font-family:var(--font);padding:4px 0;transition:color .2s}
-.btn-signout:hover{color:var(--pink)}
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 48px 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
 
-/* MAIN */
-.main{flex:1;overflow-y:auto}
-.page{display:none;padding:32px 36px;max-width:1100px}
-.page.active{display:block}
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
-.page-title{font-family:'Playfair Display',serif;font-size:26px;color:var(--dark)}
-.page-sub{font-size:13px;color:var(--gray);margin-top:3px}
-.btn-action{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--pink);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .2s}
-.btn-action:hover{opacity:.9}
-.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--white);color:var(--dark);border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-weight:500;font-family:var(--font);cursor:pointer;transition:all .2s}
-.btn-outline:hover{border-color:var(--pink);color:var(--pink)}
+  .header::after {
+    content: '';
+    position: absolute;
+    right: -60px; top: -60px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.12);
+    pointer-events: none;
+  }
 
-/* CARDS */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat-card{background:var(--white);border-radius:16px;padding:20px;border:1px solid var(--border)}
-.stat-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:12px}
-.stat-icon svg{width:18px;height:18px}
-.stat-val{font-size:26px;font-weight:700;color:var(--dark);margin-bottom:2px}
-.stat-label{font-size:12px;font-weight:500;color:var(--gray)}
-.stat-sub{font-size:11px;color:#bbb;margin-top:2px}
+  .header-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    margin-bottom: 18px;
+  }
 
-/* TABLE */
-.card{background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;margin-bottom:20px}
-.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.card-title{font-size:14px;font-weight:600;color:var(--dark)}
-.search-wrap{position:relative;flex:1;max-width:300px}
-.search-wrap input{width:100%;padding:8px 12px 8px 34px;border:1.5px solid var(--border);border-radius:8px;font-size:13px;font-family:var(--font);outline:none;transition:border-color .2s;background:var(--bg)}
-.search-wrap input:focus{border-color:var(--pink)}
-.search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:#bbb}
-.search-icon svg{width:15px;height:15px}
+  .header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(26px, 4vw, 40px);
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
 
-.list-item{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #f5f5f5;transition:background .15s;cursor:pointer}
-.list-item:hover{background:#fafafa}
-.list-item:last-child{border-bottom:none}
-.item-left{display:flex;align-items:center;gap:12px}
-.item-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
-.item-name{font-size:14px;font-weight:500;color:var(--dark)}
-.item-sub{font-size:12px;color:var(--gray)}
-.item-right{display:flex;align-items:center;gap:12px}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.badge-green{background:var(--green-bg);color:var(--green)}
-.badge-gray{background:#f3f4f6;color:#6b7280}
-.badge-pink{background:var(--pink-light);color:var(--pink)}
-.badge-orange{background:#fff7ed;color:#ea580c}
-.link-btn{font-size:12px;color:var(--pink);font-weight:600;background:none;border:none;cursor:pointer;font-family:var(--font)}
+  .header h1 em { color: var(--gold); font-style: italic; }
 
-/* EMPTY STATE */
-.empty{padding:48px;text-align:center}
-.empty-icon{width:52px;height:52px;background:var(--bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.empty-icon svg{width:22px;height:22px;color:#ccc}
-.empty h3{font-size:14px;font-weight:600;color:var(--dark);margin-bottom:6px}
-.empty p{font-size:13px;color:var(--gray);margin-bottom:20px}
+  .header-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 300;
+    max-width: 620px;
+    line-height: 1.7;
+    margin-top: 10px;
+  }
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:16px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:20px;width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.15)}
-.modal-head{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modal-head h3{font-size:16px;font-weight:600;color:var(--dark)}
-.modal-close{background:none;border:none;font-size:22px;color:#bbb;cursor:pointer;line-height:1;padding:0 4px}
-.modal-close:hover{color:var(--dark)}
-.modal-body{padding:24px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.form-grid.single{grid-template-columns:1fr}
-.form-field{display:flex;flex-direction:column;gap:6px}
-.form-field.full{grid-column:1/-1}
-.form-field label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9ca3af}
-.form-field input,.form-field select,.form-field textarea{padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:var(--font);color:var(--dark);background:var(--white);outline:none;transition:border-color .2s}
-.form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--pink)}
-.form-field textarea{resize:vertical;min-height:80px}
-.days-row{display:flex;gap:8px;flex-wrap:wrap}
-.day-btn{padding:6px 12px;border-radius:8px;font-size:12px;font-weight:500;border:1.5px solid var(--border);background:var(--white);color:var(--gray);cursor:pointer;font-family:var(--font);transition:all .15s}
-.day-btn.on{background:var(--pink);color:#fff;border-color:var(--pink)}
-.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
-.btn-cancel{padding:10px 18px;background:var(--white);border:1.5px solid var(--border);border-radius:10px;font-size:13px;font-family:var(--font);cursor:pointer;color:var(--gray);transition:all .2s}
-.btn-cancel:hover{border-color:var(--pink);color:var(--pink)}
-.btn-save{padding:10px 20px;background:var(--pink);color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .2s}
-.btn-save:disabled{opacity:.5}
+  /* TABS */
+  .tabs {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    overflow-x: auto;
+    padding: 0 48px;
+  }
 
-/* PROFILE PAGE */
-.profile-hero{background:var(--white);border-radius:16px;border:1px solid var(--border);padding:24px;margin-bottom:20px;display:flex;align-items:flex-start;gap:20px}
-.profile-photo-wrap{position:relative;flex-shrink:0}
-.profile-photo{width:88px;height:88px;border-radius:16px;overflow:hidden;background:var(--pink-light);display:flex;align-items:center;justify-content:center;border:2px solid var(--pink-mid)}
-.profile-photo img{width:100%;height:100%;object-fit:cover}
-.profile-photo svg{width:32px;height:32px;color:var(--pink)}
-.photo-upload-btn{position:absolute;bottom:-6px;right:-6px;width:26px;height:26px;background:var(--pink);border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:opacity .2s}
-.photo-upload-btn:hover{opacity:.9}
-.photo-upload-btn svg{width:12px;height:12px;color:#fff}
-.profile-info{flex:1}
-.profile-name{font-family:'Playfair Display',serif;font-size:22px;color:var(--dark);margin-bottom:6px}
-.profile-meta{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--gray);margin-bottom:10px}
-.profile-meta span{display:flex;align-items:center;gap:4px}
-.profile-meta .highlight{color:var(--pink);font-weight:600}
-.day-pills{display:flex;gap:6px;flex-wrap:wrap}
-.day-pill{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}
-.day-pill.on{background:var(--pink);color:#fff}
-.day-pill.off{background:#f3f4f6;color:#ccc}
-.profile-doc-progress{text-align:right;flex-shrink:0}
-.doc-pct{font-size:28px;font-weight:700;color:var(--pink)}
-.doc-pct-label{font-size:11px;color:#bbb;margin-top:2px}
+  .tab {
+    padding: 16px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: var(--gray);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+  }
 
-/* TABS */
-.tabs{
-display:flex;
-flex-wrap:wrap;
-gap:4px;
-background:var(--white);
-border-radius:12px;
-padding:6px;
-border:1px solid var(--border);
-margin-bottom:20px;
-}
-.tab{flex:1;padding:9px 14px;border-radius:8px;font-size:13px;font-weight:500;color:var(--gray);cursor:pointer;border:none;background:none;font-family:var(--font);transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:6px;justify-content:center}
-.tab:hover{color:var(--dark)}
-.tab.active{background:var(--pink);color:#fff;font-weight:600}
-.tab svg{width:14px;height:14px}
-.tab-panel{display:none}
-.tab-panel.active{display:block}
+  .tab:hover { color: var(--navy); }
 
-/* FORM DISPLAY */
-.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.field-display{display:flex;flex-direction:column;gap:6px}
-.field-display.full{grid-column:1/-1}
-.field-display label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af}
-.field-display .val{padding:10px 14px;background:var(--bg);border-radius:10px;font-size:13px;color:var(--dark);min-height:40px}
-.field-display .val.empty-val{color:#ccc;font-style:italic}
+  .tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--gold);
+  }
 
-/* CHECKLIST */
-.checklist-section{margin-bottom:20px}
-.checklist-section-title{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px}
-.check-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;cursor:pointer;transition:background .15s;margin-bottom:4px;user-select:none}
-.check-item:hover{background:var(--bg)}
-.check-item.checked{background:var(--pink-light)}
-.check-box{width:20px;height:20px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s}
-.check-item.checked .check-box{background:var(--pink);border-color:var(--pink)}
-.check-item.checked .check-box::after{content:'✓';color:#fff;font-size:11px;font-weight:700}
-.check-item-label{font-size:13px;color:var(--dark);transition:all .15s}
-.check-item.checked .check-item-label{text-decoration:line-through;color:#bbb}
+  /* MAIN */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 32px 60px;
+  }
 
-/* PROGRESS BAR */
-.progress-bar-wrap{height:6px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:20px}
-.progress-bar-fill{height:100%;background:var(--pink);border-radius:4px;transition:width .4s ease}
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
 
-/* BILLING */
-.billing-tabs{display:flex;gap:4px;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:20px;width:fit-content}
-.billing-tab{padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;color:var(--gray);cursor:pointer;border:none;background:none;font-family:var(--font);transition:all .15s}
-.billing-tab.active{background:var(--white);color:var(--dark);box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.attendance-item{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #f5f5f5}
-.attendance-item:last-child{border-bottom:none}
-.checkin-btn{padding:8px 16px;background:var(--pink);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;font-family:var(--font);cursor:pointer}
-.checkout-btn{padding:8px 16px;background:var(--white);color:var(--gray);border:1.5px solid var(--border);border-radius:8px;font-size:12px;font-weight:500;font-family:var(--font);cursor:pointer}
-.checked-in-label{font-size:12px;color:var(--green);font-weight:500;display:flex;align-items:center;gap:4px}
+  /* SECTION HEADERS */
+  .section-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
 
-/* DASHBOARD CHECKLIST */
-.compliance-card{background:var(--dark);border-radius:16px;overflow:hidden}
-.compliance-head{padding:20px 24px;display:flex;align-items:center;justify-content:space-between}
-.compliance-head h3{font-size:14px;font-weight:600;color:#fff}
-.compliance-head .pct{font-size:24px;font-weight:700;color:var(--pink)}
-.compliance-item{display:flex;align-items:center;gap:12px;padding:12px 24px;border-top:1px solid #1a1a1a}
-.compliance-check{width:18px;height:18px;border-radius:5px;border:2px solid #333;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.compliance-check.done{background:var(--pink);border-color:var(--pink)}
-.compliance-check.done::after{content:'✓';color:#fff;font-size:10px;font-weight:700}
-.compliance-label{font-size:12px;color:#888}
-.compliance-label.done{text-decoration:line-through;color:#444}
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
 
+  .section-desc {
+    font-size: 13px;
+    color: var(--gray);
+    font-weight: 300;
+    line-height: 1.7;
+    max-width: 640px;
+    margin-bottom: 28px;
+  }
 
+  hr.gold {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
 
-/* PARTICIPANT FORMS */
-.doc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px}
-.doc-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
-.doc-card-title{font-size:14px;font-weight:700;color:var(--dark)}
-.doc-card-sub{font-size:12px;color:var(--gray);line-height:1.5;min-height:38px}
-.doc-meta{font-size:11px;color:#aaa}
-.doc-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto}
-.doc-mini-btn{padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:#fff;color:var(--dark);font-size:12px;font-weight:600;font-family:var(--font);cursor:pointer}
-.doc-mini-btn.primary{background:var(--pink);color:#fff;border-color:var(--pink)}
-.doc-mini-btn:disabled{opacity:.5;cursor:not-allowed}
-.medicaid-note{background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:12px;padding:14px 16px;font-size:13px;margin-bottom:16px}
-#form-modal-body .form-grid{grid-template-columns:1fr 1fr}
-.print-doc{background:#fff;color:#111;padding:32px;max-width:760px;font-family:Arial,sans-serif;line-height:1.55}
-.print-doc h1{font-size:22px;margin:0 0 8px}.print-doc h2{font-size:16px;border-bottom:1px solid #ddd;padding-bottom:5px;margin:22px 0 10px}.print-doc p{margin:6px 0}.print-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}.print-field{border-bottom:1px solid #bbb;min-height:26px;padding:4px 0}.print-label{font-size:10px;text-transform:uppercase;color:#666;letter-spacing:.08em}.sig-print{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:30px}.sig-print div{border-top:1px solid #111;padding-top:6px;font-size:12px}
-@media(max-width:768px){.doc-grid{grid-template-columns:1fr}#form-modal-body .form-grid{grid-template-columns:1fr}}
+  /* FORM ELEMENTS */
+  .form-group {
+    margin-bottom: 18px;
+  }
 
-@media(max-width:768px){
-  .auth-brand{display:none}
-  .stats-grid{grid-template-columns:1fr 1fr}
-  .field-grid{grid-template-columns:1fr}
-  .form-grid{grid-template-columns:1fr}
-  .sidebar{width:200px}
-  .page{padding:20px}
-}
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  .form-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 18px;
+  }
+
+  label {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="tel"],
+  input[type="email"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--navy);
+    outline: none;
+    transition: border-color 0.2s;
+    border-radius: 1px;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--gold);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.6;
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B6560'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 32px;
+  }
+
+  /* NOTE BOX */
+  .note-box {
+    background: var(--warm);
+    border-left: 3px solid var(--gold);
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 12.5px;
+    color: var(--navy);
+    line-height: 1.65;
+  }
+
+  .note-box strong {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* AGREEMENT TEXT */
+  .agreement-block {
+    background: var(--white);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  .agreement-block h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy);
+    margin: 20px 0 8px;
+  }
+
+  .agreement-block h4:first-child { margin-top: 0; }
+
+  .agreement-block p { margin-bottom: 12px; }
+
+  .agreement-block .field-inline {
+    display: inline-block;
+    border-bottom: 1px solid var(--navy);
+    min-width: 160px;
+    color: var(--navy);
+    font-weight: 500;
+  }
+
+  /* SIGNATURE AREA */
+  .sig-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .sig-block {
+    border: 1px solid var(--border);
+    padding: 20px;
+    background: var(--white);
+  }
+
+  .sig-block label {
+    margin-bottom: 4px;
+  }
+
+  .sig-line {
+    border-bottom: 1px solid var(--navy);
+    height: 36px;
+    margin: 10px 0 6px;
+  }
+
+  .sig-sub {
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  /* CHECKLIST */
+  .check-group {
+    margin-bottom: 28px;
+  }
+
+  .check-group-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 14px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+
+  .check-item:hover { border-color: var(--gold); }
+
+  .check-item.checked {
+    background: var(--green-light);
+    border-color: #a8d5be;
+  }
+
+  .check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--white);
+    transition: all 0.2s;
+  }
+
+  .check-item.checked .check-box {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+    font-size: 11px;
+  }
+
+  .check-text {
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+
+  .check-item.checked .check-text {
+    color: var(--green);
+    text-decoration: line-through;
+    text-decoration-color: #a8d5be;
+  }
+
+  .check-sub {
+    font-size: 11.5px;
+    color: var(--gray);
+    font-weight: 300;
+    margin-top: 2px;
+  }
+
+  /* PRINT BUTTON */
+  .action-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: var(--gold);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-secondary {
+    background: none;
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--navy); }
+
+  /* PROGRESS */
+  .progress-strip {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 48px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    white-space: nowrap;
+  }
+
+  .progress-track {
+    flex: 1;
+    height: 4px;
+    background: var(--warm);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  .progress-count {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--navy);
+    white-space: nowrap;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--navy);
+    padding: 24px 48px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .footer p {
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media print {
+    .tabs, .action-row, .progress-strip, .header-badge, .footer { display: none !important; }
+    .tab-content { display: block !important; }
+    .main { padding: 0; }
+    body { background: white; }
+  }
+
+  @media (max-width: 600px) {
+    .header { padding: 36px 24px 30px; }
+    .tabs { padding: 0 16px; }
+    .main { padding: 28px 16px 48px; }
+    .form-row, .form-row-3, .sig-grid { grid-template-columns: 1fr; }
+    .progress-strip { padding: 12px 24px; }
+    .footer { padding: 20px 24px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
-<div class="auth-screen active" id="auth-screen">
-  <div class="auth-brand">
-    <div class="auth-logo"><img src="camille-logo.png" onerror="this.parentElement.style.background='#f8586b';this.style.display='none'" alt=""></div>
-    <h1>Camille's ADC</h1>
-    <p>Camille Comfort Care Services, LLC<br><em style="color:#444;font-size:11px">"Supportive living for those who need a safe place to heal"</em></p>
-    <div class="addr">156 St. John Road · Tylertown, MS 39667</div>
-  </div>
-  <div class="auth-form-wrap">
-    <div class="auth-form">
-      <h2>Welcome back</h2>
-      <p class="sub">Sign in to your operations portal</p>
-      <div class="auth-error" id="auth-error"></div>
-      <div class="field">
-        <label>Email Address</label>
-        <input type="email" id="login-email" placeholder="your@email.com" autocomplete="email">
-      </div>
-      <div class="field">
-        <label>Password</label>
-        <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
-      </div>
-      <button class="btn-pink" id="login-btn" onclick="doLogin()">Sign In to Portal</button>
-      <p class="powered">Powered by CompliTrst, Inc. · CatrinaL Consulting</p>
-    </div>
-  </div>
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Week 5 Resource</div>
+  <h1>Client <em>Formalization Kit</em></h1>
+  <p class="header-sub">Four documents to convert your existing clients into formal, documented, and billable relationships. Complete one set per client. Print or save each completed form to your client files.</p>
 </div>
 
-<!-- APP -->
-<div class="app-shell" id="app-shell">
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-img"><img src="camille-logo.png" onerror="this.parentElement.style.background='#f8586b';this.style.display='none'" alt=""></div>
-      <div class="sidebar-logo-text">
-        <div class="name">Camille's ADC</div>
-        <div class="sub">Operations Portal</div>
-      </div>
-    </div>
-    <nav class="sidebar-nav">
-      <div class="nav-item active" onclick="nav('dashboard')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
-        Dashboard
-      </div>
-      <div class="nav-item" onclick="nav('participants')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        Participants
-      </div>
-      <div class="nav-item" onclick="nav('billing')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-        Billing
-      </div>
-      <div class="nav-item" onclick="nav('staff')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        Staff
-      </div>
-      <div class="nav-item" onclick="nav('incidents')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        Incident Reports
-      </div>
-      <div class="nav-item" onclick="nav('settings')">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        Settings
-      </div>
-    </nav>
-    <div class="sidebar-user">
-      <div class="user-row">
-        <div class="user-avatar" id="user-avatar">?</div>
-        <div>
-          <div class="user-email" id="user-email">Loading...</div>
-          <div class="user-role">Administrator</div>
-        </div>
-      </div>
-      <button class="btn-signout" onclick="doSignOut()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-        Sign Out
-      </button>
-    </div>
+<!-- PROGRESS -->
+<div class="progress-strip">
+  <span class="progress-label">File Checklist</span>
+  <div class="progress-track">
+    <div class="progress-fill" id="progress-fill"></div>
   </div>
-
-  <!-- MAIN CONTENT -->
-  <div class="main">
-
-    <!-- DASHBOARD -->
-    <div class="page active" id="page-dashboard">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Good morning ♥</div>
-          <div class="page-sub" id="dash-date">Loading...</div>
-        </div>
-      </div>
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#fff0f1"><svg viewBox="0 0 24 24" fill="none" stroke="#f8586b" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
-          <div class="stat-val" id="stat-participants">0</div>
-          <div class="stat-label">Active Participants</div>
-          <div class="stat-sub">Enrolled at Camille's ADC</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#eff6ff"><svg viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          <div class="stat-val" id="stat-attendance">0</div>
-          <div class="stat-label">Today's Attendance</div>
-          <div class="stat-sub">Checked in today</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#f0fdf4"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-          <div class="stat-val" id="stat-revenue">$0</div>
-          <div class="stat-label">Today's Revenue</div>
-          <div class="stat-sub">Based on daily rates</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-          <div class="stat-val" id="stat-incidents">0</div>
-          <div class="stat-label">Open Incidents</div>
-          <div class="stat-sub">Requiring attention</div>
-        </div>
-      </div>
-      <!-- Compliance checklist -->
-      <div class="compliance-card">
-        <div class="compliance-head">
-          <div>
-            <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#f8586b;margin-bottom:4px">Mississippi HCBS</div>
-            <h3>Startup Compliance Checklist</h3>
-          </div>
-          <div class="pct" id="dash-pct">0%</div>
-        </div>
-        <div class="progress-bar-wrap" style="margin:0 24px 0;background:#1a1a1a">
-          <div class="progress-bar-fill" id="dash-progress" style="width:0%"></div>
-        </div>
-        <div id="compliance-items"></div>
-      </div>
-    </div>
-
-    <!-- PARTICIPANTS LIST -->
-    <div class="page" id="page-participants">
-      <div class="page-header">
-        <div>
-          <div class="page-title">Participants</div>
-          <div class="page-sub" id="participant-count">0 enrolled</div>
-        </div>
-        <button class="btn-action" onclick="openModal('add-participant')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Add Participant
-        </button>
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <div class="card-title">All Participants</div>
-          <div class="search-wrap">
-            <div class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-            <input type="text" placeholder="Search participants..." id="participant-search" oninput="renderParticipants()">
-          </div>
-        </div>
-        <div id="participants-list"></div>
-      </div>
-    </div>
-
-    <!-- PARTICIPANT PROFILE -->
-    <div class="page" id="page-profile">
-      <div class="page-header">
-        <div>
-          <button class="btn-outline" onclick="nav('participants')" style="margin-bottom:12px;font-size:12px">← Back to Participants</button>
-          <div class="page-title" id="profile-name">Participant</div>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center">
-          <span id="profile-status-badge"></span>
-          <button class="btn-action" onclick="toggleEdit()" id="edit-btn">✏️ Edit Profile</button>
-        </div>
-      </div>
-      <div class="profile-hero">
-        <div class="profile-photo-wrap">
-          <div class="profile-photo" id="profile-photo-display">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </div>
-          <label class="photo-upload-btn" for="photo-file-input" title="Upload photo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-          </label>
-          <input type="file" id="photo-file-input" accept="image/*" style="display:none" onchange="uploadPhoto(event)">
-        </div>
-        <div class="profile-info">
-          <div class="profile-name" id="ph-name"></div>
-          <div class="profile-meta">
-            <span>DOB: <b id="ph-dob"></b></span>
-            <span>·</span>
-            <span>Admitted: <b id="ph-admit"></b></span>
-            <span>·</span>
-            <span class="highlight" id="ph-pay"></span>
-            <span>·</span>
-            <span><b id="ph-rate"></b>/day</span>
-          </div>
-          <div class="day-pills" id="ph-days"></div>
-        </div>
-        <div class="profile-doc-progress">
-          <div class="doc-pct" id="ph-doc-pct">0%</div>
-          <div class="doc-pct-label">File complete</div>
-          <div style="font-size:11px;color:#bbb" id="ph-doc-count">0/14 docs</div>
-        </div>
-      </div>
-      <!-- Tabs -->
-      <div class="tabs">
-        <button class="tab active" onclick="switchTab('personal')">👤 Personal Info</button>
-<button class="tab" onclick="switchTab('care')">♥ Care Plan</button>
-<button class="tab" onclick="switchTab('emergency')">📞 Emergency</button>
-<button class="tab" onclick="switchTab('billing-tab')">💰 Insurance</button>
-<button class="tab"
-        onclick="switchTab('forms')">
-  📄 Forms
-</button><button class="tab" id="medicaid-tab-btn" onclick="switchTab('medicaid-docs')" style="display:none">
-  Medicaid Checklist
-</button>
-<button class="tab" onclick="switchTab('docs')">✅ Documents</button>
-      </div>
-      <div class="card" style="padding:24px">
-        <!-- PERSONAL INFO -->
-        <div class="tab-panel active" id="panel-personal" style="display:block">
-          <div id="personal-view" class="field-grid"></div>
-          <div id="personal-edit" style="display:none" class="form-grid">
-            <div class="form-field"><label>Full Name</label><input id="e-name"></div>
-            <div class="form-field"><label>Date of Birth</label><input type="date" id="e-dob"></div>
-            <div class="form-field"><label>Phone</label><input type="tel" id="e-phone"></div>
-            <div class="form-field"><label>Email</label><input type="email" id="e-email"></div>
-            <div class="form-field"><label>Admission Date</label><input type="date" id="e-admit"></div>
-            <div class="form-field"><label>Status</label><select id="e-status"><option>Active</option><option>Inactive</option><option>On Leave</option><option>Discharged</option></select></div>
-            <div class="form-field full"><label>Notes</label><textarea id="e-notes"></textarea></div>
-          </div>
-        </div>
-        <!-- CARE PLAN -->
-        <div class="tab-panel" id="panel-care">
-          <div id="care-view" class="field-grid"></div>
-          <div id="care-edit" style="display:none" class="form-grid">
-            <div class="form-field"><label>Primary Diagnosis</label><input id="e-diag"></div>
-            <div class="form-field"><label>Secondary Diagnosis</label><input id="e-diag2"></div>
-            <div class="form-field"><label>Dietary Restrictions</label><input id="e-diet"></div>
-            <div class="form-field"><label>Transportation Vendor</label><input id="e-transport-vendor"></div>
-            <div class="form-field"><label>Transportation Required</label><select id="e-transport"><option value="true">Yes</option><option value="false">No</option></select></div>
-            <div class="form-field full">
-              <label>Scheduled Days</label>
-              <div class="days-row" id="edit-days"></div>
-            </div>
-          </div>
-        </div>
-        <!-- EMERGENCY -->
-        <div class="tab-panel" id="panel-emergency">
-          <div id="emergency-view" class="field-grid"></div>
-          <div id="emergency-edit" style="display:none" class="form-grid">
-            <div class="form-field"><label>Emergency Contact Name</label><input id="e-ec-name"></div>
-            <div class="form-field"><label>Emergency Contact Phone</label><input type="tel" id="e-ec-phone"></div>
-            <div class="form-field"><label>Relationship</label><input id="e-ec-rel"></div>
-            <div class="form-field"><label>Physician Name</label><input id="e-phys"></div>
-            <div class="form-field"><label>Physician Phone</label><input type="tel" id="e-phys-phone"></div>
-          </div>
-        </div>
-        <!-- BILLING TAB -->
-        <div class="tab-panel" id="panel-billing-tab">
-          <div id="billingtab-view" class="field-grid"></div>
-          <div id="billingtab-edit" style="display:none" class="form-grid">
-            <div class="form-field"><label>Payment Type</label><select id="e-pay-type"><option>Private Pay</option><option>Medicaid-HCBS</option><option>Long-Term Care Insurance</option><option>VA Benefits</option><option>Other</option></select></div>
-            <div class="form-field"><label>Daily Rate ($)</label><input type="number" id="e-rate"></div>
-            <div class="form-field"><label>Medicaid ID</label><input id="e-medicaid"></div>
-            <div class="form-field"><label>Insurance Provider</label><input id="e-ins-provider"></div>
-            <div class="form-field"><label>Policy Number</label><input id="e-ins-policy"></div>
-            <div class="form-field"><label>VA File Number</label><input id="e-va"></div>
-          </div>
-        </div>
-        <!-- FORMS -->
-<div class="tab-panel" id="panel-forms">
-  <div class="doc-grid" id="participant-form-cards"></div>
+  <span class="progress-count" id="progress-count">0 of 0</span>
 </div>
 
-      <button class="doc-btn"
-              onclick="downloadForm('serviceAgreement')">
-        Client Service Agreement
-      </button>
-
-      <button class="doc-btn"
-              onclick="downloadForm('carePlan')">
-        Individualized Care Plan
-      </button>
-
-      <button class="doc-btn"
-              onclick="downloadForm('checklist')">
-        Client File Checklist
-      </button>
-
-    </div>
-  </div>
-
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('intake')">1. Client Intake Form</div>
+  <div class="tab" onclick="showTab('agreement')">2. Service Agreement</div>
+  <div class="tab" onclick="showTab('careplan')">3. Care Plan</div>
+  <div class="tab" onclick="showTab('filechecklist')">4. Client File Checklist</div>
 </div>
 
-<!-- MEDICAID CHECKLIST -->
-<div class="tab-panel" id="panel-medicaid-docs">
-  <div class="medicaid-note">
-    This checklist appears when the participant has Medicaid credentials or a Medicaid payor type.
-  </div>
+<!-- MAIN -->
+<div class="main">
 
-  <div class="progress-bar-wrap">
-    <div class="progress-bar-fill"
-         id="medicaid-progress-bar"
-         style="width:0%">
+  <!-- ═══ TAB 1: INTAKE FORM ═══ -->
+  <div class="tab-content active" id="tab-intake">
+    <div class="section-label">Document 1 of 4</div>
+    <div class="section-title">Client Intake Form</div>
+    <p class="section-desc">Complete this form for each client at the start of their formal enrollment. This document establishes the client record and is required for your Medicaid provider application.</p>
+
+    <div class="note-box">
+      <strong>Instructions</strong>
+      Fill in your business name at the top once you have it. Complete one intake form per client. Print and place in the client's physical file folder. Keep all client files in a secure, locked location.
     </div>
-  </div>
 
-  <div id="medicaid-checklist"></div>
-</div>
+    <hr class="gold">
 
-       
-        
-        <!-- DOCUMENTS -->
-        <div class="tab-panel" id="panel-docs">
-          <div class="progress-bar-wrap"><div class="progress-bar-fill" id="doc-progress-bar" style="width:0%"></div></div>
-          <div id="doc-checklist"></div>
-        </div>
+    <div class="form-group">
+      <label>Provider / Business Name</label>
+      <input type="text" placeholder="Your Adult Day Care Business Name">
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Date of Intake</label>
+        <input type="date">
       </div>
-      <!-- Save button (shown in edit mode) -->
-      <div id="save-bar" style="display:none;margin-top:16px;text-align:right;gap:10px;display:none">
-        <button class="btn-cancel" onclick="cancelEdit()">Cancel</button>
-        <button class="btn-save" onclick="saveProfile()" id="save-btn">Save Changes</button>
+      <div>
+        <label>Client ID Number (assign one per client)</label>
+        <input type="text" placeholder="e.g. ADC-001">
       </div>
     </div>
 
-    <!-- BILLING -->
-    <div class="page" id="page-billing">
-      <div class="page-header">
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Client Information</div>
+
+    <div class="form-row">
+      <div>
+        <label>Client First Name</label>
+        <input type="text" placeholder="First Name">
+      </div>
+      <div>
+        <label>Client Last Name</label>
+        <input type="text" placeholder="Last Name">
+      </div>
+    </div>
+
+    <div class="form-row-3">
+      <div>
+        <label>Date of Birth</label>
+        <input type="date">
+      </div>
+      <div>
+        <label>Gender</label>
+        <select>
+          <option value="">Select</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Prefer not to say</option>
+        </select>
+      </div>
+      <div>
+        <label>Medicaid ID Number</label>
+        <input type="text" placeholder="Medicaid ID">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Home Address</label>
+      <input type="text" placeholder="Street Address">
+    </div>
+
+    <div class="form-row-3">
+      <div>
+        <label>City</label>
+        <input type="text" placeholder="City">
+      </div>
+      <div>
+        <label>State</label>
+        <input type="text" placeholder="MS">
+      </div>
+      <div>
+        <label>Zip Code</label>
+        <input type="text" placeholder="Zip">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Phone Number</label>
+        <input type="tel" placeholder="(601) 000-0000">
+      </div>
+      <div>
+        <label>Living Situation</label>
+        <select>
+          <option value="">Select</option>
+          <option>Independent Living (Provider Property)</option>
+          <option>Lives Alone</option>
+          <option>Lives with Family</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Emergency Contact</div>
+
+    <div class="form-row">
+      <div>
+        <label>Emergency Contact Name</label>
+        <input type="text" placeholder="Full Name">
+      </div>
+      <div>
+        <label>Relationship to Client</label>
+        <input type="text" placeholder="e.g. Daughter, Son">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Emergency Contact Phone</label>
+        <input type="tel" placeholder="(601) 000-0000">
+      </div>
+      <div>
+        <label>Emergency Contact Email</label>
+        <input type="email" placeholder="email@example.com">
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Medical Information</div>
+
+    <div class="form-group">
+      <label>Primary Diagnosis / Medical Conditions</label>
+      <textarea placeholder="List primary diagnoses and chronic conditions (e.g. hypertension, diabetes, dementia)"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Primary Care Physician</label>
+        <input type="text" placeholder="Physician Name">
+      </div>
+      <div>
+        <label>Physician Phone</label>
+        <input type="tel" placeholder="(601) 000-0000">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Current Medications</label>
+      <textarea placeholder="List all current medications, dosages, and schedule"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Known Allergies</label>
+      <input type="text" placeholder="List any known allergies or write None">
+    </div>
+
+    <div class="form-group">
+      <label>Mobility Status</label>
+      <select>
+        <option value="">Select</option>
+        <option>Fully mobile and independent</option>
+        <option>Mobile with assistive device (cane, walker)</option>
+        <option>Wheelchair user</option>
+        <option>Requires transfer assistance</option>
+        <option>Bedridden</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Dietary Restrictions or Special Needs</label>
+      <textarea placeholder="List any dietary restrictions, food allergies, or special meal requirements"></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Referral Information</div>
+
+    <div class="form-row">
+      <div>
+        <label>Referred By</label>
+        <input type="text" placeholder="Name of referring agency or individual">
+      </div>
+      <div>
+        <label>Referral Date</label>
+        <input type="date">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Additional Notes</label>
+      <textarea placeholder="Any additional information relevant to this client's care"></textarea>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Print This Form</button>
+      <button class="btn-secondary" onclick="clearTab('tab-intake')">Clear Form</button>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 2: SERVICE AGREEMENT ═══ -->
+  <div class="tab-content" id="tab-agreement">
+    <div class="section-label">Document 2 of 4</div>
+    <div class="section-title">Client Service Agreement</div>
+    <p class="section-desc">This agreement formalizes the relationship between your adult day care and each client. Both parties must sign. Keep a signed copy in the client file and provide a copy to the client or their representative.</p>
+
+    <div class="note-box">
+      <strong>Instructions</strong>
+      Fill in the fields below. The agreement text will update as you type. Print the completed agreement for signatures. This document is required for Medicaid billing and provider enrollment.
+    </div>
+
+    <hr class="gold">
+
+    <div class="form-row">
+      <div>
+        <label>Provider / Business Name</label>
+        <input type="text" id="sa-provider" placeholder="Your Business Name" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Agreement Date</label>
+        <input type="date" id="sa-date" oninput="updateAgreement()">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Client Full Name</label>
+        <input type="text" id="sa-client" placeholder="Client Full Name" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Client Representative (if applicable)</label>
+        <input type="text" id="sa-rep" placeholder="Name of legal representative or guardian" oninput="updateAgreement()">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Service Start Date</label>
+        <input type="date" id="sa-start" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Days of Service Per Week</label>
+        <select id="sa-days" oninput="updateAgreement()">
+          <option value="as outlined in the care plan">As outlined in care plan</option>
+          <option value="1 day per week">1 day per week</option>
+          <option value="2 days per week">2 days per week</option>
+          <option value="3 days per week">3 days per week</option>
+          <option value="4 days per week">4 days per week</option>
+          <option value="5 days per week">5 days per week</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Service Hours</label>
+        <input type="text" id="sa-hours" placeholder="e.g. 8:00 AM to 4:00 PM" oninput="updateAgreement()">
+      </div>
+      <div>
+        <label>Primary Funding Source</label>
+        <select id="sa-funding" oninput="updateAgreement()">
+          <option value="Mississippi Medicaid Elderly and Disabled (E&D) Waiver">Mississippi Medicaid E&D Waiver</option>
+          <option value="Private Pay">Private Pay</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="gold">
+
+    <!-- LIVE AGREEMENT -->
+    <div class="agreement-block" id="agreement-text">
+      <h4>Adult Day Care Client Service Agreement</h4>
+      <p>This Service Agreement (the "Agreement") is entered into as of <span class="field-inline" id="disp-date">______________</span> between <span class="field-inline" id="disp-provider">Your Business Name</span> ("Provider") and <span class="field-inline" id="disp-client">Client Name</span> (or their authorized representative, <span class="field-inline" id="disp-rep">______________</span>) ("Client").</p>
+
+      <h4>1. Services to Be Provided</h4>
+      <p>The Provider agrees to furnish Adult Day Care services to the Client <span class="field-inline" id="disp-days">as outlined in the care plan</span>, during the hours of <span class="field-inline" id="disp-hours">______________</span>, beginning <span class="field-inline" id="disp-start">______________</span>. Services include supervised daytime care, social and recreational activities, meals and snacks, personal care assistance as needed, and health monitoring as outlined in the Client's individualized care plan.</p>
+
+      <h4>2. Funding and Billing</h4>
+      <p>Services under this Agreement will be billed through <span class="field-inline" id="disp-funding">Mississippi Medicaid Elderly and Disabled (E&D) Waiver</span>. The Client or their representative is responsible for maintaining active eligibility and notifying the Provider of any changes to coverage or benefits status.</p>
+
+      <h4>3. Client Rights</h4>
+      <p>The Client has the right to be treated with dignity and respect at all times, to receive services free from abuse, neglect, or exploitation, to participate in the development of their care plan, to privacy and confidentiality of personal and medical information, and to file a grievance without fear of retaliation.</p>
+
+      <h4>4. Provider Responsibilities</h4>
+      <p>The Provider agrees to deliver services in a safe, clean, and supportive environment, maintain accurate and current records for the Client, comply with all applicable Mississippi state licensing and Medicaid requirements, and notify the Client or their representative of any significant changes in care or operations.</p>
+
+      <h4>5. Client Responsibilities</h4>
+      <p>The Client or their representative agrees to provide accurate and complete health and contact information, notify the Provider of any changes in medical condition or medications, communicate absences in advance when possible, and treat Provider staff with respect.</p>
+
+      <h4>6. Termination</h4>
+      <p>Either party may terminate this Agreement with fourteen (14) days written notice. The Provider may terminate immediately in the event of a safety concern or conduct that poses a risk to staff or other clients.</p>
+
+      <h4>7. Confidentiality</h4>
+      <p>All personal, medical, and financial information pertaining to the Client will be kept strictly confidential and used solely for the purpose of providing and billing for services, in compliance with applicable state and federal privacy laws.</p>
+
+      <h4>8. Agreement</h4>
+      <p>By signing below, both parties confirm they have read and agree to the terms of this Service Agreement.</p>
+    </div>
+
+    <div class="sig-grid">
+      <div class="sig-block">
+        <label>Provider Signature</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub" id="disp-provider-sig">Your Business Name</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+      <div class="sig-block">
+        <label>Client or Authorized Representative</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub" id="disp-client-sig">Client Name</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Print Agreement</button>
+      <button class="btn-secondary" onclick="clearAgreement()">Clear Fields</button>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 3: CARE PLAN ═══ -->
+  <div class="tab-content" id="tab-careplan">
+    <div class="section-label">Document 3 of 4</div>
+    <div class="section-title">Individualized Care Plan</div>
+    <p class="section-desc">Complete one care plan per client. Mississippi Medicaid requires that care plans be reviewed and updated at least annually. This document drives your Medicaid billing and must be kept current in each client file.</p>
+
+    <div class="note-box">
+      <strong>Mississippi DOM Requirement</strong>
+      Adult Day Care providers under the E&D Waiver must complete an Individualized Service Plan (ISP) for each participant annually. This template aligns with Mississippi DOM requirements. Use this alongside the official DOM ISP form linked in your Medicaid checklist.
+    </div>
+
+    <hr class="gold">
+
+    <div class="form-row">
+      <div>
+        <label>Provider / Business Name</label>
+        <input type="text" placeholder="Your Business Name">
+      </div>
+      <div>
+        <label>Care Plan Date</label>
+        <input type="date">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Client Full Name</label>
+        <input type="text" placeholder="Client Full Name">
+      </div>
+      <div>
+        <label>Client ID Number</label>
+        <input type="text" placeholder="e.g. ADC-001">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Care Plan Review Date</label>
+        <input type="date">
+      </div>
+      <div>
+        <label>Plan Prepared By</label>
+        <input type="text" placeholder="Staff Name and Title">
+      </div>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Functional Assessment</div>
+
+    <div class="form-group">
+      <label>Activities of Daily Living (ADL) Needs</label>
+      <textarea placeholder="Describe the client's level of independence with bathing, dressing, grooming, toileting, and eating. Note what assistance is required."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Cognitive Status</label>
+      <select>
+        <option value="">Select</option>
+        <option>Fully alert and oriented</option>
+        <option>Mild cognitive impairment</option>
+        <option>Moderate cognitive impairment / early dementia</option>
+        <option>Severe cognitive impairment / advanced dementia</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Behavioral Considerations</label>
+      <textarea placeholder="Note any behavioral patterns, triggers, or de-escalation strategies that staff should be aware of"></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Goals and Services</div>
+
+    <div class="form-group">
+      <label>Primary Goal for This Client</label>
+      <textarea placeholder="e.g. Maintain current level of independence, improve social engagement, manage chronic conditions with daily monitoring"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Services to Be Provided</label>
+      <textarea placeholder="List all services: personal care assistance, meals, medication monitoring, recreational activities, health monitoring, transportation, etc."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Frequency and Schedule of Services</label>
+      <textarea placeholder="e.g. Monday through Friday 8AM to 4PM. Medication check at 9AM and 1PM daily. Weekly health vitals on Mondays."></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Health Monitoring Plan</div>
+
+    <div class="form-row">
+      <div>
+        <label>Vital Signs Monitoring Frequency</label>
+        <select>
+          <option value="">Select</option>
+          <option>Daily</option>
+          <option>Weekly</option>
+          <option>Monthly</option>
+          <option>As needed</option>
+          <option>Not required</option>
+        </select>
+      </div>
+      <div>
+        <label>Medication Administration</label>
+        <select>
+          <option value="">Select</option>
+          <option>Provider administers medications</option>
+          <option>Client self-administers with supervision</option>
+          <option>Client self-administers independently</option>
+          <option>No medications required</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Chronic Condition Management Notes</label>
+      <textarea placeholder="Describe any specific protocols for managing the client's chronic conditions during the day (e.g. diabetic meal schedule, blood pressure checks)"></textarea>
+    </div>
+
+    <hr class="gold">
+    <div class="section-label" style="margin-bottom:14px;">Emergency and Safety Plan</div>
+
+    <div class="form-group">
+      <label>Known Safety Risks</label>
+      <textarea placeholder="List any fall risks, elopement risks, choking risks, or other safety concerns specific to this client"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Emergency Action Plan</label>
+      <textarea placeholder="Describe the steps staff should take in the event of a medical emergency specific to this client's conditions"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label>Do Not Resuscitate (DNR) Order on File</label>
+        <select>
+          <option value="">Select</option>
+          <option>Yes — copy in client file</option>
+          <option>No</option>
+          <option>Unknown — to be confirmed</option>
+        </select>
+      </div>
+      <div>
+        <label>Healthcare Power of Attorney on File</label>
+        <select>
+          <option value="">Select</option>
+          <option>Yes — copy in client file</option>
+          <option>No</option>
+          <option>Unknown — to be confirmed</option>
+        </select>
+      </div>
+    </div>
+
+    <hr class="gold">
+
+    <div class="sig-grid">
+      <div class="sig-block">
+        <label>Provider / Care Coordinator Signature</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub">Name and Title</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+      <div class="sig-block">
+        <label>Client or Authorized Representative</label>
+        <div class="sig-line"></div>
+        <div class="sig-sub">Acknowledges review of care plan</div>
+        <label style="margin-top:12px;">Date</label>
+        <div class="sig-line"></div>
+      </div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-primary" onclick="window.print()">Print Care Plan</button>
+      <button class="btn-secondary" onclick="clearTab('tab-careplan')">Clear Form</button>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 4: CLIENT FILE CHECKLIST ═══ -->
+  <div class="tab-content" id="tab-filechecklist">
+    <div class="section-label">Document 4 of 4</div>
+    <div class="section-title">Client File Checklist</div>
+    <p class="section-desc">Every client must have a complete physical file. Mississippi DOM will review these files during facility inspections. Check off each item as it is collected and placed in the client's folder. Maintain files in a secure, locked location.</p>
+
+    <div class="note-box">
+      <strong>Mississippi DOM Requirement</strong>
+      Use this checklist alongside the official ADC Participant File Checklist from Mississippi Division of Medicaid. All items below are required to be in each client file prior to the start of services and kept current throughout the engagement.
+    </div>
+
+    <div class="form-row" style="margin-top:24px;">
+      <div>
+        <label>Client Name</label>
+        <input type="text" placeholder="Client Full Name">
+      </div>
+      <div>
+        <label>File Opened Date</label>
+        <input type="date">
+      </div>
+    </div>
+
+    <hr class="gold">
+
+    <!-- ENROLLMENT DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Enrollment Documents</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
         <div>
-          <div class="page-title">Billing & Attendance</div>
-          <div class="page-sub">Track daily check-ins and manage revenue</div>
+          <div class="check-text">Completed Client Intake Form</div>
+          <div class="check-sub">Signed and dated by provider and client or representative</div>
         </div>
       </div>
-      <div class="stats-grid" style="grid-template-columns:repeat(3,1fr)">
-        <div class="stat-card">
-          <div class="stat-val" id="b-checkins">0</div>
-          <div class="stat-label">Today's Check-ins</div>
-          <div class="stat-sub" id="b-of-total"></div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val" id="b-revenue" style="color:#16a34a">$0.00</div>
-          <div class="stat-label">Today's Revenue</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val" id="b-unbilled" style="color:#ea580c">0</div>
-          <div class="stat-label">Unbilled Days</div>
-        </div>
-      </div>
-      <div class="billing-tabs">
-        <button class="billing-tab active" onclick="switchBillingTab('attendance')">Daily Attendance</button>
-        <button class="billing-tab" onclick="switchBillingTab('invoices')">Invoices</button>
-        <button class="billing-tab" onclick="switchBillingTab('claims')">Insurance Claims</button>
-      </div>
-      <div id="billing-attendance-panel">
-        <div class="card">
-          <div class="card-header"><div class="card-title" id="billing-date-label">Today's Attendance</div></div>
-          <div id="attendance-list"></div>
-        </div>
-      </div>
-      <div id="billing-invoices-panel" style="display:none">
-        <div class="card"><div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><h3>Invoice Management</h3><p>Create and send private pay invoices.<br>Check in participants first to generate invoices.</p></div></div>
-      </div>
-      <div id="billing-claims-panel" style="display:none">
-        <div class="card"><div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h3>Insurance Claims Tracker</h3><p>Track Medicaid HCBS, long-term care, and VA claim status.<br>Coming in next update.</p></div></div>
-      </div>
-    </div>
-
-    <!-- STAFF -->
-    <div class="page" id="page-staff">
-      <div class="page-header">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
         <div>
-          <div class="page-title">Staff Management</div>
-          <div class="page-sub" id="staff-count">0 staff members</div>
+          <div class="check-text">Signed Client Service Agreement</div>
+          <div class="check-sub">Original signed copy in file, copy provided to client</div>
         </div>
-        <button class="btn-action" onclick="openModal('add-staff')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Add Staff Member
-        </button>
       </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">All Staff</div></div>
-        <div id="staff-list"></div>
-      </div>
-    </div>
-
-    <!-- INCIDENTS -->
-    <div class="page" id="page-incidents">
-      <div class="page-header">
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
         <div>
-          <div class="page-title">Incident Reports</div>
-          <div class="page-sub" id="incident-count">0 reports</div>
-        </div>
-        <button class="btn-action" style="background:#ea580c" onclick="openModal('add-incident')">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          File Report
-        </button>
-      </div>
-      <div class="card">
-        <div class="card-header"><div class="card-title">All Incident Reports</div></div>
-        <div id="incidents-list"></div>
-      </div>
-    </div>
-
-    <!-- SETTINGS -->
-    <div class="page" id="page-settings">
-      <div class="page-header"><div class="page-title">Settings</div></div>
-      <div class="card" style="padding:0;overflow:hidden;max-width:640px">
-        <div style="padding:20px 24px;background:#f9f9f9;border-bottom:1px solid var(--border)">
-          <div style="font-size:13px;font-weight:600;color:var(--dark);margin-bottom:2px">Center Information</div>
-          <div style="font-size:12px;color:var(--gray)">Camille Comfort Care Services, LLC</div>
-        </div>
-        <div id="settings-rows"></div>
-      </div>
-    </div>
-
-  </div><!-- /main -->
-</div><!-- /app -->
-
-<!-- ADD PARTICIPANT MODAL -->
-<div class="modal-overlay" id="modal-add-participant">
-  <div class="modal">
-    <div class="modal-head"><h3>Add New Participant</h3><button class="modal-close" onclick="closeModal('add-participant')">×</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-field full"><label>Full Name *</label><input id="np-name" placeholder="Jane Smith"></div>
-        <div class="form-field"><label>Date of Birth *</label><input type="date" id="np-dob"></div>
-        <div class="form-field"><label>Admission Date *</label><input type="date" id="np-admit"></div>
-        <div class="form-field"><label>Phone</label><input type="tel" id="np-phone" placeholder="(555) 000-0000"></div>
-        <div class="form-field"><label>Email</label><input type="email" id="np-email" placeholder="jane@email.com"></div>
-        <div class="form-field"><label>Payment Type *</label>
-          <select id="np-pay"><option>Private Pay</option><option>Medicaid-HCBS</option><option>Long-Term Care Insurance</option><option>VA Benefits</option><option>Other</option></select>
-        </div>
-        <div class="form-field"><label>Daily Rate ($)</label><input type="number" id="np-rate" value="70"></div>
-        <div class="form-field"><label>Primary Diagnosis</label><input id="np-diag" placeholder="e.g. CHF, Dementia"></div>
-        <div class="form-field"><label>Emergency Contact Name</label><input id="np-ec-name"></div>
-        <div class="form-field"><label>Emergency Contact Phone</label><input type="tel" id="np-ec-phone"></div>
-        <div class="form-field full">
-          <label>Scheduled Days</label>
-          <div class="days-row" id="new-days-row">
-            <button type="button" class="day-btn" data-day="Monday">Mon</button>
-            <button type="button" class="day-btn" data-day="Tuesday">Tue</button>
-            <button type="button" class="day-btn" data-day="Wednesday">Wed</button>
-            <button type="button" class="day-btn" data-day="Thursday">Thu</button>
-            <button type="button" class="day-btn" data-day="Friday">Fri</button>
-          </div>
-        </div>
-        <div class="form-field full" style="flex-direction:row;align-items:center;gap:10px">
-          <input type="checkbox" id="np-transport" style="width:16px;height:16px;accent-color:#f8586b">
-          <label style="text-transform:none;letter-spacing:0;font-size:13px;color:var(--dark)">Transportation required</label>
+          <div class="check-text">Proof of Medicaid Eligibility</div>
+          <div class="check-sub">Copy of Medicaid card or eligibility verification document</div>
         </div>
       </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal('add-participant')">Cancel</button>
-      <button class="btn-save" onclick="addParticipant()" id="save-participant-btn">Add Participant</button>
-    </div>
-  </div>
-</div>
-
-<!-- ADD STAFF MODAL -->
-<div class="modal-overlay" id="modal-add-staff">
-  <div class="modal">
-    <div class="modal-head"><h3>Add Staff Member</h3><button class="modal-close" onclick="closeModal('add-staff')">×</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-field full"><label>Full Name *</label><input id="ns-name"></div>
-        <div class="form-field full"><label>Role *</label>
-          <select id="ns-role"><option>Administrator</option><option>Registered Nurse (RN)</option><option>LPN</option><option>Direct Care Staff (CNA)</option><option>Activity Coordinator</option><option>Transportation</option><option>Other</option></select>
-        </div>
-        <div class="form-field"><label>Phone</label><input type="tel" id="ns-phone"></div>
-        <div class="form-field"><label>Email</label><input type="email" id="ns-email"></div>
-        <div class="form-field"><label>Hire Date</label><input type="date" id="ns-hire"></div>
-        <div class="form-field"><label>Credentials / License #</label><input id="ns-creds"></div>
-        <div class="form-field"><label>CPR Expiry Date</label><input type="date" id="ns-cpr"></div>
-        <div class="form-field"><label>Background Check Date</label><input type="date" id="ns-bg"></div>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal('add-staff')">Cancel</button>
-      <button class="btn-save" onclick="addStaff()" id="save-staff-btn">Add Staff Member</button>
-    </div>
-  </div>
-</div>
-
-<!-- ADD INCIDENT MODAL -->
-<div class="modal-overlay" id="modal-add-incident">
-  <div class="modal">
-    <div class="modal-head"><h3>File Incident Report</h3><button class="modal-close" onclick="closeModal('add-incident')">×</button></div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-field full"><label>Participant Name *</label><input id="ni-participant"></div>
-        <div class="form-field"><label>Incident Type *</label>
-          <select id="ni-type"><option>Fall</option><option>Medical Emergency</option><option>Behavioral Incident</option><option>Medication Error</option><option>Elopement</option><option>Injury</option><option>Property Damage</option><option>Other</option></select>
-        </div>
-        <div class="form-field"><label>Date *</label><input type="date" id="ni-date"></div>
-        <div class="form-field"><label>Time *</label><input type="time" id="ni-time"></div>
-        <div class="form-field full"><label>Description *</label><textarea id="ni-desc" placeholder="Describe what happened..."></textarea></div>
-        <div class="form-field full"><label>Actions Taken *</label><textarea id="ni-actions" placeholder="Immediate actions taken..."></textarea></div>
-        <div class="form-field full"><label>Reported By *</label><input id="ni-reporter"></div>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal('add-incident')">Cancel</button>
-      <button class="btn-save" style="background:#ea580c" onclick="addIncident()" id="save-incident-btn">Submit Report</button>
-    </div>
-  </div>
-</div>
-
-
-<!-- PARTICIPANT FORM MODAL -->
-<div class="modal-overlay" id="modal-participant-form">
-  <div class="modal" style="max-width:760px">
-    <div class="modal-head">
-      <h3 id="form-modal-title">Participant Form</h3>
-      <button class="modal-close" onclick="closeParticipantForm()">×</button>
-    </div>
-    <div class="modal-body" id="form-modal-body"></div>
-    <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeParticipantForm()">Cancel</button>
-      <button class="btn-outline" onclick="printCurrentParticipantForm()">Print</button>
-      <button class="btn-outline" onclick="downloadCurrentParticipantForm()">Download PDF</button>
-      <button class="btn-save" onclick="saveCurrentParticipantForm()" id="save-participant-form-btn">Save to Chart</button>
-    </div>
-  </div>
-</div>
-<div id="pdf-render-area" style="position:fixed;left:-9999px;top:0;width:760px;background:#fff"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-<!-- FIREBASE -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, getDocs, addDoc, doc, getDoc, updateDoc, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBzgYp7xZypJGh6hGm5oWM4_xAIFNLE6nU",
-  authDomain: "camille-adc-portal.firebaseapp.com",
-  projectId: "camille-adc-portal",
-  storageBucket: "camille-adc-portal.firebasestorage.app",
-  messagingSenderId: "429225262592",
-  appId: "1:429225262592:web:1b56a44a556e51d03462e5"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-const storage = getStorage(app);
-
-// ── STATE ─────────────────────────────────────────────────────────────────────
-let participants = [];
-let staff = [];
-let incidents = [];
-let attendance = [];
-let currentParticipant = null;
-let isEditing = false;
-let currentDays = [];
-let checkedDocs = [];
-
-const DAYS = ["Monday","Tuesday","Wednesday","Thursday","Friday"];
-const COMPLIANCE = [
-  {label:"Privilege license obtained",done:true},
-  {label:"Add first participant to portal",done:false},
-  {label:"Complete staff profiles",done:false},
-  {label:"HCBS orientation quiz submitted",done:false},
-  {label:"Medicaid provider enrollment submitted",done:false},
-  {label:"Background checks uploaded for all staff",done:false},
-  {label:"CPR certification on file",done:false},
-  {label:"Food service contract (May's Restaurant)",done:false},
-  {label:"Transportation contract (Safe Journey)",done:false},
-  {label:"Proof of insurance uploaded",done:false},
-];
-const DOC_CHECKLIST = [
-  {cat:"Admission",label:"Participant Intake Form"},
-  {cat:"Admission",label:"Health Assessment Form (physician signed)"},
-  {cat:"Admission",label:"Emergency Contact & Medical Release"},
-  {cat:"Admission",label:"HIPAA Authorization"},
-  {cat:"Admission",label:"Participant Rights Acknowledgment"},
-  {cat:"Admission",label:"Grievance Policy Acknowledgment"},
-  {cat:"Admission",label:"Photo Release Form"},
-  {cat:"Admission",label:"Admission Agreement / Service Contract"},
-  {cat:"Care",label:"Individualized Care Plan (signed)"},
-  {cat:"Care",label:"Physician Orders on File"},
-  {cat:"Care",label:"Current Medication List"},
-  {cat:"Insurance",label:"Insurance Card / Medicaid ID Copy"},
-  {cat:"Insurance",label:"Medicaid Authorization Letter"},
-  {cat:"Transportation",label:"Transportation Agreement (if applicable)"},
-];
-
-const MEDICAID_FILE_CHECKLIST = [
-  {cat:"Enrollment",label:"Proof of Medicaid Eligibility"},
-  {cat:"Enrollment",label:"Medicaid Case Manager Authorization"},
-  {cat:"Enrollment",label:"Medicaid ID Copy"},
-  {cat:"Medical",label:"Official DOM Individualized Service Plan (ISP)"},
-  {cat:"Medical",label:"Physician Statement or Medical Summary"},
-  {cat:"Medical",label:"Current Medication List"},
-  {cat:"Medical",label:"Baseline Vital Signs Record"},
-  {cat:"Consent",label:"HIPAA Privacy Notice Signed Acknowledgment"},
-  {cat:"Consent",label:"Consent for Emergency Medical Treatment"},
-  {cat:"Consent",label:"Release of Information Authorization"},
-  {cat:"Ongoing",label:"Daily Progress Notes"},
-  {cat:"Ongoing",label:"Monthly Attendance Log"},
-  {cat:"Ongoing",label:"Incident Reports if applicable"},
-  {cat:"Ongoing",label:"Annual Care Plan Review"},
-  {cat:"Ongoing",label:"Annual ISP Review"}
-];
-
-const PARTICIPANT_FORMS = {
-  intake: {
-    title: "Client Intake Form",
-    subtitle: "Creates and stores the client enrollment record.",
-    fields: [
-      ["providerName","Provider / Business Name","text"], ["intakeDate","Date of Intake","date"],
-      ["clientId","Client ID Number","text"], ["clientName","Client Full Name","text"],
-      ["dob","Date of Birth","date"], ["gender","Gender","text"],
-      ["phone","Phone Number","tel"], ["address","Home Address","text"],
-      ["livingSituation","Living Situation","text"], ["emergencyContactName","Emergency Contact Name","text"],
-      ["emergencyContactPhone","Emergency Contact Phone","tel"], ["relationship","Relationship","text"],
-      ["physicianName","Primary Care Physician","text"], ["physicianPhone","Physician Phone","tel"],
-      ["primaryDiagnosis","Primary Diagnosis / Conditions","textarea"], ["medications","Current Medications","textarea"],
-      ["allergies","Known Allergies","text"], ["mobilityStatus","Mobility Status","text"],
-      ["dietaryNeeds","Dietary Restrictions or Special Needs","textarea"], ["referredBy","Referred By","text"],
-      ["notes","Additional Notes","textarea"]
-    ]
-  },
-  agreement: {
-    title: "Client Service Agreement",
-    subtitle: "Formal agreement for private pay, insurance, or future Medicaid services.",
-    fields: [
-      ["providerName","Provider / Business Name","text"], ["agreementDate","Agreement Date","date"],
-      ["clientName","Client Full Name","text"], ["representativeName","Client Representative if applicable","text"],
-      ["serviceStartDate","Service Start Date","date"], ["serviceDays","Days of Service Per Week","text"],
-      ["serviceHours","Service Hours","text"], ["fundingSource","Primary Funding Source","text"],
-      ["rate","Rate / Billing Notes","text"], ["terminationNotice","Termination Notice","text"],
-      ["specialTerms","Special Terms","textarea"]
-    ]
-  },
-  carePlan: {
-    title: "Individualized Care Plan",
-    subtitle: "Editable care guidance that stays in the participant chart.",
-    fields: [
-      ["providerName","Provider / Business Name","text"], ["carePlanDate","Care Plan Date","date"],
-      ["clientName","Client Full Name","text"], ["clientId","Client ID Number","text"],
-      ["reviewDate","Care Plan Review Date","date"], ["preparedBy","Plan Prepared By","text"],
-      ["adlNeeds","ADL Needs","textarea"], ["cognitiveStatus","Cognitive Status","text"],
-      ["behavioralConsiderations","Behavioral Considerations","textarea"], ["primaryGoal","Primary Goal","textarea"],
-      ["servicesProvided","Services to Be Provided","textarea"], ["serviceSchedule","Frequency and Schedule of Services","textarea"],
-      ["vitalSignsFrequency","Vital Signs Monitoring Frequency","text"], ["medicationAdministration","Medication Administration","text"],
-      ["chronicConditionNotes","Chronic Condition Management Notes","textarea"], ["safetyRisks","Known Safety Risks","textarea"],
-      ["emergencyPlan","Emergency Action Plan","textarea"], ["dnrOnFile","DNR Order on File","text"],
-      ["hcpoaOnFile","Healthcare POA on File","text"]
-    ]
-  }
-};
-
-// ── AUTH ───────────────────────────────────────────────────────────────────────
-onAuthStateChanged(auth, user => {
-  if (user) {
-    document.getElementById('auth-screen').classList.remove('active');
-    document.getElementById('app-shell').classList.add('active');
-    const email = user.email || '';
-    document.getElementById('user-email').textContent = email;
-    document.getElementById('user-avatar').textContent = email.charAt(0).toUpperCase();
-    loadAll();
-  } else {
-    document.getElementById('auth-screen').classList.add('active');
-    document.getElementById('app-shell').classList.remove('active');
-  }
-});
-
-window.doLogin = async () => {
-  const email = document.getElementById('login-email').value;
-  const pass = document.getElementById('login-password').value;
-  const btn = document.getElementById('login-btn');
-  const err = document.getElementById('auth-error');
-  btn.disabled = true; btn.textContent = 'Signing in...';
-  err.classList.remove('show');
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e) {
-    err.textContent = 'Invalid email or password. Please try again.';
-    err.classList.add('show');
-    btn.disabled = false; btn.textContent = 'Sign In to Portal';
-  }
-};
-
-window.doSignOut = () => signOut(auth);
-
-// Allow enter key on login
-document.getElementById('login-password').addEventListener('keydown', e => {
-  if(e.key === 'Enter') window.doLogin();
-});
-
-// ── DATA LOADING ──────────────────────────────────────────────────────────────
-async function loadAll() {
-  const today = new Date().toISOString().split('T')[0];
-  const [pSnap, sSnap, iSnap, aSnap] = await Promise.all([
-    getDocs(collection(db,'participants')),
-    getDocs(collection(db,'staff')),
-    getDocs(collection(db,'incidents')),
-    getDocs(query(collection(db,'attendance'), where('date','==',today)))
-  ]);
-  participants = pSnap.docs.map(d=>({id:d.id,...d.data()}));
-  staff = sSnap.docs.map(d=>({id:d.id,...d.data()}));
-  incidents = iSnap.docs.map(d=>({id:d.id,...d.data()}));
-  attendance = aSnap.docs.map(d=>({id:d.id,...d.data()}));
-  renderDashboard();
-  renderParticipants();
-  renderStaff();
-  renderIncidents();
-  renderAttendance();
-  renderSettings();
-}
-
-// ── NAVIGATION ────────────────────────────────────────────────────────────────
-window.nav = (page) => {
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById('page-'+page).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n=>{
-    if(n.textContent.trim().toLowerCase().startsWith(page==='billing'?'bill':page==='incidents'?'incident':page==='participants'?'parti':page==='settings'?'set':page==='staff'?'staff':'dash'))
-      n.classList.add('active');
-  });
-};
-
-// ── DASHBOARD ─────────────────────────────────────────────────────────────────
-function renderDashboard() {
-  const today = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-  document.getElementById('dash-date').textContent = today + ' · Camille\'s Adult Day Care';
-  const active = participants.filter(p=>p.status==='Active').length;
-  document.getElementById('stat-participants').textContent = active;
-  const todayCheckins = attendance.filter(a=>a.present).length;
-  document.getElementById('stat-attendance').textContent = todayCheckins;
-  const revenue = attendance.filter(a=>a.present).reduce((s,a)=>s+(a.dailyRate||0),0);
-  document.getElementById('stat-revenue').textContent = '$'+revenue.toFixed(2);
-  const openInc = incidents.filter(i=>i.status==='Open').length;
-  document.getElementById('stat-incidents').textContent = openInc;
-
-  // Compliance
-  const done = COMPLIANCE.filter(c=>c.done).length + (active > 0 ? 1 : 0);
-  const total = COMPLIANCE.length;
-  const pct = Math.round((done/total)*100);
-  document.getElementById('dash-pct').textContent = pct+'%';
-  document.getElementById('dash-progress').style.width = pct+'%';
-  const ci = document.getElementById('compliance-items');
-  ci.innerHTML = COMPLIANCE.map(c=>`
-    <div class="compliance-item">
-      <div class="compliance-check ${c.done||c.label.includes('Add first')&&active>0?'done':''}"></div>
-      <div class="compliance-label ${c.done?'done':''}">${c.label}</div>
-    </div>`).join('');
-}
-
-// ── PARTICIPANTS ───────────────────────────────────────────────────────────────
-function renderParticipants() {
-  const q = (document.getElementById('participant-search')||{}).value?.toLowerCase()||'';
-  const filtered = participants.filter(p=>p.name?.toLowerCase().includes(q));
-  document.getElementById('participant-count').textContent = participants.length + ' enrolled · Camille\'s ADC';
-  const el = document.getElementById('participants-list');
-  if(!filtered.length){
-    el.innerHTML = `<div class="empty"><div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h3>${q?'No results found':'No participants yet'}</h3><p>${q?'Try a different search term':'Add your first participant to get started'}</p>${!q?'<button class="btn-action" onclick="openModal(\'add-participant\')">Add Participant</button>':''}</div>`;
-    return;
-  }
-  el.innerHTML = filtered.map(p=>`
-    <div class="list-item" onclick="openProfile('${p.id}')">
-      <div class="item-left">
-        <div class="item-avatar" style="background:${avatarColor(p.name)}">${p.name?.charAt(0)||'?'}</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
         <div>
-          <div class="item-name">${p.name||'Unknown'}</div>
-          <div class="item-sub">${p.paymentType||'Unknown'} · $${p.dailyRate||0}/day${p.primaryDiagnosis?' · '+p.primaryDiagnosis:''}</div>
+          <div class="check-text">Medicaid Case Manager Authorization</div>
+          <div class="check-sub">Written authorization from Medicaid case manager approving ADC services</div>
         </div>
       </div>
-      <div class="item-right">
-        <span class="badge badge-${p.status==='Active'?'green':'gray'}">${p.status||'Unknown'}</span>
-        <button class="link-btn">View →</button>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Photo ID or Birth Certificate</div>
+          <div class="check-sub">Copy of government-issued photo ID or birth certificate</div>
+        </div>
       </div>
-    </div>`).join('');
-}
+    </div>
 
-window.addParticipant = async () => {
-  const name = document.getElementById('np-name').value.trim();
-  const dob = document.getElementById('np-dob').value;
-  const admit = document.getElementById('np-admit').value;
-  if(!name||!dob||!admit){alert('Please fill in required fields (Name, DOB, Admission Date)');return;}
-  const btn = document.getElementById('save-participant-btn');
-  btn.disabled = true; btn.textContent = 'Saving...';
-  const days = [...document.querySelectorAll('#new-days-row .day-btn.on')].map(b=>b.dataset.day);
-  await addDoc(collection(db,'participants'),{
-    name, dob, admissionDate:admit,
-    phone:document.getElementById('np-phone').value,
-    email:document.getElementById('np-email').value,
-    paymentType:document.getElementById('np-pay').value,
-    dailyRate:Number(document.getElementById('np-rate').value)||70,
-    primaryDiagnosis:document.getElementById('np-diag').value,
-    emergencyContactName:document.getElementById('np-ec-name').value,
-    emergencyContactPhone:document.getElementById('np-ec-phone').value,
-    scheduledDays:days,
-    transportationRequired:document.getElementById('np-transport').checked,
-    status:'Active', checkedDocs:[], createdAt:serverTimestamp()
-  });
-  closeModal('add-participant');
-  btn.disabled=false; btn.textContent='Add Participant';
-  // Reset form
-  ['np-name','np-dob','np-admit','np-phone','np-email','np-diag','np-ec-name','np-ec-phone'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('np-rate').value=70;
-  document.getElementById('np-transport').checked=false;
-  document.querySelectorAll('#new-days-row .day-btn').forEach(b=>b.classList.remove('on'));
-  await loadAll();
-};
+    <!-- MEDICAL DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Medical and Health Documents</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Completed Individualized Care Plan (ICP)</div>
+          <div class="check-sub">Signed by provider and client, reviewed annually</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Mississippi DOM Individualized Service Plan (ISP)</div>
+          <div class="check-sub">Official DOM form — required for Medicaid billing</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Physician's Statement or Medical Summary</div>
+          <div class="check-sub">Signed by primary care physician confirming diagnoses and functional limitations</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Current Medication List</div>
+          <div class="check-sub">All medications, dosages, and schedules — updated whenever changes occur</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Known Allergies Documentation</div>
+          <div class="check-sub">Written record of all known allergies including food and medication</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Baseline Vital Signs Record</div>
+          <div class="check-sub">Initial blood pressure, pulse, weight, and temperature recorded at intake</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">DNR Order (if applicable)</div>
+          <div class="check-sub">Copy of Do Not Resuscitate order if one exists</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Healthcare Power of Attorney (if applicable)</div>
+          <div class="check-sub">Copy of HCPOA document designating authorized decision maker</div>
+        </div>
+      </div>
+    </div>
 
-// ── PROFILE ───────────────────────────────────────────────────────────────────
-window.openProfile = async (id) => {
-  const snap = await getDoc(doc(db,'participants',id));
-  if(!snap.exists()) return;
-  currentParticipant = {id:snap.id,...snap.data()};
-  checkedDocs = currentParticipant.checkedDocs||[];
-  isEditing = false;
-  renderProfile();
-  nav('profile');
-};
+    <!-- CONSENT DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Consent and Authorization Documents</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">HIPAA Privacy Notice — Signed Acknowledgment</div>
+          <div class="check-sub">Client acknowledgment that they received the provider's HIPAA privacy notice</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Consent for Emergency Medical Treatment</div>
+          <div class="check-sub">Signed authorization allowing provider to call 911 and seek emergency care</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Consent for Photography and Participation in Activities</div>
+          <div class="check-sub">Written permission for photos used in facility records or promotional materials</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Transportation Consent (if applicable)</div>
+          <div class="check-sub">Signed consent for provider-arranged transportation to and from the facility</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Release of Information Authorization</div>
+          <div class="check-sub">Permission to share client information with Medicaid, physicians, and case managers</div>
+        </div>
+      </div>
+    </div>
 
-function renderProfile() {
-  const p = currentParticipant;
-  document.getElementById('profile-name').textContent = p.name;
-  document.getElementById('ph-name').textContent = p.name;
-  document.getElementById('ph-dob').textContent = p.dob||'—';
-  document.getElementById('ph-admit').textContent = p.admissionDate||'—';
-  document.getElementById('ph-pay').textContent = p.paymentType||'—';
-  document.getElementById('ph-rate').textContent = '$'+(p.dailyRate||0);
-  document.getElementById('profile-status-badge').innerHTML = `<span class="badge badge-${p.status==='Active'?'green':'gray'}">${p.status}</span>`;
+    <!-- ONGOING DOCS -->
+    <div class="check-group">
+      <div class="check-group-title">Ongoing Documentation (Maintained in File)</div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Daily Progress Notes</div>
+          <div class="check-sub">Completed for every day of service using the Mississippi DOM Standardized Progress Note form</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Monthly Attendance Log</div>
+          <div class="check-sub">Record of all days attended, absences, and reasons for absence</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Incident Reports (if any)</div>
+          <div class="check-sub">Any accidents, injuries, behavioral incidents, or unusual events documented on the DOM Reportable Incidents Form</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Annual Care Plan Review</div>
+          <div class="check-sub">Updated care plan signed annually or whenever there is a significant change in the client's condition</div>
+        </div>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)">
+        <div class="check-box"></div>
+        <div>
+          <div class="check-text">Annual ISP Review</div>
+          <div class="check-sub">Updated Mississippi DOM Individualized Service Plan reviewed and signed annually</div>
+        </div>
+      </div>
+    </div>
 
-  // Photo
-  const photoEl = document.getElementById('profile-photo-display');
-  if(p.photoUrl){
-    photoEl.innerHTML = `<img src="${p.photoUrl}" alt="${p.name}">`;
-  } else {
-    photoEl.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+    <button class="btn-secondary" onclick="resetChecklist()" style="margin-top:8px;">Reset Checklist</button>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Prepared for LaTonya Mark &nbsp;|&nbsp; Week 5 Resource &nbsp;|&nbsp; April 2026</p>
+</div>
+
+<script>
+  // TABS
+  function showTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    event.target.classList.add('active');
+    updateProgress();
   }
 
-  // Days
-  const daysEl = document.getElementById('ph-days');
-  daysEl.innerHTML = DAYS.map(d=>`<span class="day-pill ${p.scheduledDays?.includes(d)?'on':'off'}">${d.slice(0,3)}</span>`).join('')
-    + (p.transportationRequired?'<span class="day-pill on" style="background:#3b82f6;margin-left:8px">🚌 Transport</span>':'');
+  // AGREEMENT LIVE UPDATE
+  function updateAgreement() {
+    const provider = document.getElementById('sa-provider').value || 'Your Business Name';
+    const date = document.getElementById('sa-date').value ? formatDate(document.getElementById('sa-date').value) : '______________';
+    const client = document.getElementById('sa-client').value || 'Client Name';
+    const rep = document.getElementById('sa-rep').value || '______________';
+    const start = document.getElementById('sa-start').value ? formatDate(document.getElementById('sa-start').value) : '______________';
+    const days = document.getElementById('sa-days').value;
+    const hours = document.getElementById('sa-hours').value || '______________';
+    const funding = document.getElementById('sa-funding').value;
 
-  // Doc progress
-  const pct = Math.round((checkedDocs.length/DOC_CHECKLIST.length)*100);
-  document.getElementById('ph-doc-pct').textContent = pct+'%';
-  document.getElementById('ph-doc-count').textContent = checkedDocs.length+'/'+DOC_CHECKLIST.length+' docs';
-  document.getElementById('doc-progress-bar').style.width = pct+'%';
-
-  // Personal view
-  document.getElementById('personal-view').innerHTML = fieldDisplay([
-    {l:'Full Name',v:p.name},{l:'Date of Birth',v:p.dob},
-    {l:'Phone Number',v:p.phone},{l:'Email Address',v:p.email},
-    {l:'Admission Date',v:p.admissionDate},{l:'Status',v:p.status},
-    {l:'Notes',v:p.notes,full:true}
-  ]);
-  document.getElementById('care-view').innerHTML = fieldDisplay([
-    {l:'Primary Diagnosis',v:p.primaryDiagnosis},{l:'Secondary Diagnosis',v:p.secondaryDiagnosis},
-    {l:'Dietary Restrictions',v:p.dietaryRestrictions},{l:'Transportation Vendor',v:p.transportationVendor},
-    {l:'Transportation Required',v:p.transportationRequired?'Yes':'No'},
-    {l:'Scheduled Days',v:(p.scheduledDays||[]).join(', ')||'—'}
-  ]);
-  document.getElementById('emergency-view').innerHTML = fieldDisplay([
-    {l:'Emergency Contact Name',v:p.emergencyContactName},{l:'Emergency Contact Phone',v:p.emergencyContactPhone},
-    {l:'Relationship',v:p.emergencyContactRelation},{l:'Physician Name',v:p.physicianName},
-    {l:'Physician Phone',v:p.physicianPhone}
-  ]);
-  document.getElementById('billingtab-view').innerHTML = fieldDisplay([
-    {l:'Payment Type',v:p.paymentType},{l:'Daily Rate',v:'$'+(p.dailyRate||0)},
-    {l:'Medicaid ID',v:p.medicaidId},{l:'Insurance Provider',v:p.insuranceProvider},
-    {l:'Policy Number',v:p.insurancePolicyNumber},{l:'VA File Number',v:p.vaFileNumber}
-  ]);
-
-  // Doc checklist
-  const cats = [...new Set(DOC_CHECKLIST.map(d=>d.cat))];
-  document.getElementById('doc-checklist').innerHTML = cats.map(cat=>`
-    <div class="checklist-section">
-      <div class="checklist-section-title">${cat}</div>
-      ${DOC_CHECKLIST.filter(d=>d.cat===cat).map(d=>`
-        <div class="check-item ${checkedDocs.includes(d.label)?'checked':''}" onclick="toggleDoc('${d.label}','${p.id}')">
-          <div class="check-box"></div>
-          <div class="check-item-label">${d.label}</div>
-        </div>`).join('')}
-    </div>`).join('');
-
-  renderParticipantFormCards();
-  renderMedicaidChecklist();
-
-  // Edit mode fill
-  if(isEditing){
-    document.getElementById('e-name').value = p.name||'';
-    document.getElementById('e-dob').value = p.dob||'';
-    document.getElementById('e-phone').value = p.phone||'';
-    document.getElementById('e-email').value = p.email||'';
-    document.getElementById('e-admit').value = p.admissionDate||'';
-    document.getElementById('e-status').value = p.status||'Active';
-    document.getElementById('e-notes').value = p.notes||'';
-    document.getElementById('e-diag').value = p.primaryDiagnosis||'';
-    document.getElementById('e-diag2').value = p.secondaryDiagnosis||'';
-    document.getElementById('e-diet').value = p.dietaryRestrictions||'';
-    document.getElementById('e-transport-vendor').value = p.transportationVendor||'';
-    document.getElementById('e-transport').value = p.transportationRequired?'true':'false';
-    document.getElementById('e-ec-name').value = p.emergencyContactName||'';
-    document.getElementById('e-ec-phone').value = p.emergencyContactPhone||'';
-    document.getElementById('e-ec-rel').value = p.emergencyContactRelation||'';
-    document.getElementById('e-phys').value = p.physicianName||'';
-    document.getElementById('e-phys-phone').value = p.physicianPhone||'';
-    document.getElementById('e-pay-type').value = p.paymentType||'Private Pay';
-    document.getElementById('e-rate').value = p.dailyRate||70;
-    document.getElementById('e-medicaid').value = p.medicaidId||'';
-    document.getElementById('e-ins-provider').value = p.insuranceProvider||'';
-    document.getElementById('e-ins-policy').value = p.insurancePolicyNumber||'';
-    document.getElementById('e-va').value = p.vaFileNumber||'';
-    currentDays = [...(p.scheduledDays||[])];
-    renderEditDays();
+    document.getElementById('disp-date').textContent = date;
+    document.getElementById('disp-provider').textContent = provider;
+    document.getElementById('disp-client').textContent = client;
+    document.getElementById('disp-rep').textContent = rep;
+    document.getElementById('disp-start').textContent = start;
+    document.getElementById('disp-days').textContent = days;
+    document.getElementById('disp-hours').textContent = hours;
+    document.getElementById('disp-funding').textContent = funding;
+    document.getElementById('disp-provider-sig').textContent = provider;
+    document.getElementById('disp-client-sig').textContent = client;
   }
-  toggleEditDisplay();
-  renderParticipantForms();
-}
 
-function fieldDisplay(fields){
-  return fields.map(f=>`
-    <div class="field-display${f.full?' full':''}">
-      <label>${f.l}</label>
-      <div class="val${!f.v?' empty-val':''}">${f.v||'Not provided'}</div>
-    </div>`).join('');
-}
+  function formatDate(val) {
+    if (!val) return '______________';
+    const d = new Date(val + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
 
-window.toggleEdit = () => {
-  isEditing = !isEditing;
-  document.getElementById('edit-btn').textContent = isEditing ? '✕ Cancel' : '✏️ Edit Profile';
-  renderProfile();
-};
-window.cancelEdit = () => { isEditing = false; renderProfile(); };
+  // CHECKLIST TOGGLE
+  function toggleCheck(el) {
+    el.classList.toggle('checked');
+    if (el.querySelector('.check-box')) {
+      el.querySelector('.check-box').textContent = el.classList.contains('checked') ? '✓' : '';
+    }
+    updateProgress();
+  }
 
-function toggleEditDisplay(){
-  const show = isEditing;
-  ['personal','care','emergency','billingtab'].forEach(section=>{
-    const v = document.getElementById(section+'-view');
-    const e = document.getElementById(section+'-edit');
-    if(v) v.style.display = show?'none':'grid';
-    if(e) e.style.display = show?'grid':'none';
-  });
-  const bar = document.getElementById('save-bar');
-  if(bar) bar.style.display = show?'flex':'none';
-}
+  // PROGRESS
+  function updateProgress() {
+    const items = document.querySelectorAll('#tab-filechecklist .check-item');
+    const checked = document.querySelectorAll('#tab-filechecklist .check-item.checked').length;
+    const total = items.length;
+    document.getElementById('progress-fill').style.width = total ? (checked / total * 100) + '%' : '0%';
+    document.getElementById('progress-count').textContent = `${checked} of ${total}`;
+  }
 
-function renderEditDays(){
-  const el = document.getElementById('edit-days');
-  if(!el) return;
-  el.innerHTML = DAYS.map(d=>`
-    <button type="button" class="day-btn ${currentDays.includes(d)?'on':''}" onclick="toggleDay('${d}')">${d.slice(0,3)}</button>`).join('');
-}
-
-window.toggleDay = (day) => {
-  currentDays = currentDays.includes(day) ? currentDays.filter(d=>d!==day) : [...currentDays,day];
-  renderEditDays();
-};
-
-window.saveProfile = async () => {
-  const btn = document.getElementById('save-btn');
-  btn.disabled=true; btn.textContent='Saving...';
-  const updates = {
-    name:document.getElementById('e-name').value,
-    dob:document.getElementById('e-dob').value,
-    phone:document.getElementById('e-phone').value,
-    email:document.getElementById('e-email').value,
-    admissionDate:document.getElementById('e-admit').value,
-    status:document.getElementById('e-status').value,
-    notes:document.getElementById('e-notes').value,
-    primaryDiagnosis:document.getElementById('e-diag').value,
-    secondaryDiagnosis:document.getElementById('e-diag2').value,
-    dietaryRestrictions:document.getElementById('e-diet').value,
-    transportationVendor:document.getElementById('e-transport-vendor').value,
-    transportationRequired:document.getElementById('e-transport').value==='true',
-    scheduledDays:currentDays,
-    emergencyContactName:document.getElementById('e-ec-name').value,
-    emergencyContactPhone:document.getElementById('e-ec-phone').value,
-    emergencyContactRelation:document.getElementById('e-ec-rel').value,
-    physicianName:document.getElementById('e-phys').value,
-    physicianPhone:document.getElementById('e-phys-phone').value,
-    paymentType:document.getElementById('e-pay-type').value,
-    dailyRate:Number(document.getElementById('e-rate').value),
-    medicaidId:document.getElementById('e-medicaid').value,
-    insuranceProvider:document.getElementById('e-ins-provider').value,
-    insurancePolicyNumber:document.getElementById('e-ins-policy').value,
-    vaFileNumber:document.getElementById('e-va').value,
-  };
-  await updateDoc(doc(db,'participants',currentParticipant.id), updates);
-  currentParticipant = {...currentParticipant,...updates};
-  const idx = participants.findIndex(p=>p.id===currentParticipant.id);
-  if(idx>=0) participants[idx]=currentParticipant;
-  isEditing=false;
-  btn.disabled=false; btn.textContent='Save Changes';
-  renderProfile();
-};
-
-// ── PHOTO UPLOAD ──────────────────────────────────────────────────────────────
-window.uploadPhoto = async (event) => {
-  const file = event.target.files[0];
-
-  if (!file || !currentParticipant) return;
-
-  try {
-    const filePath = `participants/${currentParticipant.id}/${Date.now()}-${file.name}`;
-
-    const storageRef = ref(storage, filePath);
-
-    await uploadBytes(storageRef, file, {
-      contentType: file.type
+  // CLEAR FORMS
+  function clearTab(tabId) {
+    document.querySelectorAll('#' + tabId + ' input, #' + tabId + ' textarea, #' + tabId + ' select').forEach(el => {
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
     });
+    if (tabId === 'tab-agreement') updateAgreement();
+  }
 
-    const downloadURL = await getDownloadURL(storageRef);
+  function clearAgreement() {
+    clearTab('tab-agreement');
+    updateAgreement();
+  }
 
-    await updateDoc(doc(db, "participants", currentParticipant.id), {
-      photoUrl: downloadURL
+  function resetChecklist() {
+    document.querySelectorAll('#tab-filechecklist .check-item').forEach(el => {
+      el.classList.remove('checked');
+      if (el.querySelector('.check-box')) el.querySelector('.check-box').textContent = '';
     });
-
-    currentParticipant.photoUrl = downloadURL;
-
-    renderProfile();
-
-    alert("Photo uploaded successfully!");
-
-  } catch (error) {
-    console.error("UPLOAD ERROR:", error);
-    alert(error.message);
-  }
-};
-
-// ── PARTICIPANT FORMS + PDFS ────────────────────────────────────────────────
-let activeParticipantFormType = null;
-
-function getParticipantDocs(){
-  return currentParticipant?.documents || {};
-}
-
-function todayISO(){
-  return new Date().toISOString().split('T')[0];
-}
-
-function prefillParticipantForm(type){
-  const p = currentParticipant || {};
-  const existing = getParticipantDocs()[type]?.data || {};
-  const base = {
-    providerName: 'Camille Comfort Care Services, LLC',
-    clientName: p.name || '',
-    clientId: p.clientId || p.id || '',
-    dob: p.dob || '',
-    phone: p.phone || '',
-    emergencyContactName: p.emergencyContactName || '',
-    emergencyContactPhone: p.emergencyContactPhone || '',
-    relationship: p.emergencyContactRelation || '',
-    physicianName: p.physicianName || '',
-    physicianPhone: p.physicianPhone || '',
-    primaryDiagnosis: p.primaryDiagnosis || '',
-    allergies: p.allergies || '',
-    dietaryNeeds: p.dietaryRestrictions || '',
-    fundingSource: p.paymentType || 'Private Pay',
-    rate: p.dailyRate ? ('$' + p.dailyRate + ' per day') : '',
-    carePlanDate: todayISO(),
-    intakeDate: todayISO(),
-    agreementDate: todayISO(),
-    serviceStartDate: p.admissionDate || todayISO(),
-    serviceDays: (p.scheduledDays || []).join(', '),
-    serviceHours: 'As scheduled',
-    reviewDate: '',
-    preparedBy: '',
-    medicationAdministration: '',
-    vitalSignsFrequency: '',
-    dnrOnFile: '',
-    hcpoaOnFile: ''
-  };
-  return {...base, ...existing};
-}
-
-function renderParticipantFormCards(){
-  const el = document.getElementById('participant-form-cards');
-  if(!el || !currentParticipant) return;
-  const docs = getParticipantDocs();
-  el.innerHTML = Object.entries(PARTICIPANT_FORMS).map(([type, cfg]) => {
-    const saved = docs[type];
-    const meta = saved?.updatedAtText ? `Saved ${saved.updatedAtText}` : 'Not saved yet';
-    const link = saved?.downloadURL ? `<a class="doc-mini-btn" href="${saved.downloadURL}" target="_blank">Open PDF</a>` : '';
-    return `
-      <div class="doc-card">
-        <div class="doc-card-title">${cfg.title}</div>
-        <div class="doc-card-sub">${cfg.subtitle}</div>
-        <div class="doc-meta">${meta}</div>
-        <div class="doc-actions">
-          <button class="doc-mini-btn primary" onclick="openParticipantForm('${type}')">Open</button>
-          <button class="doc-mini-btn" onclick="downloadParticipantForm('${type}')">Download</button>
-          <button class="doc-mini-btn" onclick="printParticipantForm('${type}')">Print</button>
-          ${link}
-        </div>
-      </div>`;
-  }).join('');
-}
-
-window.openParticipantForm = (type) => {
-  activeParticipantFormType = type;
-  const cfg = PARTICIPANT_FORMS[type];
-  const data = prefillParticipantForm(type);
-  document.getElementById('form-modal-title').textContent = cfg.title;
-  document.getElementById('form-modal-body').innerHTML = `
-    <div class="form-grid">
-      ${cfg.fields.map(([key, label, inputType]) => {
-        const value = data[key] || '';
-        if(inputType === 'textarea'){
-          return `<div class="form-field full"><label>${label}</label><textarea id="pf-${key}">${escapeTextarea(value)}</textarea></div>`;
-        }
-        return `<div class="form-field"><label>${label}</label><input type="${inputType}" id="pf-${key}" value="${escapeAttr(value)}"></div>`;
-      }).join('')}
-    </div>`;
-  document.getElementById('modal-participant-form').classList.add('open');
-};
-
-window.closeParticipantForm = () => {
-  document.getElementById('modal-participant-form').classList.remove('open');
-  activeParticipantFormType = null;
-};
-
-function collectParticipantFormData(type){
-  const cfg = PARTICIPANT_FORMS[type];
-  const data = {};
-  cfg.fields.forEach(([key]) => {
-    const input = document.getElementById('pf-' + key);
-    data[key] = input ? input.value : '';
-  });
-  return data;
-}
-
-window.saveCurrentParticipantForm = async () => {
-  if(!activeParticipantFormType || !currentParticipant) return;
-  const btn = document.getElementById('save-participant-form-btn');
-  const oldText = btn.textContent;
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
-  try {
-    const data = collectParticipantFormData(activeParticipantFormType);
-    await saveParticipantDocument(activeParticipantFormType, data, true);
-    closeParticipantForm();
-    renderParticipantFormCards();
-    alert('Saved to participant chart.');
-  } catch(e){
-    console.error(e);
-    alert(e.message || 'Form save failed.');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = oldText;
-  }
-};
-
-async function saveParticipantDocument(type, data, uploadPdf){
-  const cfg = PARTICIPANT_FORMS[type];
-  const updatedAtText = new Date().toLocaleString();
-  let downloadURL = getParticipantDocs()[type]?.downloadURL || '';
-  if(uploadPdf){
-    const pdfBlob = await generateParticipantPdfBlob(type, data);
-    const storageRef = ref(storage, `participantDocs/${currentParticipant.id}/${type}-${Date.now()}.pdf`);
-    await uploadBytes(storageRef, pdfBlob, {contentType:'application/pdf'});
-    downloadURL = await getDownloadURL(storageRef);
-  }
-  const documents = {
-    ...getParticipantDocs(),
-    [type]: {type, title: cfg.title, data, downloadURL, updatedAtText}
-  };
-  await updateDoc(doc(db,'participants',currentParticipant.id), {documents});
-  currentParticipant.documents = documents;
-  const idx = participants.findIndex(p=>p.id===currentParticipant.id);
-  if(idx >= 0) participants[idx] = {...participants[idx], documents};
-}
-
-function renderParticipantPdfHtml(type, data){
-  const cfg = PARTICIPANT_FORMS[type];
-  const rows = cfg.fields.map(([key,label]) => `
-    <div>
-      <div class="print-label">${escapeHtml(label)}</div>
-      <div class="print-field">${escapeHtml(data[key] || '')}</div>
-    </div>`).join('');
-  return `
-    <div class="print-doc">
-      <h1>${escapeHtml(cfg.title)}</h1>
-      <p><strong>Participant:</strong> ${escapeHtml(currentParticipant?.name || data.clientName || '')}</p>
-      <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
-      <h2>Document Details</h2>
-      <div class="print-row">${rows}</div>
-      <div class="sig-print">
-        <div>Provider Signature / Date</div>
-        <div>Client or Representative Signature / Date</div>
-      </div>
-    </div>`;
-}
-
-async function generateParticipantPdfBlob(type, data){
-  const area = document.getElementById('pdf-render-area');
-  area.innerHTML = renderParticipantPdfHtml(type, data);
-  const opt = {margin:0.35, filename:`${type}.pdf`, image:{type:'jpeg', quality:0.98}, html2canvas:{scale:2}, jsPDF:{unit:'in', format:'letter', orientation:'portrait'}};
-  const worker = html2pdf().set(opt).from(area.firstElementChild).toPdf();
-  const pdf = await worker.get('pdf');
-  return pdf.output('blob');
-}
-
-window.downloadParticipantForm = async (type) => {
-  const data = prefillParticipantForm(type);
-  await downloadParticipantPdf(type, data);
-};
-
-window.downloadCurrentParticipantForm = async () => {
-  if(!activeParticipantFormType) return;
-  await downloadParticipantPdf(activeParticipantFormType, collectParticipantFormData(activeParticipantFormType));
-};
-
-async function downloadParticipantPdf(type, data){
-  const area = document.getElementById('pdf-render-area');
-  area.innerHTML = renderParticipantPdfHtml(type, data);
-  html2pdf().set({margin:0.35, filename:`${(currentParticipant?.name || 'participant').replace(/\s+/g,'-')}-${type}.pdf`, image:{type:'jpeg', quality:0.98}, html2canvas:{scale:2}, jsPDF:{unit:'in', format:'letter', orientation:'portrait'}}).from(area.firstElementChild).save();
-}
-
-window.printParticipantForm = (type) => {
-  const data = prefillParticipantForm(type);
-  printParticipantDocument(type, data);
-};
-
-window.printCurrentParticipantForm = () => {
-  if(!activeParticipantFormType) return;
-  printParticipantDocument(activeParticipantFormType, collectParticipantFormData(activeParticipantFormType));
-};
-
-function printParticipantDocument(type, data){
-  const w = window.open('', '_blank');
-  w.document.write(`<html><head><title>${PARTICIPANT_FORMS[type].title}</title><style>${document.querySelector('style').innerHTML}</style></head><body>${renderParticipantPdfHtml(type,data)}</body></html>`);
-  w.document.close();
-  setTimeout(() => { w.print(); }, 400);
-}
-
-function isMedicaidParticipant(){
-  const p = currentParticipant || {};
-  return (p.paymentType || '').toLowerCase().includes('medicaid') || !!p.medicaidId;
-}
-
-function renderMedicaidChecklist(){
-  const btn = document.getElementById('medicaid-tab-btn');
-  const panel = document.getElementById('panel-medicaid-docs');
-  if(!btn || !panel || !currentParticipant) return;
-  const show = isMedicaidParticipant();
-  btn.style.display = show ? '' : 'none';
-  if(!show){
-    if(panel.classList.contains('active')) switchTabByName('forms');
-    return;
-  }
-  const checked = currentParticipant.medicaidChecklist || [];
-  const pct = Math.round((checked.length / MEDICAID_FILE_CHECKLIST.length) * 100);
-  const bar = document.getElementById('medicaid-progress-bar');
-  if(bar) bar.style.width = pct + '%';
-  const cats = [...new Set(MEDICAID_FILE_CHECKLIST.map(d=>d.cat))];
-  document.getElementById('medicaid-checklist').innerHTML = cats.map(cat => `
-    <div class="checklist-section">
-      <div class="checklist-section-title">${cat}</div>
-      ${MEDICAID_FILE_CHECKLIST.filter(d=>d.cat===cat).map(d=>`
-        <div class="check-item ${checked.includes(d.label)?'checked':''}" onclick="toggleMedicaidDoc('${escapeJs(d.label)}')">
-          <div class="check-box"></div>
-          <div class="check-item-label">${d.label}</div>
-        </div>`).join('')}
-    </div>`).join('');
-}
-
-window.toggleMedicaidDoc = async (label) => {
-  if(!currentParticipant) return;
-  const current = currentParticipant.medicaidChecklist || [];
-  const medicaidChecklist = current.includes(label) ? current.filter(x => x !== label) : [...current, label];
-  await updateDoc(doc(db,'participants',currentParticipant.id), {medicaidChecklist});
-  currentParticipant.medicaidChecklist = medicaidChecklist;
-  renderMedicaidChecklist();
-};
-
-function switchTab(tabName){
-
-  // remove active class from tabs
-  document.querySelectorAll('.tab').forEach(tab=>{
-    tab.classList.remove('active');
-  });
-
-  // hide all panels
-  document.querySelectorAll('.tab-panel').forEach(panel=>{
-    panel.style.display = 'none';
-    panel.classList.remove('active');
-  });
-
-  // activate selected tab
-  const activeTab = [...document.querySelectorAll('.tab')]
-    .find(tab => tab.getAttribute('onclick')?.includes(tabName));
-
-  if(activeTab){
-    activeTab.classList.add('active');
+    updateProgress();
   }
 
-  // show selected panel
-  const activePanel = document.getElementById(`panel-${tabName}`);
-
-  if(activePanel){
-    activePanel.style.display = 'block';
-    activePanel.classList.add('active');
-  }
-}
-
-function escapeHtml(v){return String(v ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-function escapeAttr(v){return escapeHtml(v).replace(/`/g,'&#96;');}
-function escapeTextarea(v){return escapeHtml(v);}
-function escapeJs(v){return String(v).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
-
-// ── DOC CHECKLIST ─────────────────────────────────────────────────────────────
-window.toggleDoc = async (label, participantId) => {
-  checkedDocs = checkedDocs.includes(label)
-    ? checkedDocs.filter(d=>d!==label)
-    : [...checkedDocs, label];
-  await updateDoc(doc(db,'participants',participantId), {checkedDocs});
-  currentParticipant.checkedDocs = checkedDocs;
-  const pct = Math.round((checkedDocs.length/DOC_CHECKLIST.length)*100);
-  document.getElementById('ph-doc-pct').textContent = pct+'%';
-  document.getElementById('ph-doc-count').textContent = checkedDocs.length+'/'+DOC_CHECKLIST.length+' docs';
-  document.getElementById('doc-progress-bar').style.width = pct+'%';
-  // Re-render checklist
-  const el = document.querySelector('.check-item[onclick*="'+label.replace(/'/g,"\\'")+'"]');
-  if(el){ el.classList.toggle('checked', checkedDocs.includes(label)); }
-};
-
-// ── TABS ──────────────────────────────────────────────────────────────────────
-window.switchTab = (tab) => {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  const panel = document.getElementById('panel-'+tab);
-  if(panel) panel.classList.add('active');
-  const buttons = document.querySelectorAll('.tabs .tab');
-  buttons.forEach(btn => {
-    const attr = btn.getAttribute('onclick') || '';
-    if(attr.includes("'"+tab+"'")) btn.classList.add('active');
-  });
-};
-
-// ── BILLING ───────────────────────────────────────────────────────────────────
-function renderAttendance() {
-  const today = new Date().toISOString().split('T')[0];
-  const label = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
-  const dateEl = document.getElementById('billing-date-label');
-  if(dateEl) dateEl.textContent = label;
-  const checkins = attendance.filter(a=>a.present).length;
-  const revenue = attendance.filter(a=>a.present).reduce((s,a)=>s+(a.dailyRate||0),0);
-  const unbilled = attendance.filter(a=>!a.billed&&a.present).length;
-  const bCheckins = document.getElementById('b-checkins');
-  if(bCheckins){ bCheckins.textContent=checkins; }
-  const bRev = document.getElementById('b-revenue');
-  if(bRev) bRev.textContent='$'+revenue.toFixed(2);
-  const bUn = document.getElementById('b-unbilled');
-  if(bUn) bUn.textContent=unbilled;
-  const bOf = document.getElementById('b-of-total');
-  if(bOf) bOf.textContent='of '+participants.filter(p=>p.status==='Active').length+' active participants';
-  const el = document.getElementById('attendance-list');
-  if(!el) return;
-  const activeP = participants.filter(p=>p.status==='Active');
-  if(!activeP.length){
-    el.innerHTML=`<div class="empty"><h3>No participants yet</h3><p>Add participants first to track attendance</p><button class="btn-action" onclick="nav('participants')">Go to Participants</button></div>`;
-    return;
-  }
-  el.innerHTML = activeP.map(p=>{
-    const rec = attendance.find(a=>a.participantId===p.id);
-    return `<div class="attendance-item">
-      <div class="item-left">
-        <div class="item-avatar" style="background:${avatarColor(p.name)}">${p.name?.charAt(0)||'?'}</div>
-        <div>
-          <div class="item-name">${p.name}</div>
-          <div class="item-sub">${p.paymentType} · $${p.dailyRate}/day</div>
-        </div>
-      </div>
-      <div class="item-right">
-        ${rec ? `
-          <div class="checked-in-label">✓ In ${rec.checkInTime||''}${rec.checkOutTime?' · Out '+rec.checkOutTime:''}</div>
-          ${!rec.checkOutTime?`<button class="checkout-btn" onclick="checkOut('${rec.id}')">Check Out</button>`:''}
-        ` : `<button class="checkin-btn" onclick="checkIn('${p.id}','${p.name}',${p.dailyRate||70},'${p.paymentType}')">Check In</button>`}
-      </div>
-    </div>`;
-  }).join('');
-}
-  function renderParticipantForms(){
-
-  const wrap = document.getElementById('participant-form-cards');
-
-  if(!wrap || !currentParticipant) return;
-
-  wrap.innerHTML = '';
-
-  Object.entries(PARTICIPANT_FORMS).forEach(([key, form]) => {
-
-    const saved =
-      currentParticipant.forms &&
-      currentParticipant.forms[key];
-
-    wrap.innerHTML += `
-
-      <div class="doc-card">
-
-        <div class="doc-card-title">
-          ${form.title}
-        </div>
-
-        <div class="doc-card-sub">
-          ${form.subtitle}
-        </div>
-
-        <div class="doc-meta">
-          ${
-            saved
-            ? 'Saved to participant chart'
-            : 'Not completed yet'
-          }
-        </div>
-
-        <div class="doc-actions">
-
-          <button
-            class="doc-mini-btn primary"
-            onclick="openParticipantForm('${key}')"
-          >
-            ${saved ? 'Edit Form' : 'Complete Form'}
-          </button>
-
-          ${
-            saved
-            ? `
-              <button
-                class="doc-mini-btn"
-                onclick="downloadParticipantFormPDF('${key}')"
-              >
-                Download PDF
-              </button>
-            `
-            : ''
-          }
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-}
-  window.openParticipantForm = (formKey) => {
-
-  const form = PARTICIPANT_FORMS[formKey];
-
-  if(!form) return;
-
-  document.getElementById('form-modal-title').textContent =
-    form.title;
-
-  const existing =
-    currentParticipant.forms &&
-    currentParticipant.forms[formKey]
-      ? currentParticipant.forms[formKey]
-      : {};
-
-  let html = '<div class="form-grid">';
-
-  form.fields.forEach(field => {
-
-    const [id,label,type] = field;
-
-    if(type === 'textarea'){
-
-      html += `
-        <div class="form-field full">
-          <label>${label}</label>
-          <textarea id="pf-${id}">${existing[id] || ''}</textarea>
-        </div>
-      `;
-
-    } else {
-
-      html += `
-        <div class="form-field">
-          <label>${label}</label>
-          <input
-            type="${type}"
-            id="pf-${id}"
-            value="${existing[id] || ''}"
-          >
-        </div>
-      `;
-
-    }
-
-  });
-
-  html += '</div>';
-
-  document.getElementById('form-modal-body').innerHTML = html;
-
-  window.currentFormKey = formKey;
-
-  document
-    .getElementById('modal-participant-form')
-    .classList.add('open');
-
-};
-  window.closeParticipantForm = () => {
-
-  document
-    .getElementById('modal-participant-form')
-    .classList.remove('open');
-
-};
-  window.saveCurrentParticipantForm = async () => {
-
-  if(!window.currentFormKey) return;
-
-  const form =
-    PARTICIPANT_FORMS[window.currentFormKey];
-
-  const data = {};
-
-  form.fields.forEach(field => {
-
-    const [id] = field;
-
-    data[id] =
-      document.getElementById(`pf-${id}`).value;
-
-  });
-
-  if(!currentParticipant.forms)
-    currentParticipant.forms = {};
-
-  currentParticipant.forms[window.currentFormKey] =
-    data;
-
-  await updateDoc(
-    doc(db,'participants',currentParticipant.id),
-    {
-      forms: currentParticipant.forms
-    }
-  );
-
-  renderParticipantForms();
-
-  closeParticipantForm();
-
-  alert('Form saved to participant chart.');
-
-};
-
-window.checkIn = async (participantId, participantName, dailyRate, paymentType) => {
-  const today = new Date().toISOString().split('T')[0];
-  const time = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  const docRef = await addDoc(collection(db,'attendance'),{
-    participantId, participantName, date:today,
-    present:true, checkInTime:time, billed:false,
-    dailyRate:Number(dailyRate), paymentType, createdAt:serverTimestamp()
-  });
-  attendance.push({id:docRef.id,participantId,participantName,date:today,present:true,checkInTime:time,billed:false,dailyRate:Number(dailyRate),paymentType});
-  renderAttendance();
-  renderDashboard();
-};
-
-window.checkOut = async (recordId) => {
-  const time = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-  await updateDoc(doc(db,'attendance',recordId),{checkOutTime:time});
-  attendance = attendance.map(a=>a.id===recordId?{...a,checkOutTime:time}:a);
-  renderAttendance();
-};
-
-window.switchBillingTab = (tab) => {
-  document.querySelectorAll('.billing-tab').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('billing-attendance-panel').style.display = tab==='attendance'?'block':'none';
-  document.getElementById('billing-invoices-panel').style.display = tab==='invoices'?'block':'none';
-  document.getElementById('billing-claims-panel').style.display = tab==='claims'?'block':'none';
-};
-
-// ── STAFF ─────────────────────────────────────────────────────────────────────
-function renderStaff() {
-  document.getElementById('staff-count').textContent = staff.length+' staff members · 1:6 ratio target';
-  const el = document.getElementById('staff-list');
-  if(!staff.length){
-    el.innerHTML=`<div class="empty"><h3>No staff added yet</h3><p>Add your team members to track credentials</p></div>`;
-    return;
-  }
-  el.innerHTML = staff.map(s=>{
-    const exp = s.cprExpiry && new Date(s.cprExpiry) <= new Date(Date.now()+30*86400000);
-    return `<div class="list-item">
-      <div class="item-left">
-        <div class="item-avatar" style="background:#374151">${s.name?.charAt(0)||'?'}</div>
-        <div>
-          <div class="item-name">${s.name}</div>
-          <div class="item-sub">${s.role}</div>
-        </div>
-      </div>
-      <div class="item-right">
-        ${exp?`<span class="badge badge-orange">CPR Expiring</span>`:''}
-        <span class="badge badge-${s.status==='Active'?'green':'gray'}">${s.status||'Active'}</span>
-      </div>
-    </div>`;
-  }).join('');
-}
-  function renderParticipantForms(){
-
-  const wrap = document.getElementById('participant-form-cards');
-
-  if(!wrap || !currentParticipant) return;
-
-  wrap.innerHTML = '';
-
-  Object.entries(PARTICIPANT_FORMS).forEach(([key, form]) => {
-
-    const saved =
-      currentParticipant.forms &&
-      currentParticipant.forms[key];
-
-    wrap.innerHTML += `
-
-      <div class="doc-card">
-
-        <div class="doc-card-title">
-          ${form.title}
-        </div>
-
-        <div class="doc-card-sub">
-          ${form.subtitle}
-        </div>
-
-        <div class="doc-meta">
-          ${
-            saved
-            ? 'Saved to participant chart'
-            : 'Not completed yet'
-          }
-        </div>
-
-        <div class="doc-actions">
-
-          <button
-            class="doc-mini-btn primary"
-            onclick="openParticipantForm('${key}')"
-          >
-            ${saved ? 'Edit Form' : 'Complete Form'}
-          </button>
-
-        </div>
-
-      </div>
-
-    `;
-
-  });
-
-}
-  window.openParticipantForm = (formKey) => {
-
-  const form = PARTICIPANT_FORMS[formKey];
-
-  if(!form) return;
-
-  document.getElementById('form-modal-title').textContent =
-    form.title;
-
-  const existing =
-    currentParticipant.forms &&
-    currentParticipant.forms[formKey]
-      ? currentParticipant.forms[formKey]
-      : {};
-
-  let html = '<div class="form-grid">';
-
-  form.fields.forEach(field => {
-
-    const [id,label,type] = field;
-
-    if(type === 'textarea'){
-
-      html += `
-        <div class="form-field full">
-          <label>${label}</label>
-          <textarea id="pf-${id}">${existing[id] || ''}</textarea>
-        </div>
-      `;
-
-    } else {
-
-      html += `
-        <div class="form-field">
-          <label>${label}</label>
-          <input
-            type="${type}"
-            id="pf-${id}"
-            value="${existing[id] || ''}"
-          >
-        </div>
-      `;
-
-    }
-
-  });
-
-  html += '</div>';
-
-  document.getElementById('form-modal-body').innerHTML = html;
-
-  window.currentFormKey = formKey;
-
-  document
-    .getElementById('modal-participant-form')
-    .classList.add('open');
-
-};
-  window.saveCurrentParticipantForm = async () => {
-
-  if(!window.currentFormKey) return;
-
-  const form =
-    PARTICIPANT_FORMS[window.currentFormKey];
-
-  const data = {};
-
-  form.fields.forEach(field => {
-
-    const [id] = field;
-
-    data[id] =
-      document.getElementById(`pf-${id}`).value;
-
-  });
-
-  if(!currentParticipant.forms)
-    currentParticipant.forms = {};
-
-  currentParticipant.forms[window.currentFormKey] =
-    data;
-
-  await updateDoc(
-    doc(db,'participants',currentParticipant.id),
-    {
-      forms: currentParticipant.forms
-    }
-  );
-
-  renderParticipantForms();
-
-  document
-    .getElementById('modal-participant-form')
-    .classList.remove('open');
-
-  alert('Form saved to participant chart.');
-
-};
-
-window.addStaff = async () => {
-  const name = document.getElementById('ns-name').value.trim();
-  if(!name){alert('Please enter a name');return;}
-  const btn = document.getElementById('save-staff-btn');
-  btn.disabled=true; btn.textContent='Saving...';
-  await addDoc(collection(db,'staff'),{
-    name, role:document.getElementById('ns-role').value,
-    phone:document.getElementById('ns-phone').value,
-    email:document.getElementById('ns-email').value,
-    hireDate:document.getElementById('ns-hire').value,
-    credentials:document.getElementById('ns-creds').value,
-    cprExpiry:document.getElementById('ns-cpr').value,
-    backgroundCheckDate:document.getElementById('ns-bg').value,
-    status:'Active', createdAt:serverTimestamp()
-  });
-  closeModal('add-staff');
-  btn.disabled=false; btn.textContent='Add Staff Member';
-  ['ns-name','ns-phone','ns-email','ns-hire','ns-creds','ns-cpr','ns-bg'].forEach(id=>document.getElementById(id).value='');
-  await loadAll();
-};
-
-// ── INCIDENTS ──────────────────────────────────────────────────────────────────
-function renderIncidents() {
-  document.getElementById('incident-count').textContent = incidents.filter(i=>i.status==='Open').length+' open · '+incidents.length+' total';
-  const el = document.getElementById('incidents-list');
-  if(!incidents.length){
-    el.innerHTML=`<div class="empty"><h3>No incident reports</h3><p>File a report if an incident occurs</p></div>`;
-    return;
-  }
-  const typeColor = t => t==='Fall'||t==='Medical Emergency'?'badge-pink':t==='Medication Error'?'badge-orange':'badge-gray';
-  el.innerHTML = [...incidents].sort((a,b)=>b.date?.localeCompare(a.date)).map(i=>`
-    <div class="list-item">
-      <div class="item-left">
-        <div class="item-avatar" style="background:#ea580c">${i.participantName?.charAt(0)||'?'}</div>
-        <div>
-          <div class="item-name">${i.participantName}</div>
-          <div class="item-sub">${i.date} at ${i.time} · By ${i.reportedBy}</div>
-        </div>
-      </div>
-      <div class="item-right">
-        <span class="badge ${typeColor(i.incidentType)}">${i.incidentType}</span>
-        <span class="badge badge-${i.status==='Open'?'orange':'green'}">${i.status}</span>
-      </div>
-    </div>`).join('');
-}
-
-window.addIncident = async () => {
-  const participant = document.getElementById('ni-participant').value.trim();
-  const desc = document.getElementById('ni-desc').value.trim();
-  const actions = document.getElementById('ni-actions').value.trim();
-  const reporter = document.getElementById('ni-reporter').value.trim();
-  if(!participant||!desc||!actions||!reporter){alert('Please fill in all required fields');return;}
-  const btn = document.getElementById('save-incident-btn');
-  btn.disabled=true; btn.textContent='Submitting...';
-  await addDoc(collection(db,'incidents'),{
-    participantName:participant,
-    incidentType:document.getElementById('ni-type').value,
-    date:document.getElementById('ni-date').value||new Date().toISOString().split('T')[0],
-    time:document.getElementById('ni-time').value||new Date().toTimeString().slice(0,5),
-    description:desc, actionsTaken:actions, reportedBy:reporter,
-    status:'Open', createdAt:serverTimestamp()
-  });
-  closeModal('add-incident');
-  btn.disabled=false; btn.textContent='Submit Report';
-  ['ni-participant','ni-desc','ni-actions','ni-reporter'].forEach(id=>document.getElementById(id).value='');
-  await loadAll();
-};
-
-// ── SETTINGS ───────────────────────────────────────────────────────────────────
-function renderSettings() {
-  const rows = [
-    {l:'Legal Name',v:'Camille Comfort Care Services, LLC'},
-    {l:'DBA',v:"Camille's Adult Day Care"},
-    {l:'Owner',v:'LaTonya Mark, LPN'},
-    {l:'Address',v:'156 St. John Road, Tylertown, MS 39667'},
-    {l:'Program Type',v:'Mississippi HCBS Adult Day Care'},
-    {l:'State',v:'Mississippi'},
-  ];
-  document.getElementById('settings-rows').innerHTML = rows.map(r=>`
-    <div style="display:flex;justify-content:space-between;padding:14px 24px;border-top:1px solid var(--border)">
-      <span style="font-size:12px;color:var(--gray)">${r.l}</span>
-      <span style="font-size:13px;font-weight:500;color:var(--dark)">${r.v}</span>
-    </div>`).join('');
-}
-
-// ── MODAL ─────────────────────────────────────────────────────────────────────
-window.openModal = (id) => {
-  if(id==='add-incident'){
-    document.getElementById('ni-date').value = new Date().toISOString().split('T')[0];
-    document.getElementById('ni-time').value = new Date().toTimeString().slice(0,5);
-  }
-  document.getElementById('modal-'+id).classList.add('open');
-};
-window.closeModal = (id) => document.getElementById('modal-'+id).classList.remove('open');
-
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay=>{
-  overlay.addEventListener('click', e=>{if(e.target===overlay) overlay.classList.remove('open');});
-});
-
-// Day toggles in add participant modal
-document.querySelectorAll('#new-days-row .day-btn').forEach(btn=>{
-  btn.addEventListener('click', ()=>btn.classList.toggle('on'));
-});
-
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function avatarColor(name){
-  const colors=['#f8586b','#3b82f6','#8b5cf6','#059669','#d97706','#ec4899'];
-  return colors[(name?.charCodeAt(0)||0)%colors.length];
-}
-
-// Set today's date in dashboard
-document.getElementById('dash-date').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+' · Camille\'s Adult Day Care';
-function downloadForm(type){
-
-  const forms = {
-
-    intake: `
-CLIENT INTAKE FORM
-
-Client Name:
-DOB:
-Phone:
-Emergency Contact:
-Admission Date:
-Insurance:
-`,
-
-    serviceAgreement: `
-CLIENT SERVICE AGREEMENT
-
-Services Provided:
-Payment Terms:
-Attendance Policy:
-Transportation:
-`,
-
-    carePlan: `
-INDIVIDUALIZED CARE PLAN
-
-Diagnosis:
-Goals:
-Assistance Required:
-Medications:
-Diet:
-`,
-
-    checklist: `
-CLIENT FILE CHECKLIST
-
-☐ Intake Form
-☐ Insurance Card
-☐ Service Agreement
-☐ Care Plan
-☐ Medicaid Credentials
-☐ Physician Orders
-`
-  };
-
-  const blob = new Blob(
-    [forms[type]],
-    { type:'text/plain' }
-  );
-
-  const a = document.createElement('a');
-
-  a.href = URL.createObjectURL(blob);
-
-  a.download = `${type}.txt`;
-
-  a.click();
-}
+  // INIT
+  updateProgress();
 </script>
+
 </body>
 </html>
