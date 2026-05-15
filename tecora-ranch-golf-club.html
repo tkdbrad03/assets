@@ -3,434 +3,844 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tecora Ranch Golf Club - Master Plan & Prospectus</title>
+    <title>Tecora Ranch Golf Club</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #1b4332;
-            --secondary: #2d6a4f;
-            --accent: #d4af37;
-            --dark: #222222;
-            --light: #f8f9fa;
-            --border: #e2e8f0;
-        }
-        
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: #f1f5f9;
-            margin: 0;
-            padding: 0;
+            --green-deep: #0f2d1a;
+            --green-mid: #1b4332;
+            --green-light: #2d6a4f;
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --cream: #f5f0e8;
+            --white: #ffffff;
+            --text: #1a1a1a;
+            --muted: #6b6b6b;
+            --border: rgba(201,168,76,0.25);
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-        }
+```
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        header {
-            text-align: center;
-            border-bottom: 3px double var(--primary);
-            padding-bottom: 20px;
-            margin-bottom: 40px;
-        }
+    html { scroll-behavior: smooth; }
 
-        header h1 {
-            color: var(--primary);
-            font-size: 2.5rem;
-            margin: 0 0 10px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    body {
+        font-family: 'Lato', sans-serif;
+        background: var(--green-deep);
+        color: var(--cream);
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+    }
 
-        header h2 {
-            color: var(--secondary);
-            font-size: 1.2rem;
-            font-weight: normal;
-            margin: 0;
-        }
+    /* ── HERO ── */
+    .hero {
+        position: relative;
+        height: 100svh;
+        min-height: 560px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding-bottom: 48px;
+    }
 
-        .meta-info {
-            font-style: italic;
-            color: #666;
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
+    .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: url('https://assets.complitrst.com/Untitled_design_-_1.png') center/cover no-repeat;
+        transform: scale(1.04);
+        animation: heroZoom 18s ease-in-out infinite alternate;
+    }
 
-        h3 {
-            color: var(--primary);
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 5px;
-            margin-top: 35px;
-            font-size: 1.4rem;
-        }
+    @keyframes heroZoom {
+        from { transform: scale(1.04); }
+        to   { transform: scale(1.12); }
+    }
 
-        h4 {
-            color: var(--secondary);
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(10,25,15,0.35) 0%,
+            rgba(10,25,15,0.1) 40%,
+            rgba(10,25,15,0.7) 75%,
+            rgba(10,25,15,0.95) 100%
+        );
+    }
 
-        p {
-            margin: 0 0 15px 0;
-            text-align: justify;
-        }
+    .hero-content {
+        position: relative;
+        text-align: center;
+        padding: 0 20px;
+        max-width: 600px;
+    }
 
-        ul {
-            margin: 0 0 20px 0;
-            padding-left: 20px;
-        }
+    .hero-eyebrow {
+        font-size: 0.7rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 14px;
+        font-weight: 700;
+    }
 
-        li {
-            margin-bottom: 8px;
-        }
+    .hero-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2.2rem, 8vw, 4rem);
+        font-weight: 700;
+        line-height: 1.1;
+        color: var(--white);
+        margin-bottom: 10px;
+    }
 
-        .highlight-box {
-            background-color: var(--light);
-            border-left: 4px solid var(--accent);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 4px 4px 0;
-        }
+    .hero-title em {
+        font-style: italic;
+        color: var(--gold-light);
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 25px 0;
-            font-size: 0.95rem;
-        }
+    .hero-subtitle {
+        font-size: 0.85rem;
+        letter-spacing: 0.1em;
+        color: rgba(245,240,232,0.7);
+        font-weight: 300;
+        margin-bottom: 28px;
+    }
 
-        th {
-            background-color: var(--primary);
-            color: white;
-            text-align: left;
-            padding: 12px;
-            font-weight: 600;
-        }
+    .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--gold);
+        color: var(--green-deep);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        padding: 14px 28px;
+        border-radius: 2px;
+        text-decoration: none;
+        transition: background 0.2s, transform 0.2s;
+    }
 
-        td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border);
-        }
+    .hero-cta:active { transform: scale(0.97); }
+    .hero-cta:hover { background: var(--gold-light); }
 
-        tr:nth-child(even) {
-            background-color: #f8fafc;
-        }
+    .hero-scroll {
+        position: absolute;
+        bottom: 14px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        opacity: 0.5;
+        animation: bounce 2s infinite;
+    }
 
-        .signature-area {
-            margin-top: 40px;
-            display: flex;
-            justify-content: space-between;
-        }
+    .hero-scroll span { font-size: 0.6rem; letter-spacing: 0.15em; color: var(--gold); }
+    .hero-scroll svg { width: 16px; height: 16px; color: var(--gold); }
 
-        .sig-block {
-            width: 45%;
-            border-top: 1px solid var(--dark);
-            margin-top: 60px;
-            padding-top: 10px;
-            font-size: 0.9rem;
-        }
+    @keyframes bounce {
+        0%,100% { transform: translateX(-50%) translateY(0); }
+        50%      { transform: translateX(-50%) translateY(5px); }
+    }
 
-        .nav-tabs {
-            display: flex;
-            background: var(--primary);
-            padding: 5px;
-            border-radius: 6px;
-            margin-bottom: 30px;
-            overflow-x: auto;
-        }
+    /* ── SECTION WRAPPER ── */
+    .section {
+        padding: 64px 20px;
+        max-width: 720px;
+        margin: 0 auto;
+    }
 
-        .tab-btn {
-            color: white;
-            background: transparent;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            border-radius: 4px;
-            white-space: nowrap;
-            transition: background 0.2s;
-        }
+    .section-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
 
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--accent);
-            color: var(--primary);
-        }
+    .section-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(1.6rem, 5vw, 2.4rem);
+        line-height: 1.2;
+        color: var(--white);
+        margin-bottom: 20px;
+    }
 
-        .tab-content {
-            display: none;
-        }
+    .section-title em { font-style: italic; color: var(--gold-light); }
 
-        .tab-content.active {
-            display: block;
-        }
+    .section-body {
+        font-size: 0.95rem;
+        color: rgba(245,240,232,0.8);
+        font-weight: 300;
+    }
 
-        @media print {
-            body { background: white; }
-            .container { box-shadow: none; margin: 0; padding: 0; max-width: 100%; }
-            .nav-tabs { display: none; }
-            .tab-content { display: block !important; page-break-after: always; }
-            .tab-content:last-child { page-break-after: avoid; }
-        }
-    </style>
+    .divider {
+        width: 48px;
+        height: 2px;
+        background: var(--gold);
+        margin: 20px 0;
+    }
+
+    /* ── PHOTO GRID ── */
+    .photo-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3px;
+        background: var(--green-deep);
+    }
+
+    .photo-grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3px;
+    }
+
+    .photo-item {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 16/9;
+    }
+
+    .photo-item.tall { aspect-ratio: 4/3; }
+
+    .photo-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+
+    .photo-item:active img { transform: scale(1.03); }
+
+    .photo-caption {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        background: linear-gradient(transparent, rgba(10,25,15,0.85));
+        padding: 20px 14px 10px;
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--gold-light);
+        font-weight: 700;
+    }
+
+    /* ── STAT GRID ── */
+    .stat-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 28px 0;
+    }
+
+    .stat-cell {
+        background: rgba(27,67,50,0.4);
+        padding: 20px 16px;
+        text-align: center;
+    }
+
+    .stat-num {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.9rem;
+        font-weight: 700;
+        color: var(--gold);
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.65rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(245,240,232,0.6);
+        margin-top: 4px;
+    }
+
+    /* ── NAV TABS ── */
+    .tab-nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--green-deep);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .tab-nav::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+        flex-shrink: 0;
+        padding: 14px 18px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(245,240,232,0.5);
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid transparent;
+        cursor: pointer;
+        transition: color 0.2s, border-color 0.2s;
+        white-space: nowrap;
+        font-family: 'Lato', sans-serif;
+    }
+
+    .tab-btn.active {
+        color: var(--gold);
+        border-bottom-color: var(--gold);
+    }
+
+    /* ── TAB PANELS ── */
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── PHASE CARDS ── */
+    .phase-list { display: flex; flex-direction: column; gap: 2px; margin: 24px 0; }
+
+    .phase-card {
+        background: rgba(27,67,50,0.35);
+        border-left: 3px solid var(--gold);
+        padding: 20px 18px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .phase-num {
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 700;
+        margin-bottom: 4px;
+    }
+
+    .phase-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.1rem;
+        color: var(--white);
+        margin-bottom: 6px;
+    }
+
+    .phase-body {
+        font-size: 0.85rem;
+        color: rgba(245,240,232,0.7);
+        font-weight: 300;
+        margin-bottom: 10px;
+    }
+
+    .phase-yield {
+        display: inline-block;
+        background: rgba(201,168,76,0.15);
+        border: 1px solid rgba(201,168,76,0.4);
+        color: var(--gold-light);
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 4px 12px;
+        border-radius: 2px;
+    }
+
+    /* ── REVENUE TABLE ── */
+    .rev-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+        margin: 24px 0;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+
+    .rev-table th {
+        background: var(--green-mid);
+        color: var(--gold);
+        padding: 10px 12px;
+        text-align: left;
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .rev-table td {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(201,168,76,0.12);
+        color: rgba(245,240,232,0.8);
+    }
+
+    .rev-table tr:nth-child(even) td { background: rgba(27,67,50,0.25); }
+    .rev-table tfoot td {
+        background: rgba(27,67,50,0.6);
+        color: var(--gold-light);
+        font-weight: 700;
+        border-top: 1px solid var(--gold);
+    }
+
+    /* ── HIGHLIGHT BOX ── */
+    .highlight {
+        background: rgba(27,67,50,0.4);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 20px;
+        margin: 16px 0;
+    }
+
+    .highlight strong { color: var(--gold-light); }
+
+    .highlight p { font-size: 0.9rem; color: rgba(245,240,232,0.8); }
+
+    /* ── LOI ── */
+    .loi-box {
+        background: rgba(245,240,232,0.04);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 24px 20px;
+        font-size: 0.9rem;
+        color: rgba(245,240,232,0.8);
+    }
+
+    .loi-box p { margin-bottom: 14px; }
+    .loi-box ul { margin: 12px 0 12px 18px; }
+    .loi-box li { margin-bottom: 6px; }
+    .loi-meta { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+    .loi-meta-row { display: flex; gap: 8px; font-size: 0.82rem; }
+    .loi-meta-row strong { color: var(--gold); min-width: 60px; }
+
+    /* ── SIGNATURE ── */
+    .sig-area {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        margin-top: 36px;
+    }
+
+    .sig-block {
+        border-top: 1px solid rgba(201,168,76,0.4);
+        padding-top: 10px;
+        font-size: 0.8rem;
+        color: rgba(245,240,232,0.6);
+    }
+
+    /* ── REGULATORY LIST ── */
+    .reg-item { margin-bottom: 28px; }
+    .reg-heading {
+        font-family: 'Playfair Display', serif;
+        font-size: 1rem;
+        color: var(--gold-light);
+        margin-bottom: 8px;
+    }
+    .reg-body { font-size: 0.875rem; color: rgba(245,240,232,0.75); }
+    .reg-list { margin: 10px 0 0 18px; }
+    .reg-list li { margin-bottom: 6px; font-size: 0.85rem; color: rgba(245,240,232,0.7); }
+
+    /* ── PITCH Q&A ── */
+    .qa-item {
+        border-bottom: 1px solid var(--border);
+        padding: 20px 0;
+    }
+
+    .qa-q {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--gold-light);
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+
+    .qa-a {
+        font-size: 0.87rem;
+        color: rgba(245,240,232,0.8);
+        font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+        text-align: center;
+        padding: 40px 20px 60px;
+        font-size: 0.72rem;
+        color: rgba(245,240,232,0.3);
+        letter-spacing: 0.08em;
+        border-top: 1px solid var(--border);
+    }
+
+    .footer strong { color: var(--gold); display: block; margin-bottom: 6px; font-size: 0.9rem; font-family: 'Playfair Display', serif; }
+
+    /* ── TOTAL BAR ── */
+    .total-bar {
+        background: var(--green-mid);
+        border: 1px solid var(--gold);
+        border-radius: 4px;
+        padding: 18px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 8px;
+    }
+
+    .total-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,232,0.7); }
+    .total-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); font-weight: 700; }
+
+    /* ── RESPONSIVE ── */
+    @media (min-width: 600px) {
+        .sig-area { flex-direction: row; }
+        .sig-block { flex: 1; }
+        .photo-grid { grid-template-columns: 1fr 1fr; }
+        .photo-item { aspect-ratio: 4/3; }
+        .photo-item.wide { grid-column: span 2; aspect-ratio: 16/7; }
+    }
+
+    @media (min-width: 768px) {
+        .section { padding: 80px 40px; }
+        .photo-grid { grid-template-columns: repeat(3, 1fr); }
+        .photo-item.wide { grid-column: span 3; }
+    }
+
+    @media print {
+        .tab-nav { display: none; }
+        .tab-panel { display: block !important; page-break-after: always; }
+    }
+</style>
+```
+
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>Tecora Ranch Golf Club</h1>
-        <h2>Comprehensive Business Memorandum & Project Prospectus</h2>
-        <div class="meta-info">Location: Blacksburg, Cherokee County, SC &bull; Asset Footprint: 59.01 Acres</div>
-    </header>
+<!-- HERO -->
 
-    <nav class="nav-tabs">
-        <button class="tab-btn active" onclick="openTab(event, 'summary')">1. Executive Summary</button>
-        <button class="tab-btn" onclick="openTab(event, 'loi')">2. Letter of Intent</button>
-        <button class="tab-btn" onclick="openTab(event, 'agreement')">3. Subscription Agreement</button>
-        <button class="tab-btn" onclick="openTab(event, 'regulatory')">4. Regulatory Framework</button>
-        <button class="tab-btn" onclick="openTab(event, 'pitch')">5. Pitch Cheat Sheet</button>
+<section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">Blacksburg · Cherokee County, SC · 59.01 Acres</div>
+        <h1 class="hero-title">Tecora Ranch<br><em>Golf Club</em></h1>
+        <p class="hero-subtitle">Business Memorandum &amp; Project Prospectus</p>
+        <a href="#prospectus" class="hero-cta">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+            View Prospectus
+        </a>
+    </div>
+    <div class="hero-scroll">
+        <span>Scroll</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+</section>
+
+<!-- PHOTO MOSAIC -->
+
+<div class="photo-grid">
+    <div class="photo-item wide tall">
+        <img src="https://assets.complitrst.com/Untitled_design_-_2.png" alt="Aerial view of Tecora Ranch Golf Club layout" loading="lazy">
+        <div class="photo-caption">Aerial Overview · 25-Acre Play Zone</div>
+    </div>
+    <div class="photo-item">
+        <img src="https://assets.complitrst.com/Untitled_design_-_3.png" alt="Hole 7 alongside Kings Creek" loading="lazy">
+        <div class="photo-caption">Hole 7 · Kings Creek</div>
+    </div>
+    <div class="photo-item">
+        <img src="https://assets.complitrst.com/photo-output.jpeg" alt="Clubhouse and first green" loading="lazy">
+        <div class="photo-caption">Clubhouse Hub · First Green</div>
+    </div>
+</div>
+
+<!-- OVERVIEW STATS -->
+
+<section class="section" id="overview">
+    <div class="section-label">The Opportunity</div>
+    <h2 class="section-title">A Nature-First<br><em>Executive Course</em></h2>
+    <div class="divider"></div>
+    <p class="section-body">Engineered into the rolling slopes, established hardwood timber, and rich waterways of Cherokee County, SC — built debt-free through creative, non-dilutive capital monetization.</p>
+
+```
+<div class="stat-grid">
+    <div class="stat-cell">
+        <div class="stat-num">59</div>
+        <div class="stat-label">Total Acres</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num">$0</div>
+        <div class="stat-label">Bank Debt</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num">$355K</div>
+        <div class="stat-label">Starting Liquidity</div>
+    </div>
+    <div class="stat-cell">
+        <div class="stat-num">$526K</div>
+        <div class="stat-label">Year 5 Revenue</div>
+    </div>
+</div>
+```
+
+</section>
+
+<!-- TAB PROSPECTUS -->
+
+<div id="prospectus">
+    <nav class="tab-nav" role="tablist">
+        <button class="tab-btn active" onclick="openTab(event,'summary')" role="tab">Executive Summary</button>
+        <button class="tab-btn" onclick="openTab(event,'loi')" role="tab">Letter of Intent</button>
+        <button class="tab-btn" onclick="openTab(event,'agreement')" role="tab">Subscription</button>
+        <button class="tab-btn" onclick="openTab(event,'regulatory')" role="tab">Regulatory</button>
+        <button class="tab-btn" onclick="openTab(event,'pitch')" role="tab">Pitch Q&amp;A</button>
     </nav>
 
-    <!-- SECTION 1: EXECUTIVE SUMMARY -->
-    <div id="summary" class="tab-content active">
-        <h3>1. Executive Summary & Operational Projections</h3>
-        <p>Tecora Ranch Golf Club, LLC is a master-planned, low-impact 9-hole executive golf playground engineered directly into the natural rolling slopes, established hardwood timber, and rich waterways of Cherokee County, South Carolina. By pairing resource-focused design elements with creative, non-dilutive capital monetization, this project establishes a high-value recreational asset entirely free of traditional high-interest commercial bank debt.</p>
-        
-        <h4>Asset Structure & Zoning Split</h4>
-        <ul>
-            <li><strong>The Operations Zone (25.01 Acres):</strong> Comprises the flat western access panhandle off Hickory Hollow Road and the level northern plateau. This footprint encapsulates all primary infrastructure, parking, the 1.5-acre central irrigation pond, and the manicured playing corridors.</li>
-            <li><strong>The Conservation Zone (34.00 Acres):</strong> Encompasses the natural path of Jumping Branch, steep eastern ridges, and the primary riparian buffers protecting the Kings Creek southern boundary. This acreage is legally set aside for capital generation via conservation.</li>
-        </ul>
+```
+<!-- 1. EXECUTIVE SUMMARY -->
+<div id="summary" class="tab-panel active">
+    <section class="section">
+        <div class="section-label">Phase 1 – 4</div>
+        <h2 class="section-title">Zero-Debt<br><em>Financing Plan</em></h2>
+        <div class="divider"></div>
 
-        <h4>Phased Capitalization & Zero-Debt Financing Schedule</h4>
-        <table>
-            <thead>
-                <tr>
-                    <th>Development Phase</th>
-                    <th>Mechanism & Operational Execution</th>
-                    <th>Financial Impact / Yield</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Phase 1: Conservation Easement</strong></td>
-                    <td>Place the 34-acre Conservation Zone into a permanent easement with the Upstate Land Conservation Trust. Monetize the 25% transferable South Carolina State Tax Credits via a specialized regional broker at $0.75 on the dollar.</td>
-                    <td><strong>+$112,500 Cash</strong><br><small>(Net of legal/appraisal setups)</small></td>
-                </tr>
-                <tr>
-                    <td><strong>Phase 2: Timber Harvesting</strong></td>
-                    <td>Execute a silvicultural clear-cut limited explicitly to the 25 acres of designated fairway play tracks, shifting all heavy clearing labor costs entirely onto a commercial logging buyer.</td>
-                    <td><strong>+$32,500 Cash</strong><br><small>(Clears layout for free)</small></td>
-                </tr>
-                <tr>
-                    <td><strong>Phase 3: Dirt & Excavation Swap</strong></td>
-                    <td>Grant regional I-85 commercial contractors free soil extraction rights within the lower central valley to build a 1.5-acre engineered irrigation reservoir and rough-grade green/tee sites.</td>
-                    <td><strong>+$45,000 Savings</strong><br><small>(Zero out-of-pocket grading costs)</small></td>
-                </tr>
-                <tr>
-                    <td><strong>Phase 4: Founders' Syndicate</strong></td>
-                    <td>Admit exactly six (6) accredited local business owners or golf enthusiasts at a premium capital contribution stake of $35,000 per partner in exchange for a 5.0% equity share.</td>
-                    <td><strong>+$210,000 Cash</strong><br><small>(Working Capital Pool)</small></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="text-align:right; font-weight:bold;">TOTAL PROJECT STARTING LIQUIDITY:</td>
-                    <td style="background: #e2e8f0; font-weight:bold; color:var(--primary);">$355,000 Cash (0% Debt)</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="phase-list">
+            <div class="phase-card">
+                <div class="phase-num">Phase 01</div>
+                <div class="phase-title">Conservation Easement</div>
+                <p class="phase-body">Place 34 acres into permanent easement with the Upstate Land Conservation Trust. Monetize 25% SC State Tax Credits via broker at $0.75 on the dollar.</p>
+                <span class="phase-yield">+$112,500 Cash</span>
+            </div>
+            <div class="phase-card">
+                <div class="phase-num">Phase 02</div>
+                <div class="phase-title">Timber Harvesting</div>
+                <p class="phase-body">Silvicultural clear-cut limited to 25 fairway acres, shifting heavy clearing labor costs entirely onto a commercial logging buyer.</p>
+                <span class="phase-yield">+$32,500 Cash</span>
+            </div>
+            <div class="phase-card">
+                <div class="phase-num">Phase 03</div>
+                <div class="phase-title">Dirt &amp; Excavation Swap</div>
+                <p class="phase-body">Grant I-85 contractors free soil extraction rights to build a 1.5-acre engineered irrigation reservoir and rough-grade green/tee sites.</p>
+                <span class="phase-yield">+$45,000 Savings</span>
+            </div>
+            <div class="phase-card">
+                <div class="phase-num">Phase 04</div>
+                <div class="phase-title">Founders' Syndicate</div>
+                <p class="phase-body">Admit six accredited investors at $35,000 per partner for a 5.0% equity share and lifetime playing privileges.</p>
+                <span class="phase-yield">+$210,000 Cash</span>
+            </div>
+        </div>
 
-        <h4>5-Year Operational Revenue Models</h4>
-        <p>Operating expenses are kept down by utilizing push-up greens made from native soils, entirely grass-based bunkers, and automated lake pump setups. Transitioning to a semi-private, pay-to-play model in Year 2 yields the following financial targets:</p>
-        <table>
-            <thead>
-                <tr>
-                    <th>Revenue Stream</th>
-                    <th>Year 1 (Grow-In)</th>
-                    <th>Year 2 (Opening)</th>
-                    <th>Year 3</th>
-                    <th>Year 4</th>
-                    <th>Year 5</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Public Green Fees ($35/round)</td>
-                    <td>$0</td>
-                    <td>$147,000</td>
-                    <td>$189,000</td>
-                    <td>$210,000</td>
-                    <td>$231,000</td>
-                </tr>
-                <tr>
-                    <td>Cart Rentals ($15/player)</td>
-                    <td>$0</td>
-                    <td>$63,000</td>
-                    <td>$81,000</td>
-                    <td>$90,000</td>
-                    <td>$99,000</td>
-                </tr>
-                <tr>
-                    <td>Annual Memberships ($1,200/yr)</td>
-                    <td>$0</td>
-                    <td>$60,000</td>
-                    <td>$96,000</td>
-                    <td>$120,000</td>
-                    <td>$144,000</td>
-                </tr>
-                <tr>
-                    <td>Driving Range & Pro Shop</td>
-                    <td>$0</td>
-                    <td>$28,000</td>
-                    <td>$39,000</td>
-                    <td>$45,000</td>
-                    <td>$52,000</td>
-                </tr>
-                <tr style="font-weight:bold; background:#e2e8f0;">
-                    <td>Gross Annual Revenue</td>
-                    <td>$0</td>
-                    <td>$298,000</td>
-                    <td>$405,000</td>
-                    <td>$465,000</td>
-                    <td>$526,000</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+        <div class="total-bar">
+            <span class="total-label">Total Starting Liquidity</span>
+            <span class="total-num">$355,000</span>
+        </div>
 
-    <!-- SECTION 2: LETTER OF INTENT -->
-    <div id="loi" class="tab-content">
-        <h3>2. Land Trust Letter of Intent (LOI)</h3>
-        <p><em>In order to initiate Phase 1, this document must be executed and submitted directly to the Upstate Land Conservation Trust or Upstate Forever to arrange an on-site evaluation.</em></p>
-        
-        <div class="highlight-box">
-            <p><strong>Date:</strong> May 15, 2026</p>
-            <p><strong>To:</strong> Upstate Land Conservation Trust / Upstate Forever &bull; Land Protection Division</p>
-            <p><strong>Subject:</strong> Preliminary Site Visit Request & Letter of Intent – 59.01 Acres (Cherokee County, SC)</p>
-            
+        <div style="margin-top:48px;">
+            <div class="section-label">Revenue Projections</div>
+            <h3 class="section-title" style="font-size:1.4rem;">5-Year<br><em>Financial Targets</em></h3>
+            <div class="divider"></div>
+
+            <div style="overflow-x:auto; -webkit-overflow-scrolling:touch;">
+            <table class="rev-table">
+                <thead>
+                    <tr>
+                        <th>Stream</th>
+                        <th>Yr 2</th>
+                        <th>Yr 3</th>
+                        <th>Yr 5</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Green Fees ($35)</td><td>$147K</td><td>$189K</td><td>$231K</td></tr>
+                    <tr><td>Cart Rentals ($15)</td><td>$63K</td><td>$81K</td><td>$99K</td></tr>
+                    <tr><td>Memberships ($1,200/yr)</td><td>$60K</td><td>$96K</td><td>$144K</td></tr>
+                    <tr><td>Range &amp; Pro Shop</td><td>$28K</td><td>$39K</td><td>$52K</td></tr>
+                </tbody>
+                <tfoot>
+                    <tr><td>Gross Revenue</td><td>$298K</td><td>$405K</td><td>$526K</td></tr>
+                </tfoot>
+            </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- 2. LOI -->
+<div id="loi" class="tab-panel">
+    <section class="section">
+        <div class="section-label">Phase 1 Trigger Document</div>
+        <h2 class="section-title">Land Trust<br><em>Letter of Intent</em></h2>
+        <div class="divider"></div>
+        <p class="section-body" style="margin-bottom:24px;">Execute and submit this letter directly to the Upstate Land Conservation Trust or Upstate Forever to arrange an on-site evaluation.</p>
+
+        <div class="loi-box">
+            <div class="loi-meta">
+                <div class="loi-meta-row"><strong>Date:</strong> May 15, 2026</div>
+                <div class="loi-meta-row"><strong>To:</strong> Upstate Land Conservation Trust / Upstate Forever · Land Protection Division</div>
+                <div class="loi-meta-row"><strong>Re:</strong> Preliminary Site Visit Request &amp; Letter of Intent – 59.01 Acres (Cherokee County, SC)</div>
+            </div>
+
             <p>To Whom It May Concern,</p>
             <p>I am writing to express my interest in exploring a conservation easement on my property located in Cherokee County, South Carolina. My goal is to permanently protect the significant natural, hydrological, and scenic features of the tract while carefully reserving a designated zone for low-impact outdoor recreation.</p>
-            
-            <p>Below are the specific details of the property for your initial review:</p>
+
+            <p><strong style="color:var(--gold-light);">Property Details:</strong></p>
             <ul>
                 <li><strong>Owner of Record:</strong> Tasha McCray</li>
                 <li><strong>Total Acreage:</strong> 59.01 Surveyed Acres</li>
                 <li><strong>Location:</strong> Blacksburg, SC (Access via Hickory Hollow Road)</li>
-                <li><strong>Key Ecological Features:</strong> Direct frontage along Kings Creek (forming the southeastern boundary) and the internal winding path of Jumping Branch. The tract also features mature forest canopy and variable topographic ridges.</li>
+                <li><strong>Key Ecological Features:</strong> Direct frontage along Kings Creek (southeastern boundary), the internal winding path of Jumping Branch, mature forest canopy, and variable topographic ridges.</li>
             </ul>
 
-            <p><strong>Proposed Conservation Framework:</strong><br>
-            I intend to structure a permanent conservation easement that places approximately 30 to 35 acres into strict protection—specifically focusing on the riparian buffers along Kings Creek and Jumping Branch, alongside the steep wooded ridges. Concurrently, I intend to explicitly reserve a "Build Zone" of approximately 25 acres along the flatter northern plateau and the flat western entrance neck off Hickory Hollow Road. This reserved area will be used exclusively for a low-impact, nature-first 9-hole executive golf layout and a modest clubhouse hub, designed to blend seamlessly with the surrounding protected landscape.</p>
-            
-            <p>I possess a current, certified professional boundary survey (completed February 2023 by CBS Surveying & Mapping, Inc.) which outlines all property lines, water boundaries, and adjacent tracts. I would like to invite a representative from your organization out to the property for a preliminary site visit to assess its conservation values and discuss how we can best align this recreational project with your land trust’s preservation goals.</p>
-            
-            <p>Thank you for your time, stewardship, and consideration of this project. I look forward to your response to coordinate a convenient date for a property walk.</p>
-            
-            <p>Sincerely,</p>
-            <p><strong>Tasha McCray</strong><br>Managing Member, Tecora Ranch Golf Club, LLC</p>
+            <p><strong style="color:var(--gold-light);">Proposed Conservation Framework:</strong></p>
+            <p>I intend to structure a permanent conservation easement placing approximately 30–35 acres into strict protection — specifically the riparian buffers along Kings Creek and Jumping Branch, alongside the steep wooded ridges. I explicitly reserve a "Build Zone" of approximately 25 acres along the flatter northern plateau and western entrance neck for a low-impact 9-hole executive golf layout and modest clubhouse hub.</p>
+
+            <p>I possess a current, certified professional boundary survey (completed February 2023 by CBS Surveying &amp; Mapping, Inc.) and would like to invite a representative for a preliminary site visit to assess conservation values and discuss alignment with your preservation goals.</p>
+
+            <p>Thank you for your consideration. I look forward to coordinating a property walk.</p>
+
+            <div class="sig-area">
+                <div class="sig-block">
+                    Subscriber Printed Name<br><br>
+                    <span style="display:block;border-top:1px solid rgba(201,168,76,0.4);padding-top:8px;margin-top:48px;">Tasha McCray<br>Managing Member, Tecora Ranch Golf Club, LLC</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+</div>
 
-    <!-- SECTION 3: SUBSCRIPTION AGREEMENT -->
-    <div id="agreement" class="tab-content">
-        <h3>3. Founding Member Subscription Agreement</h3>
-        <p><em>CONFIDENTIAL COMMERCIAL DOCUMENT — FOR ACCREDITED INVITEES ONLY</em></p>
-        <p>This Subscription Agreement (“Agreement”) is entered into by and between <strong>Tecora Ranch Golf Club, LLC</strong>, a South Carolina limited liability company (the “Company”), and the undersigned investor (the “Subscriber”).</p>
-        
-        <h4>1. Subscription & Capital Contribution</h4>
-        <p>The Subscriber hereby applies to purchase a Membership Interest in the Company and agrees to make a cash capital contribution to the Company's operational escrow account in the amount of <strong>$35,000.00 (Thirty-Five Thousand Dollars)</strong>. Upon acceptance, the Subscriber receives a <strong>5.0% (Five Percent) Class A Voting Membership Interest</strong> in the Company. The total syndicate size is strictly limited to six (6) individual subscriptions.</p>
-        
-        <h4>2. Allocation & Protective Use of Funds</h4>
-        <p>The Company covenants that 100% of the Subscriber’s capital contribution shall be held in a dedicated business escrow account, restricted entirely to high-end finishing phases: lake pump installation, premium turf seed/sprig procurement, and turf-maintenance machinery leasing. No part of this capital shall be used to service existing land debt or historical organizational expenses.</p>
-        
-        <h4>3. Founding Member Rights & Privileges</h4>
-        <ul>
-            <li><strong>Perpetual Dues Exemption:</strong> The Subscriber, their spouse, and direct linear descendants are completely exempt from all future monthly dues, annual assessments, or green fees at the facility.</li>
-            <li><strong>Priority Tee-Time Scheduling:</strong> Access to an exclusive 14-day advance booking window for weekend and holiday tee times, ahead of any public players.</li>
-            <li><strong>Corporate Governance:</strong> A 5.0% voting right on all major LLC decisions, including future expansions or potential commercial sale of the facility.</li>
-        </ul>
+<!-- 3. SUBSCRIPTION -->
+<div id="agreement" class="tab-panel">
+    <section class="section">
+        <div class="section-label">Confidential · Accredited Invitees Only</div>
+        <h2 class="section-title">Founding Member<br><em>Subscription Agreement</em></h2>
+        <div class="divider"></div>
 
-        <h4>4. Right of First Refusal & Transfer Restrictions</h4>
-        <p>The Subscriber may freely transfer their 5.0% equity stake and playing privileges to a direct linear descendant via gift or inheritance. If the Subscriber wishes to sell their equity interest to an outside party, the Company retains a Right of First Refusal (ROFR) to purchase back the stake at a price verified by an independent business appraisal.</p>
+        <div class="highlight">
+            <p><strong>Capital Contribution:</strong> $35,000.00 per subscriber</p>
+            <p><strong>Equity Received:</strong> 5.0% Class A Voting Membership Interest</p>
+            <p><strong>Syndicate Size:</strong> Strictly limited to six (6) individual subscriptions</p>
+        </div>
 
-        <div class="signature-area">
+        <div class="reg-item" style="margin-top:28px;">
+            <div class="reg-heading">1. Allocation &amp; Protective Use of Funds</div>
+            <p class="reg-body">100% of capital held in dedicated business escrow, restricted to high-end finishing phases: lake pump installation, premium turf seed/sprig procurement, and turf-maintenance machinery leasing. Zero use for historical expenses.</p>
+        </div>
+
+        <div class="reg-item">
+            <div class="reg-heading">2. Founding Member Rights &amp; Privileges</div>
+            <ul class="reg-list">
+                <li><strong style="color:var(--gold-light);">Perpetual Dues Exemption:</strong> Subscriber, spouse, and direct linear descendants are exempt from all future monthly dues, annual assessments, or green fees.</li>
+                <li><strong style="color:var(--gold-light);">Priority Tee-Time Scheduling:</strong> Exclusive 14-day advance booking window for weekend and holiday tee times ahead of all public players.</li>
+                <li><strong style="color:var(--gold-light);">Corporate Governance:</strong> 5.0% voting right on all major LLC decisions, including future expansions or commercial sale.</li>
+            </ul>
+        </div>
+
+        <div class="reg-item">
+            <div class="reg-heading">3. Right of First Refusal &amp; Transfer</div>
+            <p class="reg-body">Equity stake may be freely transferred to direct linear descendants via gift or inheritance. Sales to outside parties are subject to Company Right of First Refusal at a price verified by independent business appraisal.</p>
+        </div>
+
+        <div class="sig-area">
             <div class="sig-block">
                 Subscriber Printed Name<br><br>
-                ____________________________________<br><br>
-                Subscriber Signature &bull; Date
+                <span style="display:block;border-top:1px solid rgba(201,168,76,0.4);padding-top:8px;margin-top:48px;">Subscriber Signature · Date</span>
             </div>
             <div class="sig-block">
                 Accepted By: Tecora Ranch Golf Club, LLC<br><br>
-                ____________________________________<br><br>
-                Tasha McCray, Managing Member &bull; Date
+                <span style="display:block;border-top:1px solid rgba(201,168,76,0.4);padding-top:8px;margin-top:48px;">Tasha McCray, Managing Member · Date</span>
             </div>
         </div>
-    </div>
+    </section>
+</div>
 
-    <!-- SECTION 4: REGULATORY FRAMEWORK -->
-    <div id="regulatory" class="tab-content">
-        <h3>4. Regulatory & Environmental Compliance Appendix</h3>
-        <p>To establish site readiness for commercial backing (such as the USDA Business & Industry Loan program), the development path adheres to the following county and state regulatory standards:</p>
-        
-        <h4>1. Cherokee County Zoning Ordination</h4>
-        <p>The property will operate within the county municipal boundaries under the <strong>"Outdoor Recreation Facility, Commercial"</strong> land-use classification. Because the project layout preserves natural landscapes, it is processed via a Special Exception Permit through the Cherokee County Planning Commission. The submission package utilizes the 2023 CBS Surveying boundaries to establish safe boundary buffers from adjacent owners.</p>
+<!-- 4. REGULATORY -->
+<div id="regulatory" class="tab-panel">
+    <section class="section">
+        <div class="section-label">Compliance Appendix</div>
+        <h2 class="section-title">Regulatory &amp;<br><em>Environmental Framework</em></h2>
+        <div class="divider"></div>
 
-        <h4>2. South Carolina DES Stormwater & Land Disturbance Permitting</h4>
-        <p>Because the construction operations footprint exceeds 1 acre, the project requires active environmental discharge coverage under the South Carolina National Pollutant Discharge Elimination System (NPDES) guidelines:</p>
-        <ul>
-            <li><strong>Engineering C-SWPPP:</strong> A licensed South Carolina Professional Engineer will compile a site-specific Comprehensive Stormwater Pollution Prevention Plan detailing exactly how sediment barriers protect Jumping Branch and Kings Creek during rough-shaping.</li>
-            <li><strong>Digital ePermitting Submission:</strong> All construction specs and hydrological modeling are uploaded to the SCDES digital portal. Review cycles are typically processed within 40 to 70 calendar days.</li>
-            <li><strong>Pre-Construction Notification:</strong> Upon NPDES issuance, regional SCDES stormwater personnel are notified exactly seven days prior to breaking ground to execute a mandatory on-site startup inspection.</li>
-        </ul>
-
-        <h4>3. Clean Water Act Wetlands Compliance</h4>
-        <p>To avoid lengthy Individual Permit review cycles, the course architect will route play across natural high-ground zones, completely avoiding permanent wetland or stream modifications over 0.5 acres. This preserves eligibility for a streamlined <strong>Nationwide Permit 39 (Commercial Developments)</strong> via the U.S. Army Corps of Engineers.</p>
-    </div>
-
-    <!-- SECTION 5: PITCH CHEAT SHEET -->
-    <div id="pitch" class="tab-content">
-        <h3>5. Investor Presentation: Q&A Cheat Sheet</h3>
-        <p><em>Use these direct, facts-based defensive counter-points during the Founding Partner showcase to handle critical scrutiny from invitees.</em></p>
-        
-        <div class="highlight-box">
-            <p><strong>Q: "Golf courses cost millions to build. How can you build a 9-hole layout for just $355,000 in starting cash?"</strong><br>
-            <strong>A:</strong> "We are not building a traditional corporate course; we are building a minimalist, nature-first executive layout. Our 59.01 acres already has the perfect natural terrain, meaning we aren't paying millions to reshape the earth. By using a dirt exchange to get our 1.5-acre pond dug for free, selling our own timber to clear fairways, and building low-maintenance push-up greens from native soil, we cut traditional construction costs by over 70%."</p>
+        <div class="reg-item">
+            <div class="reg-heading">Cherokee County Zoning</div>
+            <p class="reg-body">Operates under "Outdoor Recreation Facility, Commercial" land-use classification via Special Exception Permit through the Cherokee County Planning Commission. The 2023 CBS Surveying boundaries establish safe buffer zones from adjacent owners.</p>
         </div>
 
-        <div class="highlight-box">
-            <p><strong>Q: "What happens if a major rainstorm washes out the course? Who pays for the repairs if we aren't paying monthly dues?"</strong><br>
-            <strong>A:</strong> "We have intentionally engineered risk out of the layout. First, we have zero sand bunkers. We are using natural grass depressions, which cannot wash out or require expensive sand replacement. Second, our most flood-prone acreage along Kings Creek is locked safely inside a permanent Conservation Easement. The playing corridors sit on the high northern plateau. Finally, our USDA B&I line of credit acts as a commercial safety net, ensuring operational cash flow without ever touching the partners' pockets."</p>
+        <div class="reg-item">
+            <div class="reg-heading">SC DES Stormwater &amp; Land Disturbance</div>
+            <p class="reg-body">Construction footprint exceeds 1 acre, requiring active NPDES environmental discharge coverage:</p>
+            <ul class="reg-list">
+                <li><strong style="color:var(--gold-light);">Engineering C-SWPPP:</strong> Licensed SC Professional Engineer compiles a site-specific Stormwater Pollution Prevention Plan detailing sediment barriers protecting Jumping Branch and Kings Creek.</li>
+                <li><strong style="color:var(--gold-light);">Digital ePermitting:</strong> All specs and hydrological modeling uploaded to SCDES digital portal. Review cycles typically 40–70 calendar days.</li>
+                <li><strong style="color:var(--gold-light);">Pre-Construction Notification:</strong> SCDES stormwater personnel notified seven days prior to groundbreaking for mandatory on-site startup inspection.</li>
+            </ul>
         </div>
 
-        <div class="highlight-box">
-            <p><strong>Q: "If the Conservation Easement is permanent, does that ruin the resale value of the land or stop us from expanding later?"</strong><br>
-            <strong>A:</strong> "No, it actually protects our core asset. The easement is strictly drawn to cover 34 acres of steep ridges and creek buffers that are unbuildable anyway. We have explicitly carved out a 25-acre 'Build Zone' that remains 100% free of easement restrictions. This zone gives us plenty of room for our 9 holes, driving range, and clubhouse. The easement doesn't hurt us—it hands us $112,500 in upfront cash to fund construction without giving up a single square foot of our playing arena."</p>
+        <div class="reg-item">
+            <div class="reg-heading">Clean Water Act Wetlands Compliance</div>
+            <p class="reg-body">The course architect routes play across natural high-ground zones, completely avoiding permanent wetland or stream modifications over 0.5 acres. This preserves eligibility for <strong style="color:var(--gold-light);">Nationwide Permit 39 (Commercial Developments)</strong> via the U.S. Army Corps of Engineers, avoiding lengthy Individual Permit review cycles.</p>
+        </div>
+    </section>
+</div>
+
+<!-- 5. PITCH -->
+<div id="pitch" class="tab-panel">
+    <section class="section">
+        <div class="section-label">Investor Presentation</div>
+        <h2 class="section-title">Founding Partner<br><em>Q&amp;A Cheat Sheet</em></h2>
+        <div class="divider"></div>
+        <p class="section-body" style="margin-bottom:28px;">Direct, facts-based counter-points for handling critical scrutiny from invitees during the Founding Partner showcase.</p>
+
+        <div class="qa-item">
+            <div class="qa-q">Q: "Golf courses cost millions to build. How can you build a 9-hole layout for just $355,000 in starting cash?"</div>
+            <p class="qa-a">We aren't building a traditional corporate course — we're building a minimalist, nature-first executive layout. Our 59.01 acres already has perfect natural terrain. By using a dirt exchange to get our 1.5-acre pond dug for free, selling our own timber to clear fairways, and building low-maintenance push-up greens from native soil, we cut traditional construction costs by over 70%.</p>
         </div>
 
-        <div class="highlight-box">
-            <p><strong>Q: "How can a 9-hole executive course compete with established 18-hole country clubs in the area?"</strong><br>
-            <strong>A:</strong> "We aren't competing with them; we are capturing the market they are losing. Traditional 18-hole courses take 5 hours to play and cost thousands in mandatory monthly dues. Modern golfers—especially busy professionals and families along the I-85 corridor—don't have that kind of time. Tecora Ranch offers a premium, fast layout that can be played in under 2 hours on the way home from work. We provide elite, accessible golf with zero time waste."</p>
+        <div class="qa-item">
+            <div class="qa-q">Q: "What happens if a major rainstorm washes out the course? Who pays for repairs?"</div>
+            <p class="qa-a">We've engineered risk out of the layout. We have zero sand bunkers — natural grass depressions can't wash out. Our most flood-prone acreage along Kings Creek is locked inside the permanent Conservation Easement. The playing corridors sit on the high northern plateau. Our USDA B&amp;I line of credit acts as a commercial safety net, never touching the partners' pockets.</p>
         </div>
+
+        <div class="qa-item">
+            <div class="qa-q">Q: "If the Conservation Easement is permanent, does that ruin the resale value or stop future expansion?"</div>
+            <p class="qa-a">No — it protects our core asset. The easement covers 34 acres of steep ridges and creek buffers that are unbuildable anyway. Our explicitly carved-out 25-acre Build Zone remains 100% free of easement restrictions, giving us full room for 9 holes, a driving range, and clubhouse. The easement hands us $112,500 in upfront cash without surrendering a single square foot of our playing arena.</p>
+        </div>
+
+        <div class="qa-item">
+            <div class="qa-q">Q: "How can a 9-hole executive course compete with established 18-hole country clubs?"</div>
+            <p class="qa-a">We aren't competing with them — we're capturing the market they're losing. Traditional 18-hole courses take 5 hours and cost thousands in mandatory monthly dues. Modern golfers along the I-85 corridor want premium, fast golf that can be played in under 2 hours on the way home from work. We provide elite, accessible golf with zero time waste.</p>
+        </div>
+    </section>
+</div>
+```
+
+</div>
+
+<!-- CLOSING PHOTO -->
+
+<div style="height:60vw;max-height:420px;overflow:hidden;position:relative;">
+    <img src="https://assets.complitrst.com/Untitled_design_-_3.png" alt="Tecora Ranch Golf Club scenic view" style="width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(10,25,15,0.9) 0%, transparent 60%);"></div>
+    <div style="position:absolute;bottom:28px;left:0;right:0;text-align:center;">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--white);">Where <em style="color:var(--gold-light);">Nature</em> Meets the Game</div>
     </div>
 </div>
 
+<!-- FOOTER -->
+
+<footer class="footer">
+    <strong>Tecora Ranch Golf Club, LLC</strong>
+    Blacksburg · Cherokee County · South Carolina<br>
+    Managing Member: Tasha McCray<br><br>
+    Confidential · For Accredited Invitees Only · May 2026
+</footer>
+
 <script>
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tab-btn");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += " active";
+    function openTab(evt, id) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        evt.currentTarget.classList.add('active');
+        // Smooth scroll to top of tab area
+        document.getElementById('prospectus').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 </script>
 
