@@ -176,7 +176,8 @@
 
         .section-body {
             font-size: 0.95rem;
-            color: rgba(245,240,232,1);
+            color: rgba(245,240,232,0.8);
+            font-weight: 300;
         }
 
         .divider {
@@ -333,7 +334,9 @@
 
         .phase-body {
             font-size: 0.85rem;
-            color: rgba(245,240,232,1);
+            color: rgba(245,240,232,0.7);
+            font-weight: 300;
+            margin-bottom: 10px;
         }
 
         .phase-yield {
@@ -371,12 +374,12 @@
         .rev-table td {
             padding: 10px 12px;
             border-bottom: 1px solid rgba(201,168,76,0.12);
-            color: rgba(245,240,232,1);
+            color: rgba(245,240,232,0.8);
         }
 
-        .rev-table tr:nth-child(even) td { background: rgba(255,255,255,0.05); }
+        .rev-table tr:nth-child(even) td { background: rgba(27,67,50,0.25); }
         .rev-table tfoot td {
-            background: rgba(27,67,50,0.3);
+            background: rgba(27,67,50,0.6);
             color: var(--gold-light);
             font-weight: 700;
             border-top: 1px solid var(--gold);
@@ -464,7 +467,7 @@
             text-align: center;
             padding: 40px 20px 60px;
             font-size: 0.72rem;
-            color: rgba(245,240,232,1);
+            color: rgba(245,240,232,0.3);
             letter-spacing: 0.08em;
             border-top: 1px solid var(--border);
         }
@@ -483,7 +486,7 @@
             margin-top: 8px;
         }
 
-        .total-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,232,1); }
+        .total-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,232,0.7); }
         .total-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); font-weight: 700; }
 
         /* ── RESPONSIVE ── */
@@ -500,6 +503,29 @@
             .photo-grid { grid-template-columns: repeat(3, 1fr); }
             .photo-item.wide { grid-column: span 3; }
         }
+
+        /* ── DOWNLOAD BUTTON ── */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            font-family: 'Lato', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 12px 22px;
+            border-radius: 2px;
+            text-decoration: none;
+            margin-bottom: 28px;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .download-btn:hover { background: var(--gold); color: var(--green-deep); }
+        .download-btn svg { flex-shrink: 0; }
 
         @media print {
             .tab-nav { display: none; }
@@ -658,6 +684,11 @@
             <div class="divider"></div>
             <p class="section-body" style="margin-bottom:24px;">Execute and submit this letter directly to the Upstate Land Conservation Trust or Upstate Forever to arrange an on-site evaluation.</p>
 
+            <a href="Tecora_Ranch_LOI.pdf" download="Tecora_Ranch_LOI.pdf" class="download-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download LOI (PDF)
+            </a>
+
             <div class="loi-box">
                 <div class="loi-meta">
                     <div class="loi-meta-row"><strong>Date:</strong> May 15, 2026</div>
@@ -705,6 +736,11 @@
                 <p><strong>Equity Received:</strong> 5.0% Class A Voting Membership Interest</p>
                 <p><strong>Syndicate Size:</strong> Strictly limited to six (6) individual subscriptions</p>
             </div>
+
+            <a href="Tecora_Ranch_Subscription_Agreement.pdf" download="Tecora_Ranch_Subscription_Agreement.pdf" class="download-btn" style="margin-top:16px;">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download Subscription Agreement (PDF)
+            </a>
 
             <div class="reg-item" style="margin-top:28px;">
                 <div class="reg-heading">1. Allocation &amp; Protective Use of Funds</div>
