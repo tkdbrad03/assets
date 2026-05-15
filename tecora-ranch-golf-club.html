@@ -193,8 +193,8 @@
             grid-template-columns: 1fr;
             gap: 3px;
             background: var(--green-deep);
+            justify-items: center;
         }
-
         .photo-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -500,8 +500,9 @@
 
         @media (min-width: 768px) {
             .section { padding: 80px 40px; }
-            .photo-grid { grid-template-columns: repeat(3, 1fr); }
-            .photo-item.wide { grid-column: span 3; }
+            .photo-grid { grid-template-columns: repeat(4, 1fr); }
+            .photo-item.wide { grid-column: span 4; }
+            .photo-item:not(.wide) { grid-column: span 2; }
         }
 
         /* ── DOWNLOAD BUTTON ── */
