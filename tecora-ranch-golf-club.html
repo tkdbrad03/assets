@@ -103,7 +103,7 @@
         .hero-subtitle {
             font-size: 0.85rem;
             letter-spacing: 0.1em;
-            color: rgba(245,240,232,0.7);
+            color: rgba(245,240,232,1);
             font-weight: 300;
             margin-bottom: 28px;
         }
@@ -176,7 +176,7 @@
 
         .section-body {
             font-size: 0.95rem;
-            color: rgba(245,240,232,0.8);
+            color: rgba(245,240,232,1);
             font-weight: 300;
         }
 
@@ -193,8 +193,8 @@
             grid-template-columns: 1fr;
             gap: 3px;
             background: var(--green-deep);
-            justify-items: center;
         }
+
         .photo-grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -261,7 +261,7 @@
             font-size: 0.65rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(245,240,232,0.6);
+            color: rgba(245,240,232,1);
             margin-top: 4px;
         }
 
@@ -287,7 +287,7 @@
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: rgba(245,240,232,0.5);
+            color: rgba(245,240,232,1);
             background: transparent;
             border: none;
             border-bottom: 2px solid transparent;
@@ -334,7 +334,7 @@
 
         .phase-body {
             font-size: 0.85rem;
-            color: rgba(245,240,232,0.7);
+            color: rgba(245,240,232,1);
             font-weight: 300;
             margin-bottom: 10px;
         }
@@ -374,7 +374,7 @@
         .rev-table td {
             padding: 10px 12px;
             border-bottom: 1px solid rgba(201,168,76,0.12);
-            color: rgba(245,240,232,0.8);
+            color: rgba(245,240,232,1);
         }
 
         .rev-table tr:nth-child(even) td { background: rgba(27,67,50,0.25); }
@@ -396,16 +396,16 @@
 
         .highlight strong { color: var(--gold-light); }
 
-        .highlight p { font-size: 0.9rem; color: rgba(245,240,232,0.8); }
+        .highlight p { font-size: 0.9rem; color: rgba(245,240,232,1); }
 
         /* ── LOI ── */
         .loi-box {
-            background: rgba(245,240,232,0.04);
+            background: rgba(245,240,232,1);
             border: 1px solid var(--border);
             border-radius: 4px;
             padding: 24px 20px;
             font-size: 0.9rem;
-            color: rgba(245,240,232,0.8);
+            color: rgba(245,240,232,1);
         }
 
         .loi-box p { margin-bottom: 14px; }
@@ -427,7 +427,7 @@
             border-top: 1px solid rgba(201,168,76,0.4);
             padding-top: 10px;
             font-size: 0.8rem;
-            color: rgba(245,240,232,0.6);
+            color: rgba(245,240,232,1);
         }
 
         /* ── REGULATORY LIST ── */
@@ -438,9 +438,9 @@
             color: var(--gold-light);
             margin-bottom: 8px;
         }
-        .reg-body { font-size: 0.875rem; color: rgba(245,240,232,0.75); }
+        .reg-body { font-size: 0.875rem; color: rgba(245,240,232,1); }
         .reg-list { margin: 10px 0 0 18px; }
-        .reg-list li { margin-bottom: 6px; font-size: 0.85rem; color: rgba(245,240,232,0.7); }
+        .reg-list li { margin-bottom: 6px; font-size: 0.85rem; color: rgba(245,240,232,1); }
 
         /* ── PITCH Q&A ── */
         .qa-item {
@@ -458,7 +458,7 @@
 
         .qa-a {
             font-size: 0.87rem;
-            color: rgba(245,240,232,0.8);
+            color: rgba(245,240,232,1);
             font-weight: 300;
         }
 
@@ -467,7 +467,7 @@
             text-align: center;
             padding: 40px 20px 60px;
             font-size: 0.72rem;
-            color: rgba(245,240,232,0.3);
+            color: rgba(245,240,232,1);
             letter-spacing: 0.08em;
             border-top: 1px solid var(--border);
         }
@@ -486,7 +486,7 @@
             margin-top: 8px;
         }
 
-        .total-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,232,0.7); }
+        .total-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245,240,232,1); }
         .total-num { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--gold); font-weight: 700; }
 
         /* ── RESPONSIVE ── */
@@ -500,9 +500,8 @@
 
         @media (min-width: 768px) {
             .section { padding: 80px 40px; }
-            .photo-grid { grid-template-columns: repeat(4, 1fr); }
-            .photo-item.wide { grid-column: span 4; }
-            .photo-item:not(.wide) { grid-column: span 2; }
+            .photo-grid { grid-template-columns: repeat(3, 1fr); }
+            .photo-item.wide { grid-column: span 3; }
         }
 
         /* ── DOWNLOAD BUTTON ── */
@@ -606,6 +605,7 @@
         <button class="tab-btn" onclick="openTab(event,'agreement')" role="tab">Subscription</button>
         <button class="tab-btn" onclick="openTab(event,'regulatory')" role="tab">Regulatory</button>
         <button class="tab-btn" onclick="openTab(event,'pitch')" role="tab">Pitch Q&amp;A</button>
+        <button class="tab-btn" onclick="openTab(event,'returns')" role="tab">💰 Investor Returns</button>
     </nav>
 
     <!-- 1. EXECUTIVE SUMMARY -->
@@ -800,6 +800,66 @@
             <div class="reg-item">
                 <div class="reg-heading">Clean Water Act Wetlands Compliance</div>
                 <p class="reg-body">The course architect routes play across natural high-ground zones, completely avoiding permanent wetland or stream modifications over 0.5 acres. This preserves eligibility for <strong style="color:var(--gold-light);">Nationwide Permit 39 (Commercial Developments)</strong> via the U.S. Army Corps of Engineers, avoiding lengthy Individual Permit review cycles.</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- 6. INVESTOR RETURNS -->
+    <div id="returns" class="tab-panel">
+        <section class="section">
+            <div class="section-label">Per-Investor Breakdown</div>
+            <h2 class="section-title">What Each Founder<br><em>Actually Makes</em></h2>
+            <div class="divider"></div>
+            <p class="section-body" style="margin-bottom:28px;">Each Founding Partner invests <strong style="color:var(--gold-light);">$35,000</strong> for a <strong style="color:var(--gold-light);">5% equity stake</strong>. Below is a realistic net profit model — not just gross revenue — using industry benchmarks scaled for a lean, low-overhead 9-hole executive course with zero debt service.</p>
+
+            <div class="section-label" style="margin-top:8px;">Projected Annual Operating Expenses</div>
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+            <table class="rev-table">
+                <thead><tr><th>Expense Category</th><th>Basis</th><th>Yr 2</th><th>Yr 3</th><th>Yr 5</th></tr></thead>
+                <tbody>
+                    <tr><td>Turf &amp; Grounds Labor</td><td>2–3 part-time staff</td><td>$52,000</td><td>$58,000</td><td>$68,000</td></tr>
+                    <tr><td>Equipment Leases &amp; Maintenance</td><td>Mowers, carts, irrigation</td><td>$28,000</td><td>$30,000</td><td>$34,000</td></tr>
+                    <tr><td>Fertilizer, Seed &amp; Chemicals</td><td>Native soil greens = low input</td><td>$14,000</td><td>$16,000</td><td>$18,000</td></tr>
+                    <tr><td>Utilities (Water, Electric)</td><td>Pond irrigation = low cost</td><td>$12,000</td><td>$13,000</td><td>$15,000</td></tr>
+                    <tr><td>Insurance (Property &amp; Liability)</td><td>Industry standard</td><td>$18,000</td><td>$18,000</td><td>$20,000</td></tr>
+                    <tr><td>Pro Shop Staff &amp; Admin</td><td>1 FT + seasonal help</td><td>$32,000</td><td>$36,000</td><td>$42,000</td></tr>
+                    <tr><td>Marketing &amp; Booking Software</td><td>Digital + local ads</td><td>$8,000</td><td>$9,000</td><td>$10,000</td></tr>
+                    <tr><td>Contingency / Repairs</td><td>5% of gross revenue</td><td>$15,000</td><td>$20,000</td><td>$26,000</td></tr>
+                </tbody>
+                <tfoot><tr><td colspan="2">Total Operating Expenses</td><td>$179,000</td><td>$200,000</td><td>$233,000</td></tr></tfoot>
+            </table>
+            </div>
+
+            <div class="section-label" style="margin-top:36px;">Net Profit &amp; Per-Investor Distribution</div>
+            <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+            <table class="rev-table">
+                <thead><tr><th></th><th>Year 2</th><th>Year 3</th><th>Year 4</th><th>Year 5</th></tr></thead>
+                <tbody>
+                    <tr><td>Gross Revenue</td><td>$298,000</td><td>$405,000</td><td>$465,000</td><td>$526,000</td></tr>
+                    <tr><td>Total Operating Expenses</td><td>($179,000)</td><td>($200,000)</td><td>($216,000)</td><td>($233,000)</td></tr>
+                    <tr style="border-top:1px solid var(--gold);"><td><strong style="color:var(--gold-light);">Net Operating Profit</strong></td><td><strong style="color:var(--gold-light);">$119,000</strong></td><td><strong style="color:var(--gold-light);">$205,000</strong></td><td><strong style="color:var(--gold-light);">$249,000</strong></td><td><strong style="color:var(--gold-light);">$293,000</strong></td></tr>
+                    <tr><td>Net Profit Margin</td><td>40%</td><td>51%</td><td>54%</td><td>56%</td></tr>
+                    <tr style="border-top:1px solid var(--gold);"><td><strong style="color:var(--gold-light);">Each Investor's 5% Share</strong></td><td><strong style="color:var(--gold-light);">$5,950</strong></td><td><strong style="color:var(--gold-light);">$10,250</strong></td><td><strong style="color:var(--gold-light);">$12,450</strong></td><td><strong style="color:var(--gold-light);">$14,650</strong></td></tr>
+                </tbody>
+            </table>
+            </div>
+
+            <div class="section-label" style="margin-top:36px;">Return on $35,000 Investment</div>
+            <div class="stat-grid" style="margin-top:12px;">
+                <div class="stat-cell"><div class="stat-num">Yr 4</div><div class="stat-label">Break-Even Point</div></div>
+                <div class="stat-cell"><div class="stat-num">$43K</div><div class="stat-label">Total Cash by Yr 5</div></div>
+                <div class="stat-cell"><div class="stat-num">123%</div><div class="stat-label">5-Year ROI</div></div>
+                <div class="stat-cell"><div class="stat-num">$0</div><div class="stat-label">Dues Ever Paid</div></div>
+            </div>
+
+            <div class="highlight" style="margin-top:28px;">
+                <p><strong style="color:var(--gold-light);">Plus the non-cash benefits:</strong> Each founder and their family play free for life. At $35/round × 50 rounds/year, that's <strong style="color:var(--gold-light);">$1,750+/year in free golf</strong> per family — adding roughly <strong style="color:var(--gold-light);">$8,750</strong> in lifetime recreational value over 5 years on top of cash distributions.</p>
+            </div>
+            <div class="highlight">
+                <p><strong style="color:var(--gold-light);">Why expenses stay lean:</strong> No sand bunkers eliminates costly sand replacement. Push-up native soil greens dramatically reduce fertilizer inputs. The irrigation pond eliminates municipal water bills. Zero bank debt means zero monthly loan payments — every dollar of profit flows directly to LLC members.</p>
+            </div>
+            <div class="highlight">
+                <p><strong style="color:var(--gold-light);">Important note:</strong> Distributions are subject to LLC member vote and working capital reserves. Actual timing of payouts will be defined in the Operating Agreement. These projections are forward-looking estimates based on industry benchmarks and are not guaranteed.</p>
             </div>
         </section>
     </div>
