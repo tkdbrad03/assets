@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Purchasing an Adult Day Care in Georgia — CatrinaL Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0E1E35;
+    --gold: #C9A84C;
+    --cream: #FAF7F2;
+    --warm: #F2EDE6;
+    --gray: #6B6560;
+    --border: #E0D9CF;
+    --white: #ffffff;
+    --light: #F8F5F0;
+    --red: #B94040;
+    --red-light: #F9EDED;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
+  .page { max-width: 860px; margin: 0 auto; padding: 0 0 60px; }
+
+  /* HEADER */
+  .header { background: var(--navy); padding: 40px 48px 32px; position: relative; overflow: hidden; }
+  .header::after { content: ''; position: absolute; right: -80px; top: -80px; width: 320px; height: 320px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.1); pointer-events: none; }
+  .header::before { content: ''; position: absolute; right: 60px; bottom: -120px; width: 200px; height: 200px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.06); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 16px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: 36px; color: var(--white); line-height: 1.15; font-weight: 700; margin-bottom: 6px; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-divider { width: 48px; height: 2px; background: var(--gold); margin: 16px 0; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+  /* INTRO */
+  .intro-bar { background: var(--warm); border-left: 4px solid var(--gold); padding: 16px 48px; font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.7; }
+
+  /* CONTENT */
+  .content { padding: 0 48px; }
+
+  /* ALERT BOX */
+  .alert { background: #FDF6EC; border-left: 4px solid var(--gold); padding: 14px 18px; margin-top: 28px; border-radius: 0 4px 4px 0; }
+  .alert-title { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+  .alert-text { font-size: 12px; color: var(--gray); font-weight: 300; line-height: 1.6; }
+
+  /* SECTION */
+  .section { margin-top: 36px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .section-num { background: var(--navy); color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+
+  /* CHECKLIST GRID */
+  .check-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .check-grid.single-col { grid-template-columns: 1fr; }
+
+  /* CHECKLIST ITEM */
+  .chk { display: flex; align-items: flex-start; gap: 12px; background: var(--white); border: 1px solid var(--border); padding: 12px 16px; cursor: pointer; transition: background 0.15s, border-color 0.15s; user-select: none; }
+  .chk:nth-child(even) { background: var(--light); }
+  .chk.checked { background: #F0F6EC !important; border-color: #9BBD8A; }
+  .chk.priority { border-left: 3px solid var(--red); }
+  .chk.checked.priority { border-left: 3px solid #9BBD8A; }
+
+  .chk-box { width: 16px; height: 16px; border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .chk.checked .chk-box { background: #5A8F3C; border-color: #5A8F3C; }
+  .chk.checked .chk-box::after { content: '✓'; color: #fff; font-size: 10px; font-weight: 700; line-height: 1; }
+
+  .chk-content { flex: 1; }
+  .chk-text { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.55; transition: color 0.15s; }
+  .chk-text strong { color: var(--navy); font-weight: 600; }
+  .chk.checked .chk-text { color: #aaa; text-decoration: line-through; }
+  .chk.checked .chk-text strong { color: #aaa; }
+  .chk-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 7px; margin-top: 4px; }
+  .tag-critical { background: var(--red-light); color: var(--red); }
+  .tag-legal { background: #EEF2FB; color: #3B5BAD; }
+  .tag-financial { background: #F0F6EC; color: #3B7A2B; }
+  .tag-ops { background: #FDF6EC; color: #946B1A; }
+
+  /* PROGRESS BAR */
+  .progress-section { margin-top: 28px; background: var(--white); border: 1px solid var(--border); padding: 18px 20px; }
+  .progress-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .progress-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); }
+  .progress-pct { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--navy); }
+  .progress-track { height: 6px; background: var(--border); border-radius: 0; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--gold); transition: width 0.4s ease; border-radius: 0; }
+  .progress-count { font-size: 11px; color: var(--gray); margin-top: 6px; font-weight: 300; }
+
+  /* NOTES PANEL */
+  .notes-section { margin-top: 36px; }
+  .notes-label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+  .notes-box { width: 100%; min-height: 100px; border: 1px solid var(--border); background: var(--white); padding: 14px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--navy); resize: vertical; outline: none; font-weight: 300; line-height: 1.6; }
+  .notes-box:focus { border-color: var(--gold); }
+  .notes-box::placeholder { color: #ccc; }
+
+  /* PRINT BUTTON */
+  .actions { display: flex; gap: 10px; margin-top: 28px; }
+  .btn-primary { background: var(--navy); color: var(--gold); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 12px 22px; border: none; cursor: pointer; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-secondary { background: var(--white); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 12px 22px; border: 1px solid var(--border); cursor: pointer; transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* CTA */
+  .cta { margin-top: 36px; margin-bottom: 36px; background: var(--navy); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .cta-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,168,76,0.6); margin-bottom: 6px; }
+  .cta-heading { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 6px; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 300; line-height: 1.6; }
+  .cta-btn { background: var(--gold); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 14px 24px; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+
+  /* RESOURCES */
+  .resources { margin-top: 36px; }
+  .resources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .resource-card { background: var(--white); border: 1px solid var(--border); padding: 14px 16px; }
+  .resource-name { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+  .resource-url { font-size: 11px; color: var(--gold); font-weight: 300; text-decoration: none; display: block; }
+  .resource-note { font-size: 11px; color: var(--gray); font-weight: 300; margin-top: 2px; }
+
+  /* FOOTER */
+  .footer { background: var(--navy); padding: 36px 48px; text-align: center; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.25); line-height: 1.7; }
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; margin-bottom: 4px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--gray); font-weight: 300; }
+  .legend-dot { width: 10px; height: 10px; flex-shrink: 0; }
+
+  @media (max-width: 640px) {
+    .header, .intro-bar, .content, .footer { padding-left: 24px; padding-right: 24px; }
+    .check-grid { grid-template-columns: 1fr; }
+    .resources-grid { grid-template-columns: 1fr; }
+    .cta { flex-direction: column; align-items: flex-start; }
+  }
+  @media print {
+    .actions, .cta { display: none; }
+    .chk { break-inside: avoid; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-badge">Acquisition Due Diligence Checklist</div>
+    <h1>Purchasing an Adult Day Care<br>in <em>Georgia</em></h1>
+    <div class="header-divider"></div>
+    <p class="header-sub">Buyer's Due Diligence Guide &nbsp;|&nbsp; CatrinaL Consulting &nbsp;|&nbsp; CompliTrst, Inc.</p>
+  </div>
+
+  <div class="intro-bar">
+    Buying an existing adult day care in Georgia is a significant investment. Before any money changes hands, you need to verify the business's licensing standing, financial health, Medicaid enrollment status, and regulatory compliance. This checklist walks you through every item a serious buyer must investigate.
+  </div>
+
+  <div class="content">
+
+    <!-- PROGRESS -->
+    <div class="progress-section">
+      <div class="progress-top">
+        <div class="progress-label">Due Diligence Progress</div>
+        <div class="progress-pct" id="pct-display">0%</div>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+      <div class="progress-count" id="progress-count">0 of 0 items verified</div>
+    </div>
+
+    <!-- LEGEND -->
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Critical — deal-breaker if unresolved</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3B5BAD"></div> Legal</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#3B7A2B"></div> Financial</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#946B1A"></div> Operations</div>
+    </div>
+
+    <!-- ALERT -->
+    <div class="alert">
+      <div class="alert-title">Georgia-Specific Note</div>
+      <div class="alert-text">Adult Day Care programs in Georgia are licensed by the <strong>Georgia Department of Community Health (DCH)</strong> and regulated under the <strong>Rules and Regulations for Adult Day Care Programs (Chapter 111-8-62)</strong>. Medicaid-waiver billing flows through the <strong>NOW/COMP waivers</strong> and the <strong>SOURCE program</strong>. Confirm all regulatory standing before closing.</div>
+    </div>
+
+    <!-- SECTION 1: LICENSING -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div><div class="section-label">Regulatory</div><div class="section-title">Licensing and State Standing</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Verify active DCH license</strong> — confirm current Adult Day Care license is in good standing at dch.georgia.gov</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Request all inspection reports</strong> — obtain the last 3 years of DCH survey and inspection reports; look for citations, corrective action plans, and enforcement history</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm license capacity</strong> — verify licensed participant capacity and whether the business currently operates near, at, or below that number</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Check for open complaints</strong> — request complaint history on file with DCH for the facility</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm license transferability</strong> — Georgia ADC licenses are issued to the owner/entity, not the facility; a change of ownership requires a new license application with DCH</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Verify business entity is in good standing</strong> — confirm LLC or corporation is current with Georgia Secretary of State at sos.ga.gov</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Check local business license / occupational tax certificate</strong> — confirm city/county business registration is current and transferable</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm zoning compliance</strong> — verify the facility location is properly zoned for adult day care use with the local municipality</div><div class="chk-tag tag-ops">Operations</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: MEDICAID & BILLING -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div><div class="section-label">Revenue</div><div class="section-title">Medicaid Enrollment and Billing</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm Medicaid provider enrollment status</strong> — verify active enrollment with Georgia Medicaid through the Georgia MMIS portal. Enrollment does not automatically transfer to a new owner</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Identify which waivers are active</strong> — confirm which Georgia waivers the business bills under (NOW, COMP, SOURCE, CCSP) and current enrollment status for each</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Request 12–24 months of Medicaid remittance statements</strong> — verify actual billing history, denial rates, and average reimbursement per participant</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Check for open Medicaid audits or recoupments</strong> — confirm no outstanding repayment demands, audits, or fraud investigations with DCH or CMS</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Review participant payer mix</strong> — understand percentage of participants on Medicaid vs. private pay vs. long-term care insurance or other payers</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm EVV compliance</strong> — Georgia requires Electronic Visit Verification (EVV) for waiver-funded services; confirm the system in use and compliance history</div><div class="chk-tag tag-ops">Operations</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: FINANCIALS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div><div class="section-label">Due Diligence</div><div class="section-title">Financial Review</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Obtain 3 years of tax returns</strong> — review Schedule C or business returns to verify reported revenue and expenses match representations</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Obtain 3 years of profit and loss statements</strong> — verify monthly P&L trends, seasonal patterns, and margin health</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Review accounts receivable aging</strong> — understand how much revenue is outstanding and how old the balances are, particularly Medicaid claims pending</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Review all vendor contracts</strong> — identify all ongoing contracts (transportation, food service, laundry, software) and confirm which transfer to a buyer</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Review lease or real estate situation</strong> — if leased, confirm lease terms, remaining term, monthly cost, and whether the landlord will consent to assignment or renegotiate</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Identify all outstanding liabilities</strong> — confirm any business loans, equipment financing, unpaid payroll taxes, or judgments against the entity</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm census and revenue per participant</strong> — validate actual average daily census against claimed census and calculate true revenue per participant per day</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Have a CPA conduct independent financial review</strong> — engage a CPA with healthcare or home/community-based services experience before closing</div><div class="chk-tag tag-critical">Critical</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: STAFF & OPERATIONS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div><div class="section-label">People</div><div class="section-title">Staff and Operations</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Request current staff roster</strong> — obtain a list of all employees including roles, compensation, tenure, and employment type (W-2 vs. 1099)</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Verify DCH staff-to-participant ratios</strong> — Georgia requires 1:6 ratio for participants without significant needs and 1:4 for those requiring additional support; confirm current compliance</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm CPR/First Aid certification on file</strong> — Georgia requires at least one CPR/First Aid certified staff member present at all times; review current certification dates</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Verify background check compliance</strong> — all direct care staff must have completed Georgia GCIC background checks; confirm records are current</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Assess key person risk</strong> — identify which staff are critical to operations and whether they intend to stay post-sale; consider retention incentives</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Review HR files and any open employment matters</strong> — check for active EEOC complaints, pending workers' comp claims, or unresolved disciplinary matters</div><div class="chk-tag tag-legal">Legal</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 5: PARTICIPANT RECORDS -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">5</div>
+        <div><div class="section-label">Compliance</div><div class="section-title">Participant Records and Documentation</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Audit a sample of participant files</strong> — review at least 5–10 active participant files for completeness: intake forms, health assessments, care plans, emergency contacts, physician orders, and signed service agreements</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm HIPAA compliance policies are in place</strong> — verify written HIPAA privacy and security policies exist and staff have been trained</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Review incident and accident log</strong> — request the last 2 years of incident reports; evaluate frequency, severity, and whether incidents were reported to DCH as required</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm individualized service plans (ISPs) are current</strong> — Georgia requires ISPs be reviewed at least annually; verify active participants have current plans with physician or case manager signatures</div><div class="chk-tag tag-ops">Operations</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 6: FACILITY & INSURANCE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">6</div>
+        <div><div class="section-label">Risk</div><div class="section-title">Facility and Insurance</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Obtain certificate of current insurance</strong> — verify active general liability, professional liability, and workers' compensation policies; confirm coverage limits</div><div class="chk-tag tag-financial">Financial</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Conduct a physical facility walkthrough</strong> — assess condition of ADA accessibility, bathrooms, kitchen/food service area, activity space, parking, HVAC, and fire safety equipment</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Verify fire marshal and health department clearances</strong> — confirm current fire inspection certificate and any required county health department approvals are on file</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Identify equipment included in the sale</strong> — document all equipment (medical, kitchen, activity, office, vehicles if any) and confirm ownership vs. leased status</div><div class="chk-tag tag-financial">Financial</div></div></div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: LEGAL/CLOSING -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">7</div>
+        <div><div class="section-label">Transaction</div><div class="section-title">Legal and Closing Steps</div></div>
+      </div>
+      <div class="check-grid">
+        <div class="chk priority" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Engage a healthcare attorney</strong> — Georgia ADC acquisitions involve licensing, Medicaid, and employment law; retain an attorney experienced in healthcare business transactions</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Determine asset sale vs. entity acquisition</strong> — clarify with legal counsel whether you're buying the LLC/entity or assets only; each carries different liability implications</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>File change of ownership (CHOW) application with DCH</strong> — a new license application must be submitted; plan for processing time before assuming operations</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Re-enroll as Medicaid provider under new ownership</strong> — Medicaid provider agreements do not transfer; budget time (often 60–120+ days) for new enrollment approval</div><div class="chk-tag tag-critical">Critical</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Obtain new EIN if acquiring entity separately</strong> — if forming a new entity to operate the business, obtain a new EIN and update all tax and payroll accounts</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Negotiate seller transition support</strong> — include a seller transition period (30–90 days) in the purchase agreement to ensure continuity for participants and staff</div><div class="chk-tag tag-ops">Operations</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Confirm non-compete and non-solicitation clauses</strong> — ensure the seller cannot immediately open a competing facility and solicit your participants or staff</div><div class="chk-tag tag-legal">Legal</div></div></div>
+        <div class="chk" onclick="toggle(this)"><div class="chk-box"></div><div class="chk-content"><div class="chk-text"><strong>Arrange bridge financing if needed</strong> — plan for a revenue gap between closing and first Medicaid reimbursements under new provider enrollment; maintain sufficient operating capital</div><div class="chk-tag tag-financial">Financial</div></div></div>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="notes-section">
+      <div class="section-header" style="margin-top:36px">
+        <div class="section-num" style="font-size:16px">N</div>
+        <div><div class="section-label">Buyer Notes</div><div class="section-title">Due Diligence Notes</div></div>
+      </div>
+      <textarea class="notes-box" placeholder="Record your findings, red flags, questions for the seller, and items that need follow-up..."></textarea>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="actions">
+      <button class="btn-primary" onclick="window.print()">🖨 Print Checklist</button>
+      <button class="btn-secondary" onclick="resetAll()">↺ Reset All</button>
+    </div>
+
+    <!-- RESOURCES -->
+    <div class="resources" style="margin-top:36px">
+      <div class="section-header">
+        <div class="section-num" style="font-size:16px">R</div>
+        <div><div class="section-label">Georgia</div><div class="section-title">Key Resources and Contacts</div></div>
+      </div>
+      <div class="resources-grid">
+        <div class="resource-card"><div class="resource-name">Georgia DCH — Adult Day Care Licensing</div><a class="resource-url" href="https://dch.georgia.gov">dch.georgia.gov</a><div class="resource-note">License verification, rules & regulations, inspections</div></div>
+        <div class="resource-card"><div class="resource-name">Georgia Secretary of State — Business Search</div><a class="resource-url" href="https://sos.ga.gov">sos.ga.gov</a><div class="resource-note">Verify entity standing and registered agent</div></div>
+        <div class="resource-card"><div class="resource-name">Georgia Medicaid / MMIS Portal</div><a class="resource-url" href="https://mmis.georgia.gov">mmis.georgia.gov</a><div class="resource-note">Provider enrollment, claims, waiver information</div></div>
+        <div class="resource-card"><div class="resource-name">Georgia NOW / COMP Waiver Info</div><a class="resource-url" href="https://dbhdd.georgia.gov">dbhdd.georgia.gov</a><div class="resource-note">Waiver enrollment and compliance requirements</div></div>
+        <div class="resource-card"><div class="resource-name">Georgia GCIC — Background Checks</div><a class="resource-url" href="https://gbi.georgia.gov/gcic">gbi.georgia.gov/gcic</a><div class="resource-note">Staff background check verification</div></div>
+        <div class="resource-card"><div class="resource-name">Georgia SBDC — Free Business Advising</div><a class="resource-url" href="https://georgiasbdc.org">georgiasbdc.org</a><div class="resource-note">Free advising for acquisitions and business planning</div></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <div>
+        <div class="cta-label">Don't Navigate This Alone</div>
+        <div class="cta-heading">Acquisition Support Consulting</div>
+        <div class="cta-sub">We guide buyers through every step of this checklist — from reviewing the seller's records to your first day of operations. Limited spots available.</div>
+      </div>
+      <a href="https://complitrst-assets.vercel.app/catrinal-consulting-landing.html" class="cta-btn">Work With Us</a>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Adult Day Care Specialists &nbsp;|&nbsp; This guide is for informational purposes only. Requirements may change. Always verify current requirements with the relevant Georgia state agencies and consult licensed legal and financial professionals before any business acquisition.</p>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL_ITEMS = document.querySelectorAll('.chk').length;
+
+  function toggle(el) {
+    el.classList.toggle('checked');
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const checked = document.querySelectorAll('.chk.checked').length;
+    const pct = Math.round((checked / TOTAL_ITEMS) * 100);
+    document.getElementById('pct-display').textContent = pct + '%';
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-count').textContent = checked + ' of ' + TOTAL_ITEMS + ' items verified';
+  }
+
+  function resetAll() {
+    if (!confirm('Reset all checklist items?')) return;
+    document.querySelectorAll('.chk.checked').forEach(el => el.classList.remove('checked'));
+    updateProgress();
+  }
+
+  updateProgress();
+</script>
+</body>
+</html>
