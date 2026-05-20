@@ -143,7 +143,7 @@
   <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Confidential — Prepared exclusively for LaTonya Mark</p>
 </div>
 
-<script>
+<script type="module">
 // ─── SESSION DATA ─────────────────────────────────────────────────────────────
 // To add a new week: paste the generated JSON object into this array
 const SESSIONS = [
@@ -770,7 +770,7 @@ function buildCheckItem(key, action, checks) {
 // ─── TOGGLE CHECK ─────────────────────────────────────────────────────────────
 let _checks = {};
 
-async function toggleCheck(el) {
+window.toggleCheck = async function(el) {
   const key = el.dataset.key;
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
