@@ -143,7 +143,7 @@
   <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Confidential — Prepared exclusively for LaTonya Mark</p>
 </div>
 
-<script type="module">
+<script>
 // ─── SESSION DATA ─────────────────────────────────────────────────────────────
 // To add a new week: paste the generated JSON object into this array
 const SESSIONS = [
@@ -542,7 +542,7 @@ const SESSIONS = [
     ],
     resources: [
       "Century 21 / John Green contact — expect call regarding 807 Beulah Avenue after Dr. Tasha's inquiry",
-      "County zoning office — contact to verify adult day care operation permitted at Rushing Road address",
+      " County zoning office — contact to verify adult day care operation permitted at Rushing Road address",
       "Revised church pitch framing provided — lead with community need, nursing background, and lease-only structure"
     ],
     completed: [
@@ -562,7 +562,7 @@ const SESSIONS = [
       "Even one client in a small office space builds operational history and credibility for Medicaid application"
     ],
     clientActions: [
-      { text: "Contact County zoning office to verify that adult day care operation is permitted at the Rushing Road residential address", priority: "high" },
+      { text: "Contact  County zoning office to verify that adult day care operation is permitted at the Rushing Road residential address", priority: "high" },
       { text: "Respond to Century 21 / John Green when they call about 807 Beulah Avenue — express interest in seller financing or leasing one section if the sale is pending", priority: "high" },
       { text: "Schedule new background check appointment and ensure assistant director completes all credential requirements", priority: "high" },
       { text: "Continue church outreach with revised messaging — emphasize lease-only arrangement, small startup scale, and community service mission with no church liability", priority: "high" },
@@ -584,7 +584,7 @@ const SESSIONS = [
       "No operational address yet — this continues to delay the official start of operations clock and state compliance timeline"
     ],
     questions: [
-      "Is Rushing Road zoned for adult day care operation in residential area?",
+      "Is Rushing Road zoned for adult day care operation in  County residential area?",
       "Is 807 Beulah Avenue actually available, or is the pending status a hard barrier?",
       "Can seller financing or a lease-to-own arrangement be negotiated on 807 Beulah Avenue given its 78 days on market?",
       "Does the potential VA client's benefits currently cover adult day services, or is private pay the only option at this stage?",
@@ -592,48 +592,33 @@ const SESSIONS = [
     ],
     nextFocus: "Marketing, Referral Network Development, and Proposal Packet Finalization",
     nextPrep: [
-      "Call County zoning office and report outcome in the communication board",
+      "Call  County zoning office and report outcome in the communication board",
       "Respond to Century 21 / John Green and report outcome — interest in seller financing or lease of one section",
       "Attend VA client meeting on Tuesday and report client situation and funding pathway",
       "Update church outreach log with revised messaging results",
       "Confirm assistant director background check and credential completion status"
     ]
   }
-  // ADD NEW WEEKS HERE — paste generated JSON objects separated by commas
+ // ADD NEW WEEKS HERE — paste generated JSON objects separated by commas
 ];
 
-// ─── FIREBASE SETUP ───────────────────────────────────────────────────────────
-const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js");
-const { getFirestore, doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+// ─── STORAGE KEYS ─────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'latonya-action-checks';
 
-const _app = initializeApp({
-  apiKey: "AIzaSyBzgYp7xZypJGh6hGm5oWM4_xAIFNLE6nU",
-  authDomain: "camille-adc-portal.firebaseapp.com",
-  projectId: "camille-adc-portal",
-  storageBucket: "camille-adc-portal.firebasestorage.app",
-  messagingSenderId: "429225262592",
-  appId: "1:429225262592:web:1b56a44a556e51d03462e5"
-});
-const _db = getFirestore(_app);
-const CHECKS_DOC = doc(_db, 'sessionData', 'latonya-action-checks');
-
-// ─── LOAD / SAVE CHECKS (Firestore — shared across all users) ─────────────────
-async function loadChecks() {
+// ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
+function loadChecks() {
   try {
-    const snap = await getDoc(CHECKS_DOC);
-    return snap.exists() ? (snap.data().checks || {}) : {};
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : {};
   } catch(e) {
-    console.error('loadChecks error', e);
     return {};
   }
 }
 
-async function saveChecks(checks) {
+function saveChecks(checks) {
   try {
-    await setDoc(CHECKS_DOC, { checks }, { merge: true });
-  } catch(e) {
-    console.error('saveChecks error', e);
-  }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checks));
+  } catch(e) {}
 }
 
 // ─── BUILD UI ─────────────────────────────────────────────────────────────────
@@ -770,13 +755,13 @@ function buildCheckItem(key, action, checks) {
 // ─── TOGGLE CHECK ─────────────────────────────────────────────────────────────
 let _checks = {};
 
-window.toggleCheck = async function(el) {
+function toggleCheck(el) {
   const key = el.dataset.key;
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
   el.querySelector('.check-box').textContent = _checks[key] ? '✓' : '';
+  saveChecks(_checks);
   updateOverallProgress();
-  await saveChecks(_checks);
 }
 
 function updateOverallProgress() {
@@ -797,9 +782,8 @@ function updateOverallProgress() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-async function init() {
-  document.getElementById('main-content').innerHTML = '<div class="loading-msg">Loading action items...</div>';
-  _checks = await loadChecks();
+function init() {
+  _checks = loadChecks();
   buildTabs();
   buildSessions(_checks);
   updateOverallProgress();
