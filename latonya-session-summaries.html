@@ -143,7 +143,7 @@
   <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Confidential — Prepared exclusively for LaTonya Mark</p>
 </div>
 
-<script>
+<script type="module">
 // ─── SESSION DATA ─────────────────────────────────────────────────────────────
 // To add a new week: paste the generated JSON object into this array
 const SESSIONS = [
@@ -603,7 +603,8 @@ const SESSIONS = [
 ];
 
 // ─── STORAGE KEYS ─────────────────────────────────────────────────────────────
-const STORAGE_KEY = 'latonya-action-checks';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwITHLv7SNlCjm1ueentgA70YyoWXyWAD88Jcw5Y33IbCDigtumsIxKvlLy4Io_u3Pm/exec';
+ const STORAGE_KEY = 'latonya-action-checks';
 
 // ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
 async function loadChecks() {
@@ -771,7 +772,7 @@ function buildCheckItem(key, action, checks) {
 // ─── TOGGLE CHECK ─────────────────────────────────────────────────────────────
 let _checks = {};
 
-function toggleCheck(el) {
+window.toggleCheck = function(el) {
   const key = el.dataset.key;
   const label = el.querySelector('.action-check-title').childNodes[0].textContent.trim();
   const week = key.split('-')[0].replace('w','');
