@@ -606,18 +606,34 @@ const SESSIONS = [
 const STORAGE_KEY = 'latonya-action-checks';
 
 // ─── LOAD / SAVE CHECKS ───────────────────────────────────────────────────────
-function loadChecks() {
+async function loadChecks() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : {};
-  } catch(e) {
-    return {};
-  }
+    const res = await fetch('https://script.google.com/macros/s/AKfycbwITHLv7SNlCjm1ueentgA70YyoWXyWAD88Jcw5Y33IbCDigtumsIxKvlLy4Io_u3Pm/exec?action=getProgress&client=LaTonya Mark');
+    const data = await res.json();
+    const flat = {};
+    Object.keys(data).forEach(week => {
+      Object.keys(data[week]).forEach(taskId => {
+        flat[taskId] = data[week][taskId];
+      });
+    });
+    return flat;
+  } catch(e) { return {}; }
+}
 }
 
-function saveChecks(checks) {
+async function saveChecks(key, completed, label, week) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(checks));
+    await fetch('https://script.google.com/macros/s/AKfycbwITHLv7SNlCjm1ueentgA70YyoWXyWAD88Jcw5Y33IbCDigtumsIxKvlLy4Io_u3Pm/exec', {
+      method: 'POST',
+      body: JSON.stringify({
+        type: 'save_progress',
+        client: 'LaTonya Mark',
+        week: 'Week' + week,
+        taskId: key,
+        taskLabel: label,
+        completed: completed
+      })
+    });
   } catch(e) {}
 }
 
@@ -757,10 +773,12 @@ let _checks = {};
 
 function toggleCheck(el) {
   const key = el.dataset.key;
+  const label = el.querySelector('.action-check-title').childNodes[0].textContent.trim();
+  const week = key.split('-')[0].replace('w','');
   _checks[key] = !_checks[key];
   el.classList.toggle('done', _checks[key]);
   el.querySelector('.check-box').textContent = _checks[key] ? '✓' : '';
-  saveChecks(_checks);
+  saveChecks(key, _checks[key], label, week);
   updateOverallProgress();
 }
 
@@ -782,8 +800,8 @@ function updateOverallProgress() {
 }
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
-function init() {
-  _checks = loadChecks();
+async function init() {
+  _checks = await loadChecks();
   buildTabs();
   buildSessions(_checks);
   updateOverallProgress();
