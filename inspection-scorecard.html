@@ -786,12 +786,12 @@
     </div>
     <div class="scoring-grid">
       <div class="score-card green">
-        <div class="score-range">20–23 Boxes</div>
+        <div class="score-range">18–21 Boxes</div>
         <div class="score-zone">Green Zone</div>
         <div class="score-desc">Approved — Minimal modifications needed.</div>
       </div>
       <div class="score-card yellow">
-        <div class="score-range">15–19 Boxes</div>
+        <div class="score-range">15–17 Boxes</div>
         <div class="score-zone">Yellow Zone</div>
         <div class="score-desc">Proceed with Caution — Moderate investment required.</div>
       </div>
@@ -839,6 +839,9 @@
       Print / Save as PDF
     </button>
   </div>
+  <div style="text-align:center;padding:.75rem;font-size:.75rem;color:var(--muted)">
+    Powered by <strong style="color:var(--green-800)">Complectress</strong>
+  </div>
 
 </div><!-- .page -->
 
@@ -856,7 +859,7 @@
   }
 
   // Progress tracking
-  const TOTAL = 23;
+  const TOTAL = 21;
   const fill = document.getElementById('progressFill');
   const count = document.getElementById('progressCount');
   const badge = document.getElementById('zoneBadge');
@@ -868,7 +871,7 @@
     count.textContent = checked + ' / ' + TOTAL;
 
     badge.className = 'zone-badge';
-    if (checked >= 20) {
+    if (checked >= 18) {
       badge.classList.add('zone-green');
       badge.textContent = 'Green Zone';
     } else if (checked >= 15) {
