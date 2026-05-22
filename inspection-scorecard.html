@@ -83,21 +83,18 @@
     font-style: italic;
     color: var(--green-200);
   }
-  .header-sub {
+    .header-sub {
     margin-top: 1rem;
     font-size: .8rem;
     color: var(--green-200);
     position: relative;
-    display: flex;
-    gap: 1.25rem;
-    flex-wrap: wrap;
   }
-  .header-sub span::before {
-    content: '·';
-    margin-right: 1.25rem;
+  .header-sub span::after {
+    content: ' · ';
     opacity: .5;
   }
-  .header-sub span:first-child::before { display: none; }
+  .header-sub span:last-child::after { display: none; }
+
 
   /* ── Disclaimer ── */
   .disclaimer {
