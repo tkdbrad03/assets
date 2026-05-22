@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pre-Licensing Inspection Scorecard</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-900: #0f2419;
+    --green-800: #1c3d2e;
+    --green-700: #2e6b4a;
+    --green-600: #3d8a5f;
+    --green-200: #c8ddd0;
+    --green-100: #e8f0eb;
+    --green-50:  #f4f8f5;
+    --sand: #f7f4ef;
+    --ink: #1a1a1a;
+    --muted: #6b7280;
+    --rule: #d1dbd4;
+    --yellow-bg: #fefce8;
+    --yellow-text: #854d0e;
+    --yellow-border: #fde68a;
+    --red-bg: #fef2f2;
+    --red-text: #991b1b;
+    --red-border: #fecaca;
+    --emerald-bg: #f0fdf4;
+    --emerald-text: #166534;
+    --emerald-border: #bbf7d0;
+    --radius: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.06), 0 20px 60px -10px rgba(15,36,25,.12);
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--green-800);
+    padding: 2.5rem 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 0%, rgba(61,138,95,.35) 0%, transparent 60%);
+  }
+  .header-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--green-200);
+    margin-bottom: .75rem;
+    position: relative;
+  }
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.9rem, 5vw, 2.8rem);
+    color: white;
+    line-height: 1.1;
+    position: relative;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--green-200);
+  }
+  .header-sub {
+    margin-top: 1rem;
+    font-size: .8rem;
+    color: var(--green-200);
+    position: relative;
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .header-sub span::before {
+    content: '·';
+    margin-right: 1.25rem;
+    opacity: .5;
+  }
+  .header-sub span:first-child::before { display: none; }
+
+  /* ── Disclaimer ── */
+  .disclaimer {
+    background: var(--green-50);
+    border-left: 3px solid var(--green-200);
+    margin: 1.5rem 2rem;
+    padding: .75rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: .78rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── Facility Info ── */
+  .facility-block {
+    padding: 0 2rem 1.5rem;
+  }
+  .facility-title {
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--green-700);
+    margin-bottom: 1rem;
+  }
+  .facility-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem 1.5rem;
+  }
+  .facility-grid .full { grid-column: 1 / -1; }
+  .field-group { display: flex; flex-direction: column; gap: .3rem; }
+  .field-label {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .field-input {
+    border: none;
+    border-bottom: 1.5px solid var(--rule);
+    background: transparent;
+    padding: .4rem 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+    width: 100%;
+  }
+  .field-input:focus { border-color: var(--green-700); }
+
+  .model-row {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: .25rem;
+  }
+  .model-check { display: flex; align-items: center; gap: .5rem; cursor: pointer; }
+  .model-check input[type=checkbox] { display: none; }
+  .model-box {
+    width: 16px; height: 16px;
+    border: 2px solid var(--green-700);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+    flex-shrink: 0;
+  }
+  .model-box svg { opacity: 0; transition: opacity .15s; }
+  .model-check input:checked ~ .model-box {
+    background: var(--green-700);
+    border-color: var(--green-700);
+  }
+  .model-check input:checked ~ .model-box svg { opacity: 1; }
+  .model-label { font-size: .85rem; color: var(--ink); user-select: none; }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 0 2rem 1.75rem;
+  }
+
+  /* ── Section ── */
+  .section { padding: 0 2rem 1.75rem; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .section-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    color: var(--green-200);
+    line-height: 1;
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+  .section-title-wrap { flex: 1; }
+  .section-label {
+    font-size: .6rem;
+    font-weight: 600;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: var(--green-600);
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.15rem;
+    color: var(--green-800);
+    line-height: 1.2;
+  }
+  .section-note {
+    font-size: .75rem;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 1rem;
+    padding-left: .5rem;
+    border-left: 2px solid var(--green-200);
+  }
+
+  /* ── Check Item ── */
+  .check-list { display: flex; flex-direction: column; gap: .1rem; }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: .875rem;
+    padding: .7rem .75rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .check-item:hover { background: var(--green-50); }
+  .check-item input[type=checkbox] { display: none; }
+  .cb-box {
+    width: 18px; height: 18px;
+    border: 2px solid var(--rule);
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+  }
+  .cb-box svg { opacity: 0; transition: opacity .15s; }
+  .check-item input:checked ~ .cb-box {
+    background: var(--green-700);
+    border-color: var(--green-700);
+  }
+  .check-item input:checked ~ .cb-box svg { opacity: 1; }
+  .check-item input:checked ~ .cb-content .cb-term { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--green-200); }
+  .cb-content { flex: 1; line-height: 1.5; }
+  .cb-term { font-weight: 600; font-size: .875rem; color: var(--ink); transition: color .15s; }
+  .cb-desc { font-size: .82rem; color: var(--muted); margin-top: .1rem; line-height: 1.55; }
+
+  /* ── Progress ── */
+  .progress-bar-wrap {
+    background: var(--green-800);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .progress-label {
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--green-200);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,.15);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--green-200);
+    border-radius: 99px;
+    width: 0%;
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-count {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: white;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 3.5rem;
+    text-align: right;
+  }
+  .zone-badge {
+    padding: .2rem .6rem;
+    border-radius: 99px;
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    transition: background .3s, color .3s;
+    flex-shrink: 0;
+  }
+  .zone-green { background: var(--emerald-bg); color: var(--emerald-text); }
+  .zone-yellow { background: var(--yellow-bg); color: var(--yellow-text); }
+  .zone-red { background: var(--red-bg); color: var(--red-text); }
+  .zone-none { background: rgba(255,255,255,.1); color: var(--green-200); }
+
+  /* ── Scoring ── */
+  .scoring-section { padding: 0 2rem 1.75rem; }
+  .scoring-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .75rem;
+  }
+  .score-card {
+    padding: 1rem;
+    border-radius: var(--radius);
+    border: 1.5px solid;
+    text-align: center;
+  }
+  .score-card.green { background: var(--emerald-bg); border-color: var(--emerald-border); }
+  .score-card.yellow { background: var(--yellow-bg); border-color: var(--yellow-border); }
+  .score-card.red { background: var(--red-bg); border-color: var(--red-border); }
+  .score-icon { font-size: 1.4rem; margin-bottom: .3rem; }
+  .score-range { font-family: 'DM Serif Display', serif; font-size: 1rem; margin-bottom: .2rem; }
+  .score-card.green .score-range { color: var(--emerald-text); }
+  .score-card.yellow .score-range { color: var(--yellow-text); }
+  .score-card.red .score-range { color: var(--red-text); }
+  .score-zone { font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; margin-bottom: .4rem; }
+  .score-card.green .score-zone { color: var(--emerald-text); }
+  .score-card.yellow .score-zone { color: var(--yellow-text); }
+  .score-card.red .score-zone { color: var(--red-text); }
+  .score-desc { font-size: .75rem; color: var(--muted); line-height: 1.4; }
+
+  /* ── Action Log ── */
+  .log-section { padding: 0 2rem 2rem; }
+  .log-intro {
+    font-size: .8rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+  }
+  .log-intro strong { color: var(--green-800); }
+  .log-table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+  .log-table th {
+    background: var(--green-800);
+    color: white;
+    padding: .6rem .75rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: .7rem;
+    letter-spacing: .06em;
+  }
+  .log-table th:first-child { border-radius: var(--radius) 0 0 0; width: 11%; }
+  .log-table th:last-child { border-radius: 0 var(--radius) 0 0; width: 26%; }
+  .log-table td {
+    padding: .5rem .75rem;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .log-table td input, .log-table td textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .8rem;
+    color: var(--ink);
+    outline: none;
+    resize: none;
+    padding: 0;
+  }
+  .log-table td textarea { min-height: 36px; }
+  .log-table tr:nth-child(even) td { background: var(--green-50); }
+  .log-table tr:hover td { background: var(--green-100); }
+  .log-total {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding: 1rem 0 0;
+    border-top: 2px solid var(--green-800);
+    margin-top: .5rem;
+  }
+  .log-total-label {
+    font-weight: 600;
+    font-size: .85rem;
+    color: var(--green-800);
+  }
+  .log-total-input {
+    border: none;
+    border-bottom: 2px solid var(--green-800);
+    background: transparent;
+    font-family: 'DM Serif Display', serif;
+    font-size: 1rem;
+    color: var(--green-800);
+    outline: none;
+    width: 160px;
+    padding: .2rem .4rem;
+  }
+
+  /* ── Signature ── */
+  .sig-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--rule);
+    background: var(--green-50);
+  }
+  .sig-field { display: flex; flex-direction: column; gap: .3rem; }
+  .sig-label { font-size: .65rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .sig-input {
+    border: none;
+    border-bottom: 1.5px solid var(--green-800);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    color: var(--ink);
+    outline: none;
+    padding: .35rem 0;
+  }
+
+  /* ── Print ── */
+  .print-btn {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 1.5rem auto 0;
+    padding: .7rem 1.5rem;
+    background: var(--green-800);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .85rem;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: .04em;
+    transition: background .2s;
+  }
+  .print-btn:hover { background: var(--green-700); }
+
+  @media (max-width: 560px) {
+    body { padding: 1rem .5rem 3rem; }
+    .header { padding: 1.75rem 1.25rem 1.5rem; }
+    .facility-grid { grid-template-columns: 1fr; }
+    .scoring-grid { grid-template-columns: 1fr; }
+    .sig-row { grid-template-columns: 1fr; }
+    .section, .facility-block, .scoring-section, .log-section { padding-left: 1.25rem; padding-right: 1.25rem; }
+    .disclaimer { margin-left: 1.25rem; margin-right: 1.25rem; }
+    .divider { margin-left: 1.25rem; margin-right: 1.25rem; }
+    .progress-bar-wrap { padding: 1rem 1.25rem; }
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; }
+    .progress-bar-wrap { position: static; }
+    .print-btn { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+<h1>Pre-Licensing<br><em>Inspection</em> Scorecard</h1>
+    <div class="header-sub">
+      <span>Adult Day Care</span>
+      <span>Group Home</span>
+      <span>Assisted Living Facility</span>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    This is a universal foundational checklist based on standard ADA and building safety codes. Always double-check your local state administrative code (e.g., Chapter 59A in Florida or Chapter 551 in Texas) for localized variances.
+  </div>
+
+  <!-- Facility Info -->
+  <div class="facility-block">
+    <div class="facility-title">Facility Inspection Details</div>
+    <div class="facility-grid">
+      <div class="field-group">
+        <label class="field-label">Date</label>
+        <input class="field-input" type="date">
+      </div>
+
+      <div class="field-group full">
+        <label class="field-label">Property Address</label>
+        <input class="field-input" type="text" placeholder="Street address, city, state, ZIP">
+      </div>
+      <div class="field-group full">
+        <div class="field-label" style="margin-bottom:.5rem">Target Model</div>
+        <div class="model-row">
+          <label class="model-check">
+            <input type="checkbox">
+            <div class="model-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="model-label">Adult Day Care</span>
+          </label>
+          <label class="model-check">
+            <input type="checkbox">
+            <div class="model-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="model-label">Group Home</span>
+          </label>
+          <label class="model-check">
+            <input type="checkbox">
+            <div class="model-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <span class="model-label">Assisted Living Facility</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Progress Bar (sticky) -->
+  <div class="progress-bar-wrap">
+    <span class="progress-label">Progress</span>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <span class="progress-count" id="progressCount">0 / 23</span>
+    <span class="zone-badge zone-none" id="zoneBadge">—</span>
+  </div>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section One</div>
+        <div class="section-title">External Access &amp; ADA Compliance</div>
+      </div>
+    </div>
+    <div class="check-list">
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">The Approach</div>
+          <div class="cb-desc">Continuous, unobstructed pathway from parking to entrance.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">The Ramps</div>
+          <div class="cb-desc">Adequate space for 1:12 slope ratio installation.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Door Widths</div>
+          <div class="cb-desc">At least 32 inches clear width for wheelchairs.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Thresholds</div>
+          <div class="cb-desc">Flush or under 0.5 inches with beveled edges.</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section Two</div>
+        <div class="section-title">Internal Pathways &amp; Common Areas</div>
+      </div>
+    </div>
+    <div class="check-list">
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Hallway Clearance</div>
+          <div class="cb-desc">At least 36 inches wide, obstruction-free.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Flooring Hazards</div>
+          <div class="cb-desc">Level flooring, no high-pile carpets or loose rugs.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Lighting Levels</div>
+          <div class="cb-desc">Bright and well-lit hallways, stairwells, and exits.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Handrails</div>
+          <div class="cb-desc">Structural framing present for secure handrail installation.</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section Three</div>
+        <div class="section-title">Resident Bedrooms</div>
+      </div>
+    </div>
+    <div class="check-list">
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Square Footage (Private)</div>
+          <div class="cb-desc">80–100 sq ft usable floor space per resident.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Square Footage (Shared)</div>
+          <div class="cb-desc">60–80 sq ft per resident in shared rooms.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Window Requirements</div>
+          <div class="cb-desc">Operable window present for emergency egress.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Closet Space</div>
+          <div class="cb-desc">Dedicated closet or wardrobe space per bed.</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section Four</div>
+        <div class="section-title">Bathrooms &amp; High-Risk Wet Areas</div>
+      </div>
+    </div>
+    <p class="section-note">Focus on moisture control, physical safety clearances, and high-frequency state citation areas.</p>
+    <div class="check-list">
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Door Swing Clearance</div>
+          <div class="cb-desc">Bathroom doors must swing outward or be equipped with double-acting hinges. This ensures emergency access if a resident falls against the inside of the door.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Grab Bar Structural Integrity</div>
+          <div class="cb-desc">Grab bars must be securely anchored into structural wall framing (blocking). Must support at least 250 lbs of shear force — not merely screwed into drywall.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Turning Radius</div>
+          <div class="cb-desc">A clear, unobstructed turning space of at least 60 inches in diameter (or a T-shaped turnaround) inside the main bathroom to accommodate wheelchairs.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Anti-Scald Valve Controls</div>
+          <div class="cb-desc">Mixing valves must be installed on water lines to ensure hot water at resident fixtures never exceeds safe state limits (typically 105°F–115°F nationwide).</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Shower Entry</div>
+          <div class="cb-desc">Zero-threshold roll-in shower design for wheelchair accessibility.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Flooring Slip Resistance</div>
+          <div class="cb-desc">Flooring materials must be non-slip or textured when wet. Zero high-gloss tile or polished surfaces allowed in bathing and wet areas.</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Section Five</div>
+        <div class="section-title">Life Safety &amp; Infrastructure</div>
+      </div>
+    </div>
+    <div class="check-list">
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Sprinkler Main</div>
+          <div class="cb-desc">1.5+ inch line available for commercial sprinkler system.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">Exit Signage</div>
+          <div class="cb-desc">Line of sight to two exits with illuminated emergency signs.</div>
+        </div>
+      </label>
+      <label class="check-item">
+        <input type="checkbox" class="scorecheck">
+        <div class="cb-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="cb-content">
+          <div class="cb-term">HVAC System</div>
+          <div class="cb-desc">Working in all rooms with lockable thermostat controls.</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SCORING -->
+  <div class="scoring-section">
+    <div class="section-header">
+      <div class="section-num" style="color:var(--green-200)">★</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Results</div>
+        <div class="section-title">Scoring Breakdown</div>
+      </div>
+    </div>
+    <div class="scoring-grid">
+      <div class="score-card green">
+        <div class="score-range">20–23 Boxes</div>
+        <div class="score-zone">Green Zone</div>
+        <div class="score-desc">Approved — Minimal modifications needed.</div>
+      </div>
+      <div class="score-card yellow">
+        <div class="score-range">15–19 Boxes</div>
+        <div class="score-zone">Yellow Zone</div>
+        <div class="score-desc">Proceed with Caution — Moderate investment required.</div>
+      </div>
+      <div class="score-card red">
+        <div class="score-range">Under 15 Boxes</div>
+        <div class="score-zone">Red Zone</div>
+        <div class="score-desc">Walk Away — Severe renovations needed.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ACTION LOG -->
+  <div class="log-section">
+    <div class="section-header">
+      <div class="section-num" style="color:var(--green-200)">⊘</div>
+      <div class="section-title-wrap">
+        <div class="section-label">Negotiation Tool</div>
+        <div class="section-title">Notes &amp; Discrepancies Action Log</div>
+      </div>
+    </div>
+    <p class="log-intro"><strong>Use this log as a negotiation tool.</strong> Present identified deficiencies to your commercial landlord to demand rent reductions or build-out credits before signing a lease.</p>
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>Item / Room #</th>
+          <th>Deficiency Found (e.g., "Hallway measures 34" instead of 36")</th>
+          <th>Est. Contractor Fix Cost</th>
+        </tr>
+      </thead>
+      <tbody id="logBody"></tbody>
+    </table>
+    <div class="log-total">
+      <span class="log-total-label">Total Estimated Renovation Cost:</span>
+      <input class="log-total-input" type="text" placeholder="$0.00">
+    </div>
+  </div>
+
+
+
+  <div style="text-align:center;padding:1.25rem 0 1.5rem">
+    <button class="print-btn" onclick="window.print()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 6V1h8v5M4 11H2a1 1 0 01-1-1V7a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-1 1h-2m-8 0v4h8v-4H4z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Print / Save as PDF
+    </button>
+  </div>
+
+</div><!-- .page -->
+
+<script>
+  // Build log rows
+  const logBody = document.getElementById('logBody');
+  for (let i = 1; i <= 10; i++) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" placeholder="${i}"></td>
+      <td><textarea rows="2" placeholder="Describe deficiency…"></textarea></td>
+      <td><input type="text" placeholder="$"></td>
+    `;
+    logBody.appendChild(tr);
+  }
+
+  // Progress tracking
+  const TOTAL = 23;
+  const fill = document.getElementById('progressFill');
+  const count = document.getElementById('progressCount');
+  const badge = document.getElementById('zoneBadge');
+
+  function updateProgress() {
+    const checked = document.querySelectorAll('.scorecheck:checked').length;
+    const pct = (checked / TOTAL) * 100;
+    fill.style.width = pct + '%';
+    count.textContent = checked + ' / ' + TOTAL;
+
+    badge.className = 'zone-badge';
+    if (checked >= 20) {
+      badge.classList.add('zone-green');
+      badge.textContent = 'Green Zone';
+    } else if (checked >= 15) {
+      badge.classList.add('zone-yellow');
+      badge.textContent = 'Yellow Zone';
+    } else if (checked > 0) {
+      badge.classList.add('zone-red');
+      badge.textContent = 'Red Zone';
+    } else {
+      badge.classList.add('zone-none');
+      badge.textContent = '—';
+    }
+  }
+
+  document.querySelectorAll('.scorecheck').forEach(cb => {
+    cb.addEventListener('change', updateProgress);
+  });
+</script>
+</body>
+</html>
