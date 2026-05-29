@@ -611,6 +611,27 @@
 </div><!-- /main -->
 
 <script>
+
+  const HOLE_INFO = {
+  1:{par:5,hcp:1},
+  2:{par:4,hcp:13},
+  3:{par:3,hcp:15},
+  4:{par:4,hcp:7},
+  5:{par:5,hcp:11},
+  6:{par:4,hcp:17},
+  7:{par:4,hcp:5},
+  8:{par:3,hcp:3},
+  9:{par:4,hcp:9},
+  10:{par:4,hcp:2},
+  11:{par:4,hcp:12},
+  12:{par:3,hcp:18},
+  13:{par:5,hcp:14},
+  14:{par:4,hcp:8},
+  15:{par:4,hcp:16},
+  16:{par:3,hcp:6},
+  17:{par:5,hcp:10},
+  18:{par:4,hcp:4}
+};
 // ═══════════════════════════════════════════════════
 // DATA
 // ═══════════════════════════════════════════════════
@@ -725,19 +746,26 @@ function buildScoring() {
 
   container.innerHTML = `
 
-    <div class="field">
+    <div id="holeHeader"></div>
 
-      <label>Current Hole</label>
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:16px;
+    ">
 
-      <select id="currentHole">
+      <button
+        class="btn btn-outline"
+        onclick="changeHole(-1)">
+        ← Previous Hole
+      </button>
 
-        ${Array.from({length:18},(_,i)=>
-          `<option value="${i+1}">
-            Hole ${i+1}
-          </option>`
-        ).join('')}
-
-      </select>
+      <button
+        class="btn btn-gold"
+        onclick="changeHole(1)">
+        Next Hole →
+      </button>
 
     </div>
 
@@ -745,23 +773,64 @@ function buildScoring() {
 
   `;
 
-document
-  .getElementById('currentHole')
-  .addEventListener('change', renderScoreRows);
+  if (!state.currentHole) {
+    state.currentHole = 1;
+  }
 
-renderScoreRows();
+  renderScoreRows();
+
+}
+
+  function changeHole(direction){
+
+  state.currentHole += direction;
+
+  if(state.currentHole < 1){
+    state.currentHole = 1;
+  }
+
+  if(state.currentHole > 18){
+    state.currentHole = 18;
+  }
+
+  renderScoreRows();
+
 }
 function renderScoreRows() {
 
-  const hole =
-    parseInt(
-      document.getElementById('currentHole').value
-    );
+  const hole = state.currentHole || 1;
 
   const container =
     document.getElementById('scoreRows');
 
   container.innerHTML = '';
+
+  const holeInfo = HOLE_INFO[hole];
+
+  document.getElementById('holeHeader').innerHTML = `
+    <div style="
+      background:var(--green);
+      color:white;
+      padding:14px;
+      border-radius:12px;
+      margin-bottom:16px;
+      text-align:center;
+    ">
+      <div style="
+        font-size:24px;
+        font-weight:700;
+      ">
+        HOLE ${hole}
+      </div>
+
+      <div style="
+        font-size:13px;
+        opacity:.85;
+      ">
+        PAR ${holeInfo.par} • HCP ${holeInfo.hcp}
+      </div>
+    </div>
+  `;
 
   SCORING_GROUPS.forEach(group => {
 
