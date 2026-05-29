@@ -461,6 +461,7 @@
 
 <nav class="tabs">
   <div class="tab active" onclick="showTab('skins')">SKINS</div>
+  <div class="tab" onclick="showTab('scoring')">SCORING</div>
   <div class="tab" onclick="showTab('quota')">QUOTA</div>
   <div class="tab" onclick="showTab('champion')">CHAMPION</div>
   <div class="tab" onclick="showTab('ctp')">CTP</div>
@@ -492,6 +493,24 @@
     </div>
   </div>
 
+<div class="section" id="sec-scoring">
+
+  <div class="card">
+
+    <div class="card-header">
+      <h2>Live Scoring</h2>
+      <span class="pot-badge">Hole-by-Hole Entry</span>
+    </div>
+
+    <div class="card-body">
+
+      <div id="liveScoringContainer"></div>
+
+    </div>
+
+  </div>
+
+</div>
   <!-- ══ QUOTA ══ -->
   <div class="section" id="sec-quota">
     <div class="card">
@@ -619,6 +638,9 @@ const PLAYERS_BLIND = [
 
 // STATE
 let state = {
+  
+  scores: {},
+  
   skins: Array.from({length:18}, (_,i) => ({ hole: i+1, winner:'', push:false })),
   skinsNotes: '',
   quota: PLAYERS_SKINS.map(p => ({ id:p.id, quota:p.quota, pts:'' })),
@@ -646,6 +668,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function buildAll() {
+  buildScoring();
   buildSkins();
   buildQuota();
   buildChamp();
