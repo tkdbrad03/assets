@@ -895,7 +895,7 @@ function renderScoreRows() {
     container.innerHTML += `
   <div style="
     display:grid;
-    grid-template-columns:1fr 90px 60px;
+    grid-template-columns:1fr 90px 60px 50px;
     gap:10px;
     margin-bottom:8px;
     font-size:11px;
@@ -906,6 +906,7 @@ function renderScoreRows() {
     <div>Player</div>
     <div style="text-align:center">Gross</div>
     <div style="text-align:center">Net</div>
+    <div style="text-align:center">Pts</div>
   </div>
 `;
 
@@ -932,11 +933,28 @@ const net =
     ? parseInt(gross) - (getsStroke ? 1 : 0)
     : '';
 
+  const diff =
+  net !== ''
+    ? net - holeInfo.par
+    : null;
+
+let points = '';
+
+if (diff !== null) {
+
+  if (diff <= -3) points = 5;      // Albatross
+  else if (diff === -2) points = 4; // Eagle
+  else if (diff === -1) points = 3; // Birdie
+  else if (diff === 0) points = 2;  // Par
+  else if (diff === 1) points = 1;  // Bogey
+  else points = 0;                  // Double+
+}
+
 container.innerHTML += `
 
   <div style="
     display:grid;
-    grid-template-columns:1fr 90px 60px;
+    grid-template-columns:1fr 90px 60px 50px;
     gap:10px;
     align-items:center;
     margin-bottom:10px;
@@ -974,6 +992,14 @@ container.innerHTML += `
     ">
       ${net !== '' ? net : '—'}
     </div>
+    <div style="
+  text-align:center;
+  font-weight:700;
+  color:var(--gold);
+  font-size:16px;
+">
+  ${points !== '' ? points : '—'}
+</div>
 
   </div>
 
