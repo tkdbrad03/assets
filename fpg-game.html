@@ -765,6 +765,7 @@ function buildScoring() {
 </div>
 
     <div id="holeHeader"></div>
+    <div id="leaderboardCard"></div>
 
     <div style="
       display:flex;
@@ -835,6 +836,67 @@ function renderScoreRows() {
 
   const holeInfo = HOLE_INFO[hole];
 
+  const leaderboard = [];
+
+SCORING_GROUPS.forEach(g => {
+
+  g.players.forEach(player => {
+
+    let totalPts = 0;
+
+    for(let h = 1; h <= 18; h++){
+
+      const scoreKey =
+        `${player.name}-H${h}`;
+
+      const gross =
+        parseInt(state.scores[scoreKey]);
+
+      if(!gross) continue;
+
+      const hInfo =
+        HOLE_INFO[h];
+
+      const playerHoleHcp =
+        player.tee === 'red'
+          ? hInfo.womenHcp
+          : hInfo.menHcp;
+
+      const getsStroke =
+        player.courseHandicap >= playerHoleHcp;
+
+      const net =
+        gross - (getsStroke ? 1 : 0);
+
+      const diff =
+        net - hInfo.par;
+
+      let pts = 0;
+
+      if(diff <= -3) pts = 5;
+      else if(diff === -2) pts = 4;
+      else if(diff === -1) pts = 3;
+      else if(diff === 0) pts = 2;
+      else if(diff === 1) pts = 1;
+      else pts = 0;
+
+      totalPts += pts;
+
+    }
+
+    leaderboard.push({
+      name: player.name,
+      pts: totalPts
+    });
+
+  });
+
+});
+
+leaderboard.sort(
+  (a,b) => b.pts - a.pts
+);
+
   document.getElementById('holeHeader').innerHTML = `
     <div style="
       background:var(--green);
@@ -859,6 +921,52 @@ function renderScoreRows() {
       </div>
     </div>
   `;
+  document.getElementById('leaderboardCard').innerHTML = `
+
+  <div style="
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    margin-bottom:16px;
+  ">
+
+    <div style="
+      font-size:18px;
+      font-weight:700;
+      color:var(--green);
+      margin-bottom:12px;
+    ">
+      LIVE LEADERBOARD
+    </div>
+
+    ${leaderboard.map((p,i)=>`
+
+      <div style="
+        display:flex;
+        justify-content:space-between;
+        padding:6px 0;
+        border-bottom:${i < leaderboard.length-1 ? '1px solid #eee' : 'none'};
+      ">
+
+        <div>
+          ${i+1}. ${p.name}
+        </div>
+
+        <div style="
+          font-weight:700;
+          color:var(--green);
+        ">
+          ${p.pts} pts
+        </div>
+
+      </div>
+
+    `).join('')}
+
+  </div>
+
+`;
 
   const group =
   SCORING_GROUPS[state.activeGroup - 1];
@@ -966,7 +1074,7 @@ container.innerHTML += `
     ">
       ${player.name}
       (${player.tee.toUpperCase()})
-      ${getsStroke ? '•' : ''}
+      ${getsStroke ? '<span style="color:var(--gold);font-size:18px;font-weight:700">•</span>' : ''}
     </div>
 
     <input
