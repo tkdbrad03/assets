@@ -9,7 +9,9 @@ export default async function handler(req, res) {
   if (!url) return res.status(400).json({ error: "Missing url param" });
 
   try {
-    const response = await fetch(url);
+    // Cache-bust so Vercel Edge never serves stale blob data
+    const busted = `${url}?t=${Date.now()}`;
+    const response = await fetch(busted);
     if (!response.ok) return res.status(404).json({ error: "Game not found" });
     const data = await response.json();
     return res.status(200).json(data);
@@ -18,3 +20,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: "Load failed" });
   }
 }
+
