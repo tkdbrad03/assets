@@ -1,4 +1,5 @@
 import { put } from "@vercel/blob";
+const BLOB_PATH = "games/fpg-may31.json";
 
 export default async function handler(req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -13,15 +14,16 @@ export default async function handler(req, res) {
     const body = Buffer.concat(chunks).toString();
     const data = JSON.parse(body);
 
-    const id = `fpg-game-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
-    const blob = await put(`games/${id}.json`, JSON.stringify(data), {
+    const blob = await put(BLOB_PATH, JSON.stringify(data), {
       access: "public",
       contentType: "application/json",
+      allowOverwrite: true,
     });
 
-    return res.status(200).json({ id, url: blob.url });
+    return res.status(200).json({ url: blob.url });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ error: "Save failed" });
   }
 }
+
