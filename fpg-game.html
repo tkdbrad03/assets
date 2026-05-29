@@ -863,6 +863,22 @@ function renderScoreRows() {
       </div>
 
     `;
+    container.innerHTML += `
+  <div style="
+    display:grid;
+    grid-template-columns:1fr 90px 60px;
+    gap:10px;
+    margin-bottom:8px;
+    font-size:11px;
+    font-weight:700;
+    text-transform:uppercase;
+    color:var(--muted);
+  ">
+    <div>Player</div>
+    <div style="text-align:center">Gross</div>
+    <div style="text-align:center">Net</div>
+  </div>
+`;
 
     group.players.forEach(player => {
 
@@ -873,30 +889,63 @@ function renderScoreRows() {
         state.scores[key] = '';
       }
 
-      container.innerHTML += `
+      const getsStroke =
+  player.courseHandicap >= holeInfo.hcp;
 
-        <div class="field">
+const gross =
+  state.scores[key] || '';
 
-          <label>
-  ${player.name}
-  (${player.tee.toUpperCase()})
-  ${player.courseHandicap >= holeInfo.hcp ? '•' : ''}
-</label>
+const net =
+  gross !== ''
+    ? parseInt(gross) - (getsStroke ? 1 : 0)
+    : '';
 
-          <input
-            type="number"
-            min="1"
-            max="15"
-            value="${state.scores[key]}"
-            placeholder="Gross Score"
-            onchange="
-              state.scores['${key}']=this.value;
-            "
-          >
+container.innerHTML += `
 
-        </div>
+  <div style="
+    display:grid;
+    grid-template-columns:1fr 90px 60px;
+    gap:10px;
+    align-items:center;
+    margin-bottom:10px;
+  ">
 
-      `;
+    <div style="
+      font-size:14px;
+      font-weight:600;
+    ">
+      ${player.name}
+      (${player.tee.toUpperCase()})
+      ${getsStroke ? '•' : ''}
+    </div>
+
+    <input
+      type="number"
+      min="1"
+      max="15"
+      value="${gross}"
+      placeholder="Gross"
+      onchange="
+        state.scores['${key}']=this.value;
+        renderScoreRows();
+      "
+      style="
+        text-align:center;
+      "
+    >
+
+    <div style="
+      text-align:center;
+      font-weight:700;
+      color:var(--green);
+      font-size:16px;
+    ">
+      ${net !== '' ? net : '—'}
+    </div>
+
+  </div>
+
+`;
 
     });
 
