@@ -717,7 +717,7 @@ function buildQuota() {
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${q.pts}" min="0" max="54" placeholder="—"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          oninput="state.quota[${i}].pts=this.value;buildQuota();buildPayout()">
+          onchange="state.quota[${i}].quota=this.value;buildQuota();buildPayout()">
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
         text-align:center;font-family:'DM Mono',monospace;font-weight:700;
@@ -768,7 +768,7 @@ function buildChamp() {
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${c.gross}" min="60" max="130" placeholder="—"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          oninput="state.champ[${i}].gross=this.value;buildChamp();buildPayout()">
+          onchange="state.champ[${i}].gross=this.value;buildChamp();buildPayout()">
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
         text-align:center;font-family:'DM Mono',monospace;font-weight:700;font-size:15px;
@@ -919,12 +919,13 @@ function buildPayout() {
   });
 
   let html = `
-    <div style="display:grid;grid-template-columns:1fr repeat(5,44px);gap:4px;margin-bottom:4px">
+    <div style="display:grid;grid-template-columns:1fr repeat(6,44px);gap:4px;margin-bottom:4px">
       <div class="payout-header">Player</div>
       <div class="payout-header" style="text-align:center">CHMP</div>
       <div class="payout-header" style="text-align:center">QUOT</div>
       <div class="payout-header" style="text-align:center">SKIN</div>
       <div class="payout-header" style="text-align:center">CTP</div>
+      <div class="payout-header" style="text-align:center">DRAW</div>
       <div class="payout-header" style="text-align:center">TOT</div>
     </div>`;
 
@@ -934,12 +935,13 @@ function buildPayout() {
     const quot = p.id === quotaWinner ? 50 : 0;
     const skin = Math.round(skinWins[p.id] || 0);
     const ctp  = ctpWins[p.id] || 0;
-    const tot  = chmp + quot + skin + ctp;
-    colTotals[0]+=chmp; colTotals[1]+=quot; colTotals[2]+=skin; colTotals[3]+=ctp; colTotals[4]+=tot;
+    const draw = Math.round(drawWins[p.id] || 0);
+    const tot  = chmp + quot + skin + ctp + draw;
+    colTotals[0]+=chmp; colTotals[1]+=quot; colTotals[2]+=skin; colTotals[3]+=ctp; colTotals[4]+=draw; colTotals[5]+=tot;
 
     const fmt = v => v > 0 ? `<span class="payout-cell has-val">$${v}</span>` : `<span class="payout-cell">—</span>`;
     html += `
-      <div style="display:grid;grid-template-columns:1fr repeat(5,44px);gap:4px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);align-items:center">
+      <div style="display:grid;grid-template-columns:1fr repeat(6,44px);gap:4px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);align-items:center">
         <div style="font-size:12px;font-weight:600">${p.name}</div>
         ${fmt(chmp)}${fmt(quot)}${fmt(skin)}${fmt(ctp)}
         <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${tot>0?'var(--green2)':'var(--muted)'};text-align:center">${tot>0?'$'+tot:'—'}</span>
@@ -947,13 +949,20 @@ function buildPayout() {
   });
 
   html += `
-    <div style="display:grid;grid-template-columns:1fr repeat(5,44px);gap:4px;padding:10px 0 0;border-top:2px solid var(--border);margin-top:4px">
+    <div style="display:grid;grid-template-columns:1fr repeat(6,44px);gap:4px;padding:10px 0 0;border-top:2px solid var(--border);margin-top:4px">
       <div style="font-size:11px;font-weight:700;color:var(--muted)">TOTALS</div>
       ${colTotals.map(v=>`<div style="text-align:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--green2)">${v>0?'$'+v:'-'}</div>`).join('')}
     </div>`;
 
   container.innerHTML = html;
 }
+
+  // Blind draw payouts
+  const drawWins = {};
+  const drawnOrder = state.draw.filter(d => d.drawn).sort((a,b) => a.order - b.order);
+  drawnOrder.forEach((d, i) => {
+    drawWins[d.id] = i < 6 ? 10 : (i === 6 ? 5 : 0);
+  });
 
 // ═══════════════════════════════════════════════════
 // SAVE / LOAD
