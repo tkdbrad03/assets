@@ -460,8 +460,8 @@
 </div>
 
 <nav class="tabs">
-  <div class="tab active" onclick="showTab('skins')">SKINS</div>
   <div class="tab" onclick="showTab('scoring')">SCORING</div>
+  <div class="tab active" onclick="showTab('skins')">SKINS</div>
   <div class="tab" onclick="showTab('quota')">QUOTA</div>
   <div class="tab" onclick="showTab('champion')">CHAMPION</div>
   <div class="tab" onclick="showTab('ctp')">CTP</div>
@@ -472,7 +472,7 @@
 <div class="main">
 
   <!-- ══ SKINS ══ -->
-  <div class="section active" id="sec-skins">
+  <div class="section" id="sec-skins">
     <div class="card">
       <div class="card-header">
         <h2>Skins</h2>
@@ -493,7 +493,7 @@
     </div>
   </div>
 
-<div class="section" id="sec-scoring">
+<div class="section active" id="sec-scoring">
 
   <div class="card">
 
@@ -720,7 +720,110 @@ function renderScoreRows() {
   const container =
     document.getElementById('scoreRows');
 
+  const SCORING_PLAYERS = [
+
+  // Group 1
+  { name:"T-Mac",    tee:"red",   quota:28, league:true },
+  { name:"Stripe",   tee:"blue",  quota:34, league:true },
+  { name:"Cheryll",  tee:"red",   quota:null, league:false },
+  { name:"Dot",      tee:"red",   quota:31, league:true },
+
+  // Group 2
+  { name:"Chief",    tee:"white", quota:26, league:true },
+  { name:"Leo",      tee:"white", quota:24, league:true },
+  { name:"Berlinda", tee:"red",   quota:null, league:false },
+
+  // Group 3
+  { name:"Susan",    tee:"red",   quota:32, league:true },
+  { name:"Mark",     tee:"blue",  quota:31, league:true },
+  { name:"Dave",     tee:"blue",  quota:37, league:true },
+  { name:"Tim",      tee:"white", quota:25, league:true },
+
+  // Group 4
+  { name:"JStar",    tee:"white", quota:34, league:true },
+  { name:"Chris",    tee:"white", quota:27, league:true },
+  { name:"HotRod",   tee:"white", quota:30, league:true }
+
+];
+
+const SCORING_GROUPS = [
+
+  {
+    group: 1,
+    teeTime: "10:00 AM",
+    players: [
+      { name:"T-Mac", tee:"red", quota:28, courseHandicap:16, league:true },
+      { name:"Stripe", tee:"blue", quota:34, courseHandicap:18, league:true },
+      { name:"Cheryll", tee:"red", quota:null, courseHandicap:18, league:false, establishingQuota:true},
+      { name:"Dot", tee:"red", quota:31, courseHandicap:18, league:true }
+    ]
+  },
+
+  {
+    group: 2,
+    teeTime: "10:07 AM",
+    players: [
+      { name:"Chief", tee:"white", quota:26, courseHandicap:14, league:true },
+      { name:"Leo", tee:"white", quota:24, courseHandicap:18, league:true },
+      { name:"Berlinda", tee:"red", quota:null, courseHandicap:18, league:false, establishingQuota:true}
+    ]
+  },
+
+  {
+    group: 3,
+    teeTime: "10:14 AM",
+    players: [
+      { name:"Susan", tee:"red", quota:32, courseHandicap:4, league:true },
+      { name:"Mark", tee:"blue", quota:31, courseHandicap:11, league:true },
+      { name:"Dave", tee:"blue", quota:37, courseHandicap:10, league:true },
+      { name:"Tim", tee:"white", quota:25, courseHandicap:18, league:true }
+    ]
+  },
+
+  {
+    group: 4,
+    teeTime: "10:21 AM",
+    players: [
+      { name:"JStar", tee:"white", quota:34, courseHandicap:14, league:true },
+      { name:"Chris", tee:"white", quota:27, courseHandicap:14, league:true },
+      { name:"HotRod", tee:"white", quota:30, courseHandicap:16, league:true }
+    ]
+  }
+
+];
+
   container.innerHTML = '';
+
+  players.forEach(player => {
+
+    const key = `${player}-H${hole}`;
+
+    if (!state.scores[key]) {
+      state.scores[key] = '';
+    }
+
+    container.innerHTML += `
+
+      <div class="field">
+
+        <label>${player}</label>
+
+        <input
+          type="number"
+          min="1"
+          max="15"
+          value="${state.scores[key]}"
+          placeholder="Gross Score"
+          onchange="
+            state.scores['${key}']=this.value;
+          "
+        >
+
+      </div>
+
+    `;
+
+  });
 
 }
 // ═══════════════════════════════════════════════════
