@@ -460,8 +460,8 @@
 </div>
 
 <nav class="tabs">
-  <div class="tab" onclick="showTab('scoring')">SCORING</div>
-  <div class="tab active" onclick="showTab('skins')">SKINS</div>
+  <div class="tab active" onclick="showTab('scoring')">SCORING</div>
+  <div class="tab" onclick="showTab('skins')">SKINS</div>
   <div class="tab" onclick="showTab('quota')">QUOTA</div>
   <div class="tab" onclick="showTab('champion')">CHAMPION</div>
   <div class="tab" onclick="showTab('ctp')">CTP</div>
@@ -634,6 +634,47 @@ const PLAYERS_CTP = [
 const PLAYERS_BLIND = [
   ...PLAYERS_CTP,
   { id:'msdot',   name:"Ms Dot",          full:"Dorothy 'Ms Dot' McHenry",     hcp:22, quota:31 },
+];
+
+  const SCORING_GROUPS = [
+  {
+    group: 1,
+    teeTime: "10:00 AM",
+    players: [
+      { name:"T-Mac", tee:"red", quota:28, courseHandicap:16, league:true },
+      { name:"Stripe", tee:"blue", quota:34, courseHandicap:18, league:true },
+      { name:"Cheryll", tee:"red", quota:null, courseHandicap:18, league:false, establishingQuota:true },
+      { name:"Dot", tee:"red", quota:31, courseHandicap:18, league:true }
+    ]
+  },
+  {
+    group: 2,
+    teeTime: "10:07 AM",
+    players: [
+      { name:"Chief", tee:"white", quota:26, courseHandicap:14, league:true },
+      { name:"Leo", tee:"white", quota:24, courseHandicap:18, league:true },
+      { name:"Berlinda", tee:"red", quota:null, courseHandicap:18, league:false, establishingQuota:true }
+    ]
+  },
+  {
+    group: 3,
+    teeTime: "10:14 AM",
+    players: [
+      { name:"Susan", tee:"red", quota:32, courseHandicap:4, league:true },
+      { name:"Mark", tee:"blue", quota:31, courseHandicap:11, league:true },
+      { name:"Dave", tee:"blue", quota:37, courseHandicap:10, league:true },
+      { name:"Tim", tee:"white", quota:25, courseHandicap:18, league:true }
+    ]
+  },
+  {
+    group: 4,
+    teeTime: "10:21 AM",
+    players: [
+      { name:"JStar", tee:"white", quota:34, courseHandicap:14, league:true },
+      { name:"Chris", tee:"white", quota:27, courseHandicap:14, league:true },
+      { name:"HotRod", tee:"white", quota:30, courseHandicap:16, league:true }
+    ]
+  }
 ];
 
 // STATE
