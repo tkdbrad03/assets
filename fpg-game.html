@@ -677,6 +677,52 @@ function buildAll() {
   buildPayout();
 }
 
+function buildScoring() {
+
+  const container =
+    document.getElementById('liveScoringContainer');
+
+  container.innerHTML = `
+
+    <div class="field">
+
+      <label>Current Hole</label>
+
+      <select id="currentHole">
+
+        ${Array.from({length:18},(_,i)=>
+          `<option value="${i+1}">
+            Hole ${i+1}
+          </option>`
+        ).join('')}
+
+      </select>
+
+    </div>
+
+    <div id="scoreRows"></div>
+
+  `;
+
+document
+  .getElementById('currentHole')
+  .addEventListener('change', renderScoreRows);
+
+renderScoreRows();
+}
+function renderScoreRows() {
+
+  const hole =
+    parseInt(
+      document.getElementById('currentHole').value
+    );
+
+  const container =
+    document.getElementById('scoreRows');
+
+  container.innerHTML = '';
+
+}
 // ═══════════════════════════════════════════════════
 // SKINS
 // ═══════════════════════════════════════════════════
@@ -980,7 +1026,7 @@ if (quotaResults[3]) quotaPayouts[quotaResults[3].id] = 7.5;
       <div class="payout-header" style="text-align:center">TOT</div>
     </div>`;
 
-  let colTotals = [0,0,0,0,0];
+  let colTotals = [0,0,0,0,0,0];
   all.forEach(p => {
     const chmp = p.id === champWinner ? 50 : 0;
     const quot = quotaPayouts[p.id] || 0;
