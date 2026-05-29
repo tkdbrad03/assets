@@ -790,7 +790,18 @@ function buildScoring() {
 
     <div id="scoreRows"></div>
 
-    <div id="leaderboardCard"></div>
+<div id="leaderboardCard"></div>
+
+<div style="
+  margin-top:20px;
+  text-align:center;
+">
+  <button
+    class="btn btn-outline"
+    onclick="resetRound()">
+    ADMIN RESET
+  </button>
+</div>
 
   `;
 
@@ -1567,6 +1578,27 @@ function showToast(msg) {
   t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+  function resetRound() {
+
+  if (!confirm(
+    'Reset ALL scores for the round?'
+  )) {
+    return;
+  }
+
+  if (!confirm(
+    'This cannot be undone. Continue?'
+  )) {
+    return;
+  }
+
+  state.scores = {};
+
+  renderScoreRows();
+
+  showToast('Round reset');
+
 }
 </script>
 </body>
