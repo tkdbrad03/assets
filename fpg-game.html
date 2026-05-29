@@ -700,6 +700,9 @@ const PLAYERS_BLIND = [
 
 // STATE
 let state = {
+
+  activeGroup: 1,
+  currentHole: 1,
   
   scores: {},
   
@@ -746,6 +749,21 @@ function buildScoring() {
 
   container.innerHTML = `
 
+  <div class="field">
+
+  <label>Scorekeeper Group</label>
+
+  <select id="groupSelector">
+
+    <option value="1">T-Mac (Group 1)</option>
+    <option value="2">Chief (Group 2)</option>
+    <option value="3">Susan (Group 3)</option>
+    <option value="4">JStar (Group 4)</option>
+
+  </select>
+
+</div>
+
     <div id="holeHeader"></div>
 
     <div style="
@@ -778,6 +796,16 @@ function buildScoring() {
   }
 
   renderScoreRows();
+  document
+  .getElementById('groupSelector')
+  .addEventListener('change', function(){
+
+    state.activeGroup =
+      parseInt(this.value);
+
+    renderScoreRows();
+
+  });
 
 }
 
@@ -832,7 +860,8 @@ function renderScoreRows() {
     </div>
   `;
 
-  SCORING_GROUPS.forEach(group => {
+  const group =
+  SCORING_GROUPS[state.activeGroup - 1];
 
     container.innerHTML += `
 
@@ -950,7 +979,7 @@ container.innerHTML += `
 
 `;
 
-    });
+  group.players.forEach(player => {
 
   });
 
