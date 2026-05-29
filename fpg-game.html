@@ -878,9 +878,10 @@ function renderScoreRows() {
         <div class="field">
 
           <label>
-            ${player.name}
-            (${player.tee.toUpperCase()})
-          </label>
+  ${player.name}
+  (${player.tee.toUpperCase()})
+  ${player.courseHandicap >= holeInfo.hcp ? '•' : ''}
+</label>
 
           <input
             type="number"
