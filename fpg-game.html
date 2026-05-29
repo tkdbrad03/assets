@@ -613,24 +613,24 @@
 <script>
 
   const HOLE_INFO = {
-  1:{par:5,hcp:1},
-  2:{par:4,hcp:13},
-  3:{par:3,hcp:15},
-  4:{par:4,hcp:7},
-  5:{par:5,hcp:11},
-  6:{par:4,hcp:17},
-  7:{par:4,hcp:5},
-  8:{par:3,hcp:3},
-  9:{par:4,hcp:9},
-  10:{par:4,hcp:2},
-  11:{par:4,hcp:12},
-  12:{par:3,hcp:18},
-  13:{par:5,hcp:14},
-  14:{par:4,hcp:8},
-  15:{par:4,hcp:16},
-  16:{par:3,hcp:6},
-  17:{par:5,hcp:10},
-  18:{par:4,hcp:4}
+  1:{par:5, menHcp:1, womenHcp:7},
+  2:{par:4, menHcp:13, womenHcp:11},
+  3:{par:3, menHcp:15, womenHcp:15},
+  4:{par:4, menHcp:7, womenHcp:5},
+  5:{par:4, menHcp:11, womenHcp:13},
+  6:{par:3, menHcp:17, womenHcp:17},
+  7:{par:4, menHcp:5, womenHcp:3},
+  8:{par:5, menHcp:3, womenHcp:1},
+  9:{par:4, menHcp:9, womenHcp:9},
+  10:{par:5, menHcp:2, womenHcp:6},
+  11:{par:4, menHcp:12, womenHcp:4},
+  12:{par:3, menHcp:18, womenHcp:12},
+  13:{par:4, menHcp:14, womenHcp:8},
+  14:{par:4, menHcp:8, womenHcp:18},
+  15:{par:3, menHcp:16, womenHcp:10},
+  16:{par:5, menHcp:6, womenHcp:14},
+  17:{par:4, menHcp:10, womenHcp:16},
+  18:{par:4, menHcp:4, womenHcp:2}
 };
 // ═══════════════════════════════════════════════════
 // DATA
@@ -662,8 +662,8 @@ const PLAYERS_BLIND = [
     group: 1,
     teeTime: "10:00 AM",
     players: [
-      { name:"T-Mac", tee:"red", quota:28, courseHandicap:16, league:true },
       { name:"Stripe", tee:"blue", quota:34, courseHandicap:18, league:true },
+      { name:"T-Mac", tee:"red", quota:28, courseHandicap:16, league:true },
       { name:"Cheryll", tee:"red", quota:null, courseHandicap:18, league:false, establishingQuota:true },
       { name:"Dot", tee:"red", quota:31, courseHandicap:18, league:true }
     ]
@@ -681,10 +681,10 @@ const PLAYERS_BLIND = [
     group: 3,
     teeTime: "10:14 AM",
     players: [
-      { name:"Susan", tee:"red", quota:32, courseHandicap:4, league:true },
       { name:"Mark", tee:"blue", quota:31, courseHandicap:11, league:true },
       { name:"Dave", tee:"blue", quota:37, courseHandicap:10, league:true },
-      { name:"Tim", tee:"white", quota:25, courseHandicap:18, league:true }
+      { name:"Tim", tee:"white", quota:25, courseHandicap:18, league:true },
+      { name:"Susan", tee:"red", quota:32, courseHandicap:4, league:true }
     ]
   },
   {
@@ -827,7 +827,7 @@ function renderScoreRows() {
         font-size:13px;
         opacity:.85;
       ">
-        PAR ${holeInfo.par} • HCP ${holeInfo.hcp}
+        PAR ${holeInfo.par} • MEN HCP ${holeInfo.menHcp} • WOMEN HCP ${holeInfo.womenHcp}
       </div>
     </div>
   `;
@@ -889,8 +889,11 @@ function renderScoreRows() {
         state.scores[key] = '';
       }
 
-      const getsStroke =
-  player.courseHandicap >= holeInfo.hcp;
+ const playerHoleHcp =
+  player.tee === 'red' ? holeInfo.womenHcp : holeInfo.menHcp;
+
+const getsStroke =
+  player.courseHandicap >= playerHoleHcp;
 
 const gross =
   state.scores[key] || '';
