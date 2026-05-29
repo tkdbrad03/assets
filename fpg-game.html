@@ -727,22 +727,35 @@ function buildQuota() {
   });
 
   // Find winner
-  let best = null, bestDiff = -Infinity;
-  state.quota.forEach((q, i) => {
-    if (q.pts !== '') {
-      const diff = parseInt(q.pts) - parseInt(q.quota);
-      if (diff > bestDiff) { bestDiff = diff; best = i; }
-    }
-  });
-  const wb = document.getElementById('quotaWinner');
-  if (best !== null) {
-    wb.style.display = 'flex';
-    document.getElementById('quotaWinnerName').textContent = PLAYERS_SKINS[best].full;
-    document.getElementById('quotaWinnerDetail').textContent =
-      `${bestDiff >= 0 ? '+' : ''}${bestDiff} over quota · Payout: $50`;
-  } else {
-    wb.style.display = 'none';
-  }
+  const results = state.quota
+  .map((q, i) => ({
+    player: PLAYERS_SKINS[i],
+    diff: q.pts !== '' ? parseInt(q.pts) - parseInt(q.quota) : null
+  }))
+  .filter(r => r.diff !== null)
+  .sort((a, b) => b.diff - a.diff);
+
+const wb = document.getElementById('quotaWinner');
+
+if (results.length > 0) {
+
+  wb.style.display = 'flex';
+
+  document.getElementById('quotaWinnerName').textContent =
+    'Quota Winners';
+
+  document.getElementById('quotaWinnerDetail').innerHTML = `
+    1st - ${results[0] ? results[0].player.name + ' ($20)' : ''}<br>
+    2nd - ${results[1] ? results[1].player.name + ' ($12.50)' : ''}<br>
+    3rd - ${results[2] ? results[2].player.name + ' ($10)' : ''}<br>
+    4th - ${results[3] ? results[3].player.name + ' ($7.50)' : ''}
+  `;
+
+} else {
+
+  wb.style.display = 'none';
+
+}
 }
 
 // ═══════════════════════════════════════════════════
@@ -887,6 +900,13 @@ function buildPayout() {
   const all = PLAYERS_BLIND;
   const container = document.getElementById('payoutTable');
 
+// Blind draw payouts
+  const drawWins = {};
+  const drawnOrder = state.draw.filter(d => d.drawn).sort((a,b) => a.order - b.order);
+  drawnOrder.forEach((d, i) => {
+    drawWins[d.id] = i < 6 ? 10 : (i === 6 ? 5 : 0);
+  });
+  
   // Calc skins winners
   const skinWins = {};
   const winningHoles = state.skins.filter(s => s.winner && s.winner !== 'PUSH');
@@ -895,14 +915,21 @@ function buildPayout() {
     skinWins[s.winner] = (skinWins[s.winner] || 0) + perSkin;
   });
 
-  // Quota winner
-  let quotaWinner = null, bestDiff = -Infinity;
-  state.quota.forEach((q, i) => {
-    if (q.pts !== '') {
-      const diff = parseInt(q.pts) - parseInt(q.quota);
-      if (diff > bestDiff) { bestDiff = diff; quotaWinner = PLAYERS_SKINS[i].id; }
-    }
-  });
+  // Quota Top 4 Winners
+const quotaPayouts = {};
+
+const quotaResults = state.quota
+  .map((q, i) => ({
+    id: PLAYERS_SKINS[i].id,
+    diff: q.pts !== '' ? parseInt(q.pts) - parseInt(q.quota) : null
+  }))
+  .filter(r => r.diff !== null)
+  .sort((a, b) => b.diff - a.diff);
+
+if (quotaResults[0]) quotaPayouts[quotaResults[0].id] = 20;
+if (quotaResults[1]) quotaPayouts[quotaResults[1].id] = 12.5;
+if (quotaResults[2]) quotaPayouts[quotaResults[2].id] = 10;
+if (quotaResults[3]) quotaPayouts[quotaResults[3].id] = 7.5;
 
   // Champ winner
   let champWinner = null, bestNet = Infinity;
@@ -933,7 +960,7 @@ function buildPayout() {
   let colTotals = [0,0,0,0,0];
   all.forEach(p => {
     const chmp = p.id === champWinner ? 50 : 0;
-    const quot = p.id === quotaWinner ? 50 : 0;
+    const quot = quotaPayouts[p.id] || 0;
     const skin = Math.round(skinWins[p.id] || 0);
     const ctp  = ctpWins[p.id] || 0;
     const draw = Math.round(drawWins[p.id] || 0);
@@ -958,12 +985,7 @@ function buildPayout() {
   container.innerHTML = html;
 }
 
-  // Blind draw payouts
-  const drawWins = {};
-  const drawnOrder = state.draw.filter(d => d.drawn).sort((a,b) => a.order - b.order);
-  drawnOrder.forEach((d, i) => {
-    drawWins[d.id] = i < 6 ? 10 : (i === 6 ? 5 : 0);
-  });
+  
 
 // ═══════════════════════════════════════════════════
 // SAVE / LOAD
