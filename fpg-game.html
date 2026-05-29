@@ -580,6 +580,7 @@
       <div class="card-header">
         <h2>Payout Matrix</h2>
         <span class="pot-badge">$325 TOTAL</span>
+        <button class="btn btn-gold btn-sm" onclick="printPayout()">Print</button>
       </div>
       <div class="card-body">
         <p class="section-note">Summary of all winnings. Tap a category to edit.</p>
@@ -1032,6 +1033,30 @@ function copyLink() {
   });
 }
 
+function printPayout() {
+  const content = document.getElementById('payoutTable').innerHTML;
+  const win = window.open('', '_blank');
+  win.document.write(`
+    <html><head><title>FPG Payout · Greenfield · May 31 2026</title>
+    <style>
+      body { font-family: sans-serif; padding: 24px; font-size: 13px; }
+      h2 { margin-bottom: 4px; }
+      p { color: #666; margin-bottom: 16px; font-size: 12px; }
+      .payout-header { font-size: 9px; font-weight: 700; text-transform: uppercase; color: #888; }
+      .payout-cell { text-align: center; color: #888; }
+      .payout-cell.has-val { color: #1a3d2b; font-weight: 600; }
+      @media print { button { display: none; } }
+    </style></head>
+    <body>
+      <h2>FPG Payout Matrix</h2>
+      <p>Greenfield Plantation · May 31, 2026 · Total Pots: $325</p>
+      ${content}
+      <br>
+      <button onclick="window.print()">Print</button>
+    </body></html>`);
+  win.document.close();
+  win.focus();
+}
 // ═══════════════════════════════════════════════════
 // UI HELPERS
 // ═══════════════════════════════════════════════════
