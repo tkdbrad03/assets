@@ -838,6 +838,52 @@ function buildScoring() {
   renderScoreRows();
 
 }
+
+  function getPlayerTotalPoints(player) {
+
+  let totalPts = 0;
+
+  for(let h = 1; h <= 18; h++) {
+
+    const scoreKey =
+      `${player.name}-H${h}`;
+
+    const gross =
+      parseInt(state.scores[scoreKey]);
+
+    if(!gross) continue;
+
+    const hInfo =
+      HOLE_INFO[h];
+
+    const playerHoleHcp =
+      player.tee === 'red'
+        ? hInfo.womenHcp
+        : hInfo.menHcp;
+
+    const getsStroke =
+      player.courseHandicap >= playerHoleHcp;
+
+    const net =
+      gross - (getsStroke ? 1 : 0);
+
+    const diff =
+      net - hInfo.par;
+
+    let pts = 0;
+
+    if(diff <= -3) pts = 5;
+    else if(diff === -2) pts = 4;
+    else if(diff === -1) pts = 3;
+    else if(diff === 0) pts = 2;
+    else if(diff === 1) pts = 1;
+    else pts = 0;
+
+    totalPts += pts;
+  }
+
+  return totalPts;
+}
 function renderScoreRows() {
 
   const hole = state.currentHole || 1;
