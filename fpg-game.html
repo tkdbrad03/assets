@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>FPG Game Day · Greenfield · May 31, 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --green:  #1a3d2b;
+    --green2: #2a5c3f;
+    --gold:   #c9a84c;
+    --gold2:  #f0c96b;
+    --cream:  #fdf8ef;
+    --ink:    #1a1a1a;
+    --muted:  #6b7280;
+    --card:   #ffffff;
+    --border: rgba(201,168,76,.22);
+    --radius: 16px;
+    --shadow: 0 4px 24px rgba(0,0,0,.10);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--green);
+    color: #fff;
+    padding: 18px 16px 14px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,.3);
+  }
+  .site-header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--gold2);
+    line-height: 1;
+  }
+  .site-header p {
+    font-size: 11px;
+    color: rgba(255,255,255,.65);
+    margin-top: 3px;
+    letter-spacing: .5px;
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  /* ── SAVE / SHARE BAR ── */
+  .action-bar {
+    background: var(--green2);
+    padding: 10px 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .action-bar .share-url {
+    flex: 1;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    transition: opacity .15s, transform .1s;
+  }
+  .btn:active { transform: scale(.96); }
+  .btn-gold { background: var(--gold); color: var(--green); }
+  .btn-outline { background: transparent; color: var(--gold2); border: 1.5px solid var(--gold2); }
+  .btn-sm { padding: 6px 10px; font-size: 12px; }
+  .btn:disabled { opacity: .45; cursor: default; }
+
+  /* ── NAV TABS ── */
+  .tabs {
+    display: flex;
+    overflow-x: auto;
+    background: var(--green);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    border-top: 1px solid rgba(255,255,255,.1);
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex: 0 0 auto;
+    padding: 10px 16px;
+    color: rgba(255,255,255,.55);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    white-space: nowrap;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: color .2s, border-color .2s;
+  }
+  .tab.active {
+    color: var(--gold2);
+    border-bottom-color: var(--gold2);
+  }
+
+  /* ── MAIN CONTENT ── */
+  .main { padding: 16px; max-width: 600px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--green);
+    color: #fff;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .card-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    color: var(--gold2);
+  }
+  .pot-badge {
+    background: var(--gold);
+    color: var(--green);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .card-body { padding: 14px 16px; }
+
+  /* ── FORM ELEMENTS ── */
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  input[type=text], input[type=number], select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1.5px solid rgba(0,0,0,.12);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    background: #fff;
+    color: var(--ink);
+    outline: none;
+    transition: border-color .2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--green2);
+  }
+  .field { margin-bottom: 12px; }
+
+  /* ── PLAYER ROWS ── */
+  .player-row {
+    display: grid;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    align-items: center;
+  }
+  .player-row:last-child { border-bottom: none; }
+  .player-name {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .player-nick {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── SKINS ── */
+  .holes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .hole-card {
+    background: #f9f5ee;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 8px 8px;
+  }
+  .hole-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    line-height: 1;
+  }
+  .hole-label { font-size: 10px; color: var(--muted); font-weight: 600; }
+  .hole-card select { margin-top: 6px; font-size: 12px; padding: 6px 8px; }
+
+  /* ── QUOTA TABLE ── */
+  .quota-grid {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 8px;
+    align-items: center;
+  }
+  .quota-header {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  /* ── CTP ── */
+  .ctp-block {
+    background: #f9f5ee;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .ctp-payout {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--gold);
+    float: right;
+  }
+  .ctp-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    color: var(--green);
+    margin-bottom: 8px;
+  }
+
+  /* ── BLIND DRAW ── */
+  .draw-list { list-style: none; }
+  .draw-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+  }
+  .draw-item:last-child { border-bottom: none; }
+  .draw-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--green);
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .draw-name { flex: 1; font-weight: 500; font-size: 14px; }
+  .draw-check {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    transition: background .2s, border-color .2s;
+    flex-shrink: 0;
+  }
+  .draw-check.drawn {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+  .draw-order {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* ── CHAMPION ── */
+  .champ-grid {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 6px;
+    align-items: center;
+  }
+  .champ-header {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--muted);
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+  .col-center { text-align: center; }
+
+  /* ── SUMMARY / PAYOUT ── */
+  .payout-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto auto;
+    gap: 4px;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    font-size: 12px;
+  }
+  .payout-row:last-child { border-bottom: none; }
+  .payout-header {
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--border);
+  }
+  .payout-total {
+    font-weight: 700;
+    color: var(--green2);
+    font-family: 'DM Mono', monospace;
+  }
+  .payout-cell {
+    font-family: 'DM Mono', monospace;
+    text-align: center;
+    color: var(--muted);
+  }
+  .payout-cell.has-val { color: var(--green2); font-weight: 600; }
+
+  /* ── WINNER BANNER ── */
+  .winner-banner {
+    background: linear-gradient(135deg, var(--green), var(--green2));
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .winner-banner .trophy { font-size: 26px; }
+  .winner-banner .wname { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--gold2); }
+  .winner-banner .wdetail { font-size: 12px; color: rgba(255,255,255,.7); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--green);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    z-index: 999;
+    transition: transform .3s ease;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── VIEW MODE ── */
+  body.view-mode input, body.view-mode select, body.view-mode textarea {
+    pointer-events: none;
+    background: #f5f5f5;
+    color: #444;
+  }
+  body.view-mode .draw-check { pointer-events: none; }
+  .view-badge {
+    display: none;
+    background: var(--gold);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: .5px;
+  }
+  body.view-mode .view-badge { display: inline-block; }
+  body.view-mode .save-btn { display: none; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 12px 0;
+  }
+  .section-note {
+    font-size: 12px;
+    color: var(--muted);
+    padding: 8px 0 4px;
+  }
+  .highlight-row {
+    background: rgba(201,168,76,.08);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+  }
+  .highlight-row .amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--gold);
+  }
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<header class="site-header">
+  <div class="header-row">
+    <div>
+      <h1>⛳ FPG Game Day</h1>
+      <p>GREENFIELD PLANTATION · SAT MAY 31, 2026 · COORDINATOR: T-MAC</p>
+    </div>
+    <span class="view-badge">📋 VIEW ONLY</span>
+  </div>
+</header>
+
+<div class="action-bar">
+  <button class="btn btn-gold save-btn" id="saveBtn" onclick="saveGame()">💾 Save & Share</button>
+  <button class="btn btn-outline btn-sm save-btn" onclick="autoSave()">↺ Auto-save</button>
+  <div class="share-url" id="shareUrl">Enter data then tap Save & Share →</div>
+  <button class="btn btn-outline btn-sm" id="copyBtn" onclick="copyLink()" style="display:none">📋 Copy Link</button>
+</div>
+
+<nav class="tabs">
+  <div class="tab active" onclick="showTab('skins')">SKINS</div>
+  <div class="tab" onclick="showTab('quota')">QUOTA</div>
+  <div class="tab" onclick="showTab('champion')">CHAMPION</div>
+  <div class="tab" onclick="showTab('ctp')">CTP</div>
+  <div class="tab" onclick="showTab('blinddraw')">BLIND DRAW</div>
+  <div class="tab" onclick="showTab('payout')">PAYOUT</div>
+</nav>
+
+<div class="main">
+
+  <!-- ══ SKINS ══ -->
+  <div class="section active" id="sec-skins">
+    <div class="card">
+      <div class="card-header">
+        <h2>Skins</h2>
+        <span class="pot-badge">$100 POT · 10 players</span>
+      </div>
+      <div class="card-body">
+        <p class="section-note">Select winner per hole. Choose PUSH if no winner.</p>
+        <div style="margin-bottom:12px;">
+          <label>$ per skin (auto-calc)</label>
+          <div id="perSkinDisplay" style="font-family:'DM Mono',monospace;font-size:16px;color:var(--green2);font-weight:700;padding:6px 0;">—</div>
+        </div>
+        <div class="holes-grid" id="skinsGrid"></div>
+        <div class="field" style="margin-top:14px;">
+          <label>Skins Notes / Ties</label>
+          <textarea id="skinsNotes" rows="2" placeholder="Any carryover or tie notes…"></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ QUOTA ══ -->
+  <div class="section" id="sec-quota">
+    <div class="card">
+      <div class="card-header">
+        <h2>Quota</h2>
+        <span class="pot-badge">$50 POT · 10 players</span>
+      </div>
+      <div class="card-body">
+        <p class="section-note">Stableford quota — enter today's points. +/- auto-calculated.</p>
+        <div class="quota-grid">
+          <div class="quota-header">Player</div>
+          <div class="quota-header" style="text-align:center">Quota</div>
+          <div class="quota-header" style="text-align:center">Today's Pts</div>
+          <div class="quota-header" style="text-align:center">+/−</div>
+          <div id="quotaRows"></div>
+          <div></div><div></div><div></div>
+        </div>
+        <div id="quotaWinner" class="winner-banner" style="display:none">
+          <div class="trophy">🏆</div>
+          <div><div class="wname" id="quotaWinnerName"></div><div class="wdetail" id="quotaWinnerDetail"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CHAMPION ══ -->
+  <div class="section" id="sec-champion">
+    <div class="card">
+      <div class="card-header">
+        <h2>Champion of the Day</h2>
+        <span class="pot-badge">$50 POT · 10 players</span>
+      </div>
+      <div class="card-body">
+        <p class="section-note">Enter gross score. Net = Gross − HCP. Lowest net wins.</p>
+        <div class="champ-grid">
+          <div class="champ-header">Player</div>
+          <div class="champ-header col-center">HCP</div>
+          <div class="champ-header col-center">Gross</div>
+          <div class="champ-header col-center">Net</div>
+          <div id="champRows"></div>
+          <div></div><div></div><div></div>
+        </div>
+        <div id="champWinner" class="winner-banner" style="display:none">
+          <div class="trophy">🏆</div>
+          <div><div class="wname" id="champWinnerName"></div><div class="wdetail" id="champWinnerDetail"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CTP ══ -->
+  <div class="section" id="sec-ctp">
+    <div class="card">
+      <div class="card-header">
+        <h2>Closest to the Pin</h2>
+        <span class="pot-badge">$60 POT · 4 holes</span>
+      </div>
+      <div class="card-body">
+        <p class="section-note">$15 per hole · 12 players · Fill in on the day.</p>
+        <div id="ctpBlocks"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BLIND DRAW ══ -->
+  <div class="section" id="sec-blinddraw">
+    <div class="card">
+      <div class="card-header">
+        <h2>Blind Draw</h2>
+        <span class="pot-badge">$65 POT · 13 players</span>
+      </div>
+      <div class="card-body">
+        <p class="section-note">Tap ✓ as each player is drawn from the hat. Order is tracked.</p>
+        <div class="highlight-row" style="margin-bottom:12px;">
+          <span id="drawCount">0 / 13 drawn</span>
+          <button class="btn btn-outline btn-sm save-btn" onclick="resetDraw()">Reset</button>
+        </div>
+        <ul class="draw-list" id="drawList"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAYOUT SUMMARY ══ -->
+  <div class="section" id="sec-payout">
+    <div class="card">
+      <div class="card-header">
+        <h2>Payout Matrix</h2>
+        <span class="pot-badge">$325 TOTAL</span>
+      </div>
+      <div class="card-body">
+        <p class="section-note">Summary of all winnings. Tap a category to edit.</p>
+        <div id="payoutTable"></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ═══════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════
+const PLAYERS_SKINS = [
+  { id:'tmac',    name:"T-Mac",           full:"Tasha 'T-Mac' McCray",         hcp:19, quota:28 },
+  { id:'stripe',  name:"///Stripe",       full:"Benny '///Stripe' McCray",     hcp:17, quota:34 },
+  { id:'leo',     name:"Leo Scott",       full:"Leo Scott",                    hcp:30, quota:24 },
+  { id:'jstar',   name:"JStar",           full:"Johnny 'JStar' Starling",      hcp:17, quota:34 },
+  { id:'chief',   name:"Chief",           full:"Ron 'Chief' Caldwell",         hcp:17, quota:26 },
+  { id:'chris',   name:"C. Williams",     full:"Christopher Williams",         hcp:17, quota:27 },
+  { id:'tim',     name:"Tim Graham",      full:"Tim 'TT' Graham",              hcp:22, quota:25 },
+  { id:'susan',   name:"Susan Leitao",    full:"Susan Leitao",                 hcp:7,  quota:32 },
+  { id:'hotrod',  name:"HotRod",          full:"Rodney 'HotRod' Davis",        hcp:19, quota:30 },
+  { id:'dave',    name:"Dave Sereke",     full:"Dave Sereke",                  hcp:10, quota:37 },
+];
+const PLAYERS_CTP = [
+  ...PLAYERS_SKINS,
+  { id:'mark',    name:"Mark Garbutt",    full:"Mark Garbutt",                 hcp:10, quota:31 },
+  { id:'cheryll', name:"Cheryll S-M",     full:"Cheryll Smith-Martinez",       hcp:null, quota:null },
+];
+const PLAYERS_BLIND = [
+  ...PLAYERS_CTP,
+  { id:'msdot',   name:"Ms Dot",          full:"Dorothy 'Ms Dot' McHenry",     hcp:22, quota:31 },
+];
+
+// STATE
+let state = {
+  skins: Array.from({length:18}, (_,i) => ({ hole: i+1, winner:'', push:false })),
+  skinsNotes: '',
+  quota: PLAYERS_SKINS.map(p => ({ id:p.id, quota:p.quota, pts:'' })),
+  champ: PLAYERS_SKINS.map(p => ({ id:p.id, hcp:p.hcp, gross:'' })),
+  ctp: Array.from({length:4}, (_,i) => ({ num:i+1, hole:'', winner:'', dist:'', runnerup:'', notes:'' })),
+  draw: PLAYERS_BLIND.map(p => ({ id:p.id, drawn:false, order:null })),
+  payout: {},
+  blobUrl: null,
+};
+
+let drawCounter = 0;
+let isViewMode = false;
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(location.search);
+  const blobUrl = params.get('data');
+  if (blobUrl) {
+    loadGame(decodeURIComponent(blobUrl));
+  } else {
+    buildAll();
+  }
+});
+
+function buildAll() {
+  buildSkins();
+  buildQuota();
+  buildChamp();
+  buildCtp();
+  buildDraw();
+  buildPayout();
+}
+
+// ═══════════════════════════════════════════════════
+// SKINS
+// ═══════════════════════════════════════════════════
+function buildSkins() {
+  const grid = document.getElementById('skinsGrid');
+  grid.innerHTML = '';
+  for (let i = 0; i < 18; i++) {
+    const s = state.skins[i];
+    const div = document.createElement('div');
+    div.className = 'hole-card';
+    div.innerHTML = `
+      <div class="hole-label">HOLE</div>
+      <div class="hole-num">${i+1}</div>
+      <select onchange="skinChange(${i}, this.value)">
+        <option value="">— select —</option>
+        <option value="PUSH" ${s.winner==='PUSH'?'selected':''}>PUSH</option>
+        ${PLAYERS_SKINS.map(p=>`<option value="${p.id}" ${s.winner===p.id?'selected':''}>${p.name}</option>`).join('')}
+      </select>`;
+    grid.appendChild(div);
+  }
+  document.getElementById('skinsNotes').value = state.skinsNotes;
+  document.getElementById('skinsNotes').oninput = e => { state.skinsNotes = e.target.value; };
+  calcPerSkin();
+}
+
+function skinChange(i, val) {
+  state.skins[i].winner = val;
+  calcPerSkin();
+  buildPayout();
+}
+
+function calcPerSkin() {
+  const wins = state.skins.filter(s => s.winner && s.winner !== 'PUSH').length;
+  const perSkin = wins > 0 ? (100 / wins).toFixed(2) : '—';
+  document.getElementById('perSkinDisplay').textContent = wins > 0 ? `$${perSkin} × ${wins} skins` : '— (no skins yet)';
+}
+
+// ═══════════════════════════════════════════════════
+// QUOTA
+// ═══════════════════════════════════════════════════
+function buildQuota() {
+  const container = document.getElementById('quotaRows');
+  container.innerHTML = '';
+  state.quota.forEach((q, i) => {
+    const p = PLAYERS_SKINS[i];
+    const diff = q.pts !== '' ? parseInt(q.pts) - parseInt(q.quota) : null;
+    const diffStr = diff !== null ? (diff >= 0 ? `+${diff}` : `${diff}`) : '—';
+    const diffColor = diff !== null ? (diff >= 0 ? '#1a3d2b' : '#c0392b') : 'var(--muted)';
+
+    const row = document.createElement('div');
+    row.style.cssText = 'display:contents';
+    row.innerHTML = `
+      <div style="display:flex;flex-direction:column;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06)">
+        <span class="player-name">${p.name}</span>
+        <span class="player-nick">${p.full}</span>
+      </div>
+      <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
+        <input type="number" value="${q.quota}" min="0" max="54"
+          style="text-align:center;padding:6px 4px;font-size:14px;"
+          onchange="state.quota[${i}].quota=this.value;buildQuota();buildPayout()">
+      </div>
+      <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
+        <input type="number" value="${q.pts}" min="0" max="54" placeholder="—"
+          style="text-align:center;padding:6px 4px;font-size:14px;"
+          oninput="state.quota[${i}].pts=this.value;buildQuota();buildPayout()">
+      </div>
+      <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
+        text-align:center;font-family:'DM Mono',monospace;font-weight:700;
+        font-size:15px;color:${diffColor}">${diffStr}</div>`;
+    container.appendChild(row);
+  });
+
+  // Find winner
+  let best = null, bestDiff = -Infinity;
+  state.quota.forEach((q, i) => {
+    if (q.pts !== '') {
+      const diff = parseInt(q.pts) - parseInt(q.quota);
+      if (diff > bestDiff) { bestDiff = diff; best = i; }
+    }
+  });
+  const wb = document.getElementById('quotaWinner');
+  if (best !== null) {
+    wb.style.display = 'flex';
+    document.getElementById('quotaWinnerName').textContent = PLAYERS_SKINS[best].full;
+    document.getElementById('quotaWinnerDetail').textContent =
+      `${bestDiff >= 0 ? '+' : ''}${bestDiff} over quota · Payout: $50`;
+  } else {
+    wb.style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// CHAMPION
+// ═══════════════════════════════════════════════════
+function buildChamp() {
+  const container = document.getElementById('champRows');
+  container.innerHTML = '';
+  state.champ.forEach((c, i) => {
+    const p = PLAYERS_SKINS[i];
+    const net = c.gross !== '' ? parseInt(c.gross) - parseInt(c.hcp) : null;
+
+    const row = document.createElement('div');
+    row.style.cssText = 'display:contents';
+    row.innerHTML = `
+      <div style="display:flex;flex-direction:column;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06)">
+        <span class="player-name">${p.name}</span>
+      </div>
+      <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
+        <input type="number" value="${c.hcp}" min="0" max="54"
+          style="text-align:center;padding:6px 4px;font-size:14px;"
+          onchange="state.champ[${i}].hcp=this.value;buildChamp();buildPayout()">
+      </div>
+      <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
+        <input type="number" value="${c.gross}" min="60" max="130" placeholder="—"
+          style="text-align:center;padding:6px 4px;font-size:14px;"
+          oninput="state.champ[${i}].gross=this.value;buildChamp();buildPayout()">
+      </div>
+      <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
+        text-align:center;font-family:'DM Mono',monospace;font-weight:700;font-size:15px;
+        color:var(--green2)">${net !== null ? net : '—'}</div>`;
+    container.appendChild(row);
+  });
+
+  // Find winner (lowest net)
+  let best = null, bestNet = Infinity;
+  state.champ.forEach((c, i) => {
+    if (c.gross !== '') {
+      const net = parseInt(c.gross) - parseInt(c.hcp);
+      if (net < bestNet) { bestNet = net; best = i; }
+    }
+  });
+  const wb = document.getElementById('champWinner');
+  if (best !== null) {
+    wb.style.display = 'flex';
+    document.getElementById('champWinnerName').textContent = PLAYERS_SKINS[best].full;
+    document.getElementById('champWinnerDetail').textContent =
+      `Net ${bestNet} · Gross ${state.champ[best].gross} − HCP ${state.champ[best].hcp} · Payout: $50`;
+  } else {
+    wb.style.display = 'none';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// CTP
+// ═══════════════════════════════════════════════════
+function buildCtp() {
+  const container = document.getElementById('ctpBlocks');
+  container.innerHTML = '';
+  state.ctp.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'ctp-block';
+    div.innerHTML = `
+      <div class="ctp-payout">$15</div>
+      <div class="ctp-title">CTP #${i+1}</div>
+      <div class="field">
+        <label>Hole #</label>
+        <input type="number" value="${c.hole}" min="1" max="18" placeholder="e.g. 7"
+          oninput="state.ctp[${i}].hole=this.value">
+      </div>
+      <div class="field">
+        <label>Winner</label>
+        <select onchange="state.ctp[${i}].winner=this.value;buildPayout()">
+          <option value="">— select —</option>
+          ${PLAYERS_CTP.map(p=>`<option value="${p.id}" ${c.winner===p.id?'selected':''}>${p.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Distance (ft / in)</label>
+        <input type="text" value="${c.dist}" placeholder="e.g. 8'4&quot;"
+          oninput="state.ctp[${i}].dist=this.value">
+      </div>
+      <div class="field">
+        <label>Runner-up</label>
+        <select onchange="state.ctp[${i}].runnerup=this.value">
+          <option value="">— select —</option>
+          ${PLAYERS_CTP.map(p=>`<option value="${p.id}" ${c.runnerup===p.id?'selected':''}>${p.name}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label>Notes</label>
+        <input type="text" value="${c.notes}" placeholder="Any notes…"
+          oninput="state.ctp[${i}].notes=this.value">
+      </div>`;
+    container.appendChild(div);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// BLIND DRAW
+// ═══════════════════════════════════════════════════
+function buildDraw() {
+  const list = document.getElementById('drawList');
+  list.innerHTML = '';
+  // Restore drawCounter
+  drawCounter = Math.max(0, ...state.draw.map(d => d.order || 0));
+
+  state.draw.forEach((d, i) => {
+    const p = PLAYERS_BLIND[i];
+    const li = document.createElement('li');
+    li.className = 'draw-item';
+    li.innerHTML = `
+      <div class="draw-num">${i+1}</div>
+      <div class="draw-name">${p.full}</div>
+      <div class="draw-order">${d.order ? '#'+d.order : ''}</div>
+      <div class="draw-check ${d.drawn ? 'drawn' : ''}" onclick="toggleDraw(${i})" id="dc-${i}">
+        ${d.drawn ? '✓' : ''}
+      </div>`;
+    list.appendChild(li);
+  });
+  updateDrawCount();
+}
+
+function toggleDraw(i) {
+  if (isViewMode) return;
+  if (state.draw[i].drawn) {
+    // Undo
+    state.draw[i].drawn = false;
+    state.draw[i].order = null;
+  } else {
+    drawCounter++;
+    state.draw[i].drawn = true;
+    state.draw[i].order = drawCounter;
+  }
+  buildDraw();
+}
+
+function updateDrawCount() {
+  const drawn = state.draw.filter(d => d.drawn).length;
+  document.getElementById('drawCount').textContent = `${drawn} / ${PLAYERS_BLIND.length} drawn`;
+}
+
+function resetDraw() {
+  state.draw = PLAYERS_BLIND.map(p => ({ id:p.id, drawn:false, order:null }));
+  drawCounter = 0;
+  buildDraw();
+}
+
+// ═══════════════════════════════════════════════════
+// PAYOUT TABLE
+// ═══════════════════════════════════════════════════
+function buildPayout() {
+  const all = PLAYERS_BLIND;
+  const container = document.getElementById('payoutTable');
+
+  // Calc skins winners
+  const skinWins = {};
+  const winningHoles = state.skins.filter(s => s.winner && s.winner !== 'PUSH');
+  const perSkin = winningHoles.length > 0 ? (100 / winningHoles.length) : 0;
+  winningHoles.forEach(s => {
+    skinWins[s.winner] = (skinWins[s.winner] || 0) + perSkin;
+  });
+
+  // Quota winner
+  let quotaWinner = null, bestDiff = -Infinity;
+  state.quota.forEach((q, i) => {
+    if (q.pts !== '') {
+      const diff = parseInt(q.pts) - parseInt(q.quota);
+      if (diff > bestDiff) { bestDiff = diff; quotaWinner = PLAYERS_SKINS[i].id; }
+    }
+  });
+
+  // Champ winner
+  let champWinner = null, bestNet = Infinity;
+  state.champ.forEach((c, i) => {
+    if (c.gross !== '') {
+      const net = parseInt(c.gross) - parseInt(c.hcp);
+      if (net < bestNet) { bestNet = net; champWinner = PLAYERS_SKINS[i].id; }
+    }
+  });
+
+  // CTP winners
+  const ctpWins = {};
+  state.ctp.forEach(c => {
+    if (c.winner) ctpWins[c.winner] = (ctpWins[c.winner] || 0) + 15;
+  });
+
+  let html = `
+    <div style="display:grid;grid-template-columns:1fr repeat(5,44px);gap:4px;margin-bottom:4px">
+      <div class="payout-header">Player</div>
+      <div class="payout-header" style="text-align:center">CHMP</div>
+      <div class="payout-header" style="text-align:center">QUOT</div>
+      <div class="payout-header" style="text-align:center">SKIN</div>
+      <div class="payout-header" style="text-align:center">CTP</div>
+      <div class="payout-header" style="text-align:center">TOT</div>
+    </div>`;
+
+  let colTotals = [0,0,0,0,0];
+  all.forEach(p => {
+    const chmp = p.id === champWinner ? 50 : 0;
+    const quot = p.id === quotaWinner ? 50 : 0;
+    const skin = Math.round(skinWins[p.id] || 0);
+    const ctp  = ctpWins[p.id] || 0;
+    const tot  = chmp + quot + skin + ctp;
+    colTotals[0]+=chmp; colTotals[1]+=quot; colTotals[2]+=skin; colTotals[3]+=ctp; colTotals[4]+=tot;
+
+    const fmt = v => v > 0 ? `<span class="payout-cell has-val">$${v}</span>` : `<span class="payout-cell">—</span>`;
+    html += `
+      <div style="display:grid;grid-template-columns:1fr repeat(5,44px);gap:4px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);align-items:center">
+        <div style="font-size:12px;font-weight:600">${p.name}</div>
+        ${fmt(chmp)}${fmt(quot)}${fmt(skin)}${fmt(ctp)}
+        <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${tot>0?'var(--green2)':'var(--muted)'};text-align:center">${tot>0?'$'+tot:'—'}</span>
+      </div>`;
+  });
+
+  html += `
+    <div style="display:grid;grid-template-columns:1fr repeat(5,44px);gap:4px;padding:10px 0 0;border-top:2px solid var(--border);margin-top:4px">
+      <div style="font-size:11px;font-weight:700;color:var(--muted)">TOTALS</div>
+      ${colTotals.map(v=>`<div style="text-align:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:var(--green2)">${v>0?'$'+v:'-'}</div>`).join('')}
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════
+// SAVE / LOAD
+// ═══════════════════════════════════════════════════
+async function saveGame() {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Saving…';
+
+  // Capture current textarea/input values not covered by oninput
+  state.skinsNotes = document.getElementById('skinsNotes').value;
+
+  try {
+    const res = await fetch('/api/save-game', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state)
+    });
+    const data = await res.json();
+    if (data.url) {
+      state.blobUrl = data.url;
+      const shareLink = `${location.origin}${location.pathname}?data=${encodeURIComponent(data.url)}`;
+      document.getElementById('shareUrl').textContent = shareLink;
+      document.getElementById('copyBtn').style.display = 'inline-flex';
+      showToast('✅ Saved! Copy the link to share with Ray.');
+    } else {
+      showToast('❌ Save failed. Check console.');
+    }
+  } catch (e) {
+    console.error(e);
+    showToast('❌ Save failed. Are you on Vercel?');
+  }
+  btn.disabled = false;
+  btn.textContent = '💾 Save & Share';
+}
+
+async function autoSave() {
+  if (!state.blobUrl) {
+    showToast('💡 Tap Save & Share first to create a link.');
+    return;
+  }
+  await saveGame();
+}
+
+async function loadGame(blobUrl) {
+  try {
+    showToast('⏳ Loading game data…');
+    const res = await fetch(`/api/load-game?url=${encodeURIComponent(blobUrl)}`);
+    const data = await res.json();
+    Object.assign(state, data);
+    isViewMode = true;
+    document.body.classList.add('view-mode');
+    const shareLink = location.href;
+    document.getElementById('shareUrl').textContent = shareLink;
+    document.getElementById('copyBtn').style.display = 'inline-flex';
+    buildAll();
+    showToast('📋 Viewing T-Mac\'s game data.');
+  } catch(e) {
+    console.error(e);
+    showToast('❌ Could not load game data.');
+    buildAll();
+  }
+}
+
+function copyLink() {
+  const url = document.getElementById('shareUrl').textContent;
+  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copied!')).catch(() => {
+    prompt('Copy this link:', url);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════════
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  event.target.classList.add('active');
+  if (id === 'payout') buildPayout();
+}
+
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
+}
+</script>
+</body>
+</html>
