@@ -718,7 +718,7 @@ function buildQuota() {
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${q.pts}" min="0" max="54" placeholder="—"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          onchange="state.quota[${i}].quota=this.value;buildQuota();buildPayout()">
+          onchange="state.quota[${i}].pts=this.value;buildQuota();buildPayout()">
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
         text-align:center;font-family:'DM Mono',monospace;font-weight:700;
