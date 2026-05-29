@@ -396,11 +396,7 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
 
   /* ── VIEW MODE ── */
-  body.view-mode input, body.view-mode select, body.view-mode textarea {
-    pointer-events: none;
-    background: #f5f5f5;
-    color: #444;
-  }
+  
   body.view-mode .draw-check { pointer-events: none; }
   .view-badge {
     display: none;
@@ -412,8 +408,7 @@
     border-radius: 20px;
     letter-spacing: .5px;
   }
-  body.view-mode .view-badge { display: inline-block; }
-  body.view-mode .save-btn { display: none; }
+  
 
   /* ── DIVIDER ── */
   .divider {
@@ -450,10 +445,10 @@
 <header class="site-header">
   <div class="header-row">
     <div>
-      <h1>⛳ FPG Game Day</h1>
-      <p>GREENFIELD PLANTATION · SAT MAY 31, 2026 · COORDINATOR: T-MAC</p>
+      <h1>FPG Game Day</h1>
+      <p>GREENFIELD PLANTATION · SAT MAY 31, 2026 · COORDINATOR: TMAC</p>
     </div>
-    <span class="view-badge">📋 VIEW ONLY</span>
+    
   </div>
 </header>
 
@@ -824,18 +819,7 @@ function buildCtp() {
           ${PLAYERS_CTP.map(p=>`<option value="${p.id}" ${c.winner===p.id?'selected':''}>${p.name}</option>`).join('')}
         </select>
       </div>
-      <div class="field">
-        <label>Distance (ft / in)</label>
-        <input type="text" value="${c.dist}" placeholder="e.g. 8'4&quot;"
-          oninput="state.ctp[${i}].dist=this.value">
-      </div>
-      <div class="field">
-        <label>Runner-up</label>
-        <select onchange="state.ctp[${i}].runnerup=this.value">
-          <option value="">— select —</option>
-          ${PLAYERS_CTP.map(p=>`<option value="${p.id}" ${c.runnerup===p.id?'selected':''}>${p.name}</option>`).join('')}
-        </select>
-      </div>
+      
       <div class="field">
         <label>Notes</label>
         <input type="text" value="${c.notes}" placeholder="Any notes…"
@@ -1020,13 +1004,11 @@ async function loadGame(blobUrl) {
     const res = await fetch(`/api/load-game?url=${encodeURIComponent(blobUrl)}`);
     const data = await res.json();
     Object.assign(state, data);
-    isViewMode = true;
-    document.body.classList.add('view-mode');
     const shareLink = location.href;
     document.getElementById('shareUrl').textContent = shareLink;
     document.getElementById('copyBtn').style.display = 'inline-flex';
     buildAll();
-    showToast('📋 Viewing T-Mac\'s game data.');
+    showToast('✅ Game data loaded. You can edit freely.');
   } catch(e) {
     console.error(e);
     showToast('❌ Could not load game data.');
