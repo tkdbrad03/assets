@@ -452,12 +452,7 @@
   </div>
 </header>
 
-<div class="action-bar">
-  <button class="btn btn-gold save-btn" id="saveBtn" onclick="saveGame()">💾 Save & Share</button>
-  <button class="btn btn-outline btn-sm save-btn" onclick="autoSave()">↺ Auto-save</button>
-  <div class="share-url" id="shareUrl">Enter data then tap Save & Share →</div>
-  <button class="btn btn-outline btn-sm" id="copyBtn" onclick="copyLink()" style="display:none">📋 Copy Link</button>
-</div>
+
 
 <nav class="tabs">
   <div class="tab active" onclick="showTab('scoring')">SCORING</div>
@@ -722,15 +717,20 @@ let isViewMode = false;
 // ═══════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(location.search);
-  const blobUrl = params.get('data');
-  if (blobUrl) {
-    loadGame(decodeURIComponent(blobUrl));
-  } else {
-    buildAll();
-  }
+window.addEventListener('DOMContentLoaded', async () => {
+  await saveGame();
+  buildAll();
+  setInterval(async () => {
+    if (!state.blobUrl) return;
+    try {
+      const res = await fetch(`/api/load-game?url=${encodeURIComponent(state.blobUrl)}`);
+      const data = await res.json();
+      Object.assign(state, data);
+      buildAll();
+    } catch(e) { console.error('Poll failed', e); }
+  }, 10000);
 });
+
 
 function buildAll() {
   buildScoring();
@@ -1204,7 +1204,9 @@ function skinChange(i, val) {
   state.skins[i].winner = val;
   calcPerSkin();
   buildPayout();
+  autoSave();
 }
+
 
 function calcPerSkin() {
   const wins = state.skins.filter(s => s.winner && s.winner !== 'PUSH').length;
@@ -1234,12 +1236,12 @@ function buildQuota() {
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${q.quota}" min="0" max="54"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          onchange="state.quota[${i}].quota=this.value;buildQuota();buildPayout()">
+          onchange="state.quota[${i}].quota=this.value;buildQuota();buildPayout();autoSave()"> 
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${q.pts}" min="0" max="54" placeholder="—"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          onchange="state.quota[${i}].pts=this.value;buildQuota();buildPayout()">
+          onchange="state.quota[${i}].pts=this.value;buildQuota();buildPayout();autoSave()"> 
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
         text-align:center;font-family:'DM Mono',monospace;font-weight:700;
@@ -1298,12 +1300,12 @@ function buildChamp() {
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${c.hcp}" min="0" max="54"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          onchange="state.champ[${i}].hcp=this.value;buildChamp();buildPayout()">
+          onchange="state.champ[${i}].hcp=this.value;buildChamp();buildPayout();autoSave()"> 
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06)">
         <input type="number" value="${c.gross}" min="60" max="130" placeholder="—"
           style="text-align:center;padding:6px 4px;font-size:14px;"
-          onchange="state.champ[${i}].gross=this.value;buildChamp();buildPayout()">
+          onchange="state.champ[${i}].gross=this.value;buildChamp();buildPayout();autoSave()"> 
       </div>
       <div style="padding:8px 4px;border-bottom:1px solid rgba(0,0,0,.06);
         text-align:center;font-family:'DM Mono',monospace;font-weight:700;font-size:15px;
@@ -1349,7 +1351,7 @@ function buildCtp() {
       </div>
       <div class="field">
         <label>Winner</label>
-        <select onchange="state.ctp[${i}].winner=this.value;buildPayout()">
+        <select onchange="state.ctp[${i}].winner=this.value;buildPayout();autoSave()"> 
           <option value="">— select —</option>
           ${PLAYERS_CTP.map(p=>`<option value="${p.id}" ${c.winner===p.id?'selected':''}>${p.name}</option>`).join('')}
         </select>
@@ -1401,6 +1403,7 @@ function toggleDraw(i) {
     state.draw[i].order = drawCounter;
   }
   buildDraw();
+  autoSave();
 }
 
 function updateDrawCount() {
@@ -1518,13 +1521,7 @@ if (quotaResults[3]) quotaPayouts[quotaResults[3].id] = 7.5;
 // SAVE / LOAD
 // ═══════════════════════════════════════════════════
 async function saveGame() {
-  const btn = document.getElementById('saveBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Saving…';
-
-  // Capture current textarea/input values not covered by oninput
   state.skinsNotes = document.getElementById('skinsNotes').value;
-
   try {
     const res = await fetch('/api/save-game', {
       method: 'POST',
@@ -1532,48 +1529,30 @@ async function saveGame() {
       body: JSON.stringify(state)
     });
     const data = await res.json();
-    if (data.url) {
-      state.blobUrl = data.url;
-      const shareLink = `${location.origin}${location.pathname}?data=${encodeURIComponent(data.url)}`;
-      document.getElementById('shareUrl').textContent = shareLink;
-      document.getElementById('copyBtn').style.display = 'inline-flex';
-      showToast('✅ Saved! Copy the link to share with Ray.');
-    } else {
-      showToast('❌ Save failed. Check console.');
-    }
+    if (data.url) state.blobUrl = data.url;
   } catch (e) {
-    console.error(e);
-    showToast('❌ Save failed. Are you on Vercel?');
+    console.error('Save failed', e);
   }
-  btn.disabled = false;
-  btn.textContent = '💾 Save & Share';
 }
 
-async function autoSave() {
-  if (!state.blobUrl) {
-    showToast('💡 Tap Save & Share first to create a link.');
-    return;
-  }
-  await saveGame();
+let saveTimer;
+function autoSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveGame, 1500);
 }
+
 
 async function loadGame(blobUrl) {
   try {
-    showToast('⏳ Loading game data…');
     const res = await fetch(`/api/load-game?url=${encodeURIComponent(blobUrl)}`);
     const data = await res.json();
     Object.assign(state, data);
-    const shareLink = location.href;
-    document.getElementById('shareUrl').textContent = shareLink;
-    document.getElementById('copyBtn').style.display = 'inline-flex';
     buildAll();
-    showToast('✅ Game data loaded. You can edit freely.');
   } catch(e) {
-    console.error(e);
-    showToast('❌ Could not load game data.');
-    buildAll();
+    console.error('Load failed', e);
   }
 }
+
 
 function copyLink() {
   const url = document.getElementById('shareUrl').textContent;
