@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/share", "destination": "/share.html" }
+    { "source": "/share", "destination": "/share.html" },
+    { "source": "/fpg-game", "destination": "/fpg-game.html" }
   ]
 }
