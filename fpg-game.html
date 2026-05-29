@@ -971,8 +971,14 @@ if (quotaResults[3]) quotaPayouts[quotaResults[3].id] = 7.5;
     html += `
       <div style="display:grid;grid-template-columns:1fr repeat(6,44px);gap:4px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);align-items:center">
         <div style="font-size:12px;font-weight:600">${p.name}</div>
-        ${fmt(chmp)}${fmt(quot)}${fmt(skin)}${fmt(ctp)}
-        <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${tot>0?'var(--green2)':'var(--muted)'};text-align:center">${tot>0?'$'+tot:'—'}</span>
+        ${fmt(chmp)}
+        ${fmt(quot)}
+        ${fmt(skin)}
+        ${fmt(ctp)}
+        ${fmt(draw)}
+<span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:${tot>0?'var(--green2)':'var(--muted)'};text-align:center">
+  ${tot>0?'$'+tot:'—'}
+</span>
       </div>`;
   });
 
