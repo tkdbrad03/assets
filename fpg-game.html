@@ -593,7 +593,7 @@
     <div class="card">
       <div class="card-header">
         <h2>Payout Matrix</h2>
-        <span class="pot-badge">$325 TOTAL</span>
+        <span class="pot-badge">$335 TOTAL</span> 
         <button class="btn btn-gold btn-sm" onclick="printPayout()">Print</button>
       </div>
       <div class="card-body">
@@ -640,12 +640,12 @@ const PLAYERS_SKINS = [
   { id:'tim',     name:"Tim Graham",      full:"Tim 'TT' Graham",              hcp:21.7, quota:25 },
   { id:'susan',   name:"Susan Leitao",    full:"Susan Leitao",                 hcp:7.3,  quota:32 },
   { id:'hotrod',  name:"HotRod",          full:"Rodney 'HotRod' Davis",        hcp:18.9, quota:30 },
-  { id:'dave',    name:"Dave Sereke",     full:"Dave Sereke",                  hcp:9.6,  quota:37 },
+    { id:'dave',    name:"Dave Sereke",     full:"Dave Sereke",                  hcp:9.6,  quota:37 },
+  { id:'cheryll', name:"Cheryll S-M",     full:"Cheryll Smith-Martinez",       hcp:24.8, quota:null },
 ];
 const PLAYERS_CTP = [
   ...PLAYERS_SKINS,
   { id:'mark',    name:"Mark Garbutt",    full:"Mark Garbutt",                 hcp:10, quota:31 },
-  { id:'cheryll', name:"Cheryll S-M",     full:"Cheryll Smith-Martinez",       hcp:null, quota:null },
 ];
 const PLAYERS_BLIND = [
   ...PLAYERS_CTP,
@@ -703,8 +703,8 @@ let state = {
   
   skins: Array.from({length:18}, (_,i) => ({ hole: i+1, winner:'', push:false })),
   skinsNotes: '',
-  quota: PLAYERS_SKINS.map(p => ({ id:p.id, quota:p.quota, pts:'' })),
-  champ: PLAYERS_SKINS.map(p => ({ id:p.id, hcp:p.hcp, gross:'' })),
+    quota: PLAYERS_SKINS.filter(p => p.quota !== null).map(p => ({ id:p.id, quota:p.quota, pts:'' })),
+  champ: PLAYERS_SKINS.filter(p => p.quota !== null).map(p => ({ id:p.id, hcp:p.hcp, gross:'' })),
   ctp: Array.from({length:4}, (_,i) => ({ num:i+1, hole:'', winner:'', dist:'', runnerup:'', notes:'' })),
   draw: PLAYERS_BLIND.map(p => ({ id:p.id, drawn:false, order:null })),
   payout: {},
@@ -1211,7 +1211,7 @@ function skinChange(i, val) {
 function calcPerSkin() {
   const wins = state.skins.filter(s => s.winner && s.winner !== 'PUSH').length;
   const perSkin = wins > 0 ? (100 / wins).toFixed(2) : '—';
-  document.getElementById('perSkinDisplay').textContent = wins > 0 ? `$${perSkin} × ${wins} skins` : '— (no skins yet)';
+  document.getElementById('perSkinDisplay').textContent = wins > 0 ? `$${perSkin} × ${wins} skins ($110 pot)` : '— (no skins yet)'; 
 }
 
 // ═══════════════════════════════════════════════════
@@ -1434,7 +1434,7 @@ function buildPayout() {
   // Calc skins winners
   const skinWins = {};
   const winningHoles = state.skins.filter(s => s.winner && s.winner !== 'PUSH');
-  const perSkin = winningHoles.length > 0 ? (100 / winningHoles.length) : 0;
+  const perSkin = winningHoles.length > 0 ? (110 / winningHoles.length) : 0; 
   winningHoles.forEach(s => {
     skinWins[s.winner] = (skinWins[s.winner] || 0) + perSkin;
   });
