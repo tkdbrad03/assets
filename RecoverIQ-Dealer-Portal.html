@@ -43,8 +43,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-fi
 .nav-dealername{font-size:0.74rem;color:var(--slatelt);font-weight:500}
 .nav-av{width:32px;height:32px;border-radius:50%;background:var(--blue2);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:var(--white)}
 
-.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(4,1fr);height:62px}
-.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.55rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);height:62px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.5rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
 .tab.active{color:var(--blue)}
 .tab svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor}
 
@@ -186,6 +186,46 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-fi
 .btn.green{background:var(--green);color:#0A0F1A}
 .btn.sec{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
 .btn.amber{background:rgba(245,158,11,0.14);color:var(--amber);border:1px solid rgba(245,158,11,0.28)}
+/* MMR MARKET DATA */
+.mmr-banner{background:linear-gradient(135deg,#0D1F3C,#080E1A);border:1px solid rgba(59,130,246,0.25);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.mmr-banner::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%);border-radius:50%}
+.mmr-source{display:inline-flex;align-items:center;gap:6px;font-size:0.6rem;font-weight:700;background:rgba(59,130,246,0.15);color:var(--blue);border:1px solid rgba(59,130,246,0.3);padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.mmr-live-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:pulse2 1.5s infinite}
+@keyframes pulse2{0%,100%{opacity:1}50%{opacity:0.3}}
+.mmr-price{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:-0.03em}
+.mmr-price-lbl{font-size:0.65rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px}
+.mmr-trend{font-size:0.74rem;font-weight:600;margin-top:4px}
+.mmr-trend.up{color:var(--green)}.mmr-trend.down{color:var(--red)}
+.mmr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.mmr-cell{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px}
+.mmr-cell-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white)}
+.mmr-cell-key{font-size:0.6rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px}
+.mmr-cell-val.g{color:var(--green)}.mmr-cell-val.a{color:var(--amber)}.mmr-cell-val.r{color:var(--red)}
+
+.mmr-comp-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border)}
+.mmr-comp-row:last-child{border-bottom:none}
+.mmr-comp-lbl{font-size:0.76rem;color:var(--slatelt)}
+.mmr-comp-val{font-size:0.82rem;font-weight:600;color:var(--white)}
+.mmr-comp-val.g{color:var(--green)}.mmr-comp-val.a{color:var(--amber)}.mmr-comp-val.b{color:var(--blue)}
+
+.region-pill{display:inline-block;font-size:0.62rem;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(59,130,246,0.1);color:var(--blue);border:1px solid rgba(59,130,246,0.2);margin-right:6px;margin-bottom:6px;cursor:pointer}
+.region-pill.on{background:var(--blue);color:var(--white)}
+
+.recent-sale-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border)}
+.recent-sale-row:last-child{border-bottom:none}
+.rs-left .rs-desc{font-size:0.78rem;color:var(--white);font-weight:500}
+.rs-left .rs-detail{font-size:0.64rem;color:var(--slate);margin-top:2px}
+.rs-price{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--green)}
+.rs-days{font-size:0.62rem;color:var(--slate);margin-top:2px;text-align:right}
+
+.bid-vs-mmr{background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:10px;padding:12px 14px;margin-top:8px}
+.bvm-title{font-size:0.64rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+.bvm-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.bvm-row:last-child{margin-bottom:0;padding-top:7px;border-top:1px solid var(--border)}
+.bvm-lbl{font-size:0.72rem;color:var(--slatelt)}
+.bvm-val{font-size:0.78rem;font-weight:600}
+.bvm-val.g{color:var(--green)}.bvm-val.a{color:var(--amber)}.bvm-val.r{color:var(--red)}.bvm-val.w{color:var(--white)}
+
 /* FEE BREAKDOWN */
 .fee-box{background:var(--bg2);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:14px;margin-top:10px}
 .fee-title{font-size:0.67rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px}
@@ -413,6 +453,88 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-fi
   </div>
 </div>
 
+<!-- MARKET DATA SCREEN -->
+<div class="screen" id="s-market">
+  <div style="padding-top:16px">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:0.88rem;font-weight:600;color:var(--white)">Search Market Data</div>
+      <div class="mmr-source"><span class="mmr-live-dot"></span>MMR Live Feed</div>
+    </div>
+
+    <div class="sbar" style="margin-bottom:10px"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Year, Make, Model, Trim…" value="2021 Honda Accord Sport"/></div>
+
+    <div style="margin-bottom:12px">
+      <div style="font-size:0.62rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px">Region</div>
+      <div><span class="region-pill on">Southeast</span><span class="region-pill">National</span><span class="region-pill">Florida</span><span class="region-pill">Mid-Atlantic</span></div>
+    </div>
+
+    <!-- MMR RESULT -->
+    <div class="mmr-banner">
+      <div class="mmr-source"><span class="mmr-live-dot"></span>Manheim Market Report · Live</div>
+      <div class="mmr-price-lbl">MMR Average — Southeast Region</div>
+      <div class="mmr-price">$17,840</div>
+      <div class="mmr-trend up">↑ $320 vs. last week · Market trending up</div>
+      <div class="mmr-grid">
+        <div class="mmr-cell"><div class="mmr-cell-val">$16,200</div><div class="mmr-cell-key">Low (30 days)</div></div>
+        <div class="mmr-cell"><div class="mmr-cell-val">$19,100</div><div class="mmr-cell-key">High (30 days)</div></div>
+        <div class="mmr-cell"><div class="mmr-cell-val g">$17,840</div><div class="mmr-cell-key">MMR Avg</div></div>
+        <div class="mmr-cell"><div class="mmr-cell-val a">142 units</div><div class="mmr-cell-key">Sold (30 days)</div></div>
+      </div>
+    </div>
+
+    <!-- BID vs MMR COMPARISON -->
+    <div class="bid-vs-mmr">
+      <div class="bvm-title">📊 How This Compares to Your Active Bid</div>
+      <div class="bvm-row"><span class="bvm-lbl">MMR Average (Southeast)</span><span class="bvm-val w">$17,840</span></div>
+      <div class="bvm-row"><span class="bvm-lbl">RecoverIQ asking price</span><span class="bvm-val w">$19,400</span></div>
+      <div class="bvm-row"><span class="bvm-lbl">Your current bid</span><span class="bvm-val b">$18,750</span></div>
+      <div class="bvm-row"><span class="bvm-lbl">Your bid vs. MMR avg</span><span class="bvm-val a">+$910 above MMR</span></div>
+      <div class="bvm-row"><span class="bvm-lbl">Verdict</span><span class="bvm-val g">Fair market — strong condition justifies premium</span></div>
+    </div>
+
+    <!-- COMPARABLE SALES -->
+    <div class="slabel">Recent Auction Sales — Same Vehicle</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div class="recent-sale-row">
+        <div class="rs-left"><div class="rs-desc">2021 Honda Accord Sport · 38K mi</div><div class="rs-detail">Manheim Tampa · Grade 3.5 · Black</div></div>
+        <div style="text-align:right"><div class="rs-price">$19,100</div><div class="rs-days">3 days ago</div></div>
+      </div>
+      <div class="recent-sale-row">
+        <div class="rs-left"><div class="rs-desc">2021 Honda Accord Sport · 44K mi</div><div class="rs-detail">Manheim Orlando · Grade 3.0 · White</div></div>
+        <div style="text-align:right"><div class="rs-price">$18,200</div><div class="rs-days">5 days ago</div></div>
+      </div>
+      <div class="recent-sale-row">
+        <div class="rs-left"><div class="rs-desc">2021 Honda Accord Sport · 51K mi</div><div class="rs-detail">Manheim Atlanta · Grade 2.5 · Gray</div></div>
+        <div style="text-align:right"><div class="rs-price">$17,400</div><div class="rs-days">7 days ago</div></div>
+      </div>
+      <div class="recent-sale-row">
+        <div class="rs-left"><div class="rs-desc">2021 Honda Accord Sport · 40K mi</div><div class="rs-detail">Manheim Jacksonville · Grade 3.5 · Blue</div></div>
+        <div style="text-align:right"><div class="rs-price">$18,600</div><div class="rs-days">9 days ago</div></div>
+      </div>
+      <div class="recent-sale-row">
+        <div class="rs-left"><div class="rs-desc">2021 Honda Accord Sport · 58K mi</div><div class="rs-detail">Manheim Tampa · Grade 2.0 · Silver</div></div>
+        <div style="text-align:right"><div class="rs-price">$16,200</div><div class="rs-days">12 days ago</div></div>
+      </div>
+    </div>
+
+    <!-- CONDITION GRADE GUIDE -->
+    <div class="slabel">MMR Condition Grade Impact</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div class="mmr-comp-row"><span class="mmr-comp-lbl">Grade 5.0 — Excellent</span><span class="mmr-comp-val g">+ $1,200–1,800 vs. MMR</span></div>
+      <div class="mmr-comp-row"><span class="mmr-comp-lbl">Grade 4.0 — Very Good</span><span class="mmr-comp-val g">+ $400–800 vs. MMR</span></div>
+      <div class="mmr-comp-row"><span class="mmr-comp-lbl">Grade 3.0 — Good (avg)</span><span class="mmr-comp-val b">At MMR average</span></div>
+      <div class="mmr-comp-row"><span class="mmr-comp-lbl">Grade 2.0 — Fair</span><span class="mmr-comp-val a">− $600–1,200 vs. MMR</span></div>
+      <div class="mmr-comp-row"><span class="mmr-comp-lbl">Grade 1.0 — Poor</span><span class="mmr-comp-val r">− $1,500–2,500 vs. MMR</span></div>
+    </div>
+
+    <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:12px 14px;font-size:0.7rem;color:var(--amber);line-height:1.5">
+      <strong>Data Source:</strong> Manheim Market Report (MMR) via Cox Automotive API. Updated daily. Regional data reflects Southeast US auction lanes. Dealer license or Cox Automotive data partnership required for live access.
+    </div>
+
+  </div>
+</div>
+
 <!-- TAB BAR -->
 <div class="tabbar">
   <button class="tab active" onclick="sw('home',this)">
@@ -430,6 +552,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-fi
   <button class="tab" onclick="sw('stats',this)">
     <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
     My Stats
+  </button>
+  <button class="tab" onclick="sw('market',this)">
+    <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    Market
   </button>
 </div>
 
