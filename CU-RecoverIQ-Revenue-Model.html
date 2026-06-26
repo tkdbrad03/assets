@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CU RecoverIQ — Revenue Model</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080E1A;--bg2:#0D1525;--card:#101828;--card2:#162035;--border:rgba(255,255,255,0.07);
+  --teal:#00C2A8;--amber:#F59E0B;--green:#10B981;--red:#EF4444;--purple:#8B5CF6;--blue:#3B82F6;
+  --slate:#64748B;--slatelt:#94A3B8;--white:#F1F5F9;--text:#CBD5E1;
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;padding:0 0 60px}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#071828,#080E1A);border-bottom:1px solid var(--border);padding:24px 20px 20px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--white);letter-spacing:-0.02em;margin-bottom:2px}
+.logo span{color:var(--teal)}
+.header-sub{font-size:0.74rem;color:var(--slate)}
+.header-name{font-size:0.78rem;color:var(--teal);font-weight:600;margin-top:6px}
+
+/* SCENARIO TOGGLE */
+.scenarios{display:flex;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:4px;margin:16px 20px 0}
+.scen-btn{flex:1;padding:9px 4px;border:none;border-radius:10px;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:600;cursor:pointer;background:transparent;color:var(--slate);transition:all 0.18s;text-align:center;line-height:1.3}
+.scen-btn.on{background:var(--teal);color:#080E1A}
+
+.content{padding:0 20px}
+
+/* SECTION */
+.section{margin-top:24px}
+.slabel{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);margin-bottom:12px}
+
+/* BIG NUMBER */
+.big-card{background:linear-gradient(135deg,#071828,#080E1A);border:1px solid rgba(0,194,168,0.22);border-radius:18px;padding:22px;margin-bottom:14px}
+.big-lbl{font-size:0.65rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.big-num{font-family:'Syne',sans-serif;font-size:2.6rem;font-weight:800;color:var(--green);line-height:1;letter-spacing:-0.03em}
+.big-sub{font-size:0.76rem;color:var(--teal);margin-top:5px;font-weight:500}
+.big-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.bg-cell{background:rgba(255,255,255,0.04);border-radius:10px;padding:12px}
+.bg-val{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white)}
+.bg-key{font-size:0.6rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;margin-top:3px}
+
+/* STAT GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+.sv{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;line-height:1}
+.sv.g{color:var(--green)}.sv.t{color:var(--teal)}.sv.a{color:var(--amber)}.sv.p{color:var(--purple)}.sv.b{color:var(--blue)}
+.sk{font-size:0.62rem;color:var(--slate);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em}
+
+/* BREAKDOWN TABLE */
+.breakdown{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.bk-header{padding:12px 16px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.bk-title{font-size:0.75rem;font-weight:700;color:var(--white)}
+.bk-badge{font-size:0.6rem;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em}
+.bk-badge.teal{background:rgba(0,194,168,0.14);color:var(--teal)}
+.bk-badge.amber{background:rgba(245,158,11,0.14);color:var(--amber)}
+.bk-badge.green{background:rgba(16,185,129,0.14);color:var(--green)}
+.brow{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border)}
+.brow:last-child{border-bottom:none}
+.brow.total-row{background:rgba(16,185,129,0.05)}
+.brow-lbl{font-size:0.76rem;color:var(--slatelt)}
+.brow-lbl.bold{color:var(--white);font-weight:600}
+.brow-val{font-size:0.82rem;font-weight:600;color:var(--white)}
+.brow-val.g{color:var(--green)}.brow-val.a{color:var(--amber)}.brow-val.t{color:var(--teal)}.brow-val.s{color:var(--slate)}
+.brow-val.big{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:800}
+
+/* TIER BOX */
+.tier-box{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.tier-row{padding:13px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
+.tier-row:last-child{border-bottom:none}
+.tier-left .tier-range{font-size:0.84rem;font-weight:600;color:var(--white)}
+.tier-left .tier-desc{font-size:0.68rem;color:var(--slate);margin-top:3px}
+.tier-right{text-align:right}
+.tier-pct{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800}
+.tier-pct.high{color:var(--teal)}.tier-pct.mid{color:var(--amber)}.tier-pct.low{color:var(--green)}
+.tier-earn{font-size:0.68rem;color:var(--slate);margin-top:2px}
+
+/* NOTE BOX */
+.note{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:12px;padding:14px;margin-bottom:14px;font-size:0.72rem;color:var(--amber);line-height:1.6}
+.note strong{font-weight:700;color:var(--white)}
+
+/* GROWTH TABLE */
+.growth-table{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.gt-header{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:10px 14px;background:rgba(255,255,255,0.03);border-bottom:1px solid var(--border)}
+.gt-col{font-size:0.6rem;font-weight:700;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;text-align:center}
+.gt-col:first-child{text-align:left}
+.gt-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;padding:11px 14px;border-bottom:1px solid var(--border)}
+.gt-row:last-child{border-bottom:none}
+.gt-row.highlight{background:rgba(0,194,168,0.05);border-left:3px solid var(--teal)}
+.gt-cell{font-size:0.76rem;color:var(--text);text-align:center}
+.gt-cell:first-child{text-align:left;font-weight:600;color:var(--white)}
+.gt-cell.g{color:var(--green);font-weight:600}
+.gt-cell.t{color:var(--teal);font-weight:600}
+
+/* REMARK TABLE */
+.rm-breakdown{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:24px 0}
+.divider-label{text-align:center;margin:-10px 0 0;margin-bottom:14px}
+.divider-label span{background:var(--bg);padding:0 10px;font-size:0.62rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em}
+
+/* BOTTOM TOTAL */
+.bottom-total{background:linear-gradient(135deg,#071A10,#080E1A);border:1px solid rgba(16,185,129,0.25);border-radius:18px;padding:22px;margin-bottom:14px;text-align:center}
+.bt-lbl{font-size:0.65rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px}
+.bt-monthly{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:var(--green);letter-spacing:-0.03em;line-height:1}
+.bt-annual{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--teal);margin-top:6px}
+.bt-note{font-size:0.72rem;color:var(--slate);margin-top:8px;line-height:1.5}
+
+@media(min-width:600px){body{max-width:430px;margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,0.6)}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Recover<span>IQ</span></div>
+  <div class="header-sub">Personal Revenue Model · Confidential</div>
+  <div class="header-name">Benny McCray III — Founder</div>
+</div>
+
+<div class="scenarios">
+  <button class="scen-btn on" onclick="setScenario('conservative',this)">Conservative<br/>$800/loan</button>
+  <button class="scen-btn" onclick="setScenario('moderate',this)">Moderate<br/>$1,200/loan</button>
+  <button class="scen-btn" onclick="setScenario('strong',this)">Strong<br/>$1,600/loan</button>
+</div>
+
+<div class="content">
+
+  <!-- TOTAL INCOME -->
+  <div class="section">
+    <div class="big-card">
+      <div class="big-lbl">Benny's Monthly Income</div>
+      <div class="big-num" id="total-monthly">$8,578</div>
+      <div class="big-sub" id="total-sub">Conservative scenario · $800 avg recovery per loan</div>
+      <div class="big-grid">
+        <div class="bg-cell"><div class="bg-val" id="hdr-ancillary">$2,778</div><div class="bg-key">Ancillary Recovery</div></div>
+        <div class="bg-cell"><div class="bg-val" id="hdr-remarket">$14,348</div><div class="bg-key">Remarketing</div></div>
+        <div class="bg-cell"><div class="bg-val" id="hdr-annual">$102,936</div><div class="bg-key">Annual Total</div></div>
+        <div class="bg-cell"><div class="bg-val">10 CUs</div><div class="bg-key">Partners</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMISSION TIERS -->
+  <div class="section">
+    <div class="slabel">Your Commission Structure</div>
+    <div class="tier-box">
+      <div class="tier-row">
+        <div class="tier-left">
+          <div class="tier-range">Under $2,000 recovered</div>
+          <div class="tier-desc">Lower-value ancillary refunds · GAP, Key Replacement</div>
+        </div>
+        <div class="tier-right">
+          <div class="tier-pct high">30%</div>
+          <div class="tier-earn" id="tier1-earn">You keep $240 on $800</div>
+        </div>
+      </div>
+      <div class="tier-row">
+        <div class="tier-left">
+          <div class="tier-range">$2,001 – $4,000 recovered</div>
+          <div class="tier-desc">Mid-range · VSC + GAP combined</div>
+        </div>
+        <div class="tier-right">
+          <div class="tier-pct mid">25%</div>
+          <div class="tier-earn" id="tier2-earn">You keep $750 on $3,000</div>
+        </div>
+      </div>
+      <div class="tier-row">
+        <div class="tier-left">
+          <div class="tier-range">Over $4,000 recovered</div>
+          <div class="tier-desc">High-value · Full F&amp;I stack recovered</div>
+        </div>
+        <div class="tier-right">
+          <div class="tier-pct low">20%</div>
+          <div class="tier-earn" id="tier3-earn">You keep $900 on $4,500</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ANCILLARY RECOVERY BREAKDOWN -->
+  <div class="section">
+    <div class="slabel">Ancillary Recovery — Monthly Detail</div>
+    <div class="breakdown">
+      <div class="bk-header"><span class="bk-title">Recovery Math</span><span class="bk-badge teal" id="anc-scenario-badge">$800 avg / loan</span></div>
+      <div class="brow"><span class="brow-lbl">Total loans per month</span><span class="brow-val">40 loans</span></div>
+      <div class="brow"><span class="brow-lbl">Credit union partners</span><span class="brow-val">10 CUs</span></div>
+      <div class="brow"><span class="brow-lbl">Avg recovery per loan</span><span class="brow-val" id="avg-recovery">$800</span></div>
+      <div class="brow"><span class="brow-lbl">Total gross recovered</span><span class="brow-val t" id="gross-recovered">$32,000</span></div>
+      <div class="brow"><span class="brow-lbl">Avg falls in tier</span><span class="brow-val" id="tier-label">Under $2,000 → 30%</span></div>
+      <div class="brow total-row"><span class="brow-lbl bold">Benny's monthly cut</span><span class="brow-val g big" id="anc-monthly">$9,600</span></div>
+    </div>
+
+    <div class="note">
+      <strong>How the tiers work in practice:</strong> Each loan is evaluated individually. A loan with $800 recovered puts you in the 30% tier ($240 to you). A loan with $3,000 recovered puts you in the 25% tier ($750 to you). A loan with $4,800 recovered puts you in the 20% tier ($960 to you). The scenario selector above blends the mix based on a realistic average.
+    </div>
+  </div>
+
+  <!-- SAMPLE LOAN MIX -->
+  <div class="section">
+    <div class="slabel">Sample Month — Loan Mix (40 loans)</div>
+    <div class="breakdown">
+      <div class="bk-header"><span class="bk-title">Tier Distribution</span><span class="bk-badge green" id="mix-badge">Conservative Mix</span></div>
+      <div class="brow">
+        <span class="brow-lbl">Tier 1 · Under $2K · 30%</span>
+        <div style="text-align:right"><div class="brow-val" id="t1-loans">28 loans</div><div style="font-size:0.65rem;color:var(--teal)" id="t1-earn">Benny earns $6,720</div></div>
+      </div>
+      <div class="brow">
+        <span class="brow-lbl">Tier 2 · $2K–$4K · 25%</span>
+        <div style="text-align:right"><div class="brow-val" id="t2-loans">9 loans</div><div style="font-size:0.65rem;color:var(--teal)" id="t2-earn">Benny earns $6,750</div></div>
+      </div>
+      <div class="brow">
+        <span class="brow-lbl">Tier 3 · Over $4K · 20%</span>
+        <div style="text-align:right"><div class="brow-val" id="t3-loans">3 loans</div><div style="font-size:0.65rem;color:var(--teal)" id="t3-earn">Benny earns $2,700</div></div>
+      </div>
+      <div class="brow total-row">
+        <span class="brow-lbl bold">Total Ancillary Income</span>
+        <span class="brow-val g big" id="anc-total-mix">$16,170</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-label"><span>Vehicle Remarketing</span></div></div>
+
+  <!-- REMARKETING BREAKDOWN -->
+  <div class="section">
+    <div class="slabel">Vehicle Remarketing — Monthly Detail</div>
+    <div class="breakdown">
+      <div class="bk-header"><span class="bk-title">Remarketing Fees — Both Sides Pay</span><span class="bk-badge amber">20 vehicles/month</span></div>
+      <div class="brow"><span class="brow-lbl">Vehicles sold per month</span><span class="brow-val">20</span></div>
+      <div class="brow" style="background:rgba(0,194,168,0.04)"><span class="brow-lbl" style="color:var(--teal)">🏦 Credit Union platform fee (20 × $299)</span><span class="brow-val t">$5,980</span></div>
+      <div class="brow" style="background:rgba(59,130,246,0.04)"><span class="brow-lbl" style="color:#60A5FA">🚗 Dealer platform fee (20 × $299)</span><span class="brow-val" style="color:#60A5FA">$5,980</span></div>
+      <div class="brow"><span class="brow-lbl">Combined platform fees</span><span class="brow-val t">$11,960</span></div>
+      <div class="brow"><span class="brow-lbl">Delivery fee ($199 · est. 60% take rate)</span><span class="brow-val t">$2,388</span></div>
+      <div class="brow"><span class="brow-lbl">Pickup — no charge (40%)</span><span class="brow-val s">$0</span></div>
+      <div class="brow total-row"><span class="brow-lbl bold">Total Remarketing Income</span><span class="brow-val g big">$14,348</span></div>
+    </div>
+
+    <div class="sgrid">
+      <div class="scard"><div class="sv t">$299</div><div class="sk">CU fee per vehicle</div></div>
+      <div class="scard"><div class="sv b">$299</div><div class="sk">Dealer fee per vehicle</div></div>
+      <div class="scard"><div class="sv g">$11,960</div><div class="sk">Combined platform / mo</div></div>
+      <div class="scard"><div class="sv g">$2,388</div><div class="sk">Delivery fees / mo</div></div>
+    </div>
+  </div>
+
+  <div class="divider"><div class="divider-label"><span>Growth Projection</span></div></div>
+
+  <!-- GROWTH TABLE -->
+  <div class="section">
+    <div class="slabel">Annual Income by Scenario</div>
+    <div class="growth-table">
+      <div class="gt-header">
+        <div class="gt-col">Scenario</div>
+        <div class="gt-col">Ancillary</div>
+        <div class="gt-col">Remarket</div>
+        <div class="gt-col">Annual</div>
+      </div>
+      <div class="gt-row">
+        <div class="gt-cell">Conservative<div style="font-size:0.6rem;color:var(--slate)">$800 avg</div></div>
+        <div class="gt-cell" id="gr-c-anc">$33,336</div>
+        <div class="gt-cell">$172,176</div>
+        <div class="gt-cell g" id="gr-c-tot">$205,512</div>
+      </div>
+      <div class="gt-row highlight">
+        <div class="gt-cell">Moderate<div style="font-size:0.6rem;color:var(--teal)">$1,200 avg</div></div>
+        <div class="gt-cell t" id="gr-m-anc">$54,000</div>
+        <div class="gt-cell">$172,176</div>
+        <div class="gt-cell g" id="gr-m-tot">$226,176</div>
+      </div>
+      <div class="gt-row">
+        <div class="gt-cell">Strong<div style="font-size:0.6rem;color:var(--slate)">$1,600 avg</div></div>
+        <div class="gt-cell" id="gr-s-anc">$72,000</div>
+        <div class="gt-cell">$172,176</div>
+        <div class="gt-cell g" id="gr-s-tot">$244,176</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Remarketing is fixed regardless of scenario</strong> — $14,348/month × 12 = $172,176/year. Both the credit union AND the dealer each pay $299 per vehicle sold, plus delivery. That's your <strong>guaranteed floor income</strong> as long as 20 vehicles move per month. Ancillary recovery is the upside.
+    </div>
+  </div>
+
+  <!-- SCALE SCENARIO -->
+  <div class="section">
+    <div class="slabel">What If You Scale?</div>
+    <div class="growth-table">
+      <div class="gt-header">
+        <div class="gt-col">CUs</div>
+        <div class="gt-col">Loans/mo</div>
+        <div class="gt-col">Vehicles</div>
+        <div class="gt-col">Annual</div>
+      </div>
+      <div class="gt-row">
+        <div class="gt-cell">5 CUs<div style="font-size:0.6rem;color:var(--slate)">Starting out</div></div>
+        <div class="gt-cell">20</div>
+        <div class="gt-cell">10</div>
+        <div class="gt-cell g">$115K–$128K</div>
+      </div>
+      <div class="gt-row highlight">
+        <div class="gt-cell">10 CUs<div style="font-size:0.6rem;color:var(--teal)">Year 1 goal</div></div>
+        <div class="gt-cell">40</div>
+        <div class="gt-cell">20</div>
+        <div class="gt-cell g">$206K–$244K</div>
+      </div>
+      <div class="gt-row">
+        <div class="gt-cell">20 CUs<div style="font-size:0.6rem;color:var(--slate)">Year 2–3</div></div>
+        <div class="gt-cell">80</div>
+        <div class="gt-cell">40</div>
+        <div class="gt-cell g">$412K–$488K</div>
+      </div>
+      <div class="gt-row">
+        <div class="gt-cell">50 CUs<div style="font-size:0.6rem;color:var(--slate)">Full scale</div></div>
+        <div class="gt-cell">200</div>
+        <div class="gt-cell">100</div>
+        <div class="gt-cell g">$1.03M–$1.22M</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL TOTAL -->
+  <div class="section">
+    <div class="bottom-total">
+      <div class="bt-lbl">Year 1 Target — 10 CUs · Moderate Scenario</div>
+      <div class="bt-monthly" id="bottom-monthly">$12,868 / mo</div>
+      <div class="bt-annual" id="bottom-annual">$154,416 / year</div>
+      <div class="bt-note">Ancillary recovery commissions + $299 CU fee + $299 dealer fee per vehicle + $199 delivery.<br/>No salary. No retainer. Pure performance income.<br/><strong style="color:var(--white)">You only get paid when you produce.</strong></div>
+    </div>
+  </div>
+
+</div><!-- end content -->
+
+<script>
+var scenarios = {
+  conservative: {
+    avgRecovery: 800,
+    label: 'Conservative scenario · $800 avg recovery per loan',
+    subBadge: '$800 avg / loan',
+    mixBadge: 'Conservative Mix',
+    // 40 loans: 28 under $2K avg $800, 9 at $2K-4K avg $3K, 3 over $4K avg $4,500
+    t1: {loans:28, avg:800, pct:0.30},
+    t2: {loans:9,  avg:3000,pct:0.25},
+    t3: {loans:3,  avg:4500,pct:0.20}
+  },
+  moderate: {
+    avgRecovery: 1200,
+    label: 'Moderate scenario · $1,200 avg recovery per loan',
+    subBadge: '$1,200 avg / loan',
+    mixBadge: 'Moderate Mix',
+    // 40 loans: 18 under $2K avg $1,200, 16 at $2K-4K avg $3,000, 6 over $4K avg $4,800
+    t1: {loans:18, avg:1200, pct:0.30},
+    t2: {loans:16, avg:3000, pct:0.25},
+    t3: {loans:6,  avg:4800, pct:0.20}
+  },
+  strong: {
+    avgRecovery: 1600,
+    label: 'Strong scenario · $1,600 avg recovery per loan',
+    subBadge: '$1,600 avg / loan',
+    mixBadge: 'Strong Mix',
+    // 40 loans: 10 under $2K avg $1,500, 20 at $2K-4K avg $3,200, 10 over $4K avg $5,000
+    t1: {loans:10, avg:1500, pct:0.30},
+    t2: {loans:20, avg:3200, pct:0.25},
+    t3: {loans:10, avg:5000, pct:0.20}
+  }
+};
+
+var remarketMonthly = (20 * 299) + (20 * 299) + (20 * 0.6 * 199); // $5,980 dealer + $5,980 CU + $2,388 delivery = $14,348
+
+function fmt(n){return '$'+Math.round(n).toLocaleString('en-US')}
+
+function setScenario(key, btn) {
+  document.querySelectorAll('.scen-btn').forEach(function(b){b.classList.remove('on')});
+  btn.classList.add('on');
+
+  var s = scenarios[key];
+
+  // Tier earnings
+  var t1earn = s.t1.loans * s.t1.avg * s.t1.pct;
+  var t2earn = s.t2.loans * s.t2.avg * s.t2.pct;
+  var t3earn = s.t3.loans * s.t3.avg * s.t3.pct;
+  var ancTotal = t1earn + t2earn + t3earn;
+  var totalMonthly = ancTotal + remarketMonthly;
+
+  // Gross recovered
+  var grossRecovered = (s.t1.loans*s.t1.avg) + (s.t2.loans*s.t2.avg) + (s.t3.loans*s.t3.avg);
+  // Simple tier label
+  var tierLabel = key==='conservative' ? 'Mostly Tier 1 → 30%' : key==='moderate' ? 'Mix of all 3 tiers' : 'Mostly Tier 2 & 3';
+
+  // Update header
+  document.getElementById('total-monthly').textContent = fmt(totalMonthly);
+  document.getElementById('total-sub').textContent = s.label;
+  document.getElementById('hdr-ancillary').textContent = fmt(ancTotal);
+  document.getElementById('hdr-remarket').textContent = fmt(remarketMonthly);
+  document.getElementById('hdr-annual').textContent = fmt(totalMonthly * 12);
+
+  // Tier callouts
+  document.getElementById('tier1-earn').textContent = 'You keep '+fmt(s.t1.avg*s.t1.pct)+' on '+fmt(s.t1.avg);
+  document.getElementById('tier2-earn').textContent = 'You keep '+fmt(s.t2.avg*s.t2.pct)+' on '+fmt(s.t2.avg);
+  document.getElementById('tier3-earn').textContent = 'You keep '+fmt(s.t3.avg*s.t3.pct)+' on '+fmt(s.t3.avg);
+
+  // Ancillary breakdown
+  document.getElementById('anc-scenario-badge').textContent = s.subBadge;
+  document.getElementById('avg-recovery').textContent = fmt(s.avgRecovery);
+  document.getElementById('gross-recovered').textContent = fmt(grossRecovered);
+  document.getElementById('tier-label').textContent = tierLabel;
+  document.getElementById('anc-monthly').textContent = fmt(ancTotal);
+
+  // Mix table
+  document.getElementById('mix-badge').textContent = s.mixBadge;
+  document.getElementById('t1-loans').textContent = s.t1.loans+' loans';
+  document.getElementById('t2-loans').textContent = s.t2.loans+' loans';
+  document.getElementById('t3-loans').textContent = s.t3.loans+' loans';
+  document.getElementById('t1-earn').textContent = 'Benny earns '+fmt(t1earn);
+  document.getElementById('t2-earn').textContent = 'Benny earns '+fmt(t2earn);
+  document.getElementById('t3-earn').textContent = 'Benny earns '+fmt(t3earn);
+  document.getElementById('anc-total-mix').textContent = fmt(ancTotal);
+
+  // Bottom totals
+  document.getElementById('bottom-monthly').textContent = fmt(totalMonthly)+' / mo';
+  document.getElementById('bottom-annual').textContent = fmt(totalMonthly*12)+' / year';
+
+  // Growth table ancillary columns (remarket stays fixed)
+  var cAnc = scenarios.conservative;
+  var mAnc = scenarios.moderate;
+  var sAnc = scenarios.strong;
+  function calcAnc(sc){return (sc.t1.loans*sc.t1.avg*sc.t1.pct)+(sc.t2.loans*sc.t2.avg*sc.t2.pct)+(sc.t3.loans*sc.t3.avg*sc.t3.pct)}
+  var cA=calcAnc(cAnc), mA=calcAnc(mAnc), sA=calcAnc(sAnc);
+  document.getElementById('gr-c-anc').textContent = fmt(cA*12);
+  document.getElementById('gr-m-anc').textContent = fmt(mA*12);
+  document.getElementById('gr-s-anc').textContent = fmt(sA*12);
+  document.getElementById('gr-c-tot').textContent = fmt((cA+remarketMonthly)*12);
+  document.getElementById('gr-m-tot').textContent = fmt((mA+remarketMonthly)*12);
+  document.getElementById('gr-s-tot').textContent = fmt((sA+remarketMonthly)*12);
+}
+
+// Init
+setScenario('conservative', document.querySelector('.scen-btn.on'));
+</script>
+</body>
+</html>
