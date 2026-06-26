@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RecoverIQ — Credit Union Back Office</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080E1A;--bg2:#0D1525;--card:#101828;--card2:#162035;--border:rgba(255,255,255,0.07);
+  --teal:#00C2A8;--amber:#F59E0B;--red:#EF4444;--green:#10B981;--purple:#8B5CF6;--blue:#3B82F6;
+  --slate:#64748B;--slatelt:#94A3B8;--white:#F1F5F9;--text:#CBD5E1;
+}
+html{font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+
+/* LOGIN */
+#login-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+.login-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--white);letter-spacing:-0.03em;margin-bottom:4px}
+.login-logo span{color:var(--teal)}
+.login-sub{font-size:0.78rem;color:var(--slate);margin-bottom:36px;text-align:center}
+.login-box{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px 24px;width:100%;max-width:380px}
+.login-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.login-desc{font-size:0.74rem;color:var(--slate);margin-bottom:22px}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:0.72rem;font-weight:600;color:var(--slatelt);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px}
+.field input{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--white);font-family:'Inter',sans-serif;font-size:0.88rem;outline:none;transition:border-color 0.15s}
+.field input:focus{border-color:var(--teal)}
+.field input::placeholder{color:var(--slate)}
+.login-btn{width:100%;padding:14px;background:var(--teal);color:#080E1A;border:none;border-radius:12px;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;margin-top:6px}
+.login-hint{font-size:0.68rem;color:var(--slate);text-align:center;margin-top:14px}
+.login-hint strong{color:var(--teal)}
+
+/* APP */
+#app{display:none}
+nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--white);letter-spacing:-0.02em}
+.logo span{color:var(--teal)}
+.logo-sub{font-size:0.58rem;color:var(--slate);font-family:'Inter',sans-serif;font-weight:400;letter-spacing:0.06em;text-transform:uppercase;margin-left:6px;vertical-align:middle}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cuname{font-size:0.72rem;color:var(--slatelt);font-weight:500}
+.nav-av{width:32px;height:32px;border-radius:50%;background:rgba(0,194,168,0.2);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;color:var(--teal)}
+
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);height:62px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.52rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
+.tab.active{color:var(--teal)}
+.tab svg{width:19px;height:19px;stroke-width:2;fill:none;stroke:currentColor}
+
+.screen{display:none;padding:16px 16px 82px;animation:fi 0.18s ease}
+.screen.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.slabel{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;margin-top:22px}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#081A16,#080E1A);border:1px solid rgba(0,194,168,0.2);border-radius:16px;padding:20px;margin-bottom:14px}
+.hero-lbl{font-size:0.66rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.hero-amt{font-family:'Syne',sans-serif;font-size:2.1rem;font-weight:800;color:var(--white);line-height:1;margin-bottom:5px;letter-spacing:-0.03em}
+.hero-sub{font-size:0.74rem;color:var(--teal);font-weight:500}
+.hero-grid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.hgv{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);text-align:center}
+.hgk{font-size:0.57rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;text-align:center}
+
+/* ALERT */
+.alert{background:rgba(245,158,11,0.09);border:1px solid rgba(245,158,11,0.26);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.adot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.alert p{font-size:0.74rem;color:var(--amber);line-height:1.4}
+.alert strong{font-weight:700}
+
+/* STAT GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+.sv{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;line-height:1}
+.sv.t{color:var(--teal)}.sv.g{color:var(--green)}.sv.a{color:var(--amber)}.sv.r{color:var(--red)}.sv.p{color:var(--purple)}.sv.b{color:var(--blue)}
+.sk{font-size:0.63rem;color:var(--slate);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em}
+
+/* BID CARD */
+.bid-card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.bid-header{padding:14px 14px 10px;border-bottom:1px solid var(--border)}
+.bid-header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.bid-vehicle{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white)}
+.bid-vin{font-size:0.62rem;color:var(--slate);font-family:monospace;margin-top:2px}
+.bid-asking{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--slatelt)}
+.bid-offers{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.offer-row{display:flex;justify-content:space-between;align-items:center;background:var(--card2);border-radius:10px;padding:10px 12px}
+.offer-row.top-offer{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2)}
+.dealer-name{font-size:0.82rem;font-weight:600;color:var(--white)}
+.dealer-time{font-size:0.64rem;color:var(--slate);margin-top:2px}
+.offer-amt{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
+.offer-amt.top{color:var(--green)}.offer-amt.other{color:var(--slatelt)}
+.top-badge{font-size:0.56rem;font-weight:700;background:rgba(16,185,129,0.14);color:var(--green);padding:2px 7px;border-radius:20px;text-transform:uppercase;letter-spacing:0.05em;margin-top:3px;display:inline-block}
+.bid-actions{padding:10px 14px 14px;display:flex;gap:8px}
+.act-btn{flex:1;padding:11px;border-radius:10px;border:none;font-family:'Inter',sans-serif;font-size:0.8rem;font-weight:700;cursor:pointer}
+.act-btn.accept{background:var(--green);color:#080E1A}
+.act-btn.counter{background:rgba(245,158,11,0.14);color:var(--amber);border:1px solid rgba(245,158,11,0.28)}
+.act-btn.decline{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2)}
+
+/* ACH PAYMENT TRACKER */
+.pay-item{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:10px}
+.pay-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.pay-vehicle{font-weight:600;font-size:0.87rem;color:var(--white);margin-bottom:2px}
+.pay-dealer{font-size:0.72rem;color:var(--slate)}
+.pay-amt{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700}
+.pay-amt.received{color:var(--green)}.pay-amt.pending{color:var(--amber)}.pay-amt.processing{color:var(--blue)}
+.pay-status{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px}
+.pay-status.received{background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.18)}
+.pay-status.pending{background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.18)}
+.pay-status.processing{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.18)}
+.pay-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.pay-dot.received{background:var(--green)}.pay-dot.pending{background:var(--amber)}.pay-dot.processing{background:var(--blue)}
+.pay-status-text{font-size:0.72rem;font-weight:500}
+.pay-status-text.received{color:var(--green)}.pay-status-text.pending{color:var(--amber)}.pay-status-text.processing{color:var(--blue)}
+
+/* DEALER LEADERBOARD */
+.dealer-rank{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
+.rank-header{padding:14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.rank-cu{font-weight:600;font-size:0.86rem;color:var(--white)}
+.rank-period{font-size:0.68rem;color:var(--slate)}
+.rank-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.rank-row:last-child{border-bottom:none}
+.rank-num{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;width:24px;text-align:center}
+.rank-num.gold{color:var(--amber)}.rank-num.silver{color:var(--slatelt)}.rank-num.bronze{color:#CD7F32}
+.rank-info{flex:1}
+.rank-dealer{font-size:0.84rem;font-weight:600;color:var(--white)}
+.rank-units{font-size:0.68rem;color:var(--slate);margin-top:2px}
+.rank-spend{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--teal)}
+.rank-bar-wrap{padding:0 14px 12px}
+.rank-bar{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;margin-top:4px}
+.rank-fill{height:100%;border-radius:2px;background:var(--teal)}
+
+/* KPI TABLE */
+.kpi-section{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
+.kpi-row{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;border-bottom:1px solid var(--border)}
+.kpi-row:last-child{border-bottom:none}
+.kpi-label{font-size:0.81rem;color:var(--text)}
+.kpi-right{display:flex;align-items:center;gap:8px}
+.kpi-val{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--white)}
+.kpi-delta{font-size:0.65rem;font-weight:600;padding:2px 7px;border-radius:20px}
+.kpi-delta.up{background:rgba(16,185,129,0.12);color:var(--green)}
+.kpi-delta.down{background:rgba(239,68,68,0.12);color:var(--red)}
+
+/* CU ACH SETTINGS */
+.ach-box{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px}
+.ach-title{font-weight:700;font-size:0.88rem;color:var(--white);margin-bottom:4px}
+.ach-sub{font-size:0.72rem;color:var(--slate);margin-bottom:14px}
+.ach-field{margin-bottom:12px}
+.ach-label{font-size:0.65rem;font-weight:600;color:var(--slatelt);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px}
+.ach-val{font-size:0.86rem;color:var(--white);font-weight:500;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.ach-val.masked{letter-spacing:0.1em;color:var(--slatelt)}
+.ach-status{display:flex;align-items:center;gap:8px;background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.18);border-radius:10px;padding:10px 14px;margin-top:10px}
+.ach-status-dot{width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0}
+.ach-status p{font-size:0.73rem;color:var(--green);font-weight:500}
+
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Inter',sans-serif;font-size:0.87rem;font-weight:600;cursor:pointer;text-align:center;margin-top:10px}
+.btn.primary{background:var(--teal);color:#080E1A}
+.btn.sec{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
+.btn.amber{background:rgba(245,158,11,0.14);color:var(--amber);border:1px solid rgba(245,158,11,0.28)}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.62);backdrop-filter:blur(4px);align-items:flex-end}
+.overlay.open{display:flex}
+.sheet{background:var(--bg2);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-height:90vh;overflow-y:auto;padding:20px 16px 48px;animation:su 0.22s ease}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.shandle{width:40px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 16px}
+.stitle{font-family:'Syne',sans-serif;font-size:1.08rem;font-weight:700;color:var(--white);margin-bottom:14px}
+.ldgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.ldlbl{font-size:0.57rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px}
+.ldval{font-size:0.82rem;color:var(--white);font-weight:500}
+.divider{height:1px;background:var(--border);margin:16px 0}
+
+@media(min-width:600px){body{max-width:430px;margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,0.6)}nav,.tabbar{max-width:430px;left:50%;transform:translateX(-50%)}.tabbar{right:auto;width:430px}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-logo">Recover<span>IQ</span></div>
+  <div class="login-sub">Credit Union Back Office</div>
+  <div class="login-box">
+    <div class="login-title">Credit Union Sign In</div>
+    <div class="login-desc">Manage vehicle bids, payments, and dealer performance</div>
+    <div class="field"><label>Credit Union Name</label><input type="text" value="Suncoast Credit Union"/></div>
+    <div class="field"><label>Email Address</label><input type="email" value="admin@suncoastcu.org"/></div>
+    <div class="field"><label>Password</label><input type="password" value="password"/></div>
+    <button class="login-btn" onclick="doLogin()">Sign In to Back Office</button>
+    <div class="login-hint">Demo credentials pre-filled — tap <strong>Sign In</strong> to continue</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+<nav>
+  <div><span class="logo">Recover<span>IQ</span></span><span class="logo-sub">Back Office</span></div>
+  <div class="nav-r"><span class="nav-cuname">Suncoast CU</span><div class="nav-av">SC</div></div>
+</nav>
+
+<!-- DASHBOARD -->
+<div class="screen active" id="s-home">
+  <div style="padding-top:16px">
+    <div class="hero">
+      <div class="hero-lbl">Suncoast CU — Remarketing This Month</div>
+      <div class="hero-amt">$96,400</div>
+      <div class="hero-sub">↑ $22,800 more than auction net this month</div>
+      <div class="hero-grid">
+        <div><div class="hgv">5</div><div class="hgk">Listed</div></div>
+        <div><div class="hgv">7</div><div class="hgk">Active Bids</div></div>
+        <div><div class="hgv">$19.3K</div><div class="hgk">Avg Sale</div></div>
+      </div>
+    </div>
+
+    <div class="alert"><div class="adot"></div><p><strong>3 bids awaiting your decision</strong> — accept, counter, or decline to keep the process moving.</p></div>
+
+    <div class="slabel">Summary</div>
+    <div class="sgrid">
+      <div class="scard"><div class="sv g">$54,400</div><div class="sk">Received (ACH)</div></div>
+      <div class="scard"><div class="sv a">$42,000</div><div class="sk">Pending Payment</div></div>
+      <div class="scard"><div class="sv t">5</div><div class="sk">Active Listings</div></div>
+      <div class="scard"><div class="sv g">2</div><div class="sk">Sales This Month</div></div>
+    </div>
+
+    <div class="slabel">Recent Activity</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+      <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:0.84rem;font-weight:600;color:var(--white)">AutoNation — Bid Accepted</div><div style="font-size:0.7rem;color:var(--slate)">2022 Nissan Altima SR · Mar 20</div></div><div style="font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--green)">$21,400</div></div>
+      <div style="padding:12px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:0.84rem;font-weight:600;color:var(--white)">Parks Toyota — Bid Received</div><div style="font-size:0.7rem;color:var(--slate)">2020 Toyota Camry LE · Mar 21</div></div><div style="font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--amber)">$16,200</div></div>
+      <div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:0.84rem;font-weight:600;color:var(--white)">ACH Received — AutoNation</div><div style="font-size:0.7rem;color:var(--slate)">2020 Kia Sportage EX · Mar 19</div></div><div style="font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--green)">$17,600</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- BIDS — REVIEW -->
+<div class="screen" id="s-bids">
+  <div style="padding-top:16px">
+    <div class="slabel" style="margin-top:0">Awaiting Decision — 3</div>
+
+    <!-- Bid 1 -->
+    <div class="bid-card">
+      <div class="bid-header">
+        <div class="bid-header-top">
+          <div><div class="bid-vehicle">2021 Honda Accord Sport</div><div class="bid-vin">VIN: 1HGCV1F34MA012345</div></div>
+          <div style="text-align:right"><div style="font-size:0.64rem;color:var(--slate)">Asking</div><div class="bid-asking">$19,400</div></div>
+        </div>
+        <div style="display:flex;gap:8px;font-size:0.68rem;color:var(--slate)"><span>42,180 mi</span><span>·</span><span>White</span><span>·</span><span>Good</span><span>·</span><span>4 bids total</span></div>
+      </div>
+      <div class="bid-offers">
+        <div class="offer-row top-offer">
+          <div><div class="dealer-name">AutoNation Tampa</div><div class="dealer-time">Mar 20 · 2:14 PM</div></div>
+          <div style="text-align:right"><div class="offer-amt top">$18,750</div><div class="top-badge">Highest Offer</div></div>
+        </div>
+        <div class="offer-row">
+          <div><div class="dealer-name">Headquarter Honda</div><div class="dealer-time">Mar 20 · 11:08 AM</div></div>
+          <div><div class="offer-amt other">$17,900</div></div>
+        </div>
+        <div class="offer-row">
+          <div><div class="dealer-name">Parks Toyota</div><div class="dealer-time">Mar 19 · 4:30 PM</div></div>
+          <div><div class="offer-amt other">$17,200</div></div>
+        </div>
+      </div>
+      <div class="bid-actions">
+        <button class="act-btn accept" onclick="open_s('sh-accept')">✓ Accept $18,750</button>
+        <button class="act-btn counter" onclick="open_s('sh-counter')">Counter</button>
+        <button class="act-btn decline">Decline</button>
+      </div>
+    </div>
+
+    <!-- Bid 2 -->
+    <div class="bid-card">
+      <div class="bid-header">
+        <div class="bid-header-top">
+          <div><div class="bid-vehicle">2020 Toyota Camry LE</div><div class="bid-vin">VIN: 4T1B11HK8LU912345</div></div>
+          <div style="text-align:right"><div style="font-size:0.64rem;color:var(--slate)">Asking</div><div class="bid-asking">$16,800</div></div>
+        </div>
+        <div style="display:flex;gap:8px;font-size:0.68rem;color:var(--slate)"><span>61,420 mi</span><span>·</span><span>Silver</span><span>·</span><span>Fair</span><span>·</span><span>2 bids total</span></div>
+      </div>
+      <div class="bid-offers">
+        <div class="offer-row top-offer">
+          <div><div class="dealer-name">Parks Toyota</div><div class="dealer-time">Mar 21 · 10:00 AM</div></div>
+          <div style="text-align:right"><div class="offer-amt top">$16,200</div><div class="top-badge">Highest Offer</div></div>
+        </div>
+        <div class="offer-row">
+          <div><div class="dealer-name">Hendrick Chevrolet</div><div class="dealer-time">Mar 21 · 9:15 AM</div></div>
+          <div><div class="offer-amt other">$15,400</div></div>
+        </div>
+      </div>
+      <div class="bid-actions">
+        <button class="act-btn accept" onclick="open_s('sh-accept')">✓ Accept $16,200</button>
+        <button class="act-btn counter" onclick="open_s('sh-counter')">Counter</button>
+        <button class="act-btn decline">Decline</button>
+      </div>
+    </div>
+
+    <!-- Bid 3 -->
+    <div class="bid-card">
+      <div class="bid-header">
+        <div class="bid-header-top">
+          <div><div class="bid-vehicle">2019 Chevrolet Equinox LT</div><div class="bid-vin">VIN: 2GNAXKEV3K6220471</div></div>
+          <div style="text-align:right"><div style="font-size:0.64rem;color:var(--slate)">Asking</div><div class="bid-asking">$14,200</div></div>
+        </div>
+        <div style="display:flex;gap:8px;font-size:0.68rem;color:var(--slate)"><span>78,900 mi</span><span>·</span><span>Black</span><span>·</span><span>Fair</span><span>·</span><span>3 bids total</span></div>
+      </div>
+      <div class="bid-offers">
+        <div class="offer-row top-offer">
+          <div><div class="dealer-name">Courtesy Ford</div><div class="dealer-time">Mar 21 · 1:45 PM</div></div>
+          <div style="text-align:right"><div class="offer-amt top">$13,800</div><div class="top-badge">Highest Offer</div></div>
+        </div>
+      </div>
+      <div class="bid-actions">
+        <button class="act-btn accept" onclick="open_s('sh-accept')">✓ Accept $13,800</button>
+        <button class="act-btn counter" onclick="open_s('sh-counter')">Counter</button>
+        <button class="act-btn decline">Decline</button>
+      </div>
+    </div>
+
+    <div class="slabel">Accepted — Awaiting ACH</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden">
+      <div style="padding:13px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-size:0.84rem;font-weight:600;color:var(--white)">2022 Nissan Altima SR</div><div style="font-size:0.7rem;color:var(--slate)">AutoNation Tampa · Accepted Mar 20</div></div>
+        <div style="text-align:right"><div style="font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--amber)">$21,400</div><div style="font-size:0.6rem;color:var(--amber);margin-top:2px">ACH Pending</div></div>
+      </div>
+      <div style="padding:13px 14px;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-size:0.84rem;font-weight:600;color:var(--white)">2020 Ford Explorer XLT</div><div style="font-size:0.7rem;color:var(--slate)">Hendrick Auto · Accepted Mar 19</div></div>
+        <div style="text-align:right"><div style="font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--blue)">$20,600</div><div style="font-size:0.6rem;color:var(--blue);margin-top:2px">ACH Processing</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACH TRACKER -->
+<div class="screen" id="s-ach">
+  <div style="padding-top:16px">
+    <div class="sgrid">
+      <div class="scard"><div class="sv g">$54,400</div><div class="sk">Received MTD</div></div>
+      <div class="scard"><div class="sv a">$42,000</div><div class="sk">Pending</div></div>
+    </div>
+
+    <div class="slabel">Incoming ACH Payments</div>
+
+    <div class="pay-item">
+      <div class="pay-top">
+        <div><div class="pay-vehicle">2022 Nissan Altima SR</div><div class="pay-dealer">AutoNation Tampa · Bid accepted Mar 20</div></div>
+        <div class="pay-amt pending">$21,400</div>
+      </div>
+      <div class="pay-status pending"><div class="pay-dot pending"></div><div class="pay-status-text pending">ACH initiated by dealer — expected Mar 23</div></div>
+    </div>
+
+    <div class="pay-item">
+      <div class="pay-top">
+        <div><div class="pay-vehicle">2020 Ford Explorer XLT</div><div class="pay-dealer">Hendrick Auto Group · Bid accepted Mar 19</div></div>
+        <div class="pay-amt processing">$20,600</div>
+      </div>
+      <div class="pay-status processing"><div class="pay-dot processing"></div><div class="pay-status-text processing">ACH processing — funds arrive Mar 22</div></div>
+    </div>
+
+    <div class="pay-item">
+      <div class="pay-top">
+        <div><div class="pay-vehicle">2020 Kia Sportage EX</div><div class="pay-dealer">Headquarter Toyota · Mar 12</div></div>
+        <div class="pay-amt received">$17,600</div>
+      </div>
+      <div class="pay-status received"><div class="pay-dot received"></div><div class="pay-status-text received">ACH received · Posted to CU account</div></div>
+    </div>
+
+    <div class="pay-item">
+      <div class="pay-top">
+        <div><div class="pay-vehicle">2021 Ford Escape SE</div><div class="pay-dealer">AutoNation Tampa · Feb 28</div></div>
+        <div class="pay-amt received">$15,350</div>
+      </div>
+      <div class="pay-status received"><div class="pay-dot received"></div><div class="pay-status-text received">ACH received · Posted to CU account</div></div>
+    </div>
+
+    <div class="slabel">CU Receiving Account</div>
+    <div class="ach-box">
+      <div class="ach-title">Where Dealer Payments Are Sent</div>
+      <div class="ach-sub">All dealer ACH payments from accepted bids are deposited to this account.</div>
+      <div class="ach-field"><div class="ach-label">Institution</div><div class="ach-val">Suncoast Credit Union</div></div>
+      <div class="ach-field"><div class="ach-label">Account Name</div><div class="ach-val">Vehicle Remarketing Fund</div></div>
+      <div class="ach-field"><div class="ach-label">Routing Number</div><div class="ach-val masked">••••••• 6610</div></div>
+      <div class="ach-field"><div class="ach-label">Account Number</div><div class="ach-val masked">•••••••••• 4421</div></div>
+      <div class="ach-status"><div class="ach-status-dot"></div><p>Verified receiving account — all dealer payments routed here automatically upon bid acceptance</p></div>
+    </div>
+    <button class="btn sec">Update Receiving Account</button>
+  </div>
+</div>
+
+<!-- DEALER LEADERBOARD -->
+<div class="screen" id="s-dealers">
+  <div style="padding-top:16px">
+    <div class="slabel" style="margin-top:0">Top Dealers — Suncoast CU · All Time</div>
+
+    <div class="dealer-rank">
+      <div class="rank-header"><span class="rank-cu">Suncoast Credit Union</span><span class="rank-period">YTD 2024</span></div>
+      <div class="rank-row"><div class="rank-num gold">1</div><div class="rank-info"><div class="rank-dealer">AutoNation Tampa</div><div class="rank-units">6 units · Avg $16,400 · 1.4 day ACH</div></div><div class="rank-spend">$98,400</div></div>
+      <div class="rank-bar-wrap"><div class="rank-bar"><div class="rank-fill" style="width:100%"></div></div></div>
+      <div class="rank-row"><div class="rank-num silver">2</div><div class="rank-info"><div class="rank-dealer">Parks Toyota</div><div class="rank-units">3 units · Avg $15,800 · 1.8 day ACH</div></div><div class="rank-spend">$47,400</div></div>
+      <div class="rank-bar-wrap"><div class="rank-bar"><div class="rank-fill" style="width:48%"></div></div></div>
+      <div class="rank-row"><div class="rank-num bronze">3</div><div class="rank-info"><div class="rank-dealer">Headquarter Honda</div><div class="rank-units">2 units · Avg $18,200 · 2.1 day ACH</div></div><div class="rank-spend">$36,400</div></div>
+      <div class="rank-bar-wrap"><div class="rank-bar"><div class="rank-fill" style="width:37%"></div></div></div>
+      <div class="rank-row"><div class="rank-num" style="color:var(--slate)">4</div><div class="rank-info"><div class="rank-dealer">Hendrick Chevrolet</div><div class="rank-units">1 unit · Avg $15,400 · 3.0 day ACH</div></div><div class="rank-spend">$15,400</div></div>
+      <div class="rank-bar-wrap"><div class="rank-bar"><div class="rank-fill" style="width:16%"></div></div></div>
+      <div class="rank-row"><div class="rank-num" style="color:var(--slate)">5</div><div class="rank-info"><div class="rank-dealer">Courtesy Ford</div><div class="rank-units">1 unit · Avg $13,800 · 2.4 day ACH</div></div><div class="rank-spend">$13,800</div></div>
+      <div class="rank-bar-wrap"><div class="rank-bar"><div class="rank-fill" style="width:14%"></div></div></div>
+    </div>
+
+    <div class="slabel">Network KPIs</div>
+    <div class="kpi-section">
+      <div class="kpi-row"><span class="kpi-label">Total Dealer Network</span><div class="kpi-right"><span class="kpi-val">48 dealers</span><span class="kpi-delta up">↑ 12 new</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Active Bidders (MTD)</span><div class="kpi-right"><span class="kpi-val">14 dealers</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Avg Days to Sale</span><div class="kpi-right"><span class="kpi-val">4.2 days</span><span class="kpi-delta up">vs. 28 auction</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Avg ACH Payment Time</span><div class="kpi-right"><span class="kpi-val">1.8 days</span><span class="kpi-delta up">Excellent</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Vehicles Sold vs. Auction</span><div class="kpi-right"><span class="kpi-val">+$22,800 MTD</span><span class="kpi-delta up">vs. auction net</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Repeat Dealer Buy Rate</span><div class="kpi-right"><span class="kpi-val">78%</span><span class="kpi-delta up">↑ 14%</span></div></div>
+    </div>
+
+    <div class="slabel">Dealer Payment Reliability</div>
+    <div class="kpi-section">
+      <div class="kpi-row"><span class="kpi-label">AutoNation Tampa</span><div class="kpi-right"><span class="kpi-val" style="color:var(--green)">100%</span><span class="kpi-delta up">On time</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Parks Toyota</span><div class="kpi-right"><span class="kpi-val" style="color:var(--green)">100%</span><span class="kpi-delta up">On time</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Headquarter Honda</span><div class="kpi-right"><span class="kpi-val" style="color:var(--green)">100%</span><span class="kpi-delta up">On time</span></div></div>
+      <div class="kpi-row"><span class="kpi-label">Hendrick Chevrolet</span><div class="kpi-right"><span class="kpi-val" style="color:var(--amber)">98%</span><span class="kpi-delta down">1 late</span></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETTINGS -->
+<div class="screen" id="s-settings">
+  <div style="padding-top:16px;text-align:center;padding-bottom:16px">
+    <div style="width:68px;height:68px;border-radius:50%;background:rgba(0,194,168,0.15);border:3px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--teal);margin:0 auto 12px">SC</div>
+    <div style="font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white)">Suncoast Credit Union</div>
+    <div style="font-size:0.74rem;color:var(--slate);margin-top:3px">CU ID: SCU-001 · Tampa, FL</div>
+    <div style="font-size:0.74rem;color:var(--green);margin-top:3px;font-weight:500">✓ Verified Institution · RecoverIQ Partner</div>
+  </div>
+
+  <div class="slabel" style="margin-top:0">Institution KPIs — All Time</div>
+  <div class="sgrid">
+    <div class="scard"><div class="sv t">$418K</div><div class="sk">Total Remarketed</div></div>
+    <div class="scard"><div class="sv g">24</div><div class="sk">Vehicles Sold</div></div>
+    <div class="scard"><div class="sv a">$74K</div><div class="sk">Saved vs. Auction</div></div>
+    <div class="scard"><div class="sv g">$17.4K</div><div class="sk">Avg Sale Price</div></div>
+  </div>
+
+  <div class="slabel">Receiving Account (ACH)</div>
+  <div class="ach-box">
+    <div class="ach-title">Vehicle Remarketing Fund</div>
+    <div class="ach-sub">Dealer payments are deposited here automatically after bid acceptance.</div>
+    <div class="ach-field"><div class="ach-label">Routing Number</div><div class="ach-val masked">••••••• 6610</div></div>
+    <div class="ach-field"><div class="ach-label">Account Number</div><div class="ach-val masked">•••••••••• 4421</div></div>
+    <div class="ach-status"><div class="ach-status-dot"></div><p>Verified · Receiving account active</p></div>
+  </div>
+  <button class="btn sec">Update Receiving Account</button>
+  <button class="btn amber">Manage Approved Dealer Network</button>
+  <button class="btn sec" style="margin-top:20px">Sign Out</button>
+</div>
+
+<!-- TAB BAR -->
+<div class="tabbar">
+  <button class="tab active" onclick="sw('home',this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Dashboard
+  </button>
+  <button class="tab" onclick="sw('bids',this)">
+    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Bids
+  </button>
+  <button class="tab" onclick="sw('ach',this)">
+    <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg>
+    ACH
+  </button>
+  <button class="tab" onclick="sw('dealers',this)">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+    Dealers
+  </button>
+  <button class="tab" onclick="sw('settings',this)">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    Settings
+  </button>
+</div>
+
+<!-- SHEETS -->
+<div class="overlay" id="sh-accept" onclick="cls(event,'sh-accept')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="stitle">Accept Bid — Confirm</div>
+    <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.2);border-radius:14px;padding:16px;margin-bottom:16px">
+      <div style="font-size:0.67rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px">Accepting Offer From</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--green);margin-bottom:4px">$18,750</div>
+      <div style="font-size:0.84rem;color:var(--white);font-weight:600">AutoNation Tampa</div>
+      <div style="font-size:0.72rem;color:var(--slate);margin-top:4px">2021 Honda Accord Sport · VIN 1HGCV1F34MA012345</div>
+    </div>
+    <div class="ldgrid">
+      <div><div class="ldlbl">Asking Price Was</div><div class="ldval">$19,400</div></div>
+      <div><div class="ldlbl">Accepted Offer</div><div class="ldval" style="color:var(--green)">$18,750</div></div>
+      <div><div class="ldlbl">Auction Net Est.</div><div class="ldval" style="color:var(--red)">$16,300</div></div>
+      <div><div class="ldlbl">Saved vs. Auction</div><div class="ldval" style="color:var(--green)">+ $2,450</div></div>
+      <div><div class="ldlbl">ACH Due By</div><div class="ldval">Mar 23, 2024</div></div>
+      <div><div class="ldlbl">ACH To</div><div class="ldval">Remarketing Fund ••4421</div></div>
+    </div>
+    <div style="background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.2);border-radius:10px;padding:12px 14px;font-size:0.73rem;color:var(--amber);line-height:1.5;margin-top:4px">
+      Accepting will notify AutoNation Tampa and trigger their ACH payment. This action cannot be undone.
+    </div>
+    <button class="btn primary" style="background:var(--green);color:#080E1A" onclick="cls(null,'sh-accept')">Confirm — Accept $18,750</button>
+    <button class="btn sec" onclick="cls(null,'sh-accept')">Cancel</button>
+  </div>
+</div>
+
+<div class="overlay" id="sh-counter" onclick="cls(event,'sh-counter')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="stitle">Counter Offer</div>
+    <div style="font-size:0.74rem;color:var(--slate);margin-bottom:16px">2021 Honda Accord Sport · Current high bid: $18,750 from AutoNation Tampa</div>
+    <div style="font-size:0.68rem;font-weight:600;color:var(--slatelt);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Your Counter Amount</div>
+    <div style="background:var(--bg2);border:1px solid rgba(0,194,168,0.3);border-radius:12px;padding:16px;margin-bottom:14px">
+      <input style="width:100%;background:none;border:none;outline:none;font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--white);text-align:center" value="$19,200" type="text"/>
+      <div style="font-size:0.68rem;color:var(--slate);text-align:center;margin-top:6px">Counter will be sent to all active bidders</div>
+    </div>
+    <div style="font-size:0.68rem;font-weight:600;color:var(--slatelt);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Message to Dealers (Optional)</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:0.82rem;color:var(--slatelt)">Vehicle is in excellent condition and recently serviced. Counter offers welcome.</div>
+    <div style="font-size:0.68rem;font-weight:600;color:var(--slatelt);text-transform:uppercase;letter-spacing:0.07em;margin:14px 0 8px">Counter Expires</div>
+    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:0.82rem;color:var(--white)">48 hours from now (Mar 23, 2024)</div>
+    <button class="btn primary" onclick="cls(null,'sh-counter')">Send Counter — $19,200</button>
+    <button class="btn sec" onclick="cls(null,'sh-counter')">Cancel</button>
+  </div>
+</div>
+
+</div><!-- end app -->
+
+<script>
+function doLogin(){document.getElementById('login-screen').style.display='none';document.getElementById('app').style.display='block'}
+function sw(n,el){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});document.getElementById('s-'+n).classList.add('active');el.classList.add('active')}
+function open_s(id){document.getElementById(id).classList.add('open')}
+function cls(e,id){if(!e||e.target===document.getElementById(id)){document.getElementById(id).classList.remove('open')}}
+</script>
+</body>
+</html>
