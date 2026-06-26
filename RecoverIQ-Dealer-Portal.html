@@ -186,6 +186,27 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-fi
 .btn.green{background:var(--green);color:#0A0F1A}
 .btn.sec{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
 .btn.amber{background:rgba(245,158,11,0.14);color:var(--amber);border:1px solid rgba(245,158,11,0.28)}
+/* FEE BREAKDOWN */
+.fee-box{background:var(--bg2);border:1px solid rgba(59,130,246,0.2);border-radius:12px;padding:14px;margin-top:10px}
+.fee-title{font-size:0.67rem;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px}
+.fee-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.fee-row:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid var(--border);margin-top:4px}
+.fee-label{font-size:0.76rem;color:var(--slatelt)}
+.fee-val{font-size:0.82rem;font-weight:600;color:var(--white)}
+.fee-val.total{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:var(--green)}
+.fee-val.free{color:var(--green)}
+.fee-val.neg{color:var(--amber)}
+.delivery-opts{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.delivery-opt{display:flex;align-items:flex-start;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:border-color 0.15s}
+.delivery-opt.selected{border-color:var(--blue);background:rgba(59,130,246,0.07)}
+.dopt-radio{width:18px;height:18px;border-radius:50%;border:2px solid var(--slate);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.dopt-radio.on{border-color:var(--blue);background:var(--blue)}
+.dopt-radio.on::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--white)}
+.dopt-title{font-size:0.82rem;font-weight:600;color:var(--white);margin-bottom:2px}
+.dopt-sub{font-size:0.69rem;color:var(--slate);line-height:1.4}
+.dopt-price{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;margin-left:auto;flex-shrink:0}
+.dopt-price.free{color:var(--green)}.dopt-price.paid{color:var(--amber)}.dopt-price.neg{color:var(--slatelt)}
+
 
 .divider{height:1px;background:var(--border);margin:16px 0}
 
@@ -463,22 +484,64 @@ nav{position:sticky;top:0;z-index:100;background:rgba(10,15,26,0.97);backdrop-fi
 <div class="overlay" id="sh-won" onclick="cls(event,'sh-won')">
   <div class="sheet">
     <div class="shandle"></div>
-    <span class="tag won" style="margin-bottom:10px;display:inline-block">Bid Accepted — Payment Required</span>
+    <span class="tag won" style="margin-bottom:10px;display:inline-block">Bid Accepted — Complete Your Purchase</span>
     <div class="stitle">2022 Nissan Altima SR</div>
     <div class="ldgrid">
       <div><div class="ldlbl">Your Winning Bid</div><div class="ldval" style="color:var(--green);font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800">$21,400</div></div>
       <div><div class="ldlbl">Accepted By</div><div class="ldval">Suncoast CU</div></div>
-      <div><div class="ldlbl">Accepted On</div><div class="ldval">Mar 20, 2024</div></div>
+      <div><div class="ldlbl">VIN</div><div class="ldval" style="font-family:monospace;font-size:0.72rem">1N4BL4EV5NC189021</div></div>
       <div><div class="ldlbl">Payment Due</div><div class="ldval" style="color:var(--amber)">Mar 23, 2024</div></div>
     </div>
-    <div style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:14px;margin:12px 0">
-      <div style="font-size:0.68rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">ACH Payment Details</div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.76rem;color:var(--slatelt)">Sending from</span><span style="font-size:0.76rem;color:var(--white);font-weight:600">Chase ••8821</span></div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.76rem;color:var(--slatelt)">Sending to</span><span style="font-size:0.76rem;color:var(--white);font-weight:600">Suncoast CU</span></div>
-      <div style="display:flex;justify-content:space-between"><span style="font-size:0.76rem;color:var(--slatelt)">Amount</span><span style="font-size:0.9rem;color:var(--green);font-family:'Syne',sans-serif;font-weight:800">$21,400.00</span></div>
+
+    <div class="slabel" style="margin-top:14px">Step 1 — Select Delivery Option</div>
+    <div class="delivery-opts">
+      <div class="delivery-opt selected" id="dopt-pickup" onclick="selectDelivery('pickup')">
+        <div class="dopt-radio on" id="radio-pickup"></div>
+        <div>
+          <div class="dopt-title">🚗 Dealer Pickup — No Charge</div>
+          <div class="dopt-sub">Pick up vehicle at our facility once ACH payment clears. Coordinate pickup time after authorization.</div>
+        </div>
+        <div class="dopt-price free">FREE</div>
+      </div>
+      <div class="delivery-opt" id="dopt-delivery" onclick="selectDelivery('delivery')">
+        <div class="dopt-radio" id="radio-delivery"></div>
+        <div>
+          <div class="dopt-title">🚚 RecoverIQ Delivery — Within 25 Miles</div>
+          <div class="dopt-sub">We deliver to your lot. Flat fee within 25-mile radius of vehicle location. Payment clears first.</div>
+        </div>
+        <div class="dopt-price paid">$199</div>
+      </div>
+      <div class="delivery-opt" id="dopt-negotiate" onclick="selectDelivery('negotiate')">
+        <div class="dopt-radio" id="radio-negotiate"></div>
+        <div>
+          <div class="dopt-title">📍 Delivery — Over 25 Miles</div>
+          <div class="dopt-sub">Distance exceeds standard radius. A RecoverIQ rep will contact you to negotiate delivery rate.</div>
+        </div>
+        <div class="dopt-price neg">TBD</div>
+      </div>
     </div>
-    <button class="btn green" onclick="cls(null,'sh-won')">Authorize ACH Payment — $21,400</button>
-    <button class="btn sec" onclick="cls(null,'sh-won')">Close</button>
+
+    <div class="slabel">Step 2 — Review Total Due</div>
+    <div class="fee-box">
+      <div class="fee-title">💳 Payment Breakdown</div>
+      <div class="fee-row"><span class="fee-label">Vehicle Bid (Accepted)</span><span class="fee-val">$21,400.00</span></div>
+      <div class="fee-row"><span class="fee-label">RecoverIQ Platform Fee</span><span class="fee-val">$299.00</span></div>
+      <div class="fee-row" id="fee-delivery-row"><span class="fee-label">Delivery Fee (Pickup)</span><span class="fee-val free" id="fee-delivery-val">$0.00</span></div>
+      <div class="fee-row"><span class="fee-label" style="font-weight:700;color:var(--white)">Total ACH Amount</span><span class="fee-val total" id="fee-total">$21,699.00</span></div>
+    </div>
+    <div style="font-size:0.67rem;color:var(--slate);line-height:1.5;margin-top:10px;padding:0 2px">
+      The $299 platform fee covers listing, photo management, dealer network access, bid management, and ACH processing. Delivery fees apply separately. All fees disclosed prior to payment authorization.
+    </div>
+
+    <div class="slabel">Step 3 — Authorize ACH</div>
+    <div style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.2);border-radius:12px;padding:14px;margin-bottom:4px">
+      <div style="font-size:0.67rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px">Payment from Your Account</div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.76rem;color:var(--slatelt)">Sending from</span><span style="font-size:0.76rem;color:var(--white);font-weight:600">Chase ••8821</span></div>
+      <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="font-size:0.76rem;color:var(--slatelt)">Sending to</span><span style="font-size:0.76rem;color:var(--white);font-weight:600">Suncoast CU via RecoverIQ</span></div>
+      <div style="display:flex;justify-content:space-between"><span style="font-size:0.76rem;color:var(--slatelt)">Total Amount</span><span style="font-size:0.9rem;color:var(--green);font-family:'Syne',sans-serif;font-weight:800" id="ach-total-display">$21,699.00</span></div>
+    </div>
+    <button class="btn green" onclick="cls(null,'sh-won')" id="ach-auth-btn">Authorize ACH Payment — $21,699.00</button>
+    <button class="btn sec" onclick="cls(null,'sh-won')">Cancel</button>
   </div>
 </div>
 </div><!-- end app -->
@@ -488,6 +551,26 @@ function doLogin(){document.getElementById('login-screen').style.display='none';
 function sw(n,el){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});document.getElementById('s-'+n).classList.add('active');el.classList.add('active')}
 function open_s(id){document.getElementById(id).classList.add('open')}
 function cls(e,id){if(!e||e.target===document.getElementById(id)){document.getElementById(id).classList.remove('open')}}
+function selectDelivery(opt){
+  ['pickup','delivery','negotiate'].forEach(function(o){
+    document.getElementById('dopt-'+o).classList.remove('selected');
+    var r=document.getElementById('radio-'+o);
+    r.classList.remove('on');
+    r.innerHTML='';
+  });
+  document.getElementById('dopt-'+opt).classList.add('selected');
+  var radio=document.getElementById('radio-'+opt);
+  radio.classList.add('on');
+  radio.innerHTML='';
+  var base=21400,fee=299,delivery=0,label='Delivery Fee (Pickup)',valStr='$0.00',valClass='fee-val free',tbd=false;
+  if(opt==='delivery'){delivery=199;label='Delivery Fee (Within 25 mi)';valStr='$199.00';valClass='fee-val paid';}
+  else if(opt==='negotiate'){tbd=true;label='Delivery Fee (Over 25 mi)';valStr='TBD — Rep will contact you';valClass='fee-val neg';}
+  var total=tbd?'TBD':('$'+(base+fee+delivery).toLocaleString('en-US',{minimumFractionDigits:2}));
+  document.getElementById('fee-delivery-row').innerHTML='<span class="fee-label">'+label+'</span><span class="'+valClass+'">'+valStr+'</span>';
+  document.getElementById('fee-total').textContent=total;
+  document.getElementById('ach-total-display').textContent=total;
+  document.getElementById('ach-auth-btn').textContent='Authorize ACH Payment — '+total;
+}
 </script>
 </body>
 </html>
