@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Adult Day Care Overview - CatrinaL Consulting</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #0E1E35;
+    --gold: #C9A84C;
+    --cream: #FAF7F2;
+    --warm: #F2EDE6;
+    --gray: #6B6560;
+    --border: #E0D9CF;
+    --white: #ffffff;
+    --light: #F8F5F0;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--navy); line-height: 1.6; }
+  .page { max-width: 820px; margin: 0 auto; padding: 0 0 60px; }
+
+  .header { background: var(--navy); padding: 44px 48px 36px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; right: -60px; bottom: -60px; width: 280px; height: 280px; border-radius: 50%; border: 1px solid rgba(201,168,76,0.08); pointer-events: none; }
+  .header-badge { display: inline-block; background: var(--gold); color: var(--navy); font-size: 9px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; padding: 5px 14px; margin-bottom: 18px; }
+  .header h1 { font-family: 'Cormorant Garamond', serif; font-size: 38px; color: var(--white); line-height: 1.1; font-weight: 700; margin-bottom: 8px; }
+  .header h1 em { color: var(--gold); font-style: italic; }
+  .header-divider { width: 48px; height: 2px; background: var(--gold); margin: 18px 0 14px; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 300; }
+  .header-sub strong { color: rgba(255,255,255,0.7); font-weight: 400; }
+
+  .intro { background: var(--warm); border-left: 4px solid var(--gold); padding: 20px 48px; font-size: 13.5px; color: var(--gray); line-height: 1.8; font-weight: 300; }
+
+  .body { padding: 0 48px; }
+
+  .section { margin-top: 40px; }
+  .section-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .section-num { background: var(--navy); color: var(--gold); font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 2px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+
+  .truth-block { background: var(--navy); padding: 28px 32px; margin-bottom: 4px; }
+  .truth-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,168,76,0.7); margin-bottom: 10px; }
+  .truth-text { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--white); line-height: 1.4; font-style: italic; }
+
+  .row-list { display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; align-items: flex-start; gap: 14px; background: var(--white); border: 1px solid var(--border); padding: 14px 18px; }
+  .row:nth-child(even) { background: var(--light); }
+  .row-icon { color: var(--gold); font-size: 15px; padding-top: 1px; flex-shrink: 0; }
+  .row-text { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.6; }
+  .row-text strong { color: var(--navy); font-weight: 600; }
+
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 4px; }
+  .compare-card { background: var(--white); border: 1px solid var(--border); padding: 20px; }
+  .compare-card.highlight { border-top: 3px solid var(--gold); }
+  .compare-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .compare-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .compare-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .compare-items li { font-size: 12px; color: var(--gray); font-weight: 300; padding-left: 10px; border-left: 2px solid var(--border); line-height: 1.5; }
+  .compare-items li.pro { border-left-color: var(--gold); color: var(--navy); }
+
+  .transition-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .transition-card { background: var(--white); border: 1px solid var(--border); padding: 22px 20px; }
+  .transition-card.featured { background: var(--navy); border-color: var(--navy); }
+  .transition-card-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .transition-card-title { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 10px; line-height: 1.3; }
+  .transition-card.featured .transition-card-title { color: var(--white); }
+  .transition-card-body { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.7; }
+  .transition-card.featured .transition-card-body { color: rgba(255,255,255,0.55); }
+
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .included-item { display: flex; align-items: flex-start; gap: 10px; background: var(--white); border: 1px solid var(--border); padding: 12px 16px; }
+  .included-check { color: var(--gold); font-size: 13px; flex-shrink: 0; margin-top: 1px; }
+  .included-text { font-size: 13px; color: var(--gray); font-weight: 300; line-height: 1.5; }
+
+  .cta { margin-top: 40px; background: var(--navy); padding: 32px 36px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+  .cta-label { font-size: 9px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(201,168,76,0.6); margin-bottom: 8px; }
+  .cta-heading { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 8px; }
+  .cta-sub { font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 300; line-height: 1.7; }
+  .cta-pricing { text-align: right; flex-shrink: 0; }
+  .cta-price { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; color: var(--gold); line-height: 1; }
+  .cta-price-label { font-size: 10px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+  .cta-financing { font-size: 11px; color: var(--gold); margin-top: 8px; font-weight: 300; }
+  .cta-btn { display: block; background: var(--gold); color: var(--navy); font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 13px 22px; text-decoration: none; text-align: center; margin-top: 12px; }
+
+  .footer { background: var(--navy); padding: 32px 48px; text-align: center; margin-top: 0; }
+  .footer p { font-size: 11px; color: rgba(255,255,255,0.25); line-height: 1.7; }
+  .footer strong { color: var(--gold); font-weight: 400; }
+
+  @media (max-width: 640px) {
+    .header, .intro, .body, .footer { padding-left: 24px; padding-right: 24px; }
+    .compare, .transition-grid, .included-grid { grid-template-columns: 1fr; }
+    .cta { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="header-badge">Prepared for You · North Carolina</div>
+    <h1>Your Path to Owning an<br><em>Adult Day Care</em></h1>
+    <div class="header-divider"></div>
+    <p class="header-sub">A personal overview from <strong>CatrinaL Consulting | CompliTrst, Inc.</strong></p>
+  </div>
+
+  <div class="intro">
+    You already have what most people spend years trying to build: clinical expertise, a passion for geriatric care, and a clear vision for what you want your life to look like. This overview is designed to show you exactly how we help nurses like you cross the bridge from bedside to business owner, without a million-dollar bankroll and without doing it alone.
+  </div>
+
+  <div class="body">
+
+    <!-- SECTION 1: WHY THIS FITS YOU -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div>
+          <div class="section-eyebrow">Your Situation</div>
+          <div class="section-title">Why Adult Day Care Fits the Life You're Building</div>
+        </div>
+      </div>
+      <div class="truth-block">
+        <div class="truth-label">In Your Own Words</div>
+        <div class="truth-text">"I want to give back, stay connected to patient care, own something profitable, and still go on trips when I want to go on trips."</div>
+      </div>
+      <div class="row-list" style="margin-top:8px">
+        <div class="row">
+          <div class="row-icon">+</div>
+          <div class="row-text"><strong>No overnight operations.</strong> Adult day care runs on a daytime schedule, typically 8 AM to 4 or 5 PM. When participants go home, you are done. No second shift, no overnight staff, no around-the-clock liability.</div>
+        </div>
+        <div class="row">
+          <div class="row-icon">+</div>
+          <div class="row-text"><strong>Your nursing license is an asset here.</strong> Clinical credibility strengthens your Medicaid provider application, helps you hire and train the right staff, and gives families confidence in your facility from day one.</div>
+        </div>
+        <div class="row">
+          <div class="row-icon">+</div>
+          <div class="row-text"><strong>You can start small and build.</strong> A single, well-run location with 10 to 15 participants is a real, profitable business. You do not need three locations, a massive facility, or a million-dollar investment to make this work.</div>
+        </div>
+        <div class="row">
+          <div class="row-icon">+</div>
+          <div class="row-text"><strong>The Steel Creek area is a real opportunity.</strong> Underserved areas with growing senior populations and fewer competitors are exactly where a new adult day care can build a strong referral pipeline quickly.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: COMPARE -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div>
+          <div class="section-eyebrow">Clarity Check</div>
+          <div class="section-title">Adult Day Care vs. Residential / RALF</div>
+        </div>
+      </div>
+      <div class="compare">
+        <div class="compare-card highlight">
+          <div class="compare-label">Adult Day Care</div>
+          <div class="compare-title">The Model We Specialize In</div>
+          <ul class="compare-items">
+            <li class="pro">Daytime only, no overnight staff or liability</li>
+            <li class="pro">Medicaid HCBS waiver billing as primary revenue source</li>
+            <li class="pro">Lower facility costs, no sleeping quarters required</li>
+            <li class="pro">Manageable staffing ratios during business hours</li>
+            <li class="pro">You can maintain part-time nursing income while you launch</li>
+            <li class="pro">Grows through referrals: hospitals, social workers, discharge planners</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <div class="compare-label">Residential / RALF</div>
+          <div class="compare-title">Group Home or Assisted Living</div>
+          <ul class="compare-items">
+            <li>24/7 operations requiring two or three shifts of staff</li>
+            <li>Significantly higher startup costs for beds, sleeping areas, and code compliance</li>
+            <li>Higher regulatory burden and longer licensing timeline</li>
+            <li>Very difficult to manage while maintaining any outside employment</li>
+            <li>Harder to control quality when scaling or stretched across locations</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: THE TRANSITION -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div>
+          <div class="section-eyebrow">From Nurse to Owner</div>
+          <div class="section-title">What the First Year Actually Looks Like</div>
+        </div>
+      </div>
+      <div class="transition-grid">
+        <div class="transition-card featured">
+          <div class="transition-card-label">The Reality</div>
+          <div class="transition-card-title">You do not have to quit nursing to start this.</div>
+          <div class="transition-card-body">Most of our clients launch while still working part-time. You build the business on your terms, reduce your clinical hours as revenue grows, and step back from day-to-day operations once the right people are in place. That transition happens in stages, not all at once.</div>
+        </div>
+        <div class="transition-card">
+          <div class="transition-card-label">What Changes</div>
+          <div class="transition-card-title">Your role shifts, not your purpose.</div>
+          <div class="transition-card-body">You go from running a unit to running a business. Your clinical knowledge still drives every decision: who you hire, how you care for participants, how you train your team. The difference is that you are now building something that belongs to you and can grow without you being present every single day.</div>
+        </div>
+        <div class="transition-card">
+          <div class="transition-card-label">On Funding</div>
+          <div class="transition-card-title">You do not need a million dollars to open your doors.</div>
+          <div class="transition-card-body">Dr. Catrina did not have a large bankroll when she started. She started with a rented space, built her processes, and grew from there. Starting small with the right structure is far more sustainable than overextending from the beginning.</div>
+        </div>
+        <div class="transition-card">
+          <div class="transition-card-label">On Fear</div>
+          <div class="transition-card-title">First-generation business owners build the strongest foundations.</div>
+          <div class="transition-card-body">Not having family business experience is not a disadvantage. It means you have no bad habits to unlearn. What you do have is discipline, clinical training, and a genuine reason to serve this population. That combination is exactly what this business requires.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 4: WHAT'S INCLUDED -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-num">4</div>
+        <div>
+          <div class="section-eyebrow">6-Week VIP Intensive</div>
+          <div class="section-title">What You Get When You Work With Us</div>
+        </div>
+      </div>
+      <div class="included-grid">
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">State-specific startup guide and compliance checklist for North Carolina</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">LLC formation, EIN, and business structure guidance, step by step</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">All required policies and forms built out and ready to use</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">NC DHHS licensing walkthrough: what to submit, when, and how</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">Medicaid HCBS provider enrollment guidance from application to first claim</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">Location strategy and facility vetting support</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">Staffing and hiring frameworks so you know exactly who to bring on and when</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">Referral pipeline strategy to fill your center before you open</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">Direct mentorship from Dr. Catrina, a 14-year adult day care operator and nurse</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">In-house financing available, no need to have the full investment upfront</div></div>
+        <div class="included-item"><div class="included-check">+</div><div class="included-text">Startup funding exploration and resources to help you identify capital options for opening your facility</div></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <div>
+        <div class="cta-label">Ready to Move Forward?</div>
+        <div class="cta-heading">Private 6-Week Consulting Intensive</div>
+        <div class="cta-sub">We walk you through every step, from business formation through your first Medicaid billing submission. Everything is built for your state and your situation. In-house financing is available.</div>
+      </div>
+      <div class="cta-pricing">
+        <div class="cta-price">$7,500</div>
+        <div class="cta-price-label">Full program investment</div>
+        <div class="cta-financing">In-house financing available</div>
+        <a href="https://script.google.com/macros/s/AKfycbxStoFubDYGfNJGypjerLoT-th1K1yWSbl06_7J2mMgvH7xVU--rZQG_DP1oe5tCf05SQ/exec" class="cta-btn">Review and Sign Your Agreement</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p><strong>CatrinaL Consulting | CompliTrst, Inc.</strong> &nbsp;|&nbsp; Adult Day Care Startup Specialists &nbsp;|&nbsp; This overview is for informational purposes only. Always verify current licensing and Medicaid requirements with the relevant state agencies in North Carolina.</p>
+  </div>
+
+</div>
+</body>
+</html>
