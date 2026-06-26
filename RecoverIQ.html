@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>RecoverIQ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;--navymid:#142236;--navylt:#1E3250;
+  --teal:#00C2A8;--amber:#F5A623;--red:#E05252;--green:#2ECC8F;--purple:#A78BFA;
+  --slate:#8899AA;--slatelt:#B8C8D8;--white:#F2F6FA;--text:#D8E6F0;
+  --card:#162942;--card2:#1A3050;--border:rgba(255,255,255,0.07);
+}
+html{font-size:16px}
+body{background:var(--navy);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(13,27,42,0.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 16px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--white);letter-spacing:-0.02em}
+.logo span{color:var(--teal)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-badge{font-size:0.62rem;font-weight:700;background:var(--teal);color:var(--navy);padding:2px 8px;border-radius:20px;letter-spacing:0.05em;text-transform:uppercase}
+.nav-av{width:32px;height:32px;border-radius:50%;background:var(--navylt);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;color:var(--teal)}
+
+/* TAB BAR */
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(13,27,42,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);height:62px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.55rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;transition:color 0.15s;padding:0}
+.tab.active{color:var(--teal)}
+.tab svg{width:20px;height:20px;stroke-width:2;fill:none;stroke:currentColor}
+
+/* SCREENS */
+.screen{display:none;padding:16px 16px 82px;animation:fi 0.18s ease}
+.screen.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+
+/* TOGGLE */
+.toggle{display:flex;background:var(--navylt);border:1px solid var(--border);border-radius:12px;padding:3px;margin-bottom:16px}
+.tbtn{flex:1;padding:8px 4px;border:none;border-radius:9px;font-family:'Inter',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;background:transparent;color:var(--slate);transition:all 0.18s}
+.tbtn.on-d{background:var(--teal);color:var(--navy)}
+.tbtn.on-i{background:var(--purple);color:var(--white)}
+
+/* CHANNEL VIEWS */
+.cv{display:none}
+.cv.active{display:block}
+
+/* LABELS */
+.slabel{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--slate);margin-bottom:10px;margin-top:22px}
+
+/* CHANNEL BADGE */
+.cbadge{display:inline-flex;align-items:center;gap:5px;font-size:0.63rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase}
+.cbadge.d{background:rgba(0,194,168,0.1);color:var(--teal);border:1px solid rgba(0,194,168,0.22)}
+.cbadge.i{background:rgba(167,139,250,0.1);color:var(--purple);border:1px solid rgba(167,139,250,0.22)}
+.cdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.cdot.d{background:var(--teal)}.cdot.i{background:var(--purple)}
+
+/* HERO */
+.hero{border-radius:16px;padding:20px;margin-bottom:14px;position:relative;overflow:hidden}
+.hero.d{background:linear-gradient(135deg,#0E2A1C,#0B1F28);border:1px solid rgba(0,194,168,0.2)}
+.hero.i{background:linear-gradient(135deg,#1A1030,#0D1B2A);border:1px solid rgba(167,139,250,0.2)}
+.hero.rm{background:linear-gradient(135deg,#0A1F14,#0D1B2A);border:1px solid rgba(245,166,35,0.2)}
+.hero-lbl{font-size:0.66rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.hero-amt{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);line-height:1;margin-bottom:5px;letter-spacing:-0.03em}
+.hero-sub{font-size:0.74rem;font-weight:500}
+.hero-sub.d{color:var(--teal)}.hero-sub.i{color:var(--purple)}.hero-sub.rm{color:var(--amber)}
+.hero-grid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.hg-val{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--white);text-align:center}
+.hg-key{font-size:0.57rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;text-align:center}
+
+/* ALERT */
+.alert{background:rgba(245,166,35,0.09);border:1px solid rgba(245,166,35,0.26);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.adot{width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.alert p{font-size:0.74rem;color:var(--amber);line-height:1.4}
+.alert strong{font-weight:700}
+
+/* STAT GRID */
+.sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.scard{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}
+.sval{font-family:'Syne',sans-serif;font-size:1.45rem;font-weight:800;line-height:1}
+.sval.g{color:var(--green)}.sval.t{color:var(--teal)}.sval.a{color:var(--amber)}.sval.r{color:var(--red)}.sval.p{color:var(--purple)}.sval.w{color:var(--white)}
+.skey{font-size:0.63rem;color:var(--slate);margin-top:4px;text-transform:uppercase;letter-spacing:0.06em}
+
+/* CARD */
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:15px;margin-bottom:10px}
+.card.tap{cursor:pointer}
+.crow{display:flex;justify-content:space-between;align-items:flex-start}
+.ctitle{font-weight:600;font-size:0.87rem;color:var(--white);margin-bottom:2px}
+.csub{font-size:0.72rem;color:var(--slate)}
+.camt{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem}
+.camt.g{color:var(--green)}.camt.t{color:var(--teal)}.camt.a{color:var(--amber)}.camt.r{color:var(--red)}.camt.p{color:var(--purple)}.camt.s{color:var(--slatelt)}
+
+/* TAG */
+.tag{display:inline-block;font-size:0.57rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 8px;border-radius:20px;margin-top:7px}
+.tag.pend{background:rgba(245,166,35,0.14);color:var(--amber)}
+.tag.recov{background:rgba(46,204,143,0.14);color:var(--green)}
+.tag.sub{background:rgba(0,194,168,0.14);color:var(--teal)}
+.tag.rev{background:rgba(224,82,82,0.14);color:var(--red)}
+.tag.live{background:rgba(46,204,143,0.88);color:#0D1B2A}
+.tag.draft{background:rgba(255,255,255,0.18);color:var(--white)}
+.tag.pending-r{background:rgba(245,166,35,0.88);color:#0D1B2A}
+.tag.sold-t{background:rgba(0,194,168,0.88);color:#0D1B2A}
+
+/* PROGRESS */
+.prow{display:flex;align-items:center;gap:8px;margin-top:10px}
+.pbar{flex:1;height:4px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden}
+.pfill{height:100%;border-radius:2px}
+.pfill.g{background:var(--green)}.pfill.t{background:var(--teal)}.pfill.a{background:var(--amber)}.pfill.p{background:var(--purple)}.pfill.s{background:var(--slatelt)}
+.ppct{font-size:0.67rem;color:var(--slate);font-weight:600;min-width:30px;text-align:right}
+
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.pill{font-size:0.62rem;font-weight:600;padding:4px 10px;border-radius:20px;background:rgba(255,255,255,0.05);color:var(--slatelt);border:1px solid rgba(255,255,255,0.07)}
+.pill.hd{background:rgba(0,194,168,0.09);color:var(--teal);border-color:rgba(0,194,168,0.2)}
+.pill.hi{background:rgba(167,139,250,0.09);color:var(--purple);border-color:rgba(167,139,250,0.2)}
+
+/* SEARCH */
+.sbar{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.sbar svg{color:var(--slate);flex-shrink:0;width:16px;height:16px;stroke:currentColor;fill:none}
+.sbar input{background:none;border:none;outline:none;color:var(--white);font-family:'Inter',sans-serif;font-size:0.85rem;flex:1}
+.sbar input::placeholder{color:var(--slate)}
+
+/* CHIPS */
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none;margin-bottom:4px}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;font-size:0.69rem;font-weight:600;padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:var(--card);color:var(--slate);cursor:pointer;white-space:nowrap}
+.chip.on{background:rgba(0,194,168,0.14);color:var(--teal);border-color:rgba(0,194,168,0.28)}
+.chip.oni{background:rgba(167,139,250,0.14);color:var(--purple);border-color:rgba(167,139,250,0.28)}
+
+/* TIMELINE */
+.tl{padding-left:6px}
+.tli{display:flex;gap:14px;padding-bottom:18px;position:relative}
+.tli::before{content:'';position:absolute;left:10px;top:22px;bottom:0;width:1px;background:var(--border)}
+.tli:last-child::before{display:none}
+.tldot{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.tldot.done{background:rgba(46,204,143,0.16);border:2px solid var(--green)}
+.tldot.now{background:rgba(0,194,168,0.16);border:2px solid var(--teal)}
+.tldot.wait{background:rgba(255,255,255,0.03);border:2px solid rgba(255,255,255,0.1)}
+.tldot svg{width:10px;height:10px;stroke:var(--green);fill:none}
+.tltitle{font-size:0.83rem;font-weight:600;color:var(--white)}
+.tldesc{font-size:0.7rem;color:var(--slate);margin-top:3px;line-height:1.4}
+.tldate{font-size:0.62rem;color:var(--slate);margin-top:3px}
+
+/* COMPLIANCE RING */
+.ring-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;margin-bottom:12px}
+.ring{width:100px;height:100px;margin:0 auto 14px;position:relative}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle.bg{fill:none;stroke:rgba(255,255,255,0.06);stroke-width:8}
+.ring circle.fg{fill:none;stroke-width:8;stroke-linecap:round;stroke-dasharray:251.2}
+.ring-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--white);line-height:1}
+.ring-sub{font-size:0.62rem;color:var(--slate)}
+.ring-title{font-weight:700;font-size:0.98rem;color:var(--white);margin-bottom:4px}
+.ring-desc{font-size:0.73rem;color:var(--slate);line-height:1.4}
+
+/* REG ITEMS */
+.reg{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start}
+.regico{width:36px;height:36px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.regico.ok{background:rgba(46,204,143,0.14)}.regico.warn{background:rgba(245,166,35,0.14)}.regico.fail{background:rgba(224,82,82,0.14)}
+.regtitle{font-size:0.83rem;font-weight:600;color:var(--white)}
+.regdesc{font-size:0.7rem;color:var(--slate);margin-top:3px;line-height:1.4}
+
+/* LOAN DETAIL */
+.ldheader{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px}
+.ldname{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:var(--white)}
+.ldgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.ldlbl{font-size:0.57rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:2px}
+.ldval{font-size:0.82rem;color:var(--white);font-weight:500}
+.prow2{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.pname{font-weight:600;font-size:0.83rem;color:var(--white)}
+.pprov{font-size:0.68rem;color:var(--slate);margin-top:2px}
+.pamt{font-family:'Syne',sans-serif;font-size:0.97rem;font-weight:700}
+.pamt.g{color:var(--green)}.pamt.t{color:var(--teal)}.pamt.p{color:var(--purple)}.pamt.a{color:var(--amber)}
+
+/* BUTTONS */
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Inter',sans-serif;font-size:0.87rem;font-weight:600;cursor:pointer;text-align:center;transition:opacity 0.15s,transform 0.1s;margin-top:10px}
+.btn:active{transform:scale(0.98);opacity:0.8}
+.btn.primary{background:var(--teal);color:var(--navy)}
+.btn.purple{background:var(--purple);color:var(--navy)}
+.btn.amber{background:rgba(245,166,35,0.14);color:var(--amber);border:1px solid rgba(245,166,35,0.28)}
+.btn.sec{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
+
+/* PROFILE */
+.phead{text-align:center;padding:20px 0 10px}
+.pav{width:72px;height:72px;border-radius:50%;background:var(--navylt);border:3px solid var(--teal);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--teal);margin:0 auto 12px}
+.pname{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--white)}
+.prole{font-size:0.75rem;color:var(--slate);margin-top:4px}
+.pcu{font-size:0.77rem;color:var(--teal);margin-top:2px;font-weight:500}
+.mitem{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--card);border:1px solid var(--border);border-radius:12px;margin-bottom:8px;cursor:pointer}
+.mleft{display:flex;align-items:center;gap:12px}
+.mico{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center}
+.mlbl{font-size:0.85rem;font-weight:500;color:var(--white)}
+.divider{height:1px;background:var(--border);margin:18px 0}
+
+/* REMARKETING */
+.cmpbox{background:rgba(224,82,82,0.06);border:1px solid rgba(224,82,82,0.16);border-radius:12px;padding:14px;margin-bottom:12px}
+.cmpttl{font-size:0.68rem;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.cmprow{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.cmprow:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06)}
+.cmplbl{font-size:0.74rem;color:var(--slate)}
+.cmpval{font-size:0.82rem;font-weight:600}
+.cmpval.r{color:var(--red)}.cmpval.g{color:var(--green)}.cmpval.w{color:var(--white)}
+
+.vcard{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;cursor:pointer}
+.vimg{width:100%;height:155px;background:linear-gradient(135deg,#162942,#1A3050);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:relative}
+.vcar{font-size:2.8rem;opacity:0.45}
+.vphoto{position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.58);color:var(--white);font-size:0.63rem;font-weight:600;padding:3px 8px;border-radius:20px}
+.vstatus{position:absolute;top:10px;left:10px}
+.vbody{padding:14px}
+.vym{font-family:'Syne',sans-serif;font-size:1.02rem;font-weight:700;color:var(--white);margin-bottom:4px}
+.vvin{font-size:0.63rem;color:var(--slate);font-family:monospace;letter-spacing:0.04em;margin-bottom:10px}
+.vspecs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.vsv{font-size:0.8rem;font-weight:600;color:var(--white)}
+.vsk{font-size:0.57rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.05em;margin-top:1px}
+.vfoot{display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border)}
+.vaski{font-size:0.59rem;color:var(--slate);margin-bottom:2px}
+.vask{font-family:'Syne',sans-serif;font-size:1.08rem;font-weight:700;color:var(--amber)}
+.vint{font-size:0.7rem;color:var(--teal);font-weight:600}
+.voffer{background:rgba(46,204,143,0.07);border:1px solid rgba(46,204,143,0.18);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+.vofflbl{font-size:0.7rem;color:var(--green);font-weight:600}
+.voffval{font-family:'Syne',sans-serif;font-size:0.92rem;font-weight:700;color:var(--green)}
+
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.pslot{height:88px;background:var(--navylt);border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;border:1px dashed rgba(255,255,255,0.1)}
+.pslot.filled{background:linear-gradient(135deg,#1a3050,#162942);border-style:solid;border-color:var(--border)}
+.pslot-ico{font-size:1.3rem;opacity:0.5}
+.pslot.filled .pslot-ico{opacity:0.75}
+.pslot-lbl{font-size:0.58rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.04em}
+
+.ditem{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.dname{font-size:0.84rem;font-weight:600;color:var(--white)}
+.dtime{font-size:0.67rem;color:var(--slate);margin-top:2px}
+.damt{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
+.damt.hi{color:var(--green)}.damt.mid{color:var(--amber)}
+.dbadge{font-size:0.58rem;font-weight:700;padding:3px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:0.04em;margin-top:3px;display:inline-block}
+.dbadge.top{background:rgba(46,204,143,0.14);color:var(--green)}
+.dbadge.new{background:rgba(0,194,168,0.14);color:var(--teal)}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.58);backdrop-filter:blur(4px);align-items:flex-end}
+.overlay.open{display:flex}
+.sheet{background:var(--navymid);border:1px solid var(--border);border-radius:20px 20px 0 0;width:100%;max-height:88vh;overflow-y:auto;padding:20px 16px 44px;animation:su 0.22s ease}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.shandle{width:40px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 16px}
+.stitle{font-family:'Syne',sans-serif;font-size:1.08rem;font-weight:700;color:var(--white);margin-bottom:14px}
+
+@media(min-width:600px){
+  body{max-width:430px;margin:0 auto;box-shadow:0 0 80px rgba(0,0,0,0.6)}
+  nav,.tabbar{max-width:430px;left:50%;transform:translateX(-50%)}
+  .tabbar{right:auto;width:430px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Recover<span>IQ</span></div>
+  <div class="nav-right">
+    <span class="nav-badge">Beta</span>
+    <div class="nav-av">BM</div>
+  </div>
+</nav>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="screen active" id="s-dashboard">
+  <div style="padding-top:16px">
+    <div class="toggle">
+      <button class="tbtn on-d" id="d-db" onclick="ch('dash','d',this)">🏦 Direct</button>
+      <button class="tbtn" id="i-db" onclick="ch('dash','i',this)">🤝 Indirect (Dealer)</button>
+    </div>
+  </div>
+
+  <!-- DIRECT -->
+  <div class="cv active" id="dash-d">
+    <div class="cbadge d"><span class="cdot d"></span>Direct Lending</div>
+    <div class="hero d">
+      <div class="hero-lbl">Direct — Recoverable This Month</div>
+      <div class="hero-amt">$14,820</div>
+      <div class="hero-sub d">↑ $2,100 identified since last week</div>
+      <div class="hero-grid">
+        <div><div class="hg-val">9</div><div class="hg-key">Open Files</div></div>
+        <div><div class="hg-val">$1,647</div><div class="hg-key">Avg / Loan</div></div>
+        <div><div class="hg-val">81%</div><div class="hg-key">Recovery Rate</div></div>
+      </div>
+    </div>
+    <div class="alert"><div class="adot"></div><p><strong>2 direct loan files</strong> flagged — missing product administrator info.</p></div>
+    <div class="slabel">Recovery by Trigger Event</div>
+    <div class="sgrid">
+      <div class="scard"><div class="sval g">$5,840</div><div class="skey">Repossessions</div></div>
+      <div class="scard"><div class="sval t">$4,210</div><div class="skey">Total Loss</div></div>
+      <div class="scard"><div class="sval a">$3,180</div><div class="skey">Early Payoff</div></div>
+      <div class="scard"><div class="sval r">$1,590</div><div class="skey">Charge-Off</div></div>
+    </div>
+    <div class="slabel">Products — Direct Channel</div>
+    <div class="card"><div class="crow"><div><div class="ctitle">GAP Waiver</div><div class="csub">4 active requests</div></div><div class="camt g">$4,980</div></div><div class="prow"><div class="pbar"><div class="pfill g" style="width:76%"></div></div><div class="ppct">76%</div></div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">Credit Life / Disability</div><div class="csub">3 active requests · Direct only</div></div><div class="camt t">$5,240</div></div><div class="prow"><div class="pbar"><div class="pfill t" style="width:62%"></div></div><div class="ppct">62%</div></div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">Vehicle Service Contract</div><div class="csub">3 active requests</div></div><div class="camt a">$3,160</div></div><div class="prow"><div class="pbar"><div class="pfill a" style="width:51%"></div></div><div class="ppct">51%</div></div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">Key Replacement</div><div class="csub">2 active requests</div></div><div class="camt s">$1,440</div></div><div class="prow"><div class="pbar"><div class="pfill s" style="width:38%"></div></div><div class="ppct">38%</div></div></div>
+    <div class="slabel">Direct CU Partners</div>
+    <div class="card tap" onclick="open_s('sh-cu-d')"><div class="crow"><div><div class="ctitle">Suncoast Credit Union</div><div class="csub">4 direct files · Tampa, FL</div></div><div class="camt g">$7,440</div></div><span class="tag recov">81% recovered</span></div>
+    <div class="card tap" onclick="open_s('sh-cu-d')"><div class="crow"><div><div class="ctitle">LGE Community CU</div><div class="csub">5 direct files · Marietta, GA</div></div><div class="camt t">$7,380</div></div><span class="tag sub">Submitted</span></div>
+  </div>
+
+  <!-- INDIRECT -->
+  <div class="cv" id="dash-i">
+    <div class="cbadge i"><span class="cdot i"></span>Indirect / Dealer</div>
+    <div class="hero i">
+      <div class="hero-lbl">Indirect — Recoverable This Month</div>
+      <div class="hero-amt">$23,820</div>
+      <div class="hero-sub i">↑ $4,100 identified since last week</div>
+      <div class="hero-grid">
+        <div><div class="hg-val">15</div><div class="hg-key">Open Files</div></div>
+        <div><div class="hg-val">$1,588</div><div class="hg-key">Avg / Loan</div></div>
+        <div><div class="hg-val">84%</div><div class="hg-key">Recovery Rate</div></div>
+      </div>
+    </div>
+    <div class="alert"><div class="adot"></div><p><strong>4 new indirect repo files</strong> uploaded overnight from dealer network — cancellations pending.</p></div>
+    <div class="slabel">Recovery by Trigger Event</div>
+    <div class="sgrid">
+      <div class="scard"><div class="sval g">$10,360</div><div class="skey">Repossessions</div></div>
+      <div class="scard"><div class="sval t">$5,590</div><div class="skey">Total Loss</div></div>
+      <div class="scard"><div class="sval a">$5,220</div><div class="skey">Early Payoff</div></div>
+      <div class="scard"><div class="sval r">$2,650</div><div class="skey">Charge-Off</div></div>
+    </div>
+    <div class="slabel">Products — Indirect / F&amp;I Desk</div>
+    <div class="card"><div class="crow"><div><div class="ctitle">GAP Waiver</div><div class="csub">6 active requests</div></div><div class="camt p">$6,260</div></div><div class="prow"><div class="pbar"><div class="pfill p" style="width:74%"></div></div><div class="ppct">74%</div></div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">Vehicle Service Contract</div><div class="csub">5 active requests · Dealer F&amp;I</div></div><div class="camt p">$6,710</div></div><div class="prow"><div class="pbar"><div class="pfill p" style="width:66%"></div></div><div class="ppct">66%</div></div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">Tire &amp; Wheel + Maintenance</div><div class="csub">7 combined requests</div></div><div class="camt a">$4,820</div></div><div class="prow"><div class="pbar"><div class="pfill a" style="width:49%"></div></div><div class="ppct">49%</div></div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">Key Replacement</div><div class="csub">4 active requests</div></div><div class="camt s">$1,620</div></div><div class="prow"><div class="pbar"><div class="pfill s" style="width:40%"></div></div><div class="ppct">40%</div></div></div>
+    <div class="slabel">Indirect CU Partners</div>
+    <div class="card tap" onclick="open_s('sh-cu-i')"><div class="crow"><div><div class="ctitle">Suncoast Credit Union</div><div class="csub">5 indirect files · Tampa, FL</div></div><div class="camt p">$10,960</div></div><span class="tag pend">84% recovered</span></div>
+    <div class="card tap" onclick="open_s('sh-cu-i')"><div class="crow"><div><div class="ctitle">GreenState CU</div><div class="csub">8 indirect files · Iowa City, IA</div></div><div class="camt a">$12,860</div></div><span class="tag pend">In progress</span></div>
+  </div>
+</div>
+
+<!-- ═══ LOANS ═══ -->
+<div class="screen" id="s-loans">
+  <div style="padding-top:16px">
+    <div class="toggle">
+      <button class="tbtn on-d" id="d-ln" onclick="ch('loans','d',this)">🏦 Direct</button>
+      <button class="tbtn" id="i-ln" onclick="ch('loans','i',this)">🤝 Indirect</button>
+    </div>
+  </div>
+
+  <!-- DIRECT LOANS -->
+  <div class="cv active" id="loans-d">
+    <div class="cbadge d"><span class="cdot d"></span>Direct Lending</div>
+    <div class="sbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Search member, loan, or VIN…"/></div>
+    <div class="chips"><div class="chip on">All</div><div class="chip">Repo</div><div class="chip">Total Loss</div><div class="chip">Early Payoff</div><div class="chip">Charge-Off</div></div>
+    <div class="slabel">9 Direct Loan Files</div>
+    <div class="card tap" onclick="open_s('sh-loan-d')"><div class="crow"><div><div class="ctitle">Terrence M. Holloway</div><div class="csub">SC-D-2024-0041 · Repo · Direct</div></div><div><div class="camt t" style="text-align:right">$2,880</div><span class="tag sub" style="float:right">Submitted</span></div></div><div class="pills"><span class="pill hd">GAP $1,190</span><span class="pill hd">VSC $1,280</span><span class="pill">Key $410</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-d')"><div class="crow"><div><div class="ctitle">Angela R. Brooks</div><div class="csub">LG-D-2024-0028 · Total Loss · Direct</div></div><div><div class="camt a" style="text-align:right">$3,140</div><span class="tag pend" style="float:right">Pending</span></div></div><div class="pills"><span class="pill hd">GAP $995</span><span class="pill">Credit Life $1,740</span><span class="pill">VSC $405</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-d')"><div class="crow"><div><div class="ctitle">Darnell K. Freeman</div><div class="csub">SC-D-2024-0019 · Early Payoff</div></div><div><div class="camt g" style="text-align:right">$1,620</div><span class="tag recov" style="float:right">Recovered</span></div></div><div class="pills"><span class="pill">GAP $820</span><span class="pill hd">Credit Life $800</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-d')"><div class="crow"><div><div class="ctitle">Rosalind T. Carter</div><div class="csub">LG-D-2024-0055 · Charge-Off</div></div><div><div class="camt r" style="text-align:right">$2,640</div><span class="tag rev" style="float:right">Review</span></div></div><div class="pills"><span class="pill hd">Credit Disability $1,640</span><span class="pill hd">VSC $1,000</span></div></div>
+  </div>
+
+  <!-- INDIRECT LOANS -->
+  <div class="cv" id="loans-i">
+    <div class="cbadge i"><span class="cdot i"></span>Indirect / Dealer</div>
+    <div class="sbar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Search member, loan, dealer, or VIN…"/></div>
+    <div class="chips"><div class="chip oni">All</div><div class="chip">Repo</div><div class="chip">Total Loss</div><div class="chip">Early Payoff</div><div class="chip">Charge-Off</div></div>
+    <div class="slabel">15 Indirect Loan Files</div>
+    <div class="card tap" onclick="open_s('sh-loan-i')"><div class="crow"><div><div class="ctitle">Marcus T. Williams</div><div class="csub">SC-2024-00891 · Repo · AutoNation Tampa</div></div><div><div class="camt p" style="text-align:right">$3,140</div><span class="tag sub" style="float:right">Submitted</span></div></div><div class="pills"><span class="pill hi">GAP $1,200</span><span class="pill hi">VSC $1,540</span><span class="pill">Key $400</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-i')"><div class="crow"><div><div class="ctitle">Denise R. Patterson</div><div class="csub">GS-2024-01142 · Total Loss · Hendrick Chevy</div></div><div><div class="camt a" style="text-align:right">$2,390</div><span class="tag pend" style="float:right">Pending</span></div></div><div class="pills"><span class="pill hi">GAP $995</span><span class="pill">VSC $1,100</span><span class="pill">Maint $295</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-i')"><div class="crow"><div><div class="ctitle">Jerome A. Baker</div><div class="csub">LG-2024-00477 · Early Payoff · Courtesy Ford</div></div><div><div class="camt g" style="text-align:right">$1,840</div><span class="tag recov" style="float:right">Recovered</span></div></div><div class="pills"><span class="pill">GAP $740</span><span class="pill hi">VSC $1,100</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-i')"><div class="crow"><div><div class="ctitle">Sandra K. Nguyen</div><div class="csub">SC-2024-01388 · Charge-Off · Parks Toyota</div></div><div><div class="camt r" style="text-align:right">$3,720</div><span class="tag rev" style="float:right">Review</span></div></div><div class="pills"><span class="pill hi">GAP $995</span><span class="pill hi">VSC $1,480</span><span class="pill hi">T&amp;W $840</span><span class="pill">Key $405</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-i')"><div class="crow"><div><div class="ctitle">Alonzo C. Davis</div><div class="csub">GS-2024-00933 · Repo · DriveTime Marietta</div></div><div><div class="camt p" style="text-align:right">$1,190</div><span class="tag sub" style="float:right">Submitted</span></div></div><div class="pills"><span class="pill hi">GAP $795</span><span class="pill">Key $395</span></div></div>
+    <div class="card tap" onclick="open_s('sh-loan-i')"><div class="crow"><div><div class="ctitle">Priya M. Okafor</div><div class="csub">LG-2024-01207 · Refinance · HQ Toyota</div></div><div><div class="camt a" style="text-align:right">$1,620</div><span class="tag pend" style="float:right">Pending</span></div></div><div class="pills"><span class="pill hi">VSC $1,210</span><span class="pill">T&amp;W $410</span></div></div>
+  </div>
+</div>
+
+<!-- ═══ COMPLIANCE ═══ -->
+<div class="screen" id="s-compliance">
+  <div style="padding-top:16px">
+    <div class="toggle">
+      <button class="tbtn on-d" id="d-co" onclick="ch('comp','d',this)">🏦 Direct</button>
+      <button class="tbtn" id="i-co" onclick="ch('comp','i',this)">🤝 Indirect</button>
+    </div>
+  </div>
+
+  <!-- DIRECT COMPLIANCE -->
+  <div class="cv active" id="comp-d">
+    <div class="cbadge d"><span class="cdot d"></span>Direct Channel Compliance</div>
+    <div class="ring-wrap">
+      <div class="ring">
+        <svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" style="stroke:var(--green);stroke-dashoffset:25"/></svg>
+        <div class="ring-center"><div class="ring-num" style="color:var(--green)">91</div><div class="ring-sub">/100</div></div>
+      </div>
+      <div class="ring-title">Direct Lending Score</div>
+      <div class="ring-desc">In-house loans. CU controls the full origination and servicing chain.</div>
+    </div>
+    <div class="slabel">Checklist</div>
+    <div class="reg"><div class="regico ok">✅</div><div><div class="regtitle">CFPB Exam Readiness</div><div class="regdesc">All direct-loan cancellation workflows documented for the past 12 months.</div></div></div>
+    <div class="reg"><div class="regico ok">✅</div><div><div class="regtitle">Credit Life / Disability Refunds</div><div class="regdesc">Unearned premiums tracked and refunded before deficiency collections.</div></div></div>
+    <div class="reg"><div class="regico warn">⚠️</div><div><div class="regtitle">2 Files — Missing Admin Contact</div><div class="regdesc">Two direct loans originated without recording the product administrator. Manual outreach required.</div></div></div>
+    <div class="reg"><div class="regico ok">✅</div><div><div class="regtitle">Deficiency Balance Adjustments</div><div class="regdesc">Refunds applied to deficiency balances before member collections are initiated.</div></div></div>
+    <button class="btn primary">Download Direct Audit Report</button>
+  </div>
+
+  <!-- INDIRECT COMPLIANCE -->
+  <div class="cv" id="comp-i">
+    <div class="cbadge i"><span class="cdot i"></span>Indirect Channel Compliance</div>
+    <div class="ring-wrap">
+      <div class="ring">
+        <svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="40"/><circle class="fg" cx="50" cy="50" r="40" style="stroke:var(--purple);stroke-dashoffset:50"/></svg>
+        <div class="ring-center"><div class="ring-num" style="color:var(--purple)">80</div><div class="ring-sub">/100</div></div>
+      </div>
+      <div class="ring-title">Indirect Channel Score</div>
+      <div class="ring-desc">CU is responsible for member refunds even on dealer-originated products.</div>
+    </div>
+    <div class="slabel">Checklist</div>
+    <div class="reg"><div class="regico warn">⚠️</div><div><div class="regtitle">CU Responsibility — Indirect Products</div><div class="regdesc">3 files unresolved. CU bears member refund responsibility even when products sold at the dealer F&amp;I desk.</div></div></div>
+    <div class="reg"><div class="regico warn">⚠️</div><div><div class="regtitle">NY DFS — 2 Indirect Files</div><div class="regdesc">Two NY member accounts missing ancillary rebate credits after repossession.</div></div></div>
+    <div class="reg"><div class="regico fail">🚨</div><div><div class="regtitle">Fidelity Warranty — No Response (45+ days)</div><div class="regdesc">3 indirect cancellations unacknowledged. Escalation letter needed immediately.</div></div></div>
+    <div class="reg"><div class="regico ok">✅</div><div><div class="regtitle">RouteOne / Dealertrack Integration</div><div class="regdesc">Deal jacket data pulling correctly. Product info identified on 94% of dealer contracts.</div></div></div>
+    <div class="reg"><div class="regico warn">⚠️</div><div><div class="regtitle">GAP Cancellation Timing — 8 Files Late</div><div class="regdesc">Submissions beyond 30-day threshold. Proactive documentation recommended.</div></div></div>
+    <button class="btn purple">Download Indirect Audit Report</button>
+    <button class="btn sec">Share With Examiner</button>
+    <div class="slabel">Administrator Response Tracker</div>
+    <div class="card"><div class="crow"><div class="ctitle">Fidelity Warranty</div><div class="camt a">14 days avg</div></div><div class="csub" style="margin-top:4px">18 open · 3 overdue</div></div>
+    <div class="card"><div class="crow"><div class="ctitle">EFG Companies</div><div class="camt g">7 days avg</div></div><div class="csub" style="margin-top:4px">14 open · All on track</div></div>
+    <div class="card"><div class="crow"><div class="ctitle">Safe-Guard Products</div><div class="camt t">10 days avg</div></div><div class="csub" style="margin-top:4px">9 open · 1 overdue</div></div>
+    <div class="card"><div class="crow"><div class="ctitle">JM&amp;A Group</div><div class="camt g">8 days avg</div></div><div class="csub" style="margin-top:4px">6 open · All on track</div></div>
+  </div>
+</div>
+
+<!-- ═══ ACCOUNT ═══ -->
+<div class="screen" id="s-account">
+  <div class="phead">
+    <div class="pav">BM</div>
+    <div class="pname">Benny McCray III</div>
+    <div class="prole">National Recovery Consultant</div>
+    <div class="pcu">RecoverIQ · 3 CU Partners · 24 Active Files</div>
+  </div>
+  <div class="slabel">YTD Performance — All Channels</div>
+  <div class="sgrid">
+    <div class="scard"><div class="sval g">$184K</div><div class="skey">YTD Recovered</div></div>
+    <div class="scard"><div class="sval t">118</div><div class="skey">Loans Processed</div></div>
+    <div class="scard"><div class="sval a">3</div><div class="skey">CU Partners</div></div>
+    <div class="scard"><div class="sval g">83%</div><div class="skey">Recovery Rate</div></div>
+  </div>
+  <div class="slabel">By Channel</div>
+  <div class="card"><div class="crow"><div><div class="ctitle">Direct Channel</div><div class="csub">46 loans processed YTD</div></div><div class="camt g">$72K</div></div><div class="prow"><div class="pbar"><div class="pfill g" style="width:81%"></div></div><div class="ppct">81%</div></div></div>
+  <div class="card"><div class="crow"><div><div class="ctitle">Indirect / Dealer</div><div class="csub">72 loans processed YTD</div></div><div class="camt p">$112K</div></div><div class="prow"><div class="pbar"><div class="pfill p" style="width:84%"></div></div><div class="ppct">84%</div></div></div>
+  <div class="slabel">Settings</div>
+  <div class="mitem"><div class="mleft"><div class="mico">🏦</div><div class="mlbl">Manage Credit Unions</div></div><span style="color:var(--slate)">›</span></div>
+  <div class="mitem"><div class="mleft"><div class="mico">🚗</div><div class="mlbl">Dealer Network</div></div><span style="color:var(--slate)">›</span></div>
+  <div class="mitem"><div class="mleft"><div class="mico">📋</div><div class="mlbl">Product Administrators</div></div><span style="color:var(--slate)">›</span></div>
+  <div class="mitem"><div class="mleft"><div class="mico">🔗</div><div class="mlbl">RouteOne / Dealertrack</div></div><span style="color:var(--slate)">›</span></div>
+  <div class="mitem"><div class="mleft"><div class="mico">🔔</div><div class="mlbl">Alerts &amp; Notifications</div></div><span style="color:var(--slate)">›</span></div>
+  <div class="mitem"><div class="mleft"><div class="mico">💰</div><div class="mlbl">Fee &amp; Revenue Settings</div></div><span style="color:var(--slate)">›</span></div>
+  <div class="divider"></div>
+  <button class="btn sec" style="margin-top:0">Sign Out</button>
+</div>
+
+<!-- ═══ REMARKETING ═══ -->
+<div class="screen" id="s-remarket">
+  <div style="padding-top:16px">
+    <div class="hero rm">
+      <div class="hero-lbl">Remarketing — Active Inventory</div>
+      <div class="hero-amt">$214,800</div>
+      <div class="hero-sub rm">↑ $41,200 above estimated auction net this month</div>
+      <div class="hero-grid">
+        <div><div class="hg-val">11</div><div class="hg-key">Listed</div></div>
+        <div><div class="hg-val">28</div><div class="hg-key">Dealer Views</div></div>
+        <div><div class="hg-val">7</div><div class="hg-key">Active Offers</div></div>
+      </div>
+    </div>
+
+    <div class="cmpbox">
+      <div class="cmpttl">💡 Auction vs. RecoverIQ — This Month</div>
+      <div class="cmprow"><span class="cmplbl">Auction gross (est.)</span><span class="cmpval w">$196,400</span></div>
+      <div class="cmprow"><span class="cmplbl">Auction fees &amp; transport</span><span class="cmpval r">− $22,800</span></div>
+      <div class="cmprow"><span class="cmplbl">Auction net to CU</span><span class="cmpval r">$173,600</span></div>
+      <div class="cmprow"><span class="cmplbl">RecoverIQ dealer offers</span><span class="cmpval g">$214,800</span></div>
+      <div class="cmprow"><span class="cmplbl">Estimated savings to CU</span><span class="cmpval g" style="font-family:'Syne',sans-serif;font-size:1rem">+ $41,200</span></div>
+    </div>
+
+    <div class="slabel">Active Listings</div>
+
+    <div class="vcard" onclick="open_s('sh-v1')">
+      <div class="vimg"><div class="vcar">🚗</div><div class="vphoto">📷 8 photos</div><span class="tag live vstatus">Live</span></div>
+      <div class="vbody">
+        <div class="vym">2021 Honda Accord Sport</div>
+        <div class="vvin">VIN: 1HGCV1F34MA012345</div>
+        <div class="vspecs"><div><div class="vsv">42,180</div><div class="vsk">Miles</div></div><div><div class="vsv">White</div><div class="vsk">Color</div></div><div><div class="vsv">Good</div><div class="vsk">Condition</div></div></div>
+        <div class="vfoot"><div><div class="vaski">Asking Price</div><div class="vask">$19,400</div></div><div style="text-align:right"><div class="vint">🔥 4 dealers interested</div><div style="font-size:0.64rem;color:var(--slate);margin-top:2px">Top offer: $18,750</div></div></div>
+        <div class="voffer"><span class="vofflbl">🏆 Best offer</span><span class="voffval">$18,750 — AutoNation Tampa</span></div>
+      </div>
+    </div>
+
+    <div class="vcard" onclick="open_s('sh-v2')">
+      <div class="vimg"><div class="vcar">🚙</div><div class="vphoto">📷 6 photos</div><span class="tag live vstatus">Live</span></div>
+      <div class="vbody">
+        <div class="vym">2020 Toyota Camry LE</div>
+        <div class="vvin">VIN: 4T1B11HK8LU912345</div>
+        <div class="vspecs"><div><div class="vsv">61,420</div><div class="vsk">Miles</div></div><div><div class="vsv">Silver</div><div class="vsk">Color</div></div><div><div class="vsv">Fair</div><div class="vsk">Condition</div></div></div>
+        <div class="vfoot"><div><div class="vaski">Asking Price</div><div class="vask">$16,800</div></div><div style="text-align:right"><div class="vint">👀 3 dealers interested</div><div style="font-size:0.64rem;color:var(--slate);margin-top:2px">Top offer: $16,200</div></div></div>
+        <div class="voffer"><span class="vofflbl">🏆 Best offer</span><span class="voffval">$16,200 — Parks Toyota</span></div>
+      </div>
+    </div>
+
+    <div class="vcard" onclick="open_s('sh-v2')">
+      <div class="vimg"><div class="vcar">🚐</div><div class="vphoto">📷 5 photos</div><span class="tag pending-r vstatus">Pending Review</span></div>
+      <div class="vbody">
+        <div class="vym">2019 Chevrolet Equinox LT</div>
+        <div class="vvin">VIN: 2GNAXKEV3K6220471</div>
+        <div class="vspecs"><div><div class="vsv">78,900</div><div class="vsk">Miles</div></div><div><div class="vsv">Black</div><div class="vsk">Color</div></div><div><div class="vsv">Fair</div><div class="vsk">Condition</div></div></div>
+        <div class="vfoot"><div><div class="vaski">Asking Price</div><div class="vask">$14,200</div></div><div style="text-align:right"><div class="vint" style="color:var(--slate)">👀 1 dealer viewed</div><div style="font-size:0.64rem;color:var(--slate);margin-top:2px">No offers yet</div></div></div>
+      </div>
+    </div>
+
+    <div class="vcard" onclick="open_s('sh-add')">
+      <div class="vimg"><div class="vcar">🚗</div><div class="vphoto">📷 0 photos</div><span class="tag draft vstatus">Draft</span></div>
+      <div class="vbody">
+        <div class="vym">2018 Ford Fusion SE</div>
+        <div class="vvin">VIN: 3FA6P0HD5JR183021</div>
+        <div class="vspecs"><div><div class="vsv">94,310</div><div class="vsk">Miles</div></div><div><div class="vsv">Red</div><div class="vsk">Color</div></div><div><div class="vsv">Poor</div><div class="vsk">Condition</div></div></div>
+        <div class="vfoot"><div><div class="vaski">Status</div><div class="vask" style="font-size:0.85rem;color:var(--slate)">Needs photos</div></div><div style="text-align:right"><div style="font-size:0.68rem;color:var(--slate)">Not yet published</div></div></div>
+      </div>
+    </div>
+
+    <button class="btn amber" onclick="open_s('sh-add')" style="margin-top:4px">+ Add Repossessed Vehicle</button>
+
+    <div class="slabel">Sold This Month</div>
+    <div class="card"><div class="crow"><div><div class="ctitle">2022 Nissan Altima SR</div><div class="csub">Sold to Hendrick Chevrolet · Mar 18</div></div><div class="camt g">$21,400</div></div><div style="margin-top:6px;font-size:0.68rem;color:var(--slate)">Auction est. was $18,200 · Saved CU $3,200</div></div>
+    <div class="card"><div class="crow"><div><div class="ctitle">2020 Kia Sportage EX</div><div class="csub">Sold to HQ Toyota · Mar 12</div></div><div class="camt g">$17,600</div></div><div style="margin-top:6px;font-size:0.68rem;color:var(--slate)">Auction est. was $15,100 · Saved CU $2,500</div></div>
+  </div>
+</div>
+
+<!-- ═══ TAB BAR ═══ -->
+<div class="tabbar">
+  <button class="tab active" onclick="sw('dashboard',this)">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+    Dashboard
+  </button>
+  <button class="tab" onclick="sw('loans',this)">
+    <svg viewBox="0 0 24 24"><path d="M9 12h6m-3-3v6M4 6h16M4 10h16M4 14h10M4 18h6"/></svg>
+    Loans
+  </button>
+  <button class="tab" onclick="sw('compliance',this)">
+    <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+    Compliance
+  </button>
+  <button class="tab" onclick="sw('account',this)">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    Account
+  </button>
+  <button class="tab" onclick="sw('remarket',this)">
+    <svg viewBox="0 0 24 24"><path d="M1 3h4l2.68 13.39a2 2 0 001.98 1.61h9.72a2 2 0 001.98-1.71l1.38-7.28H6"/><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/></svg>
+    Remarket
+  </button>
+</div>
+
+<!-- ═══ SHEETS ═══ -->
+
+<!-- Direct Loan -->
+<div class="overlay" id="sh-loan-d" onclick="cls(event,'sh-loan-d')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="cbadge d" style="margin-bottom:8px"><span class="cdot d"></span>Direct Loan</div>
+    <div class="stitle">Terrence M. Holloway</div>
+    <div class="ldheader">
+      <div class="ldname">2020 Toyota Camry LE</div>
+      <div style="font-size:0.68rem;color:var(--slate);margin-top:2px">VIN: 4T1B11HK8LU912345</div>
+      <div class="ldgrid">
+        <div><div class="ldlbl">Loan Number</div><div class="ldval">SC-D-2024-0041</div></div>
+        <div><div class="ldlbl">Trigger Event</div><div class="ldval">🔴 Repossession</div></div>
+        <div><div class="ldlbl">Origination</div><div class="ldval">Direct — CU Branch</div></div>
+        <div><div class="ldlbl">Credit Union</div><div class="ldval">Suncoast CU</div></div>
+        <div><div class="ldlbl">Orig. Loan Amt</div><div class="ldval">$22,800</div></div>
+        <div><div class="ldlbl">Deficiency Bal.</div><div class="ldval">$3,680 → $800</div></div>
+      </div>
+    </div>
+    <div class="slabel" style="margin-top:0">Products</div>
+    <div class="prow2"><div><div class="pname">GAP Waiver</div><div class="pprov">EFG Companies · #EFG-77412</div></div><div style="text-align:right"><div class="pamt g">$1,190</div><span class="tag recov">Recovered</span></div></div>
+    <div class="prow2"><div><div class="pname">Vehicle Service Contract</div><div class="pprov">CNA National · #CNA-20819</div></div><div style="text-align:right"><div class="pamt t">$1,280</div><span class="tag sub">Submitted</span></div></div>
+    <div class="prow2"><div><div class="pname">Key Replacement</div><div class="pprov">Safe-Guard · #SG-33102</div></div><div style="text-align:right"><div class="pamt a">$410</div><span class="tag pend">Pending</span></div></div>
+    <div class="slabel">Recovery Timeline</div>
+    <div class="tl">
+      <div class="tli"><div class="tldot done"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="tltitle">Direct repo file received</div><div class="tldesc">CU servicing team uploaded file. Products: GAP, VSC, Key Replacement.</div><div class="tldate">Mar 15, 2024</div></div></div>
+      <div class="tli"><div class="tldot done"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="tltitle">Cancellation requests submitted</div><div class="tldesc">EFG, CNA, and Safe-Guard requests sent.</div><div class="tldate">Mar 16, 2024</div></div></div>
+      <div class="tli"><div class="tldot done"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="tltitle">GAP refund received — $1,190</div><div class="tldesc">Applied to deficiency. Balance reduced from $3,680 to $2,490.</div><div class="tldate">Mar 22, 2024</div></div></div>
+      <div class="tli"><div class="tldot now"></div><div><div class="tltitle">VSC refund in process — $1,280</div><div class="tldesc">CNA confirmed receipt. Est. 5–7 business days.</div><div class="tldate">In progress</div></div></div>
+      <div class="tli"><div class="tldot wait"></div><div><div class="tltitle">Key Replacement — $410</div><div class="tldesc">Safe-Guard pending acknowledgment.</div><div class="tldate">Pending</div></div></div>
+    </div>
+    <button class="btn primary" onclick="cls(null,'sh-loan-d')">Escalate Key Replacement</button>
+    <button class="btn sec" onclick="cls(null,'sh-loan-d')">Export Loan Report</button>
+  </div>
+</div>
+
+<!-- Indirect Loan -->
+<div class="overlay" id="sh-loan-i" onclick="cls(event,'sh-loan-i')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="cbadge i" style="margin-bottom:8px"><span class="cdot i"></span>Indirect / Dealer Loan</div>
+    <div class="stitle">Marcus T. Williams</div>
+    <div class="ldheader">
+      <div class="ldname">2021 Honda Accord Sport</div>
+      <div style="font-size:0.68rem;color:var(--slate);margin-top:2px">VIN: 1HGCV1F34MA012345</div>
+      <div class="ldgrid">
+        <div><div class="ldlbl">Loan Number</div><div class="ldval">SC-2024-00891</div></div>
+        <div><div class="ldlbl">Trigger Event</div><div class="ldval">🔴 Repossession</div></div>
+        <div><div class="ldlbl">Origination</div><div class="ldval">AutoNation Tampa</div></div>
+        <div><div class="ldlbl">Credit Union</div><div class="ldval">Suncoast CU</div></div>
+        <div><div class="ldlbl">Orig. Loan Amt</div><div class="ldval">$28,450</div></div>
+        <div><div class="ldlbl">Deficiency Bal.</div><div class="ldval">$4,880 → $1,740</div></div>
+      </div>
+    </div>
+    <div class="slabel" style="margin-top:0">Products — Dealer F&amp;I</div>
+    <div class="prow2"><div><div class="pname">GAP Waiver</div><div class="pprov">EFG Companies · #EFG-881234</div></div><div style="text-align:right"><div class="pamt g">$1,200</div><span class="tag recov">Recovered</span></div></div>
+    <div class="prow2"><div><div class="pname">Vehicle Service Contract</div><div class="pprov">Fidelity Warranty · #FW-990211</div></div><div style="text-align:right"><div class="pamt p">$1,540</div><span class="tag sub">Submitted</span></div></div>
+    <div class="prow2"><div><div class="pname">Key Replacement</div><div class="pprov">Safe-Guard · #SG-44821</div></div><div style="text-align:right"><div class="pamt a">$400</div><span class="tag pend">Pending</span></div></div>
+    <div class="slabel">Recovery Timeline</div>
+    <div class="tl">
+      <div class="tli"><div class="tldot done"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="tltitle">Indirect repo file received</div><div class="tldesc">Nightly file from Suncoast. Deal jacket via RouteOne. Products: GAP, VSC, Key.</div><div class="tldate">Mar 15, 2024</div></div></div>
+      <div class="tli"><div class="tldot done"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="tltitle">Cancellation requests submitted</div><div class="tldesc">EFG, Fidelity, and Safe-Guard requests sent electronically.</div><div class="tldate">Mar 16, 2024</div></div></div>
+      <div class="tli"><div class="tldot done"><svg viewBox="0 0 12 12"><path d="M2 6l3 3 5-5" stroke-width="2" stroke-linecap="round"/></svg></div><div><div class="tltitle">GAP refund received — $1,200</div><div class="tldesc">Applied to deficiency. Balance reduced to $3,680.</div><div class="tldate">Mar 22, 2024</div></div></div>
+      <div class="tli"><div class="tldot now"></div><div><div class="tltitle">VSC in process — $1,540</div><div class="tldesc">Fidelity confirmed receipt. Est. 5–7 business days.</div><div class="tldate">In progress</div></div></div>
+      <div class="tli"><div class="tldot wait"></div><div><div class="tltitle">Key Replacement — $400</div><div class="tldesc">Safe-Guard pending. Follow-up Apr 5.</div><div class="tldate">Pending</div></div></div>
+    </div>
+    <button class="btn purple" onclick="cls(null,'sh-loan-i')">Escalate Key Replacement</button>
+    <button class="btn sec" onclick="cls(null,'sh-loan-i')">Export Loan Report</button>
+  </div>
+</div>
+
+<!-- CU Direct -->
+<div class="overlay" id="sh-cu-d" onclick="cls(event,'sh-cu-d')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="cbadge d"><span class="cdot d"></span>Direct Channel</div>
+    <div class="stitle">Suncoast Credit Union — Direct</div>
+    <div class="sgrid">
+      <div class="scard"><div class="sval g">$7,440</div><div class="skey">Recoverable</div></div>
+      <div class="scard"><div class="sval t">4</div><div class="skey">Open Files</div></div>
+      <div class="scard"><div class="sval a">81%</div><div class="skey">Recovery Rate</div></div>
+      <div class="scard"><div class="sval g">$1,860</div><div class="skey">Avg / Loan</div></div>
+    </div>
+    <div class="slabel">Top Direct Products</div>
+    <div class="card"><div class="crow"><div class="ctitle">GAP Waiver</div><div class="camt g">$3,180</div></div><div class="prow"><div class="pbar"><div class="pfill g" style="width:76%"></div></div><div class="ppct">76%</div></div></div>
+    <div class="card"><div class="crow"><div class="ctitle">Credit Life / Disability</div><div class="camt t">$2,840</div></div><div class="prow"><div class="pbar"><div class="pfill t" style="width:60%"></div></div><div class="ppct">60%</div></div></div>
+    <button class="btn primary" onclick="cls(null,'sh-cu-d')">View All Direct Files</button>
+    <button class="btn sec" onclick="cls(null,'sh-cu-d')">Generate Audit Report</button>
+  </div>
+</div>
+
+<!-- CU Indirect -->
+<div class="overlay" id="sh-cu-i" onclick="cls(event,'sh-cu-i')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="cbadge i"><span class="cdot i"></span>Indirect Channel</div>
+    <div class="stitle">Suncoast Credit Union — Indirect</div>
+    <div class="sgrid">
+      <div class="scard"><div class="sval p">$10,960</div><div class="skey">Recoverable</div></div>
+      <div class="scard"><div class="sval t">5</div><div class="skey">Open Files</div></div>
+      <div class="scard"><div class="sval a">84%</div><div class="skey">Recovery Rate</div></div>
+      <div class="scard"><div class="sval p">$2,192</div><div class="skey">Avg / Loan</div></div>
+    </div>
+    <div class="slabel">Top Indirect Products</div>
+    <div class="card"><div class="crow"><div class="ctitle">GAP Waiver</div><div class="camt p">$4,460</div></div><div class="prow"><div class="pbar"><div class="pfill p" style="width:79%"></div></div><div class="ppct">79%</div></div></div>
+    <div class="card"><div class="crow"><div class="ctitle">Vehicle Service Contract</div><div class="camt p">$4,280</div></div><div class="prow"><div class="pbar"><div class="pfill p" style="width:66%"></div></div><div class="ppct">66%</div></div></div>
+    <div class="card"><div class="crow"><div class="ctitle">Key Replacement</div><div class="camt s">$1,020</div></div><div class="prow"><div class="pbar"><div class="pfill s" style="width:38%"></div></div><div class="ppct">38%</div></div></div>
+    <div class="slabel">Dealer Partners</div>
+    <div class="pills" style="margin-bottom:14px"><span class="pill">AutoNation Tampa</span><span class="pill">Parks Toyota</span><span class="pill">HQ Toyota</span><span class="pill">DriveTime</span></div>
+    <button class="btn purple" onclick="cls(null,'sh-cu-i')">View All Indirect Files</button>
+    <button class="btn amber" onclick="cls(null,'sh-cu-i')">Generate Audit Report</button>
+  </div>
+</div>
+
+<!-- Vehicle 1 Detail -->
+<div class="overlay" id="sh-v1" onclick="cls(event,'sh-v1')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <span class="tag live" style="margin-bottom:12px;display:inline-block">Live Listing</span>
+    <div class="stitle">2021 Honda Accord Sport</div>
+    <div class="pgrid">
+      <div class="pslot filled"><div class="pslot-ico">🚗</div><div class="pslot-lbl">Front</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🔙</div><div class="pslot-lbl">Rear</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🪟</div><div class="pslot-lbl">Driver Side</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🪟</div><div class="pslot-lbl">Pass. Side</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🪑</div><div class="pslot-lbl">Interior</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🔧</div><div class="pslot-lbl">Engine Bay</div></div>
+    </div>
+    <div class="ldgrid" style="margin-bottom:14px">
+      <div><div class="ldlbl">VIN</div><div class="ldval" style="font-family:monospace;font-size:0.72rem">1HGCV1F34MA012345</div></div>
+      <div><div class="ldlbl">Mileage</div><div class="ldval">42,180 mi</div></div>
+      <div><div class="ldlbl">Year / Make</div><div class="ldval">2021 Honda</div></div>
+      <div><div class="ldlbl">Model / Trim</div><div class="ldval">Accord Sport</div></div>
+      <div><div class="ldlbl">Color</div><div class="ldval">Platinum White</div></div>
+      <div><div class="ldlbl">Condition</div><div class="ldval">Good</div></div>
+      <div><div class="ldlbl">Loan / CU</div><div class="ldval">Suncoast CU</div></div>
+      <div><div class="ldlbl">Repo Date</div><div class="ldval">Mar 14, 2024</div></div>
+    </div>
+    <div class="cmpbox">
+      <div class="cmpttl">📊 Value Comparison</div>
+      <div class="cmprow"><span class="cmplbl">KBB Trade-In Est.</span><span class="cmpval w">$17,200</span></div>
+      <div class="cmprow"><span class="cmplbl">Auction gross est.</span><span class="cmpval w">$18,400</span></div>
+      <div class="cmprow"><span class="cmplbl">Auction fees &amp; transport</span><span class="cmpval r">− $2,100</span></div>
+      <div class="cmprow"><span class="cmplbl">Auction net to CU</span><span class="cmpval r">$16,300</span></div>
+      <div class="cmprow"><span class="cmplbl">RecoverIQ asking price</span><span class="cmpval g">$19,400</span></div>
+      <div class="cmprow"><span class="cmplbl">Best offer in hand</span><span class="cmpval g" style="font-family:'Syne',sans-serif;font-size:0.98rem">$18,750 · +$2,450 vs. auction</span></div>
+    </div>
+    <div class="slabel">Dealer Interest &amp; Offers</div>
+    <div class="ditem"><div><div class="dname">AutoNation Tampa</div><div class="dtime">Offer submitted · Mar 20, 2:14 PM</div></div><div style="text-align:right"><div class="damt hi">$18,750</div><div class="dbadge top">Top Offer</div></div></div>
+    <div class="ditem"><div><div class="dname">Headquarter Honda</div><div class="dtime">Offer submitted · Mar 20, 11:08 AM</div></div><div style="text-align:right"><div class="damt mid">$17,900</div></div></div>
+    <div class="ditem"><div><div class="dname">Parks Toyota</div><div class="dtime">Viewed listing · Mar 19</div></div><div style="text-align:right"><div style="font-size:0.7rem;color:var(--slate)">No offer yet</div><div class="dbadge new">Viewed</div></div></div>
+    <div class="ditem"><div><div class="dname">Courtesy Ford</div><div class="dtime">Viewed listing · Mar 19</div></div><div style="text-align:right"><div style="font-size:0.7rem;color:var(--slate)">No offer yet</div><div class="dbadge new">Viewed</div></div></div>
+    <button class="btn primary" onclick="cls(null,'sh-v1')">Accept AutoNation Offer — $18,750</button>
+    <button class="btn amber" onclick="cls(null,'sh-v1')">Counter All Dealers</button>
+    <button class="btn sec" onclick="cls(null,'sh-v1')">Edit Listing / Add Photos</button>
+  </div>
+</div>
+
+<!-- Vehicle 2 Detail -->
+<div class="overlay" id="sh-v2" onclick="cls(event,'sh-v2')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <span class="tag live" style="margin-bottom:12px;display:inline-block">Live Listing</span>
+    <div class="stitle">2020 Toyota Camry LE</div>
+    <div class="pgrid">
+      <div class="pslot filled"><div class="pslot-ico">🚗</div><div class="pslot-lbl">Front</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🔙</div><div class="pslot-lbl">Rear</div></div>
+      <div class="pslot filled"><div class="pslot-ico">🪟</div><div class="pslot-lbl">Driver Side</div></div>
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Add Photo</div></div>
+    </div>
+    <div class="ldgrid" style="margin-bottom:14px">
+      <div><div class="ldlbl">VIN</div><div class="ldval" style="font-family:monospace;font-size:0.72rem">4T1B11HK8LU912345</div></div>
+      <div><div class="ldlbl">Mileage</div><div class="ldval">61,420 mi</div></div>
+      <div><div class="ldlbl">Color</div><div class="ldval">Silver</div></div>
+      <div><div class="ldlbl">Condition</div><div class="ldval">Fair</div></div>
+      <div><div class="ldlbl">Loan / CU</div><div class="ldval">Suncoast CU</div></div>
+      <div><div class="ldlbl">Repo Date</div><div class="ldval">Mar 10, 2024</div></div>
+    </div>
+    <div class="cmpbox">
+      <div class="cmpttl">📊 Value Comparison</div>
+      <div class="cmprow"><span class="cmplbl">Auction net est. to CU</span><span class="cmpval r">$13,800</span></div>
+      <div class="cmprow"><span class="cmplbl">RecoverIQ asking price</span><span class="cmpval g">$16,800</span></div>
+      <div class="cmprow"><span class="cmplbl">Best offer in hand</span><span class="cmpval g" style="font-family:'Syne',sans-serif;font-size:0.98rem">$16,200 · +$2,400 vs. auction</span></div>
+    </div>
+    <div class="slabel">Dealer Offers</div>
+    <div class="ditem"><div><div class="dname">Parks Toyota</div><div class="dtime">Offer submitted · Mar 21</div></div><div style="text-align:right"><div class="damt hi">$16,200</div><div class="dbadge top">Top Offer</div></div></div>
+    <div class="ditem"><div><div class="dname">Hendrick Chevrolet</div><div class="dtime">Offer submitted · Mar 21</div></div><div style="text-align:right"><div class="damt mid">$15,400</div></div></div>
+    <button class="btn primary" onclick="cls(null,'sh-v2')">Accept Parks Toyota — $16,200</button>
+    <button class="btn sec" onclick="cls(null,'sh-v2')">Edit Listing / Add Photos</button>
+  </div>
+</div>
+
+<!-- Add Vehicle -->
+<div class="overlay" id="sh-add" onclick="cls(event,'sh-add')">
+  <div class="sheet">
+    <div class="shandle"></div>
+    <div class="stitle">Add Repossessed Vehicle</div>
+    <div class="slabel" style="margin-top:0">Step 1 — Enter VIN</div>
+    <div class="sbar" style="margin-bottom:10px"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg><input type="text" placeholder="Scan or type 17-digit VIN…"/></div>
+    <button class="btn sec" style="margin-top:0;margin-bottom:14px">📷 Scan VIN Barcode</button>
+    <div class="slabel">Step 2 — Vehicle Details (Auto-filled from VIN)</div>
+    <div class="ldgrid" style="margin-bottom:14px">
+      <div><div class="ldlbl">Year</div><div class="ldval" style="color:var(--slate)">—</div></div>
+      <div><div class="ldlbl">Make</div><div class="ldval" style="color:var(--slate)">—</div></div>
+      <div><div class="ldlbl">Model</div><div class="ldval" style="color:var(--slate)">—</div></div>
+      <div><div class="ldlbl">Trim</div><div class="ldval" style="color:var(--slate)">—</div></div>
+    </div>
+    <div class="slabel">Step 3 — Mileage</div>
+    <div class="sbar" style="margin-bottom:14px"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg><input type="text" placeholder="Odometer reading (miles)…"/></div>
+    <div class="slabel">Step 4 — Upload Photos</div>
+    <div class="pgrid">
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Front</div></div>
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Rear</div></div>
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Driver Side</div></div>
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Pass. Side</div></div>
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Interior</div></div>
+      <div class="pslot"><div class="pslot-ico">➕</div><div class="pslot-lbl">Engine Bay</div></div>
+    </div>
+    <div class="slabel">Step 5 — Link to Loan File</div>
+    <div class="sbar" style="margin-bottom:4px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Search loan number or member name…"/></div>
+    <button class="btn amber" onclick="cls(null,'sh-add')" style="margin-top:16px">Publish to Dealer Network</button>
+    <button class="btn sec" onclick="cls(null,'sh-add')">Save as Draft</button>
+  </div>
+</div>
+
+<script>
+function sw(name,el){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});document.getElementById('s-'+name).classList.add('active');el.classList.add('active')}
+function ch(screen,side){var p=screen==='dash'?'dash':screen==='loans'?'loans':'comp';var sfx=screen==='dash'?'db':screen==='loans'?'ln':'co';var dv=document.getElementById(p+'-d');var iv=document.getElementById(p+'-i');var db=document.getElementById('d-'+sfx);var ib=document.getElementById('i-'+sfx);if(side==='d'){dv.classList.add('active');iv.classList.remove('active');db.className='tbtn on-d';ib.className='tbtn'}else{iv.classList.add('active');dv.classList.remove('active');ib.className='tbtn on-i';db.className='tbtn'}}
+function open_s(id){document.getElementById(id).classList.add('open')}
+function cls(e,id){if(!e||e.target===document.getElementById(id)){document.getElementById(id).classList.remove('open')}}
+</script>
+</body>
+</html>
