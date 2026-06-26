@@ -42,8 +42,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
 .nav-cuname{font-size:0.72rem;color:var(--slatelt);font-weight:500}
 .nav-av{width:32px;height:32px;border-radius:50%;background:rgba(0,194,168,0.2);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;color:var(--teal)}
 
-.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);height:62px}
-.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.52rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(6,1fr);height:62px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.48rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
 .tab.active{color:var(--teal)}
 .tab svg{width:19px;height:19px;stroke-width:2;fill:none;stroke:currentColor}
 
@@ -157,6 +157,41 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
 .btn.primary{background:var(--teal);color:#080E1A}
 .btn.sec{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
 .btn.amber{background:rgba(245,158,11,0.14);color:var(--amber);border:1px solid rgba(245,158,11,0.28)}
+/* MANHEIM SAVINGS PANEL */
+.savings-hero{background:linear-gradient(135deg,#071A10,#080E1A);border:1px solid rgba(16,185,129,0.22);border-radius:16px;padding:18px;margin-bottom:14px}
+.savings-lbl{font-size:0.65rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.savings-amt{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:var(--green);line-height:1;margin-bottom:4px;letter-spacing:-0.03em}
+.savings-sub{font-size:0.74rem;color:var(--green);font-weight:500;opacity:0.8}
+.savings-grid{margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.sgv{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white);text-align:center}
+.sgk{font-size:0.56rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px;text-align:center}
+
+.manheim-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border)}
+.manheim-row:last-child{border-bottom:none;background:rgba(16,185,129,0.05)}
+.manheim-lbl{font-size:0.78rem;color:var(--slatelt)}
+.manheim-val{font-size:0.84rem;font-weight:600}
+.manheim-val.g{color:var(--green)}.manheim-val.r{color:var(--red)}.manheim-val.w{color:var(--white)}.manheim-val.a{color:var(--amber)}
+
+.sale-row{background:var(--card2);border-radius:12px;padding:13px;margin-bottom:8px}
+.sale-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.sale-vehicle{font-size:0.84rem;font-weight:600;color:var(--white)}
+.sale-dealer{font-size:0.68rem;color:var(--slate);margin-top:2px}
+.sale-price{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--green)}
+.sale-compare{display:flex;gap:8px}
+.sale-tag{font-size:0.64rem;font-weight:600;padding:3px 8px;border-radius:20px}
+.sale-tag.saved{background:rgba(16,185,129,0.12);color:var(--green)}
+.sale-tag.auction{background:rgba(239,68,68,0.1);color:var(--red)}
+
+/* NET BREAKDOWN BOX */
+.net-box{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:10px}
+.net-box-header{padding:12px 14px;background:rgba(0,194,168,0.07);border-bottom:1px solid var(--border)}
+.net-box-title{font-size:0.72rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.07em}
+.net-row{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;border-bottom:1px solid var(--border)}
+.net-row:last-child{border-bottom:none}
+.net-lbl{font-size:0.78rem;color:var(--slatelt)}
+.net-val{font-size:0.84rem;font-weight:600}
+.net-val.g{color:var(--green)}.net-val.r{color:var(--red)}.net-val.w{color:var(--white)}.net-val.t{color:var(--teal)}
+
 
 /* OVERLAY */
 .overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.62);backdrop-filter:blur(4px);align-items:flex-end}
@@ -200,18 +235,27 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
 <!-- DASHBOARD -->
 <div class="screen active" id="s-home">
   <div style="padding-top:16px">
-    <div class="hero">
-      <div class="hero-lbl">Suncoast CU — Remarketing This Month</div>
-      <div class="hero-amt">$96,400</div>
-      <div class="hero-sub">↑ $22,800 more than auction net this month</div>
-      <div class="hero-grid">
-        <div><div class="hgv">5</div><div class="hgk">Listed</div></div>
-        <div><div class="hgv">7</div><div class="hgk">Active Bids</div></div>
-        <div><div class="hgv">$19.3K</div><div class="hgk">Avg Sale</div></div>
+    <div class="savings-hero">
+      <div class="savings-lbl">RecoverIQ Saved You This Month</div>
+      <div class="savings-amt">$22,800</div>
+      <div class="savings-sub">above auction net · 5 vehicles sold</div>
+      <div class="savings-grid">
+        <div><div class="sgv">$96,400</div><div class="sgk">Total Received</div></div>
+        <div><div class="sgv">$73,600</div><div class="sgk">Auction Net Est.</div></div>
+        <div><div class="sgv">$19.3K</div><div class="sgk">Avg Per Unit</div></div>
       </div>
     </div>
 
     <div class="alert"><div class="adot"></div><p><strong>3 bids awaiting your decision</strong> — accept, counter, or decline to keep the process moving.</p></div>
+
+    <div class="slabel">This Month vs. Manheim / Auction</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div class="manheim-row"><span class="manheim-lbl">RecoverIQ gross receipts</span><span class="manheim-val g">$96,400</span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Manheim / auction gross est.</span><span class="manheim-val w">$85,200</span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Auction fees &amp; transport est.</span><span class="manheim-val r">− $11,600</span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Auction net to CU (est.)</span><span class="manheim-val r">$73,600</span></div>
+      <div class="manheim-row" style="background:rgba(16,185,129,0.06)"><span class="manheim-lbl" style="color:var(--white);font-weight:600">You kept extra via RecoverIQ</span><span class="manheim-val g" style="font-family:'Syne',sans-serif;font-size:1.05rem">+ $22,800</span></div>
+    </div>
 
     <div class="slabel">Summary</div>
     <div class="sgrid">
@@ -452,6 +496,68 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
   <button class="btn sec" style="margin-top:20px">Sign Out</button>
 </div>
 
+<!-- SAVINGS vs AUCTION -->
+<div class="screen" id="s-savings">
+  <div style="padding-top:16px">
+
+    <div class="savings-hero">
+      <div class="savings-lbl">All-Time RecoverIQ Savings</div>
+      <div class="savings-amt">$74,200</div>
+      <div class="savings-sub">saved vs. Manheim / auction net · 24 vehicles</div>
+      <div class="savings-grid">
+        <div><div class="sgv">$418K</div><div class="sgk">Total Received</div></div>
+        <div><div class="sgv">$343K</div><div class="sgk">Auction Net Est.</div></div>
+        <div><div class="sgv">$3,092</div><div class="sgk">Avg Saved/Unit</div></div>
+      </div>
+    </div>
+
+    <div class="slabel">How RecoverIQ Compares to Auction</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div class="manheim-row"><span class="manheim-lbl" style="font-weight:600;color:var(--white)">Category</span><span class="manheim-val w" style="font-size:0.7rem;color:var(--slate)">Auction &nbsp;|&nbsp; RecoverIQ</span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Avg days to sell</span><span class="manheim-val w">28 days &nbsp;|&nbsp; <span style="color:var(--green)">4.2 days</span></span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Transport cost</span><span class="manheim-val w"><span style="color:var(--red)">$400–900</span> &nbsp;|&nbsp; <span style="color:var(--green)">$0–199</span></span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Auction / platform fee</span><span class="manheim-val w"><span style="color:var(--red)">$800–1,400</span> &nbsp;|&nbsp; <span style="color:var(--green)">$299</span></span></div>
+      <div class="manheim-row"><span class="manheim-lbl">Avg net per vehicle</span><span class="manheim-val w"><span style="color:var(--red)">$14,300</span> &nbsp;|&nbsp; <span style="color:var(--green)">$17,400</span></span></div>
+      <div class="manheim-row"><span class="manheim-lbl">CU controls sale price?</span><span class="manheim-val w"><span style="color:var(--red)">No</span> &nbsp;|&nbsp; <span style="color:var(--green)">Yes</span></span></div>
+    </div>
+
+    <div class="slabel">Net Breakdown — Per Sale</div>
+    <div class="net-box">
+      <div class="net-box-header"><div class="net-box-title">💰 Where the Money Goes — 2021 Honda Accord</div></div>
+      <div class="net-row"><span class="net-lbl">Dealer bid accepted</span><span class="net-val w">$18,750</span></div>
+      <div class="net-row"><span class="net-lbl">RecoverIQ platform fee (paid by dealer)</span><span class="net-val g">$0 to CU</span></div>
+      <div class="net-row"><span class="net-lbl">Delivery fee (if applicable, paid by dealer)</span><span class="net-val g">$0 to CU</span></div>
+      <div class="net-row"><span class="net-lbl">ACH received by CU</span><span class="net-val g" style="font-family:'Syne',sans-serif;font-size:1.05rem">$18,750</span></div>
+      <div class="net-row"><span class="net-lbl">Manheim net est. (same vehicle)</span><span class="net-val r">$16,300</span></div>
+      <div class="net-row" style="background:rgba(16,185,129,0.05)"><span class="net-lbl" style="color:var(--white);font-weight:600">CU kept extra</span><span class="net-val g" style="font-family:'Syne',sans-serif;font-size:1.1rem">+ $2,450</span></div>
+    </div>
+
+    <div class="slabel">Sale-by-Sale Savings History</div>
+
+    <div class="sale-row">
+      <div class="sale-top"><div><div class="sale-vehicle">2022 Nissan Altima SR</div><div class="sale-dealer">AutoNation Tampa · Mar 22</div></div><div class="sale-price">$21,400</div></div>
+      <div class="sale-compare"><span class="sale-tag saved">Saved $3,200 vs. auction</span><span class="sale-tag auction">Auction est. $18,200</span></div>
+    </div>
+    <div class="sale-row">
+      <div class="sale-top"><div><div class="sale-vehicle">2020 Kia Sportage EX</div><div class="sale-dealer">HQ Toyota · Mar 12</div></div><div class="sale-price">$17,600</div></div>
+      <div class="sale-compare"><span class="sale-tag saved">Saved $2,500 vs. auction</span><span class="sale-tag auction">Auction est. $15,100</span></div>
+    </div>
+    <div class="sale-row">
+      <div class="sale-top"><div><div class="sale-vehicle">2021 Ford Escape SE</div><div class="sale-dealer">AutoNation Tampa · Feb 28</div></div><div class="sale-price">$15,350</div></div>
+      <div class="sale-compare"><span class="sale-tag saved">Saved $2,100 vs. auction</span><span class="sale-tag auction">Auction est. $13,250</span></div>
+    </div>
+    <div class="sale-row">
+      <div class="sale-top"><div><div class="sale-vehicle">2019 Honda CR-V EX</div><div class="sale-dealer">Parks Toyota · Feb 14</div></div><div class="sale-price">$18,200</div></div>
+      <div class="sale-compare"><span class="sale-tag saved">Saved $3,800 vs. auction</span><span class="sale-tag auction">Auction est. $14,400</span></div>
+    </div>
+    <div class="sale-row">
+      <div class="sale-top"><div><div class="sale-vehicle">2020 Toyota RAV4 LE</div><div class="sale-dealer">Hendrick Chevy · Jan 30</div></div><div class="sale-price">$22,100</div></div>
+      <div class="sale-compare"><span class="sale-tag saved">Saved $4,200 vs. auction</span><span class="sale-tag auction">Auction est. $17,900</span></div>
+    </div>
+
+  </div>
+</div>
+
 <!-- TAB BAR -->
 <div class="tabbar">
   <button class="tab active" onclick="sw('home',this)">
@@ -469,6 +575,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
   <button class="tab" onclick="sw('dealers',this)">
     <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
     Dealers
+  </button>
+  <button class="tab" onclick="sw('savings',this)">
+    <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    Savings
   </button>
   <button class="tab" onclick="sw('settings',this)">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
