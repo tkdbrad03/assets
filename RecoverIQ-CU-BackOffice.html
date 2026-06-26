@@ -42,8 +42,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
 .nav-cuname{font-size:0.72rem;color:var(--slatelt);font-weight:500}
 .nav-av{width:32px;height:32px;border-radius:50%;background:rgba(0,194,168,0.2);border:2px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:0.68rem;font-weight:700;color:var(--teal)}
 
-.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(6,1fr);height:62px}
-.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.48rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-filter:blur(12px);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(7,1fr);height:62px}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;color:var(--slate);font-size:0.44rem;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;border:none;background:none;padding:0}
 .tab.active{color:var(--teal)}
 .tab svg{width:19px;height:19px;stroke-width:2;fill:none;stroke:currentColor}
 
@@ -157,6 +157,39 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
 .btn.primary{background:var(--teal);color:#080E1A}
 .btn.sec{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border)}
 .btn.amber{background:rgba(245,158,11,0.14);color:var(--amber);border:1px solid rgba(245,158,11,0.28)}
+/* MMR MARKET DATA - CU */
+.mmr-banner{background:linear-gradient(135deg,#071828,#080E1A);border:1px solid rgba(0,194,168,0.22);border-radius:16px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.mmr-source{display:inline-flex;align-items:center;gap:6px;font-size:0.6rem;font-weight:700;background:rgba(0,194,168,0.12);color:var(--teal);border:1px solid rgba(0,194,168,0.28);padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.mmr-live-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse3 1.5s infinite}
+@keyframes pulse3{0%,100%{opacity:1}50%{opacity:0.3}}
+.mmr-price{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:var(--white);line-height:1;letter-spacing:-0.03em}
+.mmr-price-lbl{font-size:0.65rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px}
+.mmr-trend-up{font-size:0.74rem;font-weight:600;margin-top:4px;color:var(--green)}
+.mmr-trend-dn{font-size:0.74rem;font-weight:600;margin-top:4px;color:var(--red)}
+.mmr-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.mmr-cell{background:rgba(255,255,255,0.04);border-radius:10px;padding:10px 12px}
+.mmr-cell-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--white)}
+.mmr-cell-key{font-size:0.6rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.06em;margin-top:2px}
+.mmr-cell-val.g{color:var(--green)}.mmr-cell-val.a{color:var(--amber)}
+
+.ask-vs-mmr{background:rgba(0,194,168,0.05);border:1px solid rgba(0,194,168,0.18);border-radius:12px;padding:14px;margin-bottom:10px}
+.avm-title{font-size:0.65rem;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px}
+.avm-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.avm-row:last-child{margin-bottom:0;padding-top:8px;border-top:1px solid var(--border)}
+.avm-lbl{font-size:0.74rem;color:var(--slatelt)}
+.avm-val{font-size:0.8rem;font-weight:600}
+.avm-val.g{color:var(--green)}.avm-val.a{color:var(--amber)}.avm-val.r{color:var(--red)}.avm-val.w{color:var(--white)}.avm-val.t{color:var(--teal)}
+
+.counter-box{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:14px;margin-bottom:10px}
+.counter-title{font-size:0.65rem;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px}
+
+.recent-sale-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border)}
+.recent-sale-row:last-child{border-bottom:none}
+.rs-desc{font-size:0.78rem;color:var(--white);font-weight:500}
+.rs-detail{font-size:0.64rem;color:var(--slate);margin-top:2px}
+.rs-price{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--green)}
+.rs-days{font-size:0.62rem;color:var(--slate);margin-top:2px;text-align:right}
+
 /* MANHEIM SAVINGS PANEL */
 .savings-hero{background:linear-gradient(135deg,#071A10,#080E1A);border:1px solid rgba(16,185,129,0.22);border-radius:16px;padding:18px;margin-bottom:14px}
 .savings-lbl{font-size:0.65rem;color:var(--slate);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
@@ -558,6 +591,76 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
   </div>
 </div>
 
+<!-- MMR MARKET DATA SCREEN - CU -->
+<div class="screen" id="s-market">
+  <div style="padding-top:16px">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:0.88rem;font-weight:600;color:var(--white)">Live Market Data</div>
+      <div class="mmr-source"><span class="mmr-live-dot"></span>MMR · Cox Automotive</div>
+    </div>
+
+    <div class="sbar" style="margin-bottom:10px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" placeholder="Year, Make, Model, Trim…" value="2021 Honda Accord Sport"/></div>
+
+    <!-- MMR RESULT -->
+    <div class="mmr-banner">
+      <div class="mmr-source"><span class="mmr-live-dot"></span>Manheim Market Report · Southeast</div>
+      <div class="mmr-price-lbl">MMR Average — This Vehicle</div>
+      <div class="mmr-price">$17,840</div>
+      <div class="mmr-trend-up">↑ $320 vs. last week · Trending up</div>
+      <div class="mmr-grid">
+        <div class="mmr-cell"><div class="mmr-cell-val">$16,200</div><div class="mmr-cell-key">30-Day Low</div></div>
+        <div class="mmr-cell"><div class="mmr-cell-val">$19,100</div><div class="mmr-cell-key">30-Day High</div></div>
+        <div class="mmr-cell"><div class="mmr-cell-val g">$17,840</div><div class="mmr-cell-key">MMR Avg</div></div>
+        <div class="mmr-cell"><div class="mmr-cell-val a">142 units</div><div class="mmr-cell-key">Sales (30 days)</div></div>
+      </div>
+    </div>
+
+    <!-- CU ASKING vs MMR -->
+    <div class="ask-vs-mmr">
+      <div class="avm-title">📊 Your Listing vs. Market</div>
+      <div class="avm-row"><span class="avm-lbl">MMR Average (Southeast)</span><span class="avm-val w">$17,840</span></div>
+      <div class="avm-row"><span class="avm-lbl">Your asking price</span><span class="avm-val t">$19,400</span></div>
+      <div class="avm-row"><span class="avm-lbl">Highest dealer bid</span><span class="avm-val g">$18,750</span></div>
+      <div class="avm-row"><span class="avm-lbl">Bid vs. MMR avg</span><span class="avm-val g">+ $910 above market</span></div>
+      <div class="avm-row"><span class="avm-lbl">Auction net est. (same car)</span><span class="avm-val r">$16,300 after fees</span></div>
+      <div class="avm-row"><span class="avm-lbl">RecoverIQ advantage</span><span class="avm-val g" style="font-family:'Syne',sans-serif;font-size:1rem">+ $2,450 vs. auction</span></div>
+    </div>
+
+    <!-- COUNTER GUIDANCE -->
+    <div class="counter-box">
+      <div class="counter-title">💡 Counter Offer Guidance — Based on MMR</div>
+      <div style="font-size:0.74rem;color:var(--text);line-height:1.6">
+        The highest bid of <strong style="color:var(--white)">$18,750</strong> is already <strong style="color:var(--green)">$910 above MMR average</strong>. This vehicle is in <strong style="color:var(--white)">Good condition (Grade 3.5)</strong> which supports a premium over MMR.<br/><br/>
+        <strong style="color:var(--amber)">Recommended counter:</strong> $19,000–$19,200 based on condition and recent regional comps. Market data supports this range. Dealers can see the same MMR data — a data-backed counter is harder to refuse.
+      </div>
+    </div>
+
+    <!-- RECENT AUCTION COMPS -->
+    <div class="slabel">Recent Auction Comps — Same Vehicle</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px">
+      <div class="recent-sale-row"><div><div class="rs-desc">2021 Honda Accord Sport · 38K mi</div><div class="rs-detail">Manheim Tampa · Grade 3.5 · Black</div></div><div style="text-align:right"><div class="rs-price">$19,100</div><div class="rs-days">3 days ago</div></div></div>
+      <div class="recent-sale-row"><div><div class="rs-desc">2021 Honda Accord Sport · 44K mi</div><div class="rs-detail">Manheim Orlando · Grade 3.0 · White</div></div><div style="text-align:right"><div class="rs-price">$18,200</div><div class="rs-days">5 days ago</div></div></div>
+      <div class="recent-sale-row"><div><div class="rs-desc">2021 Honda Accord Sport · 51K mi</div><div class="rs-detail">Manheim Atlanta · Grade 2.5 · Gray</div></div><div style="text-align:right"><div class="rs-price">$17,400</div><div class="rs-days">7 days ago</div></div></div>
+      <div class="recent-sale-row"><div><div class="rs-desc">2021 Honda Accord Sport · 40K mi</div><div class="rs-detail">Manheim Jacksonville · Grade 3.5 · Blue</div></div><div style="text-align:right"><div class="rs-price">$18,600</div><div class="rs-days">9 days ago</div></div></div>
+    </div>
+
+    <!-- PRICING STRATEGY -->
+    <div class="slabel">Pricing Strategy by Condition</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:14px">
+      <div class="recent-sale-row"><div><div class="rs-desc" style="color:var(--green)">Grade 4.0–5.0 — Excellent</div><div class="rs-detail">List at MMR + 8–12% · Dealers will pay for quality</div></div><div style="text-align:right"><div class="rs-price" style="font-size:0.76rem">+ $1,400–2,100</div></div></div>
+      <div class="recent-sale-row"><div><div class="rs-desc" style="color:var(--teal)">Grade 3.0–3.5 — Good (this car)</div><div class="rs-detail">List at MMR + 5–8% · Strong market position</div></div><div style="text-align:right"><div class="rs-price" style="font-size:0.76rem">+ $890–1,430</div></div></div>
+      <div class="recent-sale-row"><div><div class="rs-desc" style="color:var(--amber)">Grade 2.0–2.5 — Fair</div><div class="rs-detail">List at MMR · Price to move quickly</div></div><div style="text-align:right"><div class="rs-price" style="font-size:0.76rem;color:var(--amber)">At MMR</div></div></div>
+      <div class="recent-sale-row"><div><div class="rs-desc" style="color:var(--red)">Grade 1.0 — Poor</div><div class="rs-detail">List below MMR or consider auction</div></div><div style="text-align:right"><div class="rs-price" style="font-size:0.76rem;color:var(--red)">− $800–1,500</div></div></div>
+    </div>
+
+    <div style="background:rgba(0,194,168,0.06);border:1px solid rgba(0,194,168,0.18);border-radius:10px;padding:12px 14px;font-size:0.7rem;color:var(--teal);line-height:1.5">
+      <strong>Data Source:</strong> Manheim Market Report (MMR) via Cox Automotive API · Updated daily · Southeast US region. Requires dealer license or Cox Automotive data partnership agreement. Contact RecoverIQ to activate live MMR integration.
+    </div>
+
+  </div>
+</div>
+
 <!-- TAB BAR -->
 <div class="tabbar">
   <button class="tab active" onclick="sw('home',this)">
@@ -579,6 +682,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(8,14,26,0.97);backdrop-fil
   <button class="tab" onclick="sw('savings',this)">
     <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
     Savings
+  </button>
+  <button class="tab" onclick="sw('market',this)">
+    <svg viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    Market
   </button>
   <button class="tab" onclick="sw('settings',this)">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
