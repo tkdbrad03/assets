@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/share", "destination": "/share.html" },
-    { "source": "/fpg-game", "destination": "/fpg-game.html" }
+    { "source": "/fpg-game", "destination": "/fpg-game.html" },
+    { "source": "/investor-deck", "destination": "/investor-deck.html" }
   ]
 }
